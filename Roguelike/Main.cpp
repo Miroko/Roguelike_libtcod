@@ -8,12 +8,8 @@
 
 int main(int argc, char* argv[])
 {
-	TCODConsole::initRoot(120, 60, "Roguelike", false);
-	TCODSystem::setFps(10);
-	TCODConsole::setKeyboardRepeat(100, 10);
+	Engine engine = Engine();
+	engine.start();
 
-	Engine().startMainLoop();
-	
 	return 0;
-
 }

@@ -11,29 +11,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AliveObject.cpp" />
+    <ClCompile Include="Area.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Consumable.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="World.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
+    <ClCompile Include="PlayerHandler.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="QuestHandler.cpp" />
+    <ClCompile Include="QuestPhase.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Glyph.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="StaticObject.cpp" />
-    <ClCompile Include="WorldArea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AliveObject.h" />
+    <ClInclude Include="Area.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Consumable.h" />
     <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="World.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="PathFinder.h" />
+    <ClInclude Include="PlayerHandler.h" />
+    <ClInclude Include="Quest.h" />
+    <ClInclude Include="QuestHandler.h" />
+    <ClInclude Include="QuestPhase.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Glyph.h" />
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="StaticObject.h" />
-    <ClInclude Include="WorldArea.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F2A42B1A-41BF-4E55-B059-5CBB288BA1B3}</ProjectGuid>

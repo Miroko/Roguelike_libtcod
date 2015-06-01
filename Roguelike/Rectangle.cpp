@@ -1,12 +1,16 @@
 #include "Rectangle.h"
 #include "iostream"
 
-float Rectangle::getWidth(){
+int Rectangle::getWidth(){
 	return end.x - start.x;
 }
 
-float Rectangle::getHeight(){
+int Rectangle::getHeight(){
 	return end.y - start.y;
+}
+
+int Rectangle::getSize(){
+	return (int)(getWidth() * getHeight());
 }
 
 Point2D Rectangle::getCenterPoint(){

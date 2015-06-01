@@ -6,8 +6,9 @@ private:
 	Point2D start;
 	Point2D end;
 public:
-	float getWidth();
-	float getHeight();
+	int getWidth();
+	int getHeight();
+	int getSize();
 	Point2D getCenterPoint();
 	bool contains(Point2D point);
 

@@ -1,4 +1,4 @@
-#include "Glyph.h"
+﻿#include "Glyph.h"
 
 void Glyph::render(int x, int y){
 	TCODConsole::root->setCharBackground(x, y, bgColor, bgFlag);

@@ -1,7 +1,27 @@
 #include "Engine.h"
 #include "iostream"
 
-void Engine::startMainLoop(){
+Camera Engine::camera = Camera();
+PlayerHandler Engine::playerHandler = PlayerHandler();
+QuestHandler Engine::questHandler = QuestHandler();
+Area Engine::area = Area();
+
+void Engine::start(){
+
+	// TCOD Init
+	TCODConsole::initRoot(120, 60, "Roguelike", false);
+	TCODSystem::setFps(10);
+	TCODConsole::setKeyboardRepeat(100, 10);
+
+	// Player
+	Engine::playerHandler.playerObject = std::shared_ptr<AliveObject>(new Human("Player"));
+
+	// Quest
+	questHandler.addQuest(new ClearCave());
+	questHandler.setCurrentQuest(questHandler.quests[0].get());
+	questHandler.generateNextPhase();
+
+	// Main loop
 	while (!TCODConsole::isWindowClosed())
 	{
 		render();
@@ -10,47 +30,33 @@ void Engine::startMainLoop(){
 }
 
 void Engine::update(TCOD_key_t key, float elapsed){
-	DynamicObject *playerObject = world.playerObject.get();
-	Point2D moveLocation = playerObject->location;
-	switch (key.vk)
-	{
-	case TCODK_KP4:
-		moveLocation.x -= 1;
-		world.moveDynamicObject(*playerObject, moveLocation);
-		break;
-	case TCODK_KP8:
-		moveLocation.y -= 1;
-		world.moveDynamicObject(*playerObject, moveLocation);
-		break;
-	case TCODK_KP6: 
-		moveLocation.x += 1;
-		world.moveDynamicObject(*playerObject, moveLocation);
-		break;
-	case TCODK_KP2:
-		moveLocation.y += 1;
-		world.moveDynamicObject(*playerObject, moveLocation);
-		break;
-	default:
-		break;
+	if (playerHandler.handleKey(key)){
+		// Require simulation update
+		playerHandler.playerObject->calculateFov();
+
+		for (auto &o : area.dynamicObjects){
+			o->update();
+		}
+
+		camera.centerOn(playerHandler.playerObject->location);
 	}
-
-	world.update(elapsed);
-
-	camera.centerOn(world.playerObject->location);
+	// Realtime update
 }
 
 void Engine::render(){
 	TCODConsole::root->clear();
-
+	
 	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){		
 		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
-			if (world.area.bounds.contains(Point2D(x, y))){
-				world.area.staticObjects[x][y]->render(x - camera.location.x, y - camera.location.y);
+			if (area.bounds.contains(Point2D(x, y))){
+				if (playerHandler.playerObject->inFov(x,y)){
+					area.staticObjects[x][y]->render(x - camera.location.x, y - camera.location.y);
+				}
 			}
 		}
 	}
 
-	for (auto &dynamicObject : world.area.dynamicObjects){
+	for (auto &dynamicObject : area.dynamicObjects){
 		int renderX = dynamicObject->location.x - camera.location.x;
 		int renderY = dynamicObject->location.y - camera.location.y;
 		dynamicObject->render(renderX, renderY);

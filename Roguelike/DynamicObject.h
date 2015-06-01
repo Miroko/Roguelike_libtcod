@@ -7,30 +7,21 @@ private:
 
 public:
 
+	//Size
 	enum Size
 	{
 		SMALL,
 		MEDIUM,
 		LARGE
 	};
+	Size size;
+	virtual bool isBlockedBy(DynamicObject &object);
+	//----
 
 	Point2D location;
 	
-	Size size;
-	
-	virtual bool isBlockedBy(DynamicObject &object) = 0; 
+	virtual void update() = 0;
 
-	void update(float elapsed);
-
-	DynamicObject(Glyph glyph, std::string name, Size size, Point2D location) : GameObject(glyph, name), size(size), location(location) {};
+	DynamicObject(Glyph glyph, std::string name, Size size) : GameObject(glyph, name), size(size){};
 	DynamicObject(){}
-};
-
-class Human : public DynamicObject
-{
-public:
-	bool DynamicObject::isBlockedBy(DynamicObject &object);
-
-	Human(std::string name, Point2D location) : DynamicObject(Glyph(TCODColor::lighterAmber, '@'), name, MEDIUM, location){};
-	Human();
 };
