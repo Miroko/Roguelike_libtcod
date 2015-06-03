@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DynamicObject.h"
+#include "Weapon.h"
 #include "memory"
 
 class AliveObject : public DynamicObject
@@ -11,7 +12,6 @@ public:
 	void createFovMap();
 	void calculateFov();
 	bool inFov(int x, int y);
-	//----
 
 	//Pathfinder
 	std::shared_ptr<TCODPath> pathMap;
@@ -22,18 +22,22 @@ public:
 	void createPathMap();
 	void calculatePath(int toX, int toY);
 	void moveOnPath();
-	//----
+
+	//Stats
+	int health = 100;
+	void takeDamage(int amount);
+
+	//Equipment
+	Weapon *weapon;
+
+	//Attack
+	AliveObject *target = nullptr;
+	void setTarget(AliveObject *target);
+	bool moveTowardsTarget();
+	void attack();
 
 	void DynamicObject::update();
 
-	AliveObject(Glyph glyph, std::string name, Size size) :
-		DynamicObject(glyph, name, size){};
+	AliveObject(Glyph glyph, std::string name, Size size, Loot *loot) :
+		DynamicObject(glyph, name, size, loot){};
 };
-
-class Human : public AliveObject
-{
-public:
-	Human(std::string name) : AliveObject(Glyph(TCODColor::lighterAmber, '@'), name, MEDIUM){};
-	Human();
-};
-

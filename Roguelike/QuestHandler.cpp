@@ -17,6 +17,7 @@ void QuestHandler::generateNextPhase(){
 	// Test alive objects
 	std::shared_ptr<AliveObject> testHuman = std::shared_ptr<AliveObject>(new Human("testHuman"));
 	if (Engine::area.placeAliveObject(testHuman, Point2D(15, 15))){
-		testHuman->calculatePath(40, 40);
+		testHuman->setTarget(Engine::playerHandler.playerObject.get());
+		testHuman->weapon = &testHuman->loot->weapons[0];
 	}
 }

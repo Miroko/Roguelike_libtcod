@@ -1,11 +1,14 @@
 #pragma once
 #include "GameObject.h"
+#include "Loot.h"
 class DynamicObject : public GameObject
 {
 
 private:
 
 public:
+	// Location
+	Point2D location;
 
 	//Size
 	enum Size
@@ -16,12 +19,11 @@ public:
 	};
 	Size size;
 	virtual bool isBlockedBy(DynamicObject &object);
-	//----
 
-	Point2D location;
-	
+	//Loot
+	Loot *loot;
+
 	virtual void update() = 0;
 
-	DynamicObject(Glyph glyph, std::string name, Size size) : GameObject(glyph, name), size(size){};
-	DynamicObject(){}
+	DynamicObject(Glyph glyph, std::string name, Size size, Loot *loot) : GameObject(glyph, name), size(size), loot(loot){};
 };

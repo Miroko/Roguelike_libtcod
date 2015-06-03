@@ -32,6 +32,12 @@ float AliveObject::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, 
 	if (Engine::area.staticObjects[xTo][yTo]->isPassableBy(thisObject) == false) return 0;
 
 	for (auto &o : Engine::area.dynamicObjects){
+
+		// Computing path to target
+		if (o.get() == thisObject.target){
+			return 1;
+		}
+
 		if (o->location.x == xTo && o->location.y == yTo){
 			if (thisObject.isBlockedBy(*o)){
 				return 0;
@@ -61,12 +67,63 @@ void AliveObject::moveOnPath(){
 		// Stuck
 	}
 	else{
-		location.x = x;
-		location.y = y;
-		calculateFov();
+		if (target->location.x == x && target->location.y == y){
+			// Target in next spot
+		}
+		else{
+			location.x = x;
+			location.y = y;
+			calculateFov();
+		}		
+	}
+}
+
+void AliveObject::setTarget(AliveObject *target){
+	this->target = target;
+	calculatePath(target->location.x, target->location.y);
+}
+
+bool AliveObject::moveTowardsTarget(){
+	//int desX, desY;
+	//pathMap->getDestination(&desX, &desY);
+	//if (target->location != Point2D(desX, desY)){
+		// Target moved, recalculate path
+		calculatePath(target->location.x, target->location.y);
+	//}	
+	int x, y;
+	if (pathMap->walk(&x, &y, true) == true){
+		if (target->location == Point2D(x, y)){
+			// Target in next point
+			return true;
+		}
+		else{
+			// Move towards target
+			location.x = x;
+			location.y = y;
+		}
+	}
+	else{
+		// Stuck
+	}
+	return false;
+}
+
+void AliveObject::attack(){
+	target->takeDamage(weapon->damage);
+}
+
+void AliveObject::takeDamage(int amount){
+	health -= amount;
+	std::cout << health << "\n";
+	if (health <= 0){
+		std::cout << "dead "<< "\n";
 	}
 }
 
 void AliveObject::update(){
-	moveOnPath();
+	if (target != nullptr){
+		if (moveTowardsTarget()){
+			attack();
+		}
+	}	
 }

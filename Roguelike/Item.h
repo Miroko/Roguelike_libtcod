@@ -1,11 +1,12 @@
 #pragma once
-#include "DynamicObject.h"
-class Item : public DynamicObject
+#include "GameObject.h"
+class Item : public GameObject
 {
 public:
-	unsigned short weight;
+	// Kg
+	float weight;
 
-	Item(Glyph glyph, std::string name,unsigned short weight)
-		: DynamicObject(glyph, name, SMALL), weight(weight){};
+	Item(Glyph glyph, std::string name, float weight)
+		: GameObject(glyph, name), weight(weight){};
 };
 

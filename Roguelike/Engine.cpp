@@ -2,16 +2,21 @@
 #include "iostream"
 
 Camera Engine::camera = Camera();
+Inventory Engine::inventory = Inventory();
+Log Engine::log = Log();
 PlayerHandler Engine::playerHandler = PlayerHandler();
 QuestHandler Engine::questHandler = QuestHandler();
 Area Engine::area = Area();
 
 void Engine::start(){
 
-	// TCOD Init
+	// Init
 	TCODConsole::initRoot(120, 60, "Roguelike", false);
 	TCODSystem::setFps(10);
 	TCODConsole::setKeyboardRepeat(100, 10);
+
+	inventory.init();
+	log.init();
 
 	// Player
 	Engine::playerHandler.playerObject = std::shared_ptr<AliveObject>(new Human("Player"));
@@ -61,6 +66,12 @@ void Engine::render(){
 		int renderY = dynamicObject->location.y - camera.location.y;
 		dynamicObject->render(renderX, renderY);
 	}
+
+	if (inventory.isOpen){
+		inventory.render();
+	}
 	
-	TCODConsole::flush();
+	//log.render();
+
+	TCODConsole::root->flush();
 }

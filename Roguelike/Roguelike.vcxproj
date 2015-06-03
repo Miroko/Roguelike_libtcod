@@ -14,11 +14,17 @@
     <ClCompile Include="AliveObject.cpp" />
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ClearCave.cpp" />
     <ClCompile Include="Consumable.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Human.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Loot.cpp" />
     <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="PlayerHandler.cpp" />
     <ClCompile Include="Quest.cpp" />
@@ -30,16 +36,23 @@
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="StaticObject.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AliveObject.h" />
     <ClInclude Include="Area.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ClearCave.h" />
     <ClInclude Include="Consumable.h" />
     <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Equipment.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Human.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Loot.h" />
     <ClInclude Include="PathFinder.h" />
     <ClInclude Include="PlayerHandler.h" />
     <ClInclude Include="Quest.h" />
@@ -50,6 +63,7 @@
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="StaticObject.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F2A42B1A-41BF-4E55-B059-5CBB288BA1B3}</ProjectGuid>

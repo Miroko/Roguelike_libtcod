@@ -3,6 +3,10 @@
 #include "PlayerHandler.h"
 #include "QuestHandler.h"
 #include "Area.h"
+#include "Inventory.h"
+#include "Log.h"
+#include "Human.h"
+#include "ClearCave.h"
 class Engine
 {
 
@@ -14,6 +18,9 @@ public:
 	static PlayerHandler playerHandler;
 	static QuestHandler questHandler;
 	static Area area;
+
+	static Inventory inventory;
+	static Log log;
 
 	void start();
 

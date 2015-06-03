@@ -1,13 +1,13 @@
 #include "StaticObject.h"
 
+bool StaticObject::isPassableBy(DynamicObject &dynamicObject){
+	return false;
+}
+
 bool Land::isPassableBy(DynamicObject &dynamicObject){
 	return true;
 }
 
-bool Wall::isPassableBy(DynamicObject &dynamicObject){
-	return false;
-}
-
-bool Tree::isPassableBy(DynamicObject &dynamicObject){
-	return false;
+bool StoneFloor::isPassableBy(DynamicObject &dynamicObject){
+	return true;
 }
