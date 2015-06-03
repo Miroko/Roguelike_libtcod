@@ -17,6 +17,7 @@ public:
 	void setStaticObject(std::shared_ptr<StaticObject> staticObject, Point2D &location);
 	bool placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Point2D &location);
 	bool placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &location);
+	std::vector<DynamicObject*> getDynamicObjectsAt(Point2D &location);
 
 	bool moveDynamicObject(DynamicObject *dynamicObject, Point2D &toLocation);
 

@@ -1,5 +1,5 @@
 #include "Area.h"
-
+#include <iostream>
 
 Area::Area(int size, std::shared_ptr<StaticObject> &base) :
 bounds(Rectangle(Point2D(0, 0), Point2D(size, size)))
@@ -49,4 +49,14 @@ bool Area::moveDynamicObject(DynamicObject *dynamicObject, Point2D &toLocation){
 		return true;
 	}
 	return false;
+}
+
+std::vector<DynamicObject*> Area::getDynamicObjectsAt(Point2D &location){
+	std::vector<DynamicObject*> objectsAtLocation;
+	for (auto &dynamicObject : dynamicObjects){
+		if (dynamicObject->location == location){
+			objectsAtLocation.push_back(dynamicObject.get());
+		}
+	}
+	return objectsAtLocation;
 }

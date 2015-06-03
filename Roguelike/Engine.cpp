@@ -19,7 +19,8 @@ void Engine::start(){
 	log.init();
 
 	// Player
-	Engine::playerHandler.playerObject = std::shared_ptr<AliveObject>(new Human("Player"));
+	playerHandler.playerObject = std::shared_ptr<AliveObject>(new Human("Player"));
+	playerHandler.playerObject->weapon = &playerHandler.playerObject->loot->weapons[0];
 
 	// Quest
 	questHandler.addQuest(new ClearCave());

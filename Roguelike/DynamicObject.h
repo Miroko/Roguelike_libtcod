@@ -20,10 +20,14 @@ public:
 	Size size;
 	virtual bool isBlockedBy(DynamicObject &object);
 
+	//Stats
+	int health = 100;
+	virtual void takeDamage(int amount);
+
 	//Loot
 	Loot *loot;
 
-	virtual void update() = 0;
+	virtual void update(){};
 
 	DynamicObject(Glyph glyph, std::string name, Size size, Loot *loot) : GameObject(glyph, name), size(size), loot(loot){};
 };

@@ -78,7 +78,7 @@ void AliveObject::moveOnPath(){
 	}
 }
 
-void AliveObject::setTarget(AliveObject *target){
+void AliveObject::setTarget(DynamicObject *target){
 	this->target = target;
 	calculatePath(target->location.x, target->location.y);
 }
@@ -108,22 +108,14 @@ bool AliveObject::moveTowardsTarget(){
 	return false;
 }
 
-void AliveObject::attack(){
-	target->takeDamage(weapon->damage);
-}
-
-void AliveObject::takeDamage(int amount){
-	health -= amount;
-	std::cout << health << "\n";
-	if (health <= 0){
-		std::cout << "dead "<< "\n";
-	}
+void AliveObject::attack(DynamicObject &target){
+	target.takeDamage(weapon->damage);
 }
 
 void AliveObject::update(){
 	if (target != nullptr){
 		if (moveTowardsTarget()){
-			attack();
+			attack(*target);
 		}
 	}	
 }

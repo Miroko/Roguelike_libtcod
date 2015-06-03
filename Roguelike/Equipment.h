@@ -3,5 +3,5 @@
 class Equipment : public Item
 {
 public:
-	Equipment(Glyph glyph, std::string name, float weight) : Item(glyph, name, weight){};
+	Equipment(Glyph glyph, std::string name, float weight, Type type) : Item(glyph, name, weight, type){};
 };

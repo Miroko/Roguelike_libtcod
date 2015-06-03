@@ -23,20 +23,16 @@ public:
 	void calculatePath(int toX, int toY);
 	void moveOnPath();
 
-	//Stats
-	int health = 100;
-	void takeDamage(int amount);
-
 	//Equipment
 	Weapon *weapon;
 
 	//Attack
-	AliveObject *target = nullptr;
-	void setTarget(AliveObject *target);
+	DynamicObject *target = nullptr;
+	void setTarget(DynamicObject *target);
 	bool moveTowardsTarget();
-	void attack();
+	void attack(DynamicObject &target);
 
-	void DynamicObject::update();
+	void update();
 
 	AliveObject(Glyph glyph, std::string name, Size size, Loot *loot) :
 		DynamicObject(glyph, name, size, loot){};

@@ -4,7 +4,7 @@ class Weapon : public Equipment
 {
 public:
 	int damage;
-	Weapon(Glyph glyph, std::string name, float weight, int damage) : Equipment(glyph, name, weight), damage(damage){};
+	Weapon(Glyph glyph, std::string name, float weight, int damage) : Equipment(glyph, name, weight, WEAPON), damage(damage){};
 };
 
 class Sword : public Weapon{

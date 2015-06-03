@@ -8,3 +8,11 @@ bool DynamicObject::isBlockedBy(DynamicObject &object){
 		return true;
 	}
 }
+
+void DynamicObject::takeDamage(int amount){
+	health -= amount;
+	std::cout << this->name << health << "\n";
+	if (health <= 0){
+		std::cout << "dead " << "\n";
+	}
+}

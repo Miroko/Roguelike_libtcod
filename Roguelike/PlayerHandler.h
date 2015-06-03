@@ -14,10 +14,11 @@ public:
 	// Controls
 	bool handleKey(TCOD_key_t key);
 
-	bool move(TCOD_keycode_t code);
+	bool move(TCOD_key_t key);
+	bool attack(TCOD_key_t key);
 
-	void leaveArea(char keyChar);
-	void inventory(char keyChar);
+	void leaveArea(TCOD_key_t key);
+	void inventory(TCOD_key_t key);
 	//----
 
 	PlayerHandler(){};
