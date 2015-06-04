@@ -1,5 +1,6 @@
 #include "DynamicObject.h"
 #include "StaticObject.h"
+#include "Engine.h"
 #include "iostream"
 
 bool DynamicObject::isBlockedBy(DynamicObject &object){
@@ -9,10 +10,13 @@ bool DynamicObject::isBlockedBy(DynamicObject &object){
 	}
 }
 
-void DynamicObject::takeDamage(int amount){
+void DynamicObject::onTakeDamage(int amount){
 	health -= amount;
-	std::cout << this->name << health << "\n";
 	if (health <= 0){
-		std::cout << "dead " << "\n";
+		onDeath();
 	}
+}
+
+void DynamicObject::onDeath(){
+	Engine::area.removeDynamicObject(*this);
 }

@@ -15,9 +15,11 @@ void QuestHandler::generateNextPhase(){
 	Engine::camera.centerOn(Engine::playerHandler.playerObject->location);
 
 	// Test alive objects
-	std::shared_ptr<AliveObject> testHuman = std::shared_ptr<AliveObject>(new Human("testHuman"));
-	if (Engine::area.placeAliveObject(testHuman, Point2D(15, 15))){
-		testHuman->setTarget(Engine::playerHandler.playerObject.get());
-		testHuman->weapon = &testHuman->loot->weapons[0];
+	for (int a = 0; a < 10; a++){
+		std::shared_ptr<AliveObject> testHuman = std::shared_ptr<AliveObject>(new Human("testHuman"));
+		if (Engine::area.placeAliveObject(testHuman, Point2D(15, 15 + 2*a))){
+			testHuman->setTarget(Engine::playerHandler.playerObject.get());
+			testHuman->weapon = &testHuman->loot->weapons[0];
+		}
 	}
 }

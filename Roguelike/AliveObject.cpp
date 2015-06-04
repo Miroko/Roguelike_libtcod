@@ -32,15 +32,17 @@ float AliveObject::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, 
 	if (Engine::area.staticObjects[xTo][yTo]->isPassableBy(thisObject) == false) return 0;
 
 	for (auto &o : Engine::area.dynamicObjects){
-
-		// Computing path to target
-		if (o.get() == thisObject.target){
-			return 1;
-		}
+		if (o == nullptr) continue;
 
 		if (o->location.x == xTo && o->location.y == yTo){
-			if (thisObject.isBlockedBy(*o)){
-				return 0;
+			if (thisObject.isBlockedBy(*o)){				
+				if (o.get() == thisObject.target){
+					// Computing path to target
+					return 1;
+				}
+				else{
+					return 0;
+				}
 			}
 		}
 	}
@@ -60,59 +62,49 @@ void AliveObject::calculatePath(int toX, int toY){
 	pathMap->compute(location.x, location.y, toX, toY);
 }
 
-void AliveObject::moveOnPath(){
-	int x;
-	int y;
-	if(pathMap->walk(&x, &y, true) == false){ 
-		// Stuck
-	}
-	else{
-		if (target->location.x == x && target->location.y == y){
-			// Target in next spot
-		}
-		else{
-			location.x = x;
-			location.y = y;
-			calculateFov();
-		}		
-	}
-}
-
 void AliveObject::setTarget(DynamicObject *target){
 	this->target = target;
-	calculatePath(target->location.x, target->location.y);
 }
 
+//Returns true if target in next spot else false
 bool AliveObject::moveTowardsTarget(){
-	//int desX, desY;
-	//pathMap->getDestination(&desX, &desY);
-	//if (target->location != Point2D(desX, desY)){
-		// Target moved, recalculate path
+	if (inFov(target->location.x, target->location.y)){
+		//If target can be seen be seen calculate new path to target
 		calculatePath(target->location.x, target->location.y);
-	//}	
-	int x, y;
-	if (pathMap->walk(&x, &y, true) == true){
-		if (target->location == Point2D(x, y)){
-			// Target in next point
-			return true;
+	}
+	else{
+		//Can't see target. Move towards using old path
+	}
+		
+	if(!pathMap->isEmpty()){
+		int x, y;
+		if (pathMap->walk(&x, &y, false) == true){
+			if (target->location == Point2D(x, y)){
+				// Target is in next point
+				return true;
+			}
+			else{
+				// Move towards target
+				location.x = x;
+				location.y = y;
+			}
 		}
 		else{
-			// Move towards target
-			location.x = x;
-			location.y = y;
+			// Stuck
 		}
 	}
 	else{
-		// Stuck
+		//Lost track
 	}
 	return false;
 }
 
 void AliveObject::attack(DynamicObject &target){
-	target.takeDamage(weapon->damage);
+	target.onTakeDamage(weapon->damage);
 }
 
 void AliveObject::update(){
+	calculateFov();
 	if (target != nullptr){
 		if (moveTowardsTarget()){
 			attack(*target);

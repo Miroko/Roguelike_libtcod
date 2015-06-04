@@ -8,4 +8,5 @@ public:
 	std::vector<Weapon> weapons;
 
 	Loot(std::vector<Weapon> weapons) : weapons(weapons){};
+	Loot(){};
 };

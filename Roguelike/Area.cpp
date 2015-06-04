@@ -1,5 +1,6 @@
 #include "Area.h"
 #include <iostream>
+#include <algorithm>
 
 Area::Area(int size, std::shared_ptr<StaticObject> &base) :
 bounds(Rectangle(Point2D(0, 0), Point2D(size, size)))
@@ -59,4 +60,26 @@ std::vector<DynamicObject*> Area::getDynamicObjectsAt(Point2D &location){
 		}
 	}
 	return objectsAtLocation;
+}
+
+void Area::removeDynamicObject(DynamicObject &dynamicObject){
+	for (auto &o : dynamicObjects){
+		if (o.get() == &dynamicObject){
+			o = nullptr;
+			requireClean = true;
+		}
+	}
+}
+
+void Area::cleanRemovedDynamicObjects(){
+	if (requireClean){
+		auto &o = dynamicObjects.begin();
+		while (o != dynamicObjects.end()){
+			if (o->get() == nullptr){  //(removed == set to nullptr)
+				o = dynamicObjects.erase(o);
+			}
+			else ++o;
+		}
+		requireClean = false;
+	}
 }

@@ -21,7 +21,6 @@ public:
 	};
 	void createPathMap();
 	void calculatePath(int toX, int toY);
-	void moveOnPath();
 
 	//Equipment
 	Weapon *weapon;

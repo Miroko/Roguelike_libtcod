@@ -2,10 +2,6 @@
 #include "Engine.h"
 #include <iostream>
 
-void PlayerHandler::addItem(std::shared_ptr<Item> item){
-	items.push_back(item);
-}
-
 bool PlayerHandler::handleKey(TCOD_key_t key){
 	bool requireUpdate = false;
 

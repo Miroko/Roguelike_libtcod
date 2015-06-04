@@ -22,7 +22,8 @@ public:
 
 	//Stats
 	int health = 100;
-	virtual void takeDamage(int amount);
+	virtual void onTakeDamage(int amount);
+	virtual void onDeath();
 
 	//Loot
 	Loot *loot;

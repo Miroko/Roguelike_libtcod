@@ -9,12 +9,10 @@ QuestHandler Engine::questHandler = QuestHandler();
 Area Engine::area = Area();
 
 void Engine::start(){
-
 	// Init
 	TCODConsole::initRoot(120, 60, "Roguelike", false);
 	TCODSystem::setFps(10);
 	TCODConsole::setKeyboardRepeat(100, 10);
-
 	inventory.init();
 	log.init();
 
@@ -37,21 +35,32 @@ void Engine::start(){
 
 void Engine::update(TCOD_key_t key, float elapsed){
 	if (playerHandler.handleKey(key)){
-		// Require simulation update
-		playerHandler.playerObject->calculateFov();
-
+		//Player action requires simulation update
+		//Update
 		for (auto &o : area.dynamicObjects){
-			o->update();
+			if (o != nullptr){ //Object can be set to null for removal
+				o->update();
+			}
 		}
-
+		//Clean objects set to null
+		area.cleanRemovedDynamicObjects();
+		//Is player dead
+		if (playerHandler.playerObject->health <= 0){
+			//Respawn in new area
+			playerHandler.playerObject->health = 100;
+			questHandler.generateNextPhase();			
+		}
+		//Center camera
 		camera.centerOn(playerHandler.playerObject->location);
 	}
 	// Realtime update
+	// Effects etc. here
 }
 
 void Engine::render(){
 	TCODConsole::root->clear();
 	
+	//Render static objects in fov
 	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){		
 		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
 			if (area.bounds.contains(Point2D(x, y))){
@@ -61,13 +70,15 @@ void Engine::render(){
 			}
 		}
 	}
-
+	//Render dynamic objects in fov
 	for (auto &dynamicObject : area.dynamicObjects){
 		int renderX = dynamicObject->location.x - camera.location.x;
 		int renderY = dynamicObject->location.y - camera.location.y;
-		dynamicObject->render(renderX, renderY);
+		if (playerHandler.playerObject->inFov(dynamicObject->location.x, dynamicObject->location.y)){
+			dynamicObject->render(renderX, renderY);
+		}
 	}
-
+	//Render inventory if open
 	if (inventory.isOpen){
 		inventory.render();
 	}
