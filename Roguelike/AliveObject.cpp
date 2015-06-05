@@ -32,7 +32,7 @@ float AliveObject::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, 
 	if (Engine::area.staticObjects[xTo][yTo]->isPassableBy(thisObject) == false) return 0;
 
 	for (auto &o : Engine::area.dynamicObjects){
-		if (o == nullptr) continue;
+		if (o->isDead) continue;
 
 		if (o->location.x == xTo && o->location.y == yTo){
 			if (thisObject.isBlockedBy(*o)){				
@@ -100,7 +100,10 @@ bool AliveObject::moveTowardsTarget(){
 }
 
 void AliveObject::attack(DynamicObject &target){
-	target.onTakeDamage(weapon->damage);
+	if (!target.isDead){
+		Engine::log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
+		target.onTakeDamage(weapon->damage);
+	}
 }
 
 void AliveObject::update(){

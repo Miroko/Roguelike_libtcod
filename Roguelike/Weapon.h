@@ -9,6 +9,6 @@ public:
 
 class Sword : public Weapon{
 public:
-	Sword() : Weapon(Glyph(TCODColor::grey, '/'), "Sword", 3.0, 10){};
+	Sword() : Weapon(Glyph(TCODColor::grey, '/'), "a sword", 3.0, 10){};
 };
 

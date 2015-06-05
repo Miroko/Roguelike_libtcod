@@ -15,12 +15,33 @@ void Area::setStaticObject(std::shared_ptr<StaticObject> staticObject, Point2D &
 	staticObjects[(int)location.x][(int)location.y] = staticObject;
 }
 
+//Returns true when object placed. First tries to place at set location then by expanding placement area
+//Should always return true else in infinite loop trying to find free spot
 bool Area::placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Point2D &location){
 	if (moveDynamicObject(dynamicObject.get(), location)){
 		dynamicObjects.push_back(dynamicObject);
 		return true;
 	}
-	else return false;
+	else {
+		//Increase placement area until placed on open spot
+		Point2D alternativeLocation = location;
+		int offset = 1;
+		while (true){ //Every object must be placed somewhere
+			for (alternativeLocation.x = location.x - offset; alternativeLocation.x < location.x + offset; alternativeLocation.x++){
+				for (alternativeLocation.y = location.y - offset; alternativeLocation.y < location.y + offset; alternativeLocation.y++){
+					if (moveDynamicObject(dynamicObject.get(), alternativeLocation)){
+						dynamicObjects.push_back(dynamicObject);
+						return true;
+					}
+					else{
+						std::cout << alternativeLocation.x << "," << alternativeLocation.y << "\n";
+					}
+				}
+			}
+			++offset;
+		}
+	}
+	return false;
 }
 
 bool Area::placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &location){
@@ -62,20 +83,20 @@ std::vector<DynamicObject*> Area::getDynamicObjectsAt(Point2D &location){
 	return objectsAtLocation;
 }
 
-void Area::removeDynamicObject(DynamicObject &dynamicObject){
+void Area::killDynamicObject(DynamicObject &dynamicObject){
 	for (auto &o : dynamicObjects){
 		if (o.get() == &dynamicObject){
-			o = nullptr;
+			o->isDead = true;
 			requireClean = true;
 		}
 	}
 }
 
-void Area::cleanRemovedDynamicObjects(){
+void Area::cleanDeadObjects(){
 	if (requireClean){
 		auto &o = dynamicObjects.begin();
 		while (o != dynamicObjects.end()){
-			if (o->get() == nullptr){  //(removed == set to nullptr)
+			if (o->get()->isDead){
 				o = dynamicObjects.erase(o);
 			}
 			else ++o;

@@ -21,8 +21,8 @@ public:
 	//Dynamic objects
 	std::vector<std::shared_ptr<DynamicObject>> dynamicObjects;
 
-	void removeDynamicObject(DynamicObject &dynamicObject);
-	void cleanRemovedDynamicObjects();
+	void killDynamicObject(DynamicObject &dynamicObject);
+	void cleanDeadObjects();
 	bool moveDynamicObject(DynamicObject *dynamicObject, Point2D &toLocation);
 	bool placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Point2D &location);
 	std::vector<DynamicObject*> getDynamicObjectsAt(Point2D &location);

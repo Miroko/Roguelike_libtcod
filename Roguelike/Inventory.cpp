@@ -11,13 +11,12 @@ void Inventory::openOrClose(){
 }
 
 void Inventory::render(){
-	console->setDefaultBackground(TCODColor::black);
-	console->clear();
+	console->printFrame(0, 0, console->getWidth(), console->getHeight());
 	
 	char selectionLetter = 'a';
-	int y = 0;
+	int y = 1;
 	for (Weapon &w : loot.weapons){		
-		console->printRect(0, y, TCODConsole::root->getWidth() / 1.3, 1, ("(" + std::string(1, selectionLetter) + ") " + w.name).c_str());
+		console->printRect(1, y, TCODConsole::root->getWidth(), 1, ("(" + std::string(1, selectionLetter) + ") " + w.name).c_str());
 		y++;
 		selectionLetter++;
 	}

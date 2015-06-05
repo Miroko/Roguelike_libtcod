@@ -4,9 +4,9 @@
 class DynamicObject : public GameObject
 {
 
-private:
-
 public:
+	bool isDead = false;
+
 	// Location
 	Point2D location;
 

@@ -38,16 +38,17 @@ void Engine::update(TCOD_key_t key, float elapsed){
 		//Player action requires simulation update
 		//Update
 		for (auto &o : area.dynamicObjects){
-			if (o != nullptr){ //Object can be set to null for removal
+			if (!o->isDead){ //Object can be set to null for removal
 				o->update();
 			}
 		}
 		//Clean objects set to null
-		area.cleanRemovedDynamicObjects();
+		area.cleanDeadObjects();
 		//Is player dead
-		if (playerHandler.playerObject->health <= 0){
+		if (playerHandler.playerObject->isDead){
 			//Respawn in new area
 			playerHandler.playerObject->health = 100;
+			playerHandler.playerObject->isDead = false;
 			questHandler.generateNextPhase();			
 		}
 		//Center camera
@@ -78,12 +79,14 @@ void Engine::render(){
 			dynamicObject->render(renderX, renderY);
 		}
 	}
-	//Render inventory if open
+
+	if (log.isOpen){
+		log.render();
+	}
+
 	if (inventory.isOpen){
 		inventory.render();
 	}
-	
-	//log.render();
 
 	TCODConsole::root->flush();
 }
