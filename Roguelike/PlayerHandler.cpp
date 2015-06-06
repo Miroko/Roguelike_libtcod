@@ -21,28 +21,31 @@ bool PlayerHandler::move(TCOD_key_t key){
 	switch (key.vk)
 	{
 	case TCODK_KP4:
-		Engine::area.moveDynamicObject(playerObject.get(), Point2D(playerObject->location.x - 1, playerObject->location.y));
+		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x - 1, playerCreature->location.y));
 		return true;
 	case TCODK_KP7:
-		Engine::area.moveDynamicObject(playerObject.get(), Point2D(playerObject->location.x - 1, playerObject->location.y - 1));
+		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x - 1, playerCreature->location.y - 1));
 		return true;
 	case TCODK_KP8:
-		Engine::area.moveDynamicObject(playerObject.get(), Point2D(playerObject->location.x, playerObject->location.y - 1));
+		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x, playerCreature->location.y - 1));
 		return true;
 	case TCODK_KP9:
-		Engine::area.moveDynamicObject(playerObject.get(), Point2D(playerObject->location.x + 1, playerObject->location.y - 1));
+		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x + 1, playerCreature->location.y - 1));
 		return true;
 	case TCODK_KP6:
-		Engine::area.moveDynamicObject(playerObject.get(), Point2D(playerObject->location.x + 1, playerObject->location.y));
+		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x + 1, playerCreature->location.y));
 		return true;
 	case TCODK_KP3:
-		Engine::area.moveDynamicObject(playerObject.get(), Point2D(playerObject->location.x + 1, playerObject->location.y + 1));
+		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x + 1, playerCreature->location.y + 1));
 		return true;
 	case TCODK_KP2:
-		Engine::area.moveDynamicObject(playerObject.get(), Point2D(playerObject->location.x, playerObject->location.y + 1));
+		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x, playerCreature->location.y + 1));
 		return true;
 	case TCODK_KP1:
-		Engine::area.moveDynamicObject(playerObject.get(), Point2D(playerObject->location.x - 1, playerObject->location.y + 1));
+		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x - 1, playerCreature->location.y + 1));
+		return true;
+	case TCODK_KP5:
+		//Wait
 		return true;
 	default:
 		break;
@@ -58,36 +61,36 @@ bool PlayerHandler::attack(TCOD_key_t key){
 		switch (key.vk)
 		{
 		case TCODK_KP4:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerObject->location.x - 1, playerObject->location.y));
-			if (!objectsToAttack.empty()){ playerObject->attack(*objectsToAttack[0]); return true; }
+			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x - 1, playerCreature->location.y));
+			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
 			break;
 		case TCODK_KP7:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerObject->location.x - 1, playerObject->location.y - 1));
-			if (!objectsToAttack.empty()){ playerObject->attack(*objectsToAttack[0]); return true; }
+			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x - 1, playerCreature->location.y - 1));
+			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
 			break;
 		case TCODK_KP8:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerObject->location.x, playerObject->location.y - 1));
-			if (!objectsToAttack.empty()){ playerObject->attack(*objectsToAttack[0]); return true; }
+			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x, playerCreature->location.y - 1));
+			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
 			break;
 		case TCODK_KP9:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerObject->location.x + 1, playerObject->location.y - 1));
-			if (!objectsToAttack.empty()){ playerObject->attack(*objectsToAttack[0]); return true; }
+			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x + 1, playerCreature->location.y - 1));
+			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
 			break;
 		case TCODK_KP6:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerObject->location.x + 1, playerObject->location.y));
-			if (!objectsToAttack.empty()){ playerObject->attack(*objectsToAttack[0]); return true; }
+			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x + 1, playerCreature->location.y));
+			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
 			break;
 		case TCODK_KP3:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerObject->location.x + 1, playerObject->location.y + 1));
-			if (!objectsToAttack.empty()){ playerObject->attack(*objectsToAttack[0]); return true; }
+			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x + 1, playerCreature->location.y + 1));
+			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
 			break;
 		case TCODK_KP2:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerObject->location.x, playerObject->location.y + 1));
-			if (!objectsToAttack.empty()){ playerObject->attack(*objectsToAttack[0]); return true; }
+			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x, playerCreature->location.y + 1));
+			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
 			break;
 		case TCODK_KP1:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerObject->location.x - 1, playerObject->location.y + 1));
-			if (!objectsToAttack.empty()){ playerObject->attack(*objectsToAttack[0]); return true; }
+			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x - 1, playerCreature->location.y + 1));
+			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
 			break;
 		default:
 			break;

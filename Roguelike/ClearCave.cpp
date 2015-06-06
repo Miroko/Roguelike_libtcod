@@ -1,9 +1,10 @@
 #include "ClearCave.h"
-
+#include "Engine.h"
+#include "Goblin.h"
 
 void ClearCave::WayToCave::generateArea(Area &area){
 	area = Area(100, LAND);
-
+	
 	int trees = area.bounds.getSize() / 10;
 	for (int tree = trees; tree > 0; tree--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
@@ -15,6 +16,15 @@ void ClearCave::WayToCave::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		area.setStaticObject(STONE, p);
 	}
+
+	for (int creatures = 20; creatures > 0; creatures--){
+		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
+		std::shared_ptr<AliveObject> creature = std::shared_ptr<AliveObject>(new Race::Goblin::GoblinBase(Race::Goblin::GOBLIN_BASE));
+		if (Engine::area.placeAliveObject(creature, p)){
+			creature->setTarget(Engine::playerHandler.playerCreature.get());
+		}
+	}
+	
 }
 
 void ClearCave::CaveEntrance::generateArea(Area &area){

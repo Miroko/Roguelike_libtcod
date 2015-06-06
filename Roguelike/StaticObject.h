@@ -38,8 +38,8 @@ public:
 	StoneFloor() : StaticObject(Glyph(TCODColor::darkestGrey, TCODColor::darkestGrey, ' '), "Stone floor", true){};
 };
 
-
-static std::shared_ptr<StaticObject> LAND(new Land());
-static std::shared_ptr<StaticObject> TREE(new Tree());
-static std::shared_ptr<StaticObject> STONE(new Stone());
-static std::shared_ptr<StaticObject> STONE_FLOOR(new StoneFloor());
+//Pointers for inheritance
+const std::shared_ptr<StaticObject> LAND(new Land());
+const std::shared_ptr<StaticObject> TREE(new Tree());
+const std::shared_ptr<StaticObject> STONE(new Stone());
+const std::shared_ptr<StaticObject> STONE_FLOOR(new StoneFloor());

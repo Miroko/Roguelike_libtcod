@@ -5,7 +5,7 @@
 class PlayerHandler
 {
 public:
-	std::shared_ptr<AliveObject> playerObject;
+	std::shared_ptr<AliveObject> playerCreature;
 
 	// Controls
 	bool handleKey(TCOD_key_t key);

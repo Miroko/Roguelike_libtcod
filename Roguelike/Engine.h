@@ -12,7 +12,9 @@ class Engine
 
 private:
 	void render();
-	void update(TCOD_key_t key, float elapsed);
+	void updateSimulation();
+	void updateGraphics(float elapsed);
+	bool handleInput(TCOD_key_t key);
 public:
 	static Camera camera;
 	static PlayerHandler playerHandler;

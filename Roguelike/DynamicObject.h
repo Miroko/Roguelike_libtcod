@@ -1,6 +1,9 @@
 #pragma once
 #include "GameObject.h"
+#include "Item.h"
 #include "Loot.h"
+#include <memory>
+#include <vector>
 class DynamicObject : public GameObject
 {
 
@@ -21,14 +24,17 @@ public:
 	virtual bool isBlockedBy(DynamicObject &object);
 
 	//Stats
-	int health = 100;
+	int health;
+
 	virtual void onTakeDamage(int amount);
 	virtual void onDeath();
 
-	//Loot
-	Loot *loot;
+	const Loot &loot;
+
+	virtual std::vector<std::shared_ptr<Item>> generateLoot();
 
 	virtual void update(){};
 
-	DynamicObject(Glyph glyph, std::string name, Size size, Loot *loot) : GameObject(glyph, name), size(size), loot(loot){};
+	DynamicObject(Glyph glyph, std::string name, Size size, int health, const Loot &loot) :
+		GameObject(glyph, name), size(size), health(health), loot(loot){};
 };

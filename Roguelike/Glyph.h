@@ -2,12 +2,14 @@
 #include "libtcod.hpp"
 class Glyph
 {
+public:
 	TCOD_bkgnd_flag_t bgFlag;
 
 	TCODColor fgColor;
 	TCODColor bgColor;
+
 	char character;
-public:
+
 	void render(int x, int y);
 
 	Glyph(TCODColor fg, TCODColor bg, char character) :

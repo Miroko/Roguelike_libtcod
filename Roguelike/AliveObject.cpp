@@ -1,8 +1,6 @@
 #include "AliveObject.h"
 #include "Engine.h"
 
-#include "iostream"
-
 void AliveObject::createFovMap(){
 	fovMap = std::shared_ptr<TCODMap>(new TCODMap(Engine::area.bounds.getWidth(), Engine::area.bounds.getHeight()));
 
@@ -100,7 +98,7 @@ bool AliveObject::moveTowardsTarget(){
 }
 
 void AliveObject::attack(DynamicObject &target){
-	if (!target.isDead){
+	if (!target.isDead && weapon != nullptr){
 		Engine::log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
 		target.onTakeDamage(weapon->damage);
 	}
@@ -108,9 +106,9 @@ void AliveObject::attack(DynamicObject &target){
 
 void AliveObject::update(){
 	calculateFov();
-	if (target != nullptr){
+	if (target != nullptr){		
 		if (moveTowardsTarget()){
 			attack(*target);
-		}
+		}		
 	}	
 }

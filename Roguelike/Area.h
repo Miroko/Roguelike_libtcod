@@ -3,9 +3,8 @@
 #include "AliveObject.h"
 #include "Item.h"
 #include "Rectangle.h"
-#include "vector"
-#include "memory"
-#include "PathFinder.h"
+#include <vector>
+#include <memory>
 class Area
 {
 private:
@@ -23,14 +22,20 @@ public:
 
 	void killDynamicObject(DynamicObject &dynamicObject);
 	void cleanDeadObjects();
-	bool moveDynamicObject(DynamicObject *dynamicObject, Point2D &toLocation);
+	bool moveDynamicObject(DynamicObject &dynamicObject, Point2D &toLocation);
 	bool placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Point2D &location);
 	std::vector<DynamicObject*> getDynamicObjectsAt(Point2D &location);
-	
-	//Alive objects
+
+	//Inits fov and pathfinding
 	bool placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &location);
 
-	Area(int size, std::shared_ptr<StaticObject> &base);
+	//Items
+	std::vector<std::shared_ptr<Item>> items;
+	void placeItem(std::shared_ptr<Item> item, Point2D &toLocation);
+	void removeItem(Item &item);
+	std::vector<Item*> getItems(Point2D &atLocation);
+
+	Area(int size, const std::shared_ptr<StaticObject> &base);
 	Area(){}
 };
 

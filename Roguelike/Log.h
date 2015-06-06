@@ -16,7 +16,7 @@ public:
 	//GUI
 	bool isOpen;
 	std::shared_ptr<TCODConsole> console;
-	void init();
+	void init(bool open);
 	void openOrClose();
 	void render();
 

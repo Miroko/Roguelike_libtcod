@@ -1,8 +1,7 @@
 #include "Area.h"
 #include <iostream>
-#include <algorithm>
 
-Area::Area(int size, std::shared_ptr<StaticObject> &base) :
+Area::Area(int size, const std::shared_ptr<StaticObject> &base) :
 bounds(Rectangle(Point2D(0, 0), Point2D(size, size)))
 {
 	staticObjects.resize(bounds.getWidth());
@@ -18,7 +17,7 @@ void Area::setStaticObject(std::shared_ptr<StaticObject> staticObject, Point2D &
 //Returns true when object placed. First tries to place at set location then by expanding placement area
 //Should always return true else in infinite loop trying to find free spot
 bool Area::placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Point2D &location){
-	if (moveDynamicObject(dynamicObject.get(), location)){
+	if (moveDynamicObject(*dynamicObject, location)){
 		dynamicObjects.push_back(dynamicObject);
 		return true;
 	}
@@ -29,12 +28,9 @@ bool Area::placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Poin
 		while (true){ //Every object must be placed somewhere
 			for (alternativeLocation.x = location.x - offset; alternativeLocation.x < location.x + offset; alternativeLocation.x++){
 				for (alternativeLocation.y = location.y - offset; alternativeLocation.y < location.y + offset; alternativeLocation.y++){
-					if (moveDynamicObject(dynamicObject.get(), alternativeLocation)){
+					if (moveDynamicObject(*dynamicObject, alternativeLocation)){
 						dynamicObjects.push_back(dynamicObject);
 						return true;
-					}
-					else{
-						std::cout << alternativeLocation.x << "," << alternativeLocation.y << "\n";
 					}
 				}
 			}
@@ -54,20 +50,20 @@ bool Area::placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &l
 	else return false;
 }
 
-bool Area::moveDynamicObject(DynamicObject *dynamicObject, Point2D &toLocation){
+bool Area::moveDynamicObject(DynamicObject &dynamicObject, Point2D &toLocation){
 	if (bounds.contains(toLocation)){
-		if (staticObjects[(int)toLocation.x][(int)toLocation.y]->isPassableBy(*dynamicObject) == false) {
+		if (staticObjects[(int)toLocation.x][(int)toLocation.y]->isPassableBy(dynamicObject) == false) {
 			return false;
 		}
 		for (auto &o : dynamicObjects){
 			if (o->location.x == toLocation.x && o->location.y == toLocation.y){
-				if (dynamicObject->isBlockedBy(*o)){
+				if (dynamicObject.isBlockedBy(*o)){
 					return false;
 				}
 			}
 		}
 		// Can move
-		dynamicObject->location = toLocation;
+		dynamicObject.location = toLocation;
 		return true;
 	}
 	return false;
@@ -103,4 +99,30 @@ void Area::cleanDeadObjects(){
 		}
 		requireClean = false;
 	}
+}
+
+void Area::placeItem(std::shared_ptr<Item> item, Point2D &toLocation){
+	item->location = toLocation;
+	items.push_back(item);
+}
+
+void Area::removeItem(Item &item){
+	auto currentItem = items.begin();
+	while (currentItem != items.end()){
+		if (currentItem->get() == &item){
+			items.erase(currentItem);
+			break;
+		}
+		else ++currentItem;
+	}
+}
+
+std::vector<Item*> Area::getItems(Point2D &atLocation){
+	std::vector<Item*> itemsAtLocation;
+	for (auto &item : items){
+		if (item->location == atLocation){
+			itemsAtLocation.push_back(item.get());
+		}
+	}
+	return itemsAtLocation;
 }
