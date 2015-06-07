@@ -2,11 +2,11 @@
 #include "iostream"
 
 int Rectangle::getWidth(){
-	return end.x - start.x;
+	return (int)(end.x - start.x);
 }
 
 int Rectangle::getHeight(){
-	return end.y - start.y;
+	return (int)(end.y - start.y);
 }
 
 int Rectangle::getSize(){

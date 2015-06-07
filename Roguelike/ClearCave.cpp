@@ -1,6 +1,6 @@
 #include "ClearCave.h"
 #include "Engine.h"
-#include "Goblin.h"
+#include "goblin.h"
 
 void ClearCave::WayToCave::generateArea(Area &area){
 	area = Area(100, LAND);
@@ -19,7 +19,7 @@ void ClearCave::WayToCave::generateArea(Area &area){
 
 	for (int creatures = 20; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = std::shared_ptr<AliveObject>(new Race::Goblin::GoblinBase(Race::Goblin::GOBLIN_BASE));
+		std::shared_ptr<AliveObject> creature = std::shared_ptr<AliveObject>(new race::goblin::GoblinBase(race::goblin::GOBLIN_BASE));
 		if (Engine::area.placeAliveObject(creature, p)){
 			creature->setTarget(Engine::playerHandler.playerCreature.get());
 		}
@@ -41,10 +41,35 @@ void ClearCave::CaveEntrance::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		area.setStaticObject(STONE, p);
 	}
+
+	for (int creatures = 20; creatures > 0; creatures--){
+		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
+		std::shared_ptr<AliveObject> creature = std::shared_ptr<AliveObject>(new race::goblin::GoblinBase(race::goblin::GOBLIN_BASE));
+		if (Engine::area.placeAliveObject(creature, p)){
+			creature->setTarget(Engine::playerHandler.playerCreature.get());
+		}
+	}
 }
 
 void ClearCave::InTheCave::generateArea(Area &area){
 	area = Area(50, STONE_FLOOR);
+
+	int pathLenght = area.bounds.getSize() / 10;
+	int roomAmount = area.bounds.getSize() / 50;
+	Point2D currentPoint = area.bounds.getCenterPoint();
+	while (pathLenght > 0){
+
+		--pathLenght;
+	}
+
+
+	for (int creatures = 20; creatures > 0; creatures--){
+		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
+		std::shared_ptr<AliveObject> creature = std::shared_ptr<AliveObject>(new race::goblin::GoblinBase(race::goblin::GOBLIN_BASE));
+		if (Engine::area.placeAliveObject(creature, p)){
+			creature->setTarget(Engine::playerHandler.playerCreature.get());
+		}
+	}
 }
 
 std::shared_ptr<QuestPhase> ClearCave::getNextPhase(){

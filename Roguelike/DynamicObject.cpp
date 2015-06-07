@@ -1,7 +1,5 @@
 #include "DynamicObject.h"
-#include "StaticObject.h"
 #include "Engine.h"
-#include <list>
 
 bool DynamicObject::isBlockedBy(DynamicObject &object){
 	if (this->size == SMALL) return false;
@@ -11,13 +9,13 @@ bool DynamicObject::isBlockedBy(DynamicObject &object){
 }
 
 void DynamicObject::onTakeDamage(int amount){
-	Engine::log.addToMessage(name + " takes " + std::to_string(amount) + " damage. ");
+	Engine::GUI.log.addToMessage(name + " takes " + std::to_string(amount) + " damage. ");
 	health -= amount;
 	if (health <= 0){
 		onDeath();
 	}
 	else{
-		Engine::log.finishMessage("");
+		Engine::GUI.log.finishMessage("");
 	}
 }
 
@@ -34,6 +32,6 @@ void DynamicObject::onDeath(){
 		Engine::area.placeItem(item, location);
 	}
 
-	Engine::log.finishMessage(name + " dies.");
+	Engine::GUI.log.finishMessage(name + " dies.");
 	Engine::area.killDynamicObject(*this);
 }

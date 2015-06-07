@@ -2,8 +2,8 @@
 #include "Race.h"
 #include "Creature.h"
 
-namespace Race{
-	namespace Goblin{
+namespace race{
+	namespace goblin{
 		class Goblin : public Race{
 		public:
 			Goblin() : Race("Goblins"){};

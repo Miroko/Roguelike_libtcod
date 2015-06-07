@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <set>
-namespace Race{
+namespace race{
 	class Race
 	{
 	public:

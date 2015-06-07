@@ -1,8 +1,9 @@
 #pragma once
 #include "libtcod.hpp"
+#include "GuiFrame.h"
 #include <memory>
 #include <deque>
-class Log
+class Log : public GuiFrame
 {
 private:
 	std::string buffer; //For multi part message
@@ -13,13 +14,9 @@ public:
 	void addToMessage(std::string);
 	void finishMessage(std::string);
 	
-	//GUI
-	bool isOpen;
-	std::shared_ptr<TCODConsole> console;
-	void init(bool open);
-	void openOrClose();
-	void render();
+	void GuiFrame::render(float elapsed);
+	bool GuiFrame::handleKey(TCOD_key_t key);
 
-	Log(){};
+	Log(std::string name, bool open, float alphaFg, float alphaBg) : GuiFrame(name, open, alphaFg, alphaBg){};
 };
 

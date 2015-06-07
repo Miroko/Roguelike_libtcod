@@ -5,15 +5,16 @@
 #include "Area.h"
 #include "Inventory.h"
 #include "Log.h"
-#include "Human.h"
+#include "human.h"
+#include "Gui.h"
 #include "ClearCave.h"
 class Engine
 {
 
 private:
-	void render();
+	void renderSimulation();
 	void updateSimulation();
-	void updateGraphics(float elapsed);
+	void renderRealTime(float elapsed);
 	bool handleInput(TCOD_key_t key);
 public:
 	static Camera camera;
@@ -21,8 +22,7 @@ public:
 	static QuestHandler questHandler;
 	static Area area;
 
-	static Inventory inventory;
-	static Log log;
+	static Gui GUI;
 
 	void start();
 

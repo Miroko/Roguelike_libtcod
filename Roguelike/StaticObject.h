@@ -38,7 +38,7 @@ public:
 	StoneFloor() : StaticObject(Glyph(TCODColor::darkestGrey, TCODColor::darkestGrey, ' '), "Stone floor", true){};
 };
 
-//Pointers for inheritance
+//Pointers to allow virtual methods
 const std::shared_ptr<StaticObject> LAND(new Land());
 const std::shared_ptr<StaticObject> TREE(new Tree());
 const std::shared_ptr<StaticObject> STONE(new Stone());

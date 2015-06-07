@@ -1,112 +1,91 @@
 #include "PlayerHandler.h"
 #include "Engine.h"
-#include <iostream>
 
 bool PlayerHandler::handleKey(TCOD_key_t key){
-	bool requireUpdate = false;
-
-	bool moved = move(key);
-	if (!requireUpdate) requireUpdate = moved;
-
-	bool attacked = attack(key);
-	if (!requireUpdate) requireUpdate = attacked;
-
-	leaveArea(key);
-	inventory(key);
-
-	return requireUpdate;
+	switch (key.c) {
+		case 0 : return move(key);
+		case 'a': return attack();
+		case 'i': return inventory();
+		case 'l': return leaveArea();
+		case 'e': return equipment();
+		case 'q': return quest();
+		case 'h': return help();
+		default: Engine::GUI.log.addMessage("Invalid input, press 'h' for help."); return false;
+	}
 }
 
 bool PlayerHandler::move(TCOD_key_t key){
-	switch (key.vk)
-	{
-	case TCODK_KP4:
-		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x - 1, playerCreature->location.y));
-		return true;
-	case TCODK_KP7:
-		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x - 1, playerCreature->location.y - 1));
-		return true;
-	case TCODK_KP8:
-		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x, playerCreature->location.y - 1));
-		return true;
-	case TCODK_KP9:
-		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x + 1, playerCreature->location.y - 1));
-		return true;
-	case TCODK_KP6:
-		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x + 1, playerCreature->location.y));
-		return true;
-	case TCODK_KP3:
-		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x + 1, playerCreature->location.y + 1));
-		return true;
-	case TCODK_KP2:
-		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x, playerCreature->location.y + 1));
-		return true;
-	case TCODK_KP1:
-		Engine::area.moveDynamicObject(*playerCreature, Point2D(playerCreature->location.x - 1, playerCreature->location.y + 1));
-		return true;
-	case TCODK_KP5:
-		//Wait
-		return true;
-	default:
-		break;
+	Point2D direction;
+	switch (key.vk) {
+		case TCODK_KP1: direction = DOWN_LEFT; break;
+		case TCODK_KP4: direction = LEFT; break;
+		case TCODK_KP7: direction = UP_LEFT; break;
+		case TCODK_KP8: direction = UP; break;
+		case TCODK_KP9: direction = UP_RIGHT; break;
+		case TCODK_KP6: direction = RIGHT; break;
+		case TCODK_KP3: direction = DOWN_RIGHT; break;
+		case TCODK_KP2: direction = DOWN; break;
+		case TCODK_KP5: direction = CENTER; break; //==Wait
+		default: break;
 	}
-	return false;
+
+	if (direction.undefined()) return false;
+	else if (direction == CENTER) return true;
+	else return Engine::area.moveDynamicObject(*playerCreature, playerCreature->location + direction);
 }
 
-bool PlayerHandler::attack(TCOD_key_t key){
-	if (key.c == 'a'){
-		while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){} // Wait for key release
-		TCOD_key_t key = TCODConsole::waitForKeypress(true); // Get attack direction
+bool PlayerHandler::attack(){	
+	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
+	TCOD_key_t key = TCODConsole::waitForKeypress(false); // Wait for attack direction
+
+	Point2D direction;
+	switch (key.vk) {
+		case TCODK_KP1: direction = DOWN_LEFT; break;
+		case TCODK_KP4: direction = LEFT; break;
+		case TCODK_KP7: direction = UP_LEFT; break;
+		case TCODK_KP8: direction = UP; break;
+		case TCODK_KP9: direction = UP_RIGHT; break;
+		case TCODK_KP6: direction = RIGHT; break;
+		case TCODK_KP3: direction = DOWN_RIGHT; break;
+		case TCODK_KP2: direction = DOWN; break;
+		case TCODK_KP5: direction = CENTER; break;
+		default: break;
+	}
+
+	if (direction.undefined()) return false;
+	else if (direction == CENTER) return false;
+	else{
 		std::vector<DynamicObject*> objectsToAttack;
-		switch (key.vk)
-		{
-		case TCODK_KP4:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x - 1, playerCreature->location.y));
-			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
-			break;
-		case TCODK_KP7:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x - 1, playerCreature->location.y - 1));
-			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
-			break;
-		case TCODK_KP8:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x, playerCreature->location.y - 1));
-			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
-			break;
-		case TCODK_KP9:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x + 1, playerCreature->location.y - 1));
-			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
-			break;
-		case TCODK_KP6:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x + 1, playerCreature->location.y));
-			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
-			break;
-		case TCODK_KP3:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x + 1, playerCreature->location.y + 1));
-			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
-			break;
-		case TCODK_KP2:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x, playerCreature->location.y + 1));
-			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
-			break;
-		case TCODK_KP1:
-			objectsToAttack = Engine::area.getDynamicObjectsAt(Point2D(playerCreature->location.x - 1, playerCreature->location.y + 1));
-			if (!objectsToAttack.empty()){ playerCreature->attack(*objectsToAttack[0]); return true; }
-			break;
-		default:
-			break;
+		objectsToAttack = Engine::area.getDynamicObjectsAt(playerCreature->location + direction);
+		if (objectsToAttack.empty() == false){
+			playerCreature->attack(*objectsToAttack.front()); //Attack first at location
+			return true;
 		}
+		else return false;
 	}
+}
+
+bool PlayerHandler::leaveArea(){
+	Engine::questHandler.generateNextPhase();
 	return false;
 }
 
-void PlayerHandler::leaveArea(TCOD_key_t key){
-	if (key.c == 'l'){
-		Engine::questHandler.generateNextPhase();
-	}
+bool PlayerHandler::inventory(){
+	Engine::GUI.inventory.openClose();
+	return false;
 }
 
-void PlayerHandler::inventory(TCOD_key_t key){
-	if (key.c == 'i'){
-		Engine::inventory.openOrClose();
-	}
+bool PlayerHandler::equipment(){
+
+	return false;
+}
+
+bool PlayerHandler::quest(){
+
+	return false;
+}
+
+bool PlayerHandler::help(){
+
+	return false;
 }

@@ -3,7 +3,7 @@
 
 void QuestHandler::addQuest(Quest *quest){
 	quests.push_back(std::shared_ptr<Quest>(quest));
-	Engine::log.addMessage("Quest added");
+	Engine::GUI.log.addMessage("Quest added");
 }
 
 void QuestHandler::setCurrentQuest(Quest *quest){

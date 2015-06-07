@@ -2,10 +2,10 @@
 #include "Point2D.h"
 class Rectangle
 {
-private:
+public:
 	Point2D start;
 	Point2D end;
-public:
+
 	int getWidth();
 	int getHeight();
 	int getSize();

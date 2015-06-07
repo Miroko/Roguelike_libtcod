@@ -5,8 +5,8 @@
 #include "Creature.h"
 #include <memory>
 #include <vector>
-namespace Race{
-	namespace Human{
+namespace race{
+	namespace human{
 		class Human : public Race{
 		public:		
 			Human() : Race("Men"){};

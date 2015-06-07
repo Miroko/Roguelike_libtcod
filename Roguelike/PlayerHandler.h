@@ -1,21 +1,25 @@
 #pragma once
 #include "AliveObject.h"
 #include "Quest.h"
-#include "memory"
+#include "Direction.h"
+#include <memory>
 class PlayerHandler
 {
+private:
+	//True if player moved or waited
+	bool move(TCOD_key_t key);
+	//True if attacked
+	bool attack();
+	bool leaveArea();
+	bool inventory();
+	bool equipment();
+	bool quest();
+	bool help();
 public:
 	std::shared_ptr<AliveObject> playerCreature;
 
-	// Controls
+	//True if simulation update needed
 	bool handleKey(TCOD_key_t key);
-
-	bool move(TCOD_key_t key);
-	bool attack(TCOD_key_t key);
-
-	void leaveArea(TCOD_key_t key);
-	void inventory(TCOD_key_t key);
-	//----
 
 	PlayerHandler(){};
 };

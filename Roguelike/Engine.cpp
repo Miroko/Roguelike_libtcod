@@ -1,29 +1,27 @@
 #include "Engine.h"
-#include "Human.h"
+#include "human.h"
 
+Gui Engine::GUI = Gui();
 Camera Engine::camera = Camera();
-Inventory Engine::inventory = Inventory();
-Log Engine::log = Log();
 PlayerHandler Engine::playerHandler = PlayerHandler();
 QuestHandler Engine::questHandler = QuestHandler();
 Area Engine::area = Area();
 
 void Engine::start(){
-	// Init
-	TCODConsole::initRoot(120, 60, "Roguelike", false);
 	TCODSystem::setFps(10);
 	TCODConsole::setKeyboardRepeat(100, 10);
-	inventory.init(false);
-	log.init(true);
+
+	GUI.log.resize(Rectangle(Point2D(0, TCODConsole::root->getHeight() - 12), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+	GUI.inventory.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
 
 	// Player
-	playerHandler.playerCreature = std::shared_ptr<AliveObject>(new Race::Human::HumanBase(Race::Human::MAN_BASE));
+	playerHandler.playerCreature = std::shared_ptr<AliveObject>(new race::human::HumanBase(race::human::MAN_BASE));
 	playerHandler.playerCreature->name = "Player";
 	playerHandler.playerCreature->glyph.character = '@';
 	playerHandler.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
 	//Inventory
-	inventory.weapons.add(std::shared_ptr<Weapon>(new Sword()));
-	inventory.equip(*inventory.weapons.items.back().get());
+	GUI.inventory.weapons.add(std::shared_ptr<Weapon>(new Sword()));
+	GUI.inventory.equip(*GUI.inventory.weapons.items.back().get());
 
 	// Quest
 	questHandler.addQuest(new ClearCave());
@@ -33,10 +31,15 @@ void Engine::start(){
 	// Main loop
 	while (!TCODConsole::isWindowClosed())
 	{
+		TCODConsole::root->clear();
+
 		if (handleInput(TCODConsole::checkForKeypress(TCOD_KEY_PRESSED))){
 			updateSimulation();
 		}
-		updateGraphics(TCODSystem::getLastFrameLength());
+		renderSimulation();
+		renderRealTime(TCODSystem::getLastFrameLength());
+		
+		TCODConsole::root->flush();
 	}
 }
 
@@ -44,13 +47,18 @@ void Engine::start(){
 bool Engine::handleInput(TCOD_key_t key){
 	bool requireUpdate = false;
 	
+	if (GUI.inventory.open){
+		bool inventoryAction = GUI.inventory.handleKey(key);
+		if (!requireUpdate) requireUpdate = inventoryAction;
+	}
+
+	if (GUI.log.open){
+		bool logAction = GUI.log.handleKey(key);
+		if (!requireUpdate) requireUpdate = logAction;
+	}
+
 	bool playerControls = playerHandler.handleKey(key);
 	if (!requireUpdate) requireUpdate = playerControls;
-
-	if (inventory.isOpen){
-		bool inventoryConrols = inventory.handleKey(key);
-		if (!requireUpdate) requireUpdate = inventoryConrols;
-	}
 
 	return requireUpdate;
 }
@@ -73,15 +81,12 @@ void Engine::updateSimulation(){
 	camera.centerOn(playerHandler.playerCreature->location);
 }
 
-void Engine::updateGraphics(float elapsed){
-	// Realtime update
-	// Effects etc. here
-	render();
+void Engine::renderRealTime(float elapsed){
+	if (GUI.log.open) GUI.log.render(elapsed);
+	if (GUI.inventory.open)	GUI.inventory.render(elapsed);
 }
 
-void Engine::render(){
-	TCODConsole::root->clear();
-	
+void Engine::renderSimulation(){	
 	//Render static objects in fov
 	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){		
 		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
@@ -109,14 +114,4 @@ void Engine::render(){
 			dynamicObject->render(renderX, renderY);
 		}
 	}
-
-	if (log.isOpen){
-		log.render();
-	}
-
-	if (inventory.isOpen){
-		inventory.render();
-	}
-
-	TCODConsole::root->flush();
 }

@@ -99,7 +99,7 @@ bool AliveObject::moveTowardsTarget(){
 
 void AliveObject::attack(DynamicObject &target){
 	if (!target.isDead && weapon != nullptr){
-		Engine::log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
+		Engine::GUI.log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
 		target.onTakeDamage(weapon->damage);
 	}
 }
