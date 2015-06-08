@@ -5,7 +5,8 @@ bool PlayerHandler::handleKey(TCOD_key_t key){
 	switch (key.c) {
 		case 0 : return move(key);
 		case 'a': return attack();
-		case 'i': return inventory();
+		case 't': return take();
+		case 'i': return InventoryFrame();
 		case 'l': return leaveArea();
 		case 'e': return equipment();
 		case 'q': return quest();
@@ -57,11 +58,22 @@ bool PlayerHandler::attack(){
 	else{
 		std::vector<DynamicObject*> objectsToAttack;
 		objectsToAttack = Engine::area.getDynamicObjectsAt(playerCreature->location + direction);
-		if (objectsToAttack.empty() == false){
-			playerCreature->attack(*objectsToAttack.front()); //Attack first at location
-			return true;
+		if (objectsToAttack.empty()) return false;
+		else playerCreature->attack(*objectsToAttack.front()); return true; //Attack first at location
+	}
+}
+
+bool PlayerHandler::take(){
+	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
+	std::vector<std::shared_ptr<Item>> itemsToTake;
+	itemsToTake = Engine::area.getItemsAt(playerCreature->location);
+	if (itemsToTake.empty()) return false;
+	else{
+		Engine::GUI.pickFrame.items.items.clear();
+		Engine::GUI.pickFrame.openClose();
+		for (auto &item : itemsToTake){
+			Engine::GUI.pickFrame.items.add(item);
 		}
-		else return false;
 	}
 }
 
@@ -70,22 +82,22 @@ bool PlayerHandler::leaveArea(){
 	return false;
 }
 
-bool PlayerHandler::inventory(){
+bool PlayerHandler::InventoryFrame(){
 	Engine::GUI.inventory.openClose();
 	return false;
 }
 
 bool PlayerHandler::equipment(){
-
+	Engine::GUI.equipment.openClose();
 	return false;
 }
 
 bool PlayerHandler::quest(){
-
+	Engine::GUI.quest.openClose();
 	return false;
 }
 
 bool PlayerHandler::help(){
-
+	Engine::GUI.help.openClose();
 	return false;
 }

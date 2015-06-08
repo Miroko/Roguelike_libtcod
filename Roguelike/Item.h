@@ -1,8 +1,14 @@
 #pragma once
 #include "GameObject.h"
+#include <memory>
 class Item : public GameObject
 {
 public:
+
+	template <typename T> static std::shared_ptr<T> newItem(const T &itemTemplate){
+		return std::shared_ptr<T>(new T(itemTemplate));
+	}
+
 	Point2D location;
 
 	enum Type{

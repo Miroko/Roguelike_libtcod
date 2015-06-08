@@ -3,8 +3,6 @@
 #include "PlayerHandler.h"
 #include "QuestHandler.h"
 #include "Area.h"
-#include "Inventory.h"
-#include "Log.h"
 #include "human.h"
 #include "Gui.h"
 #include "ClearCave.h"

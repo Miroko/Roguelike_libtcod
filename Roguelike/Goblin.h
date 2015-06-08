@@ -2,21 +2,13 @@
 #include "Race.h"
 #include "Creature.h"
 
-namespace race{
-	namespace goblin{
-		class Goblin : public Race{
-		public:
-			Goblin() : Race("Goblins"){};
-		};
+class Goblin : public Race{
+public:
+	Goblin() : Race("Goblins"){};
+};
 
-		class GoblinBase : public Creature{
-		public:
-			GoblinBase(std::string name, const RarityType &rarity, const Loot &loot) :
-				Creature('g', name, MEDIUM, 10, TCODColor::lightChartreuse, rarity, loot){};
-		};
+const Loot GOBLIN_LOOT = Loot(std::vector<Item>({ DAGGER }));
+const Creature GOBLIN = Creature('g', "Goblin", DynamicObject::MEDIUM, 10, TCODColor::lightChartreuse, COMMON, GOBLIN_LOOT);
 
-		const Loot l = Loot(std::vector<Item>({ Sword() }));
-		const GoblinBase GOBLIN_BASE = GoblinBase("Goblin", Rarity::COMMON, l);
-	}
-}
+
 

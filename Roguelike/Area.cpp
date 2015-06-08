@@ -117,11 +117,11 @@ void Area::removeItem(Item &item){
 	}
 }
 
-std::vector<Item*> Area::getItems(Point2D &atLocation){
-	std::vector<Item*> itemsAtLocation;
+std::vector<std::shared_ptr<Item>> Area::getItemsAt(Point2D &location){
+	std::vector<std::shared_ptr<Item>> itemsAtLocation;
 	for (auto &item : items){
-		if (item->location == atLocation){
-			itemsAtLocation.push_back(item.get());
+		if (item->location == location){
+			itemsAtLocation.push_back(item);
 		}
 	}
 	return itemsAtLocation;

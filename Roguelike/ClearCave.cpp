@@ -1,6 +1,6 @@
 #include "ClearCave.h"
 #include "Engine.h"
-#include "goblin.h"
+#include "Goblin.h"
 
 void ClearCave::WayToCave::generateArea(Area &area){
 	area = Area(100, LAND);
@@ -19,7 +19,7 @@ void ClearCave::WayToCave::generateArea(Area &area){
 
 	for (int creatures = 20; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = std::shared_ptr<AliveObject>(new race::goblin::GoblinBase(race::goblin::GOBLIN_BASE));
+		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		if (Engine::area.placeAliveObject(creature, p)){
 			creature->setTarget(Engine::playerHandler.playerCreature.get());
 		}
@@ -44,7 +44,7 @@ void ClearCave::CaveEntrance::generateArea(Area &area){
 
 	for (int creatures = 20; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = std::shared_ptr<AliveObject>(new race::goblin::GoblinBase(race::goblin::GOBLIN_BASE));
+		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		if (Engine::area.placeAliveObject(creature, p)){
 			creature->setTarget(Engine::playerHandler.playerCreature.get());
 		}
@@ -65,7 +65,7 @@ void ClearCave::InTheCave::generateArea(Area &area){
 
 	for (int creatures = 20; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = std::shared_ptr<AliveObject>(new race::goblin::GoblinBase(race::goblin::GOBLIN_BASE));
+		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		if (Engine::area.placeAliveObject(creature, p)){
 			creature->setTarget(Engine::playerHandler.playerCreature.get());
 		}

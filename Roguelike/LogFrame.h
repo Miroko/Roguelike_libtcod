@@ -3,7 +3,7 @@
 #include "GuiFrame.h"
 #include <memory>
 #include <deque>
-class Log : public GuiFrame
+class LogFrame : public GuiFrame
 {
 private:
 	std::string buffer; //For multi part message
@@ -17,6 +17,6 @@ public:
 	void GuiFrame::render(float elapsed);
 	bool GuiFrame::handleKey(TCOD_key_t key);
 
-	Log(std::string name, bool open, float alphaFg, float alphaBg) : GuiFrame(name, open, alphaFg, alphaBg){};
+	LogFrame(std::string name, bool open, float alphaFg, float alphaBg) : GuiFrame(name, open, alphaFg, alphaBg){};
 };
 

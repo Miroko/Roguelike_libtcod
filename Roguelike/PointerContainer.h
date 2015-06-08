@@ -2,16 +2,16 @@
 #include "Item.h"
 #include <vector>
 #include <memory>
-template<typename T> class ItemContainer
+template<typename T> class PointerContainer
 {
 public:
 	std::vector<std::shared_ptr<T>> items;
 
-	void ItemContainer<T>::add(std::shared_ptr<T> item){
+	void PointerContainer<T>::add(std::shared_ptr<T> item){
 		items.push_back(item);
 	}
 
-	void ItemContainer<T>::remove(T &item){
+	void PointerContainer<T>::remove(T &item){
 		auto currentItem = items.begin();
 		while (currentItem != items.end()){
 			if (currentItem->get() == &item){
@@ -21,6 +21,6 @@ public:
 			else ++currentItem;
 		}
 	}
-	ItemContainer(){};
+	PointerContainer(){};
 };
 

@@ -1,5 +1,6 @@
 #include "Engine.h"
-#include "human.h"
+#include "Human.h"
+#include "Weapon.h"
 
 Gui Engine::GUI = Gui();
 Camera Engine::camera = Camera();
@@ -9,19 +10,23 @@ Area Engine::area = Area();
 
 void Engine::start(){
 	TCODSystem::setFps(10);
-	TCODConsole::setKeyboardRepeat(100, 10);
+	TCODConsole::setKeyboardRepeat(100, 20);
 
 	GUI.log.resize(Rectangle(Point2D(0, TCODConsole::root->getHeight() - 12), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
 	GUI.inventory.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+	GUI.equipment.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+	GUI.quest.resize(Rectangle(Point2D(TCODConsole::root->getWidth()/2 - 30, 1), Point2D(TCODConsole::root->getWidth()/2 + 30, TCODConsole::root->getHeight()-1)));
+	GUI.help.resize(Rectangle(Point2D(0, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
 
-	// Player
-	playerHandler.playerCreature = std::shared_ptr<AliveObject>(new race::human::HumanBase(race::human::MAN_BASE));
+	// Player creation
+	playerHandler.playerCreature = Creature::newCreature(MAN);
 	playerHandler.playerCreature->name = "Player";
 	playerHandler.playerCreature->glyph.character = '@';
 	playerHandler.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
 	//Inventory
-	GUI.inventory.weapons.add(std::shared_ptr<Weapon>(new Sword()));
-	GUI.inventory.equip(*GUI.inventory.weapons.items.back().get());
+	GUI.inventory.items.add(Item::newItem(SWORD));
+	GUI.inventory.items.add(Item::newItem(SWORD));
+	GUI.inventory.equip(static_cast<Weapon&>(*GUI.inventory.items.items.back().get()));
 
 	// Quest
 	questHandler.addQuest(new ClearCave());
@@ -46,17 +51,9 @@ void Engine::start(){
 //True if input action requires simulation update
 bool Engine::handleInput(TCOD_key_t key){
 	bool requireUpdate = false;
+
+	if (GUI.handleKey(key)) return false;
 	
-	if (GUI.inventory.open){
-		bool inventoryAction = GUI.inventory.handleKey(key);
-		if (!requireUpdate) requireUpdate = inventoryAction;
-	}
-
-	if (GUI.log.open){
-		bool logAction = GUI.log.handleKey(key);
-		if (!requireUpdate) requireUpdate = logAction;
-	}
-
 	bool playerControls = playerHandler.handleKey(key);
 	if (!requireUpdate) requireUpdate = playerControls;
 
@@ -82,8 +79,7 @@ void Engine::updateSimulation(){
 }
 
 void Engine::renderRealTime(float elapsed){
-	if (GUI.log.open) GUI.log.render(elapsed);
-	if (GUI.inventory.open)	GUI.inventory.render(elapsed);
+	GUI.render(elapsed);
 }
 
 void Engine::renderSimulation(){	

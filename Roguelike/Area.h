@@ -33,7 +33,7 @@ public:
 	std::vector<std::shared_ptr<Item>> items;
 	void placeItem(std::shared_ptr<Item> item, Point2D &toLocation);
 	void removeItem(Item &item);
-	std::vector<Item*> getItems(Point2D &atLocation);
+	std::vector<std::shared_ptr<Item>> getItemsAt(Point2D &location);
 
 	Area(int size, const std::shared_ptr<StaticObject> &base);
 	Area(){}
