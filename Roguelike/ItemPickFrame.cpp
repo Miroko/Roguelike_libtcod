@@ -6,7 +6,7 @@
 bool ItemPickFrame::moveToInventory(std::shared_ptr<Item> item){
 	Engine::area.removeItem(*items.items.at(selectedRow));
 	Engine::GUI.inventory.items.add(items.items.at(selectedRow));
-	items.remove(*items.items.at(selectedRow));
+	removeSelectedItem();
 	return true;
 }
 

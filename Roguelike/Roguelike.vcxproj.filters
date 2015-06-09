@@ -36,9 +36,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Consumable.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Creature.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -99,9 +96,6 @@
     <ClCompile Include="StaticObject.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="ClearCave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -140,6 +134,18 @@
     </ClCompile>
     <ClCompile Include="SelectableItemFrame.cpp">
       <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Forest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Consumable.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,16 +206,10 @@
     <ClInclude Include="Glyph.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Consumable.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Creature.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Equipment.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Goblin.h">
@@ -253,6 +253,18 @@
     </ClInclude>
     <ClInclude Include="SelectableItemFrame.h">
       <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Forest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Consumable.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

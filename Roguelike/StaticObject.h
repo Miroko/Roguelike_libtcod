@@ -7,39 +7,16 @@ class StaticObject : public GameObject
 {
 
 public:
-	bool isTransparent;
-	virtual bool isPassableBy(DynamicObject &dynamicObject);
+	bool transparent;
+	bool raised;
 
-	StaticObject(Glyph glyph, std::string name, bool isTransparent = false) : GameObject(glyph, name), isTransparent(isTransparent){};
+	bool passableBy(DynamicObject &dynamicObject);
+
+	StaticObject(std::string name, Glyph glyph, bool raised = false, bool transparent = true) : raised(raised), transparent(transparent), GameObject(glyph, name){};
 	StaticObject(){};
 };
 
-class Land : public StaticObject{
-public:
-	bool isPassableBy(DynamicObject &dynamicObject);
-
-	Land() : StaticObject(Glyph(TCODColor::darkestGreen, TCODColor(5, 20, 5), ' '), "Land", true){};
-};
-
-class Tree : public StaticObject{
-public:
-	Tree() : StaticObject(Glyph(TCODColor::darkerChartreuse, TCODColor(5, 20, 5), TCOD_CHAR_SPADE), "Tree"){};
-};
-
-class Stone : public StaticObject{
-public:
-	Stone() : StaticObject(Glyph(TCODColor::darkerGrey, TCODColor::darkerGrey, ' '), "Stone"){};
-};
-
-class StoneFloor : public StaticObject{
-public:
-	bool isPassableBy(DynamicObject &dynamicObject);
-
-	StoneFloor() : StaticObject(Glyph(TCODColor::darkestGrey, TCODColor::darkestGrey, ' '), "Stone floor", true){};
-};
-
-//Pointers to allow virtual methods
-const std::shared_ptr<StaticObject> LAND(new Land());
-const std::shared_ptr<StaticObject> TREE(new Tree());
-const std::shared_ptr<StaticObject> STONE(new Stone());
-const std::shared_ptr<StaticObject> STONE_FLOOR(new StoneFloor());
+const std::shared_ptr<StaticObject> LAND(new StaticObject("Land", Glyph(TCODColor::darkestGreen, TCODColor(5, 20, 5), ' ')));
+const std::shared_ptr<StaticObject> TREE(new StaticObject("Tree", Glyph(TCODColor::darkerChartreuse, TCODColor(5, 20, 5), TCOD_CHAR_SPADE), true, false));
+const std::shared_ptr<StaticObject> STONE(new StaticObject("Stone", Glyph(TCODColor::darkerGrey, TCODColor::darkerGrey, ' '), true, false));
+const std::shared_ptr<StaticObject> STONE_FLOOR(new StaticObject("Stone floor", Glyph(TCODColor::darkestGrey, TCODColor::darkestGrey, ' ')));

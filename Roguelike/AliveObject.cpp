@@ -12,7 +12,7 @@ void AliveObject::createFovMap(){
 	for (int x = startX; x < endX; x++){
 		for (int y = startY; y < endY; y++){		
 			fovMap->setProperties(x, y,
-				Engine::area.staticObjects[x][y]->isTransparent, Engine::area.staticObjects[x][y]->isPassableBy(*this));
+				Engine::area.staticObjects[x][y]->transparent, Engine::area.staticObjects[x][y]->passableBy(*this));
 		}
 	}
 }
@@ -27,7 +27,7 @@ bool AliveObject::inFov(int x, int y){
 
 float AliveObject::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
 	AliveObject thisObject = *static_cast<AliveObject*>(userData);
-	if (Engine::area.staticObjects[xTo][yTo]->isPassableBy(thisObject) == false) return 0;
+	if (Engine::area.staticObjects[xTo][yTo]->passableBy(thisObject) == false) return 0;
 
 	for (auto &o : Engine::area.dynamicObjects){
 		if (o->isDead) continue;
@@ -111,4 +111,11 @@ void AliveObject::update(){
 			attack(*target);
 		}		
 	}	
+}
+
+void AliveObject::equip(Equipment *equipment){
+	switch (equipment->type){
+	case Equipment::WEAPON: weapon = static_cast<Weapon*>(equipment);
+	default: break;
+	}
 }

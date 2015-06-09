@@ -1,12 +1,5 @@
 #include "EquipmentFrame.h"
 
+void EquipmentFrame::onItemSelect(std::shared_ptr<Equipment> equipment){
 
-void EquipmentFrame::render(float elapsed){
-	GuiFrame::render(elapsed);
-
-	blit();
-}
-
-bool EquipmentFrame::handleKey(TCOD_key_t key){
-	return false;
 }

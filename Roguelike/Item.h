@@ -24,5 +24,6 @@ public:
 
 	Item(Glyph glyph, std::string name, float weight, Type type)
 		: GameObject(glyph, name), weight(weight), type(type){};
+	virtual ~Item(){};
 };
 

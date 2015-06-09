@@ -17,6 +17,7 @@ void Engine::start(){
 	GUI.equipment.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
 	GUI.quest.resize(Rectangle(Point2D(TCODConsole::root->getWidth()/2 - 30, 1), Point2D(TCODConsole::root->getWidth()/2 + 30, TCODConsole::root->getHeight()-1)));
 	GUI.help.resize(Rectangle(Point2D(0, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+	GUI.pickFrame.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 10, 10), Point2D(TCODConsole::root->getWidth() / 2 + 10, TCODConsole::root->getHeight() - 20)));
 
 	// Player creation
 	playerHandler.playerCreature = Creature::newCreature(MAN);
@@ -26,8 +27,8 @@ void Engine::start(){
 	//Inventory
 	GUI.inventory.items.add(Item::newItem(SWORD));
 	GUI.inventory.items.add(Item::newItem(SWORD));
-	GUI.inventory.equip(static_cast<Weapon&>(*GUI.inventory.items.items.back().get()));
-
+	playerHandler.playerCreature->equip(static_cast<Equipment*>(GUI.inventory.items.items.back().get()));
+	
 	// Quest
 	questHandler.addQuest(new ClearCave());
 	questHandler.setCurrentQuest(questHandler.quests[0].get());

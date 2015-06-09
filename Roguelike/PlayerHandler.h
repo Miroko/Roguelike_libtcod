@@ -13,14 +13,8 @@ private:
 	bool attack();
 
 	//Take items at player location
-	//True if took something
+	//True if picker opened
 	bool take();
-
-	bool leaveArea();
-	bool InventoryFrame();
-	bool equipment();
-	bool quest();
-	bool help();
 
 public:
 	std::shared_ptr<AliveObject> playerCreature;

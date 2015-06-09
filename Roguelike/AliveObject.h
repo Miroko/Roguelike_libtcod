@@ -24,6 +24,7 @@ public:
 
 	//Equipment
 	Weapon *weapon = nullptr;
+	void equip(Equipment *equipment);
 
 	//Attack
 	DynamicObject *target = nullptr;

@@ -5,19 +5,14 @@
 #include "Weapon.h"
 #include <memory>
 
-class InventoryFrame : public SelectableItemFrame
+class InventoryFrame : public SelectableItemFrame<Item>
 {
 
-public:	
-	//Weapon must be from InventoryFrame
-	void equip(Weapon &equipment);
-	//Slot must be from playerCreature
-	void unEquip(Equipment *slot);
-
+public:
 	void useItem(std::shared_ptr<Item> item);
 
-	void SelectableItemFrame::onItemSelect(std::shared_ptr<Item> item);
+	void SelectableItemFrame<Item>::onItemSelect(std::shared_ptr<Item> item);
 
-	InventoryFrame(std::string name, bool open, float alphaFg, float alphaBg) : SelectableItemFrame(name, open, alphaFg, alphaBg){};
+	InventoryFrame(std::string name, bool open, float alphaFg, float alphaBg) : SelectableItemFrame<Item>(name, open, alphaFg, alphaBg){};
 };
 

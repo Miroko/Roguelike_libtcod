@@ -6,12 +6,16 @@ bool PlayerHandler::handleKey(TCOD_key_t key){
 		case 0 : return move(key);
 		case 'a': return attack();
 		case 't': return take();
-		case 'i': return InventoryFrame();
-		case 'l': return leaveArea();
-		case 'e': return equipment();
-		case 'q': return quest();
-		case 'h': return help();
-		default: Engine::GUI.log.addMessage("Invalid input, press 'h' for help."); return false;
+		case 'i': Engine::GUI.inventory.openClose(); return false;
+		case 'l': Engine::questHandler.generateNextPhase(); return false;
+		case 'e': Engine::GUI.equipment.openClose(); return false;
+		case 'q': Engine::GUI.quest.openClose(); return false;
+		case 'h': Engine::GUI.help.openClose(); return false;
+		case 'L': Engine::GUI.log.openClose(); return false;
+		default:{
+			if (!Engine::GUI.log.open) Engine::GUI.log.openClose();
+			Engine::GUI.log.addMessage("Invalid input, press 'h' for help."); return false;
+		}
 	}
 }
 
@@ -74,30 +78,6 @@ bool PlayerHandler::take(){
 		for (auto &item : itemsToTake){
 			Engine::GUI.pickFrame.items.add(item);
 		}
+		return true;
 	}
-}
-
-bool PlayerHandler::leaveArea(){
-	Engine::questHandler.generateNextPhase();
-	return false;
-}
-
-bool PlayerHandler::InventoryFrame(){
-	Engine::GUI.inventory.openClose();
-	return false;
-}
-
-bool PlayerHandler::equipment(){
-	Engine::GUI.equipment.openClose();
-	return false;
-}
-
-bool PlayerHandler::quest(){
-	Engine::GUI.quest.openClose();
-	return false;
-}
-
-bool PlayerHandler::help(){
-	Engine::GUI.help.openClose();
-	return false;
 }

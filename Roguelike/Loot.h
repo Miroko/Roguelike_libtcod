@@ -4,8 +4,8 @@
 class Loot
 {
 public:
-	std::vector<Item> items;
+	std::vector<Weapon> weapons;
 
-	Loot(std::vector<Item> items) : items(items){};
+	Loot(std::vector<Weapon> weapons) : weapons(weapons){};
 };
 

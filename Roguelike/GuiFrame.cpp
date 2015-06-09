@@ -3,7 +3,8 @@
 void GuiFrame::render(float elapsed){
 	console->setDefaultForeground(FRAME_COLOR);
 	console->setDefaultBackground(BG_COLOR);
-	console->printFrame(0, 0, console->getWidth(), console->getHeight(), true, TCOD_BKGND_SET, name.c_str());
+	if (name == "") console->printFrame(0, 0, console->getWidth(), console->getHeight(), true, TCOD_BKGND_SET);
+	else console->printFrame(0, 0, console->getWidth(), console->getHeight(), true, TCOD_BKGND_SET, name.c_str());
 	console->setDefaultForeground(FG_COLOR);
 }
 

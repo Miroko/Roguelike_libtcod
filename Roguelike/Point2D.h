@@ -9,8 +9,10 @@ public:
 
 	bool operator==(const Point2D &point);
 	bool operator!=(const Point2D &point);
-	Point2D operator-(const Point2D &point);
 	Point2D operator+(const Point2D &point);
+	Point2D operator-(const Point2D &point);
+	Point2D& operator+=(const Point2D &point);
+	Point2D& operator-=(const Point2D &point);
 
 	bool undefined();
 

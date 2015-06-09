@@ -21,8 +21,8 @@ void DynamicObject::onTakeDamage(int amount){
 
 std::vector<std::shared_ptr<Item>> DynamicObject::generateLoot(){
 	std::vector<std::shared_ptr<Item>> items;
-	for (const Item &item : loot.items){
-		items.push_back(std::shared_ptr<Item>(new Item(item)));
+	for (auto &weapon : loot.weapons){
+		items.push_back(Item::newItem<Weapon>(weapon));
 	}
 	return items;
 }

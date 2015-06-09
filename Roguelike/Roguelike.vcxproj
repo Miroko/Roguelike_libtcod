@@ -14,6 +14,7 @@
     <ClCompile Include="AliveObject.cpp" />
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cave.cpp" />
     <ClCompile Include="ClearCave.cpp" />
     <ClCompile Include="Consumable.cpp" />
     <ClCompile Include="Creature.cpp" />
@@ -22,6 +23,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="EquipmentFrame.cpp" />
+    <ClCompile Include="Forest.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="Gui.cpp" />
@@ -54,6 +56,7 @@
     <ClInclude Include="AliveObject.h" />
     <ClInclude Include="Area.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cave.h" />
     <ClInclude Include="ClearCave.h" />
     <ClInclude Include="Consumable.h" />
     <ClInclude Include="Creature.h" />
@@ -62,6 +65,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="EquipmentFrame.h" />
+    <ClInclude Include="Forest.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="Gui.h" />

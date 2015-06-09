@@ -22,7 +22,6 @@ public:
 
 	void resize(Rectangle &bounds);
 	
-	//True if require update
 	virtual bool handleKey(TCOD_key_t key) = 0;
 	virtual void render(float elapsed) = 0;
 	void blit(int fromX, int fromY, int width, int height, int toX, int toY, float alphaFg, float alphaBg);

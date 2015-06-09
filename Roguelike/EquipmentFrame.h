@@ -1,12 +1,11 @@
 #pragma once
-#include "GuiFrame.h"
-class EquipmentFrame : public GuiFrame
+#include "SelectableItemFrame.h"
+#include "Equipment.h"
+class EquipmentFrame : public SelectableItemFrame<Equipment>
 {
 public:
+	void SelectableItemFrame<Equipment>::onItemSelect(std::shared_ptr<Equipment> equipment);
 
-	void GuiFrame::render(float elapsed);
-	bool GuiFrame::handleKey(TCOD_key_t key);
-
-	EquipmentFrame(std::string name, bool open, float alphaFg, float alphaBg) : GuiFrame(name, open, alphaFg, alphaBg){};
+	EquipmentFrame(std::string name, bool open, float alphaFg, float alphaBg) : SelectableItemFrame<Equipment>(name, open, alphaFg, alphaBg){};
 };
 

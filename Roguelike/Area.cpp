@@ -52,7 +52,7 @@ bool Area::placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &l
 
 bool Area::moveDynamicObject(DynamicObject &dynamicObject, Point2D &toLocation){
 	if (bounds.contains(toLocation)){
-		if (staticObjects[(int)toLocation.x][(int)toLocation.y]->isPassableBy(dynamicObject) == false) {
+		if (staticObjects[(int)toLocation.x][(int)toLocation.y]->passableBy(dynamicObject) == false) {
 			return false;
 		}
 		for (auto &o : dynamicObjects){
