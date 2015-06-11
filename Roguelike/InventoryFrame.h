@@ -5,14 +5,18 @@
 #include "Weapon.h"
 #include <memory>
 
-class InventoryFrame : public SelectableItemFrame<Item>
+class InventoryFrame : public SelectableItemFrame
 {
-
+private:
+	const std::string EQUIP = "Equip";
+	const std::string DROP = "Drop";
+	const std::vector<std::string> EQUIPMENT_OPERATIONS = std::vector<std::string>({EQUIP, DROP});
 public:
-	void useItem(std::shared_ptr<Item> item);
+	void equip(std::shared_ptr<Item> &item);
+	void drop(std::shared_ptr<Item> &item);
 
-	void SelectableItemFrame<Item>::onItemSelect(std::shared_ptr<Item> item);
+	void SelectableItemFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &operation);
+	std::vector<std::string> SelectableItemFrame::getOperationsForItem(std::shared_ptr<Item> &item);
 
-	InventoryFrame(std::string name, bool open, float alphaFg, float alphaBg) : SelectableItemFrame<Item>(name, open, alphaFg, alphaBg){};
+	InventoryFrame(std::string name, char controlKey, bool open, float alphaFg, float alphaBg) : SelectableItemFrame(name, controlKey, open, alphaFg, alphaBg){};
 };
-

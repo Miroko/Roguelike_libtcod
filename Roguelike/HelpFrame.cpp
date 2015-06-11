@@ -2,6 +2,9 @@
 
 
 bool HelpFrame::handleKey(TCOD_key_t key){
+	GuiFrame::handleKey(key);
+	if (!isOpen) return true;
+	else if (key.pressed) close();
 	return false;
 }
 

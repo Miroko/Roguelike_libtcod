@@ -1,4 +1,5 @@
 #include "GuiFrame.h"
+#include "KeyMapping.h"
 
 void GuiFrame::render(float elapsed){
 	console->setDefaultForeground(FRAME_COLOR);
@@ -17,8 +18,31 @@ void GuiFrame::blit(){
 	blit(0, 0, console->getWidth(), console->getHeight(), bounds.start.x, bounds.start.y, alphaFg, alphaBg);
 }
 
-void GuiFrame::openClose(){
-	open = !open;
+//True == opened
+bool GuiFrame::handleKey(TCOD_key_t key){
+	if (key.c == controlKey){
+		if (isOpen) close();
+		else open();
+	}
+	return isOpen;	
+}
+
+void GuiFrame::open(){
+	isOpen = true;
+	onOpen();
+}
+
+void GuiFrame::close(){
+	isOpen = false;
+	onClose();
+}
+
+void GuiFrame::onOpen(){
+	
+}
+
+void GuiFrame::onClose(){
+	
 }
 
 void GuiFrame::resize(Rectangle &bounds){

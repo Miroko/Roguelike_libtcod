@@ -31,6 +31,8 @@
     <ClCompile Include="HelpFrame.cpp" />
     <ClCompile Include="InventoryFrame.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemSelector.cpp" />
+    <ClCompile Include="KeyMapping.cpp" />
     <ClCompile Include="PointerContainer.cpp" />
     <ClCompile Include="ItemPickFrame.cpp" />
     <ClCompile Include="LogFrame.cpp" />
@@ -73,6 +75,8 @@
     <ClInclude Include="HelpFrame.h" />
     <ClInclude Include="InventoryFrame.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemSelector.h" />
+    <ClInclude Include="KeyMapping.h" />
     <ClInclude Include="PointerContainer.h" />
     <ClInclude Include="ItemPickFrame.h" />
     <ClInclude Include="LogFrame.h" />

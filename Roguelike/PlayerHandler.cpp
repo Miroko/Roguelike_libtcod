@@ -1,41 +1,30 @@
 #include "PlayerHandler.h"
 #include "Engine.h"
+#include "KeyMapping.h"
 
 bool PlayerHandler::handleKey(TCOD_key_t key){
 	switch (key.c) {
-		case 0 : return move(key);
-		case 'a': return attack();
-		case 't': return take();
-		case 'i': Engine::GUI.inventory.openClose(); return false;
-		case 'l': Engine::questHandler.generateNextPhase(); return false;
-		case 'e': Engine::GUI.equipment.openClose(); return false;
-		case 'q': Engine::GUI.quest.openClose(); return false;
-		case 'h': Engine::GUI.help.openClose(); return false;
-		case 'L': Engine::GUI.log.openClose(); return false;
+		case UNDEFINED : return move(key);
+		case KEY_ATTACK: return attack();
+		case KEY_TAKE: return take();
+		case KEY_INVENTORY: Engine::GUI.inventory.open(); return false;
+		case KEY_LEAVE_AREA: Engine::questHandler.generateNextPhase(); return false;
+		case KEY_EQUIPMENT: Engine::GUI.equipment.open(); return false;
+		case KEY_QUEST: Engine::GUI.quest.open(); return false;
+		case KEY_HELP: Engine::GUI.help.open(); return false;
+		case KEY_LOG: Engine::GUI.log.open(); return false;
 		default:{
-			if (!Engine::GUI.log.open) Engine::GUI.log.openClose();
+			if (!Engine::GUI.log.isOpen) Engine::GUI.log.open();
 			Engine::GUI.log.addMessage("Invalid input, press 'h' for help."); return false;
 		}
 	}
 }
 
 bool PlayerHandler::move(TCOD_key_t key){
-	Point2D direction;
-	switch (key.vk) {
-		case TCODK_KP1: direction = DOWN_LEFT; break;
-		case TCODK_KP4: direction = LEFT; break;
-		case TCODK_KP7: direction = UP_LEFT; break;
-		case TCODK_KP8: direction = UP; break;
-		case TCODK_KP9: direction = UP_RIGHT; break;
-		case TCODK_KP6: direction = RIGHT; break;
-		case TCODK_KP3: direction = DOWN_RIGHT; break;
-		case TCODK_KP2: direction = DOWN; break;
-		case TCODK_KP5: direction = CENTER; break; //==Wait
-		default: break;
-	}
+	Point2D direction = KeyMapping::direction(key.vk);
 
 	if (direction.undefined()) return false;
-	else if (direction == CENTER) return true;
+	else if (direction == CENTER) return true; //==Wait
 	else return Engine::area.moveDynamicObject(*playerCreature, playerCreature->location + direction);
 }
 
@@ -43,19 +32,7 @@ bool PlayerHandler::attack(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	TCOD_key_t key = TCODConsole::waitForKeypress(false); // Wait for attack direction
 
-	Point2D direction;
-	switch (key.vk) {
-		case TCODK_KP1: direction = DOWN_LEFT; break;
-		case TCODK_KP4: direction = LEFT; break;
-		case TCODK_KP7: direction = UP_LEFT; break;
-		case TCODK_KP8: direction = UP; break;
-		case TCODK_KP9: direction = UP_RIGHT; break;
-		case TCODK_KP6: direction = RIGHT; break;
-		case TCODK_KP3: direction = DOWN_RIGHT; break;
-		case TCODK_KP2: direction = DOWN; break;
-		case TCODK_KP5: direction = CENTER; break;
-		default: break;
-	}
+	Point2D direction = KeyMapping::direction(key.vk);
 
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
@@ -73,11 +50,10 @@ bool PlayerHandler::take(){
 	itemsToTake = Engine::area.getItemsAt(playerCreature->location);
 	if (itemsToTake.empty()) return false;
 	else{
-		Engine::GUI.pickFrame.items.items.clear();
-		Engine::GUI.pickFrame.openClose();
 		for (auto &item : itemsToTake){
-			Engine::GUI.pickFrame.items.add(item);
+			Engine::GUI.pickFrame.addItem(item);
 		}
+		Engine::GUI.pickFrame.open();
 		return true;
 	}
 }

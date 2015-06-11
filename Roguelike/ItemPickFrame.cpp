@@ -1,15 +1,21 @@
 #include "ItemPickFrame.h"
 #include "Engine.h"
 
-#include <iostream>
-
-bool ItemPickFrame::moveToInventory(std::shared_ptr<Item> item){
-	Engine::area.removeItem(*items.items.at(selectedRow));
-	Engine::GUI.inventory.items.add(items.items.at(selectedRow));
-	removeSelectedItem();
+bool ItemPickFrame::moveToInventory(std::shared_ptr<Item> &item){
+	Engine::area.removeItem(*item);
+	Engine::GUI.inventory.addItem(item);
+	removeItem(item);
 	return true;
 }
 
-void ItemPickFrame::onItemSelect(std::shared_ptr<Item> item){
+void ItemPickFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &operation){
 	moveToInventory(item);
+}
+
+std::vector<std::string> ItemPickFrame::getOperationsForItem(std::shared_ptr<Item> &item){
+	return PICK_OPERATIONS;
+}
+
+void ItemPickFrame::onClose(){
+	removeAll();
 }

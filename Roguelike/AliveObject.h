@@ -1,13 +1,14 @@
 ﻿#pragma once
 #include "DynamicObject.h"
 #include "Weapon.h"
-#include "memory"
+#include <memory>
 
 class AliveObject : public DynamicObject
 {
 	
 public:
 	//FOV
+	const int FOV_RADIUS_MAX = 0;
 	std::shared_ptr<TCODMap> fovMap;
 	void createFovMap();
 	void calculateFov();
@@ -24,7 +25,7 @@ public:
 
 	//Equipment
 	Weapon *weapon = nullptr;
-	void equip(Equipment *equipment);
+	void equip(Item *equipment);
 
 	//Attack
 	DynamicObject *target = nullptr;

@@ -1,20 +1,20 @@
 #include "Gui.h"
 
 bool Gui::handleKey(TCOD_key_t key){
-	if (pickFrame.open) return pickFrame.handleKey(key);
-	else if (help.open) help.handleKey(key);
-	else if (equipment.open) equipment.handleKey(key);
-	else if (inventory.open) return inventory.handleKey(key);
-	else if (quest.open) quest.handleKey(key);
-	else if (log.open) log.handleKey(key);
+	if (pickFrame.isOpen) return pickFrame.handleKey(key);
+	else if (help.isOpen) return help.handleKey(key);
+	else if (equipment.isOpen) return equipment.handleKey(key);
+	else if (inventory.isOpen) return inventory.handleKey(key);
+	else if (quest.isOpen) return quest.handleKey(key);
+	else if (log.isOpen) log.handleKey(key);
 	return false;
 }
 
 void Gui::render(float elapsed){
-	if (log.open) log.render(elapsed);
-	if (inventory.open)	inventory.render(elapsed);
-	if (equipment.open) equipment.render(elapsed);
-	if (pickFrame.open) pickFrame.render(elapsed);
-	if (quest.open) quest.render(elapsed);
-	if (help.open) help.render(elapsed);
+	if (log.isOpen) log.render(elapsed);
+	if (inventory.isOpen) inventory.render(elapsed);
+	if (equipment.isOpen) equipment.render(elapsed);
+	if (pickFrame.isOpen) pickFrame.render(elapsed);
+	if (quest.isOpen) quest.render(elapsed);
+	if (help.isOpen) help.render(elapsed);
 }

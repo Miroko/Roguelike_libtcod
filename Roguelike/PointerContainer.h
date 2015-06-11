@@ -7,7 +7,7 @@ template<typename T> class PointerContainer
 public:
 	std::vector<std::shared_ptr<T>> items;
 
-	void PointerContainer<T>::add(std::shared_ptr<T> item){
+	void PointerContainer<T>::add(std::shared_ptr<T> &item){
 		items.push_back(item);
 	}
 

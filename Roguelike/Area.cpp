@@ -101,7 +101,7 @@ void Area::cleanDeadObjects(){
 	}
 }
 
-void Area::placeItem(std::shared_ptr<Item> item, Point2D &toLocation){
+void Area::placeItem(std::shared_ptr<Item> &item, Point2D &toLocation){
 	item->location = toLocation;
 	items.push_back(item);
 }

@@ -25,9 +25,9 @@ void Engine::start(){
 	playerHandler.playerCreature->glyph.character = '@';
 	playerHandler.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
 	//Inventory
-	GUI.inventory.items.add(Item::newItem(SWORD));
-	GUI.inventory.items.add(Item::newItem(SWORD));
-	playerHandler.playerCreature->equip(static_cast<Equipment*>(GUI.inventory.items.items.back().get()));
+	std::shared_ptr<Item> i = Item::newItem(SWORD);
+	GUI.inventory.addItem(i);
+	GUI.inventory.equip(i);
 	
 	// Quest
 	questHandler.addQuest(new ClearCave());

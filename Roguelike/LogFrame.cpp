@@ -1,6 +1,8 @@
 #include "LogFrame.h"
 
 bool LogFrame::handleKey(TCOD_key_t key){
+	GuiFrame::handleKey(key);
+	if (!isOpen) return true;
 	return false;
 }
 

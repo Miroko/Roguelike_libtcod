@@ -3,7 +3,7 @@
 
 void AliveObject::createFovMap(){
 	fovMap = std::shared_ptr<TCODMap>(new TCODMap(Engine::area.bounds.getWidth(), Engine::area.bounds.getHeight()));
-
+	
 	int startX = 0;
 	int startY = 0;
 	int endX = fovMap->getWidth();
@@ -18,7 +18,7 @@ void AliveObject::createFovMap(){
 }
 
 void AliveObject::calculateFov(){
-	fovMap->computeFov(location.x, location.y, 0, true, FOV_RESTRICTIVE);
+	fovMap->computeFov(location.x, location.y, FOV_RADIUS_MAX, true, FOV_RESTRICTIVE);
 }
 
 bool AliveObject::inFov(int x, int y){
@@ -113,7 +113,7 @@ void AliveObject::update(){
 	}	
 }
 
-void AliveObject::equip(Equipment *equipment){
+void AliveObject::equip(Item *equipment){
 	switch (equipment->type){
 	case Equipment::WEAPON: weapon = static_cast<Weapon*>(equipment);
 	default: break;

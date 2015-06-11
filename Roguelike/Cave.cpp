@@ -1,8 +1,5 @@
 #include "Cave.h"
 #include "Direction.h"
-#include "Engine.h"
-
-#include <iostream>
 
 Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance, int roomSize) : Area(size, STONE){
 	int corridors = bounds.getSize() * corridorsPerTile;

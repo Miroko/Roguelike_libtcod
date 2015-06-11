@@ -15,8 +15,8 @@ public:
 	void finishMessage(std::string);
 	
 	void GuiFrame::render(float elapsed);
-	bool GuiFrame::handleKey(TCOD_key_t key);
+	bool handleKey(TCOD_key_t key);
 
-	LogFrame(std::string name, bool open, float alphaFg, float alphaBg) : GuiFrame(name, open, alphaFg, alphaBg){};
+	LogFrame(std::string name, char controlKey, bool open, float alphaFg, float alphaBg) : GuiFrame(name, controlKey, open, alphaFg, alphaBg){};
 };
 
