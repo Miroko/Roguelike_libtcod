@@ -1,5 +1,4 @@
 #include "Area.h"
-#include <iostream>
 
 Area::Area(int size, const std::shared_ptr<StaticObject> &base) :
 bounds(Rectangle(Point2D(0, 0), Point2D(size, size)))
@@ -12,6 +11,26 @@ bounds(Rectangle(Point2D(0, 0), Point2D(size, size)))
 
 void Area::setStaticObject(std::shared_ptr<StaticObject> staticObject, Point2D &location){
 	staticObjects[(int)location.x][(int)location.y] = staticObject;
+}
+
+void Area::placePortal(std::shared_ptr<Portal> &portal, Point2D &location){
+	Point2D placementLocation = location;
+	int offset = 0;
+	while (true){
+		for (placementLocation.x = location.x - offset; placementLocation.x < location.x + offset; placementLocation.x++){
+			for (placementLocation.y = location.y - offset; placementLocation.y < location.y + offset; placementLocation.y++){
+				if (bounds.contains(placementLocation)){
+					if (!staticObjects[placementLocation.x][placementLocation.y]->raised){
+						portal->location = placementLocation;
+						portals.push_back(portal);
+						staticObjects[placementLocation.x][placementLocation.y] = portal;
+						return;
+					}
+				}
+			}
+		}
+		++offset;
+	}
 }
 
 //Returns true when object placed. First tries to place at set location then by expanding placement area

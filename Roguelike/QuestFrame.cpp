@@ -1,17 +1,25 @@
 #include "QuestFrame.h"
-
+#include "Engine.h"
 
 void QuestFrame::render(float elapsed){
 	GuiFrame::render(elapsed);
 
-	console->printRect(1,console->getHeight()-2, console->getWidth(), 1, "Press 'q' to close");
+	Quest *currentQuest = Engine::questHandler.currentQuest;
+
+	//Title
+	console->printRectEx(console->getWidth()/2, 2, console->getWidth() - 1, 1, TCOD_BKGND_NONE, TCOD_CENTER, currentQuest->name.c_str());
+
+	//Text
+	console->printRect(1, 4, console->getWidth() - 1, console->getHeight()-4, currentQuest->currentPhase->description.c_str());
 
 	blit();
 }
 
 bool QuestFrame::handleKey(TCOD_key_t key){
-	GuiFrame::handleKey(key);
-	if (!isOpen) return true;
-	else if (key.pressed) close();
-	return false;
+	bool handled = GuiFrame::handleKey(key);
+	if (!handled && isOpen){
+		close();
+		handled = true;
+	}
+	return handled;
 }

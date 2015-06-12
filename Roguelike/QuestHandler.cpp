@@ -16,3 +16,9 @@ void QuestHandler::generateNextPhase(){
 	Engine::area.placeAliveObject(Engine::playerHandler.playerCreature, Engine::area.bounds.getCenterPoint());
 	Engine::camera.centerOn(Engine::playerHandler.playerCreature->location);
 }
+
+void QuestHandler::update(){
+	if (currentQuest->currentPhase->winCondition()){
+		generateNextPhase();
+	}
+}

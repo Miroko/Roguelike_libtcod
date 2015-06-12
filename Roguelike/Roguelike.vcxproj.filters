@@ -25,6 +25,18 @@
     <Filter Include="Source Files\GUI">
       <UniqueIdentifier>{cd6a237c-0c92-46ed-8c7b-aad14db5af52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Areas">
+      <UniqueIdentifier>{25e0db99-23d6-4929-95b6-ce75537f78d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Areas">
+      <UniqueIdentifier>{c0fec90e-111e-44c7-8a92-c2ecc347f6b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Quests">
+      <UniqueIdentifier>{955f5c54-59dd-488d-b4c1-f74ec4f10f2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Quests">
+      <UniqueIdentifier>{27f888c0-afe4-410b-8c33-d7995aaf57b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AliveObject.cpp">
@@ -96,9 +108,6 @@
     <ClCompile Include="StaticObject.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="ClearCave.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Goblin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -135,29 +144,32 @@
     <ClCompile Include="SelectableItemFrame.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Forest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Cave.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Consumable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ItemSelector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KeyMapping.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Cave.cpp">
+      <Filter>Source Files\Areas</Filter>
+    </ClCompile>
+    <ClCompile Include="Forest.cpp">
+      <Filter>Source Files\Areas</Filter>
+    </ClCompile>
+    <ClCompile Include="TheGoblinKing.cpp">
+      <Filter>Source Files\Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectionFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClearCave.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Area.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -260,22 +272,28 @@
     <ClInclude Include="SelectableItemFrame.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Forest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cave.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Consumable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ItemSelector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="KeyMapping.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Cave.h">
+      <Filter>Header Files\Areas</Filter>
+    </ClInclude>
+    <ClInclude Include="Forest.h">
+      <Filter>Header Files\Areas</Filter>
+    </ClInclude>
+    <ClInclude Include="TheGoblinKing.h">
+      <Filter>Header Files\Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectionFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

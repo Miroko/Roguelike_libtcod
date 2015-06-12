@@ -2,6 +2,7 @@
 #include "StaticObject.h"
 #include "AliveObject.h"
 #include "Item.h"
+#include "Portal.h"
 #include "Rectangle.h"
 #include <vector>
 #include <memory>
@@ -16,6 +17,10 @@ public:
 	std::vector<std::vector<std::shared_ptr<StaticObject>>> staticObjects;
 
 	void setStaticObject(std::shared_ptr<StaticObject> staticObject, Point2D &location);
+
+	//Portals
+	std::vector<std::shared_ptr<Portal>> portals;
+	void placePortal(std::shared_ptr<Portal> &portal, Point2D &location);
 
 	//Dynamic objects
 	std::vector<std::shared_ptr<DynamicObject>> dynamicObjects;

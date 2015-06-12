@@ -1,22 +1,27 @@
 #pragma once
 #include "Quest.h"
 
-class ClearCave : public Quest{
+class TheGoblinKing : public Quest{
 	class WayToCave : public QuestPhase{
 	public:
 		void QuestPhase::generateArea(Area &area);
-		WayToCave() : QuestPhase(){};
+		bool QuestPhase::winCondition();
+		WayToCave() : QuestPhase("-Find a way to the cave."){};
 	};
 	class CaveEntrance : public QuestPhase{
 	public:
 		void QuestPhase::generateArea(Area &area);
-		CaveEntrance() : QuestPhase(){};
+		bool QuestPhase::winCondition();
+		CaveEntrance() : QuestPhase("-Find a way to the cave."){};
 	};
 	class InTheCave : public QuestPhase{
 	public:
 		void QuestPhase::generateArea(Area &area);
-		InTheCave() : QuestPhase(){};
+		bool QuestPhase::winCondition();
+		InTheCave() : QuestPhase("-Kill the goblin king."){};
 	};
 public:
 	std::shared_ptr<QuestPhase> Quest::getNextPhase();
+
+	TheGoblinKing() : Quest("The Goblin King"){}
 };

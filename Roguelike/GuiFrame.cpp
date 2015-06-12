@@ -18,13 +18,16 @@ void GuiFrame::blit(){
 	blit(0, 0, console->getWidth(), console->getHeight(), bounds.start.x, bounds.start.y, alphaFg, alphaBg);
 }
 
-//True == opened
+//True if key handled
 bool GuiFrame::handleKey(TCOD_key_t key){
-	if (key.c == controlKey){
-		if (isOpen) close();
-		else open();
+	if (controlKey != UNDEFINED){
+		if (key.c == controlKey){
+			if (isOpen) close();
+			else open();
+			return true;
+		}
 	}
-	return isOpen;	
+	return false;	
 }
 
 void GuiFrame::open(){

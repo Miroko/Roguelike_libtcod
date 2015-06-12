@@ -7,12 +7,7 @@ bool PlayerHandler::handleKey(TCOD_key_t key){
 		case UNDEFINED : return move(key);
 		case KEY_ATTACK: return attack();
 		case KEY_TAKE: return take();
-		case KEY_INVENTORY: Engine::GUI.inventory.open(); return false;
 		case KEY_LEAVE_AREA: Engine::questHandler.generateNextPhase(); return false;
-		case KEY_EQUIPMENT: Engine::GUI.equipment.open(); return false;
-		case KEY_QUEST: Engine::GUI.quest.open(); return false;
-		case KEY_HELP: Engine::GUI.help.open(); return false;
-		case KEY_LOG: Engine::GUI.log.open(); return false;
 		default:{
 			if (!Engine::GUI.log.isOpen) Engine::GUI.log.open();
 			Engine::GUI.log.addMessage("Invalid input, press 'h' for help."); return false;

@@ -2,10 +2,12 @@
 
 
 bool HelpFrame::handleKey(TCOD_key_t key){
-	GuiFrame::handleKey(key);
-	if (!isOpen) return true;
-	else if (key.pressed) close();
-	return false;
+	bool handled = GuiFrame::handleKey(key);
+	if (!handled && isOpen){
+		close();
+		handled = true;
+	}
+	return handled;
 }
 
 void HelpFrame::render(float elapsed){

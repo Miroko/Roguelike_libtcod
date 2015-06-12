@@ -5,7 +5,7 @@
 #include "Area.h"
 #include "human.h"
 #include "Gui.h"
-#include "ClearCave.h"
+#include "TheGoblinKing.h"
 class Engine
 {
 

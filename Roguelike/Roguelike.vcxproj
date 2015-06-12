@@ -15,7 +15,8 @@
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cave.cpp" />
-    <ClCompile Include="ClearCave.cpp" />
+    <ClCompile Include="InspectionFrame.cpp" />
+    <ClCompile Include="TheGoblinKing.cpp" />
     <ClCompile Include="Consumable.cpp" />
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="Direction.cpp" />
@@ -31,7 +32,6 @@
     <ClCompile Include="HelpFrame.cpp" />
     <ClCompile Include="InventoryFrame.cpp" />
     <ClCompile Include="Item.cpp" />
-    <ClCompile Include="ItemSelector.cpp" />
     <ClCompile Include="KeyMapping.cpp" />
     <ClCompile Include="PointerContainer.cpp" />
     <ClCompile Include="ItemPickFrame.cpp" />
@@ -39,6 +39,7 @@
     <ClCompile Include="Loot.cpp" />
     <ClCompile Include="Human.cpp" />
     <ClCompile Include="PlayerHandler.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestFrame.cpp" />
     <ClCompile Include="QuestHandler.cpp" />
@@ -59,7 +60,8 @@
     <ClInclude Include="Area.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cave.h" />
-    <ClInclude Include="ClearCave.h" />
+    <ClInclude Include="InspectionFrame.h" />
+    <ClInclude Include="TheGoblinKing.h" />
     <ClInclude Include="Consumable.h" />
     <ClInclude Include="Creature.h" />
     <ClInclude Include="Direction.h" />
@@ -75,7 +77,6 @@
     <ClInclude Include="HelpFrame.h" />
     <ClInclude Include="InventoryFrame.h" />
     <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemSelector.h" />
     <ClInclude Include="KeyMapping.h" />
     <ClInclude Include="PointerContainer.h" />
     <ClInclude Include="ItemPickFrame.h" />
@@ -83,6 +84,7 @@
     <ClInclude Include="Loot.h" />
     <ClInclude Include="Human.h" />
     <ClInclude Include="PlayerHandler.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestFrame.h" />
     <ClInclude Include="QuestHandler.h" />

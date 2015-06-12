@@ -30,7 +30,7 @@ void Engine::start(){
 	GUI.inventory.equip(i);
 	
 	// Quest
-	questHandler.addQuest(new ClearCave());
+	questHandler.addQuest(new TheGoblinKing());
 	questHandler.setCurrentQuest(questHandler.quests[0].get());
 	questHandler.generateNextPhase();
 
@@ -41,6 +41,7 @@ void Engine::start(){
 
 		if (handleInput(TCODConsole::checkForKeypress(TCOD_KEY_PRESSED))){
 			updateSimulation();
+			questHandler.update();
 		}
 		renderSimulation();
 		renderRealTime(TCODSystem::getLastFrameLength());
@@ -52,12 +53,14 @@ void Engine::start(){
 //True if input action requires simulation update
 bool Engine::handleInput(TCOD_key_t key){
 	bool requireUpdate = false;
+	if (key.vk != TCODK_NONE){
+		//Input handled in gui
+		if (GUI.handleKey(key)) return false;
 
-	if (GUI.handleKey(key)) return false;
-	
-	bool playerControls = playerHandler.handleKey(key);
-	if (!requireUpdate) requireUpdate = playerControls;
-
+		//Handle input in player controls
+		bool playerControls = playerHandler.handleKey(key);
+		if (!requireUpdate) requireUpdate = playerControls;
+	}
 	return requireUpdate;
 }
 

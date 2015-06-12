@@ -8,6 +8,8 @@ class Weapon : public Equipment
 public:
 	int damage;
 
+	std::string getDescription();
+
 	Weapon(std::string name, Glyph glyph, float weight, int damage) : Equipment(glyph, name, weight, WEAPON), damage(damage){};
 };
 

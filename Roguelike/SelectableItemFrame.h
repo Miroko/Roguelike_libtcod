@@ -2,7 +2,6 @@
 #include "GuiFrame.h"
 #include "PointerContainer.h"
 #include "Direction.h"
-#include "ItemSelector.h"
 #include "KeyMapping.h"
 #include <vector>
 

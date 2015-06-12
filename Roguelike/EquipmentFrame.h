@@ -7,7 +7,7 @@ private:
 	const std::string UNEQUIP = "Unequip";
 	const std::vector<std::string> EQUIPMENT_OPERATIONS = std::vector<std::string>({ UNEQUIP });
 
-	std::shared_ptr<Item> weapon = std::shared_ptr<Item>();
+	std::shared_ptr<Item> weapon = nullptr;
 public:
 	void equip(std::shared_ptr<Item> &item);
 	void unequip(std::shared_ptr<Item> &item);

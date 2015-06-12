@@ -10,5 +10,5 @@ public:
 
 	virtual std::shared_ptr<QuestPhase> getNextPhase() = 0;
 	
-	Quest(){};
+	Quest(std::string name) : name(name){};
 };

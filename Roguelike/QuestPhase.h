@@ -4,9 +4,10 @@
 class QuestPhase
 {
 public:
-	std::string name;
+	std::string description;
 
 	virtual void generateArea(Area &area) = 0;
+	virtual bool winCondition() = 0;
 
-	QuestPhase(){};
+	QuestPhase(std::string description) : description(description){};
 };

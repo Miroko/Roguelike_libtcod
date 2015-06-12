@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include <memory>
+#include <string>
 class Item : public GameObject
 {
 public:
@@ -20,10 +21,11 @@ public:
 	// Kg
 	float weight;
 
+	virtual std::string getDescription();
+
 	bool operator==(const Item &item);
 
 	Item(Glyph glyph, std::string name, float weight, Type type)
 		: GameObject(glyph, name), weight(weight), type(type){};
-	virtual ~Item(){};
 };
 
