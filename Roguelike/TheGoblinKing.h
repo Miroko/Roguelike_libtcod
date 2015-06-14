@@ -20,8 +20,15 @@ class TheGoblinKing : public Quest{
 		bool QuestPhase::winCondition();
 		InTheCave() : QuestPhase("-Kill the goblin king."){};
 	};
+	class InVillage : public QuestPhase{
+	public:
+		void QuestPhase::generateArea(Area &area);
+		bool QuestPhase::winCondition();
+		InVillage() : QuestPhase("-Find a way to the cave."){};
+	};
 public:
 	std::shared_ptr<QuestPhase> Quest::getNextPhase();
+	std::shared_ptr<QuestPhase> Quest::getVillage();
 
 	TheGoblinKing() : Quest("The Goblin King"){}
 };

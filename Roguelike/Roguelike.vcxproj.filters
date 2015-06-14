@@ -166,6 +166,12 @@
       <Filter>Source Files\Quests</Filter>
     </ClCompile>
     <ClCompile Include="InspectionFrame.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="StatisticsFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Village.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -294,6 +300,12 @@
       <Filter>Header Files\Quests</Filter>
     </ClInclude>
     <ClInclude Include="InspectionFrame.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="StatisticsFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Village.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

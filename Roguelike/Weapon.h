@@ -13,5 +13,5 @@ public:
 	Weapon(std::string name, Glyph glyph, float weight, int damage) : Equipment(glyph, name, weight, WEAPON), damage(damage){};
 };
 
-const Weapon DAGGER = Weapon("Dagger", Glyph(TCODColor::grey, 'd'), 1.0, 2);
-const Weapon SWORD = Weapon("Sword", Glyph(TCODColor::grey, 's'), 1.0, 8);
+const std::shared_ptr<Weapon> DAGGER = std::shared_ptr<Weapon>(new Weapon("Dagger", Glyph(TCODColor::grey, 'd'), 1.0, 2));
+const std::shared_ptr<Weapon> SWORD = std::shared_ptr<Weapon>(new Weapon("Sword", Glyph(TCODColor::grey, 's'), 1.0, 8));

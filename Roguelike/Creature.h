@@ -8,7 +8,7 @@ public:
 	const RarityType &rarity;	
 
 	//Creature factory
-	static std::shared_ptr<Creature> newCreature(const Creature &creatureTemplate);
+	static std::shared_ptr<Creature> newCreature(const Creature &creatureTemplate, bool equip = true);
 
 	Creature(char character, std::string name, Size size, int health, const TCODColor &color, const RarityType &rarity, const Loot &loot) :
 		rarity(rarity), AliveObject(Glyph(color * rarity.color, character), name, size, health, loot){};

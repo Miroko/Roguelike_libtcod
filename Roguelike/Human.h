@@ -10,8 +10,5 @@ class Human : public Race{
 		Human() : Race("Men"){};
 	};
 
-const Loot MAN_LOOT = Loot(std::vector<Weapon>({ SWORD }));
-const Creature MAN = Creature('h', "Man", DynamicObject::MEDIUM, 10, TCODColor::lightAmber, COMMON, MAN_LOOT);
-
-
-
+const Loot MAN_LOOT = Loot(std::vector<std::shared_ptr<Weapon>>({ SWORD }));
+const Creature MAN = Creature('h', "Man", DynamicObject::MEDIUM, 30, TCODColor::lightAmber, COMMON, MAN_LOOT);

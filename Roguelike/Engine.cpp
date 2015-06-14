@@ -18,9 +18,11 @@ void Engine::start(){
 	GUI.quest.resize(Rectangle(Point2D(TCODConsole::root->getWidth()/2 - 30, 1), Point2D(TCODConsole::root->getWidth()/2 + 30, TCODConsole::root->getHeight()-1)));
 	GUI.help.resize(Rectangle(Point2D(0, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
 	GUI.pickFrame.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 10, 10), Point2D(TCODConsole::root->getWidth() / 2 + 10, TCODConsole::root->getHeight() - 20)));
+	GUI.statistics.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), 30 )));
+	GUI.inspection.resize(Rectangle(Point2D(0, 0), Point2D(30, 30)));
 
 	// Player creation
-	playerHandler.playerCreature = Creature::newCreature(MAN);
+	playerHandler.playerCreature = Creature::newCreature(MAN, false);
 	playerHandler.playerCreature->name = "Player";
 	playerHandler.playerCreature->glyph.character = '@';
 	playerHandler.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
@@ -32,7 +34,7 @@ void Engine::start(){
 	// Quest
 	questHandler.addQuest(new TheGoblinKing());
 	questHandler.setCurrentQuest(questHandler.quests[0].get());
-	questHandler.generateNextPhase();
+	questHandler.toVillage();
 
 	// Main loop
 	while (!TCODConsole::isWindowClosed())
@@ -74,10 +76,10 @@ void Engine::updateSimulation(){
 	area.cleanDeadObjects();
 
 	if (playerHandler.playerCreature->isDead){
-		//Respawn in new area
-		playerHandler.playerCreature->health = 100;
+		//Respawn in village
+		playerHandler.playerCreature->health = playerHandler.playerCreature->healthMax;
 		playerHandler.playerCreature->isDead = false;
-		questHandler.generateNextPhase();
+		questHandler.toVillage();
 	}
 	camera.centerOn(playerHandler.playerCreature->location);
 }
@@ -90,7 +92,7 @@ void Engine::renderSimulation(){
 	//Render static objects in fov
 	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){		
 		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
-			if (area.bounds.contains(Point2D(x, y))){
+			if (area.bounds.inside(Point2D(x, y))){
 				if (playerHandler.playerCreature->inFov(x,y)){
 					area.staticObjects[x][y]->render(x - camera.location.x, y - camera.location.y);
 				}

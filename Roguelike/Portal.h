@@ -10,5 +10,5 @@ public:
 	Portal(std::string name, Glyph glyph) : StaticObject(name, glyph){};
 };
 
-const Portal FOREST_PORTAL = Portal("Exit", Glyph(TCODColor::lightGreen, LAND->glyph.bgColor, '>'));
-const Portal CAVE_PORTAL = Portal("Exit", Glyph(TCODColor::lightGrey, STONE_FLOOR->glyph.bgColor, '>'));
+const Portal FOREST_PORTAL = Portal("Forest entrance", Glyph(TCODColor::lightGreen, LAND->glyph.bgColor, '>'));
+const Portal CAVE_PORTAL = Portal("Cave entrance", Glyph(TCODColor::lightGrey, STONE_WALL_FLOOR->glyph.bgColor, '>'));

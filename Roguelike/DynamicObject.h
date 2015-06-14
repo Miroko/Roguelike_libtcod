@@ -24,6 +24,7 @@ public:
 	virtual bool isBlockedBy(DynamicObject &object);
 
 	//Stats
+	int healthMax;
 	int health;
 
 	virtual void onTakeDamage(int amount);
@@ -36,5 +37,5 @@ public:
 	virtual void update(){};
 
 	DynamicObject(Glyph glyph, std::string name, Size size, int health, const Loot &loot) :
-		GameObject(glyph, name), size(size), health(health), loot(loot){};
+		GameObject(glyph, name), size(size), health(health), healthMax(health), loot(loot){};
 };

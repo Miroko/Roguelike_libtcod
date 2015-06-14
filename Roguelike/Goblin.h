@@ -7,5 +7,5 @@ public:
 	Goblin() : Race("Goblins"){};
 };
 
-const Loot GOBLIN_LOOT = Loot(std::vector<Weapon>({ DAGGER }));
+const Loot GOBLIN_LOOT = Loot(std::vector<std::shared_ptr<Weapon>>({ DAGGER }));
 const Creature GOBLIN = Creature('g', "Goblin", DynamicObject::MEDIUM, 10, TCODColor::lightChartreuse, COMMON, GOBLIN_LOOT);

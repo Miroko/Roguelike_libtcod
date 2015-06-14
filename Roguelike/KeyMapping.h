@@ -11,6 +11,7 @@ public:
 };
 
 const char KEY_LOG = 'L';
+const char KEY_STATISTICS = 's';
 const char KEY_QUEST = 'q';
 const char KEY_INVENTORY = 'i';
 const char KEY_EQUIPMENT = 'e';

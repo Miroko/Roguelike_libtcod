@@ -12,7 +12,15 @@ void QuestHandler::setCurrentQuest(Quest *quest){
 
 void QuestHandler::generateNextPhase(){
 	currentQuest->getNextPhase()->generateArea(Engine::area);
-	// Place player at center
+
+	Engine::area.placeAliveObject(Engine::playerHandler.playerCreature, Engine::area.bounds.getCenterPoint());
+	Engine::camera.centerOn(Engine::playerHandler.playerCreature->location);
+}
+
+void QuestHandler::toVillage(){
+	currentQuest->currentPhase = currentQuest->getVillage();
+	currentQuest->currentPhase->generateArea(Engine::area);
+
 	Engine::area.placeAliveObject(Engine::playerHandler.playerCreature, Engine::area.bounds.getCenterPoint());
 	Engine::camera.centerOn(Engine::playerHandler.playerCreature->location);
 }

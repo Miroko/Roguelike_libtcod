@@ -19,7 +19,7 @@ void Area::placePortal(std::shared_ptr<Portal> &portal, Point2D &location){
 	while (true){
 		for (placementLocation.x = location.x - offset; placementLocation.x < location.x + offset; placementLocation.x++){
 			for (placementLocation.y = location.y - offset; placementLocation.y < location.y + offset; placementLocation.y++){
-				if (bounds.contains(placementLocation)){
+				if (bounds.inside(placementLocation)){
 					if (!staticObjects[placementLocation.x][placementLocation.y]->raised){
 						portal->location = placementLocation;
 						portals.push_back(portal);
@@ -70,7 +70,7 @@ bool Area::placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &l
 }
 
 bool Area::moveDynamicObject(DynamicObject &dynamicObject, Point2D &toLocation){
-	if (bounds.contains(toLocation)){
+	if (bounds.inside(toLocation)){
 		if (staticObjects[(int)toLocation.x][(int)toLocation.y]->passableBy(dynamicObject) == false) {
 			return false;
 		}

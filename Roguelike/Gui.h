@@ -6,6 +6,7 @@
 #include "QuestFrame.h"
 #include "ItemPickFrame.h"
 #include "InspectionFrame.h"
+#include "StatisticsFrame.h"
 #include "KeyMapping.h"
 
 class Gui
@@ -17,8 +18,8 @@ public:
 	QuestFrame quest = QuestFrame("Quest", KEY_QUEST, true, 1.0, 1.0);
 	HelpFrame help = HelpFrame("Help", KEY_HELP, false, 1.0, 1.0);
 	InspectionFrame inspection = InspectionFrame("", KEY_INSPECT, false, 1.0, 1.0);
-
 	ItemPickFrame pickFrame = ItemPickFrame("Items", UNDEFINED, false, 1.0, 1.0);
+	StatisticsFrame statistics = StatisticsFrame("Statistics", KEY_STATISTICS, true, 1.0, 1.0);
 	
 	void render(float elapsed);
 	bool handleKey(TCOD_key_t key);

@@ -6,8 +6,8 @@ class Item : public GameObject
 {
 public:
 
-	template <typename T> static std::shared_ptr<T> newItem(const T &itemTemplate){
-		return std::shared_ptr<T>(new T(itemTemplate));
+	template <typename T> static std::shared_ptr<T> newItem(const std::shared_ptr<T> &itemTemplate){
+		return std::shared_ptr<T>(new T(*itemTemplate));
 	}
 
 	Point2D location;

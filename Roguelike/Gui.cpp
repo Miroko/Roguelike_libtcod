@@ -9,11 +9,13 @@ bool Gui::handleKey(TCOD_key_t key){
 	if (log.handleKey(key)) handled = true;
 	if (pickFrame.handleKey(key)) handled = true;
 	if (inspection.handleKey(key)) handled = true;
+	if (statistics.handleKey(key)) handled = true;
 	return handled;
 }
 
 void Gui::render(float elapsed){
 	if (log.isOpen) log.render(elapsed);
+	if (statistics.isOpen) statistics.render(elapsed);
 	if (inspection.isOpen) inspection.render(elapsed);
 	if (inventory.isOpen) inventory.render(elapsed);
 	if (equipment.isOpen) equipment.render(elapsed);

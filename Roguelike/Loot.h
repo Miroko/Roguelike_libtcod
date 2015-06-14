@@ -1,11 +1,12 @@
 #pragma once
 #include "Weapon.h"
 #include <vector>
+#include <memory>
 class Loot
 {
 public:
-	std::vector<Weapon> weapons;
+	std::vector<std::shared_ptr<Weapon>> weapons;
 
-	Loot(std::vector<Weapon> weapons) : weapons(weapons){};
+	Loot(std::vector<std::shared_ptr<Weapon>> weapons) : weapons(weapons){};
 };
 

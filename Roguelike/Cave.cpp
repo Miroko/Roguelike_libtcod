@@ -1,7 +1,7 @@
 #include "Cave.h"
 #include "Direction.h"
 
-Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance, int roomSize) : Area(size, STONE){
+Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance, int roomSize) : Area(size, STONE_WALL){
 	int corridors = bounds.getSize() * corridorsPerTile;
 	Point2D nextPoint = bounds.getCenterPoint();
 	Point2D previousDirection;
@@ -12,7 +12,7 @@ Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance,
 		int currentCorridorSize = corridorSize;
 		while (currentCorridorSize > 0){
 			//Place corridor			
-			setStaticObject(STONE_FLOOR, nextPoint);
+			setStaticObject(STONE_WALL_FLOOR, nextPoint);
 			
 			//Place room
 			if (Random::generator.getFloat(0.0, 1.0) <= roomChance){
@@ -23,18 +23,18 @@ Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance,
 						for (int y = roomBounds.start.y; y <= roomBounds.end.y; y++){
 							roomPoint.x = x;
 							roomPoint.y = y;
-							if (bounds.contains(roomPoint)){
-								setStaticObject(STONE_FLOOR, roomPoint);
+							if (bounds.inside(roomPoint)){
+								setStaticObject(STONE_WALL_FLOOR, roomPoint);
 							}
 						}
 					}
 			}
 			//Next point
 			Point2D newNextPoint = nextPoint + newDirection;
-			if (!bounds.contains(newNextPoint)){
+			if (!bounds.inside(newNextPoint)){
 				for (Point2D direction : DIRECTIONS){
 					newNextPoint = nextPoint + direction;
-					if (bounds.contains(newNextPoint)){
+					if (bounds.inside(newNextPoint)){
 						break;
 					}
 				}

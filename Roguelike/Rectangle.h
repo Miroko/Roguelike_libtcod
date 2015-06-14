@@ -1,5 +1,6 @@
 #pragma once
 #include "Point2D.h"
+#include <vector>
 class Rectangle
 {
 public:
@@ -10,9 +11,12 @@ public:
 	int getHeight();
 	int getSize();
 	Point2D getCenterPoint();
+	bool inside(Point2D point);
 	bool contains(Point2D point);
 
-	Rectangle(Point2D start, Point2D end) : start(start), end(end) {}
+	std::vector<Point2D> getPoints();
+
+	Rectangle(Point2D start, Point2D end);
 	Rectangle(){};
 };
 

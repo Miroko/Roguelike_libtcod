@@ -9,6 +9,7 @@ public:
 	void addQuest(Quest *quest);
 	void setCurrentQuest(Quest *quest);
 	void generateNextPhase();
+	void toVillage();
 	void update();
 
 	QuestHandler(){};

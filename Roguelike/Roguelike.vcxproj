@@ -16,6 +16,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cave.cpp" />
     <ClCompile Include="InspectionFrame.cpp" />
+    <ClCompile Include="StatisticsFrame.cpp" />
     <ClCompile Include="TheGoblinKing.cpp" />
     <ClCompile Include="Consumable.cpp" />
     <ClCompile Include="Creature.cpp" />
@@ -53,6 +54,7 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="SelectableItemFrame.cpp" />
     <ClCompile Include="StaticObject.cpp" />
+    <ClCompile Include="Village.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +63,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cave.h" />
     <ClInclude Include="InspectionFrame.h" />
+    <ClInclude Include="StatisticsFrame.h" />
     <ClInclude Include="TheGoblinKing.h" />
     <ClInclude Include="Consumable.h" />
     <ClInclude Include="Creature.h" />
@@ -97,6 +100,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="SelectableItemFrame.h" />
     <ClInclude Include="StaticObject.h" />
+    <ClInclude Include="Village.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
