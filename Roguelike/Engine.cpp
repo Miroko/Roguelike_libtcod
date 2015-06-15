@@ -4,7 +4,7 @@
 
 Gui Engine::GUI = Gui();
 Camera Engine::camera = Camera();
-PlayerHandler Engine::playerHandler = PlayerHandler();
+PlayerController Engine::playerController = PlayerController();
 QuestHandler Engine::questHandler = QuestHandler();
 Area Engine::area = Area();
 
@@ -22,14 +22,16 @@ void Engine::start(){
 	GUI.inspection.resize(Rectangle(Point2D(0, 0), Point2D(30, 30)));
 
 	// Player creation
-	playerHandler.playerCreature = Creature::newCreature(MAN, false);
-	playerHandler.playerCreature->name = "Player";
-	playerHandler.playerCreature->glyph.character = '@';
-	playerHandler.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
+	playerController.playerCreature = Creature::newCreature(MAN, false);
+	playerController.playerCreature->name = "Player";
+	playerController.playerCreature->glyph.character = '@';
+	playerController.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
 	//Inventory
-	std::shared_ptr<Item> i = Item::newItem(SWORD);
-	GUI.inventory.addItem(i);
-	GUI.inventory.equip(i);
+	std::shared_ptr<Item> sword = Item::newItem(SWORD);
+	std::shared_ptr<Item> healthPotion = Item::newItem(HEALTH_POTION);
+	GUI.inventory.addItem(healthPotion);
+	GUI.inventory.addItem(sword);
+	GUI.inventory.equip(sword);
 	
 	// Quest
 	questHandler.addQuest(new TheGoblinKing());
@@ -60,7 +62,7 @@ bool Engine::handleInput(TCOD_key_t key){
 		if (GUI.handleKey(key)) return false;
 
 		//Handle input in player controls
-		bool playerControls = playerHandler.handleKey(key);
+		bool playerControls = playerController.handleKey(key);
 		if (!requireUpdate) requireUpdate = playerControls;
 	}
 	return requireUpdate;
@@ -75,13 +77,13 @@ void Engine::updateSimulation(){
 
 	area.cleanDeadObjects();
 
-	if (playerHandler.playerCreature->isDead){
+	if (playerController.playerCreature->isDead){
 		//Respawn in village
-		playerHandler.playerCreature->health = playerHandler.playerCreature->healthMax;
-		playerHandler.playerCreature->isDead = false;
+		playerController.playerCreature->health = playerController.playerCreature->healthMax;
+		playerController.playerCreature->isDead = false;
 		questHandler.toVillage();
 	}
-	camera.centerOn(playerHandler.playerCreature->location);
+	camera.centerOn(playerController.playerCreature->location);
 }
 
 void Engine::renderRealTime(float elapsed){
@@ -93,7 +95,7 @@ void Engine::renderSimulation(){
 	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){		
 		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
 			if (area.bounds.inside(Point2D(x, y))){
-				if (playerHandler.playerCreature->inFov(x,y)){
+				if (playerController.playerCreature->inFov(x,y)){
 					area.staticObjects[x][y]->render(x - camera.location.x, y - camera.location.y);
 				}
 			}
@@ -103,7 +105,7 @@ void Engine::renderSimulation(){
 	for (auto &item : area.items){
 		int renderX = item->location.x - camera.location.x;
 		int renderY = item->location.y - camera.location.y;
-		if (playerHandler.playerCreature->inFov(item->location.x, item->location.y)){
+		if (playerController.playerCreature->inFov(item->location.x, item->location.y)){
 			item->render(renderX, renderY);
 		}
 	}
@@ -112,7 +114,7 @@ void Engine::renderSimulation(){
 	for (auto &dynamicObject : area.dynamicObjects){
 		int renderX = dynamicObject->location.x - camera.location.x;
 		int renderY = dynamicObject->location.y - camera.location.y;
-		if (playerHandler.playerCreature->inFov(dynamicObject->location.x, dynamicObject->location.y)){
+		if (playerController.playerCreature->inFov(dynamicObject->location.x, dynamicObject->location.y)){
 			dynamicObject->render(renderX, renderY);
 		}
 	}

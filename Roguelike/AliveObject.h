@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include "DynamicObject.h"
 #include "Weapon.h"
+#include "AliveObjectEffect.h"
+#include "PointerContainer.h"
+#include "Consumable.h"
 #include <memory>
 
 class AliveObject : public DynamicObject
@@ -22,19 +25,24 @@ public:
 	};
 	void createPathMap();
 	void calculatePath(int toX, int toY);
-
+	
 	//Equipment
 	Weapon *weapon = nullptr;
 	void equip(Item *equipment);
+
+	//Effects
+	PointerContainer<AliveObjectEffect> effects;
+	void addEffect(std::shared_ptr<AliveObjectEffect> effect);
+	void consume(std::shared_ptr<Item> consumable);
 
 	//Attack
 	DynamicObject *target = nullptr;
 	void setTarget(DynamicObject *target);
 	bool moveTowardsTarget();
-	void attack(DynamicObject &target);
+	void damage(DynamicObject &target);
 
 	void update();
 
 	AliveObject(Glyph glyph, std::string name, Size size, int health, const Loot &loot) :
-		DynamicObject(glyph, name, size, health, loot){};
+		DynamicObject(glyph, name, size, true, health, loot){};
 };

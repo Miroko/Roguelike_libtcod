@@ -12,12 +12,22 @@ void AliveObject::createFovMap(){
 	for (int x = startX; x < endX; x++){
 		for (int y = startY; y < endY; y++){		
 			fovMap->setProperties(x, y,
-				Engine::area.staticObjects[x][y]->transparent, Engine::area.staticObjects[x][y]->passableBy(*this));
+				Engine::area.staticObjects[x][y]->transparent, Engine::area.staticObjects[x][y]->passable());
 		}
 	}
 }
 
 void AliveObject::calculateFov(){
+	//Update fov map
+	for (auto &o : Engine::area.dynamicObjects){
+		if (o->isDead) fovMap->setProperties(o->location.x, o->location.y,
+			Engine::area.staticObjects[o->location.x][o->location.y]->transparent,
+			Engine::area.staticObjects[o->location.x][o->location.y]->passable());
+		else{
+			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable());
+		}
+	}
+	//Compute
 	fovMap->computeFov(location.x, location.y, FOV_RADIUS_MAX, true, FOV_RESTRICTIVE);
 }
 
@@ -27,13 +37,13 @@ bool AliveObject::inFov(int x, int y){
 
 float AliveObject::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
 	AliveObject thisObject = *static_cast<AliveObject*>(userData);
-	if (Engine::area.staticObjects[xTo][yTo]->passableBy(thisObject) == false) return 0;
+	if (Engine::area.staticObjects[xTo][yTo]->passable() == false) return 0;
 
 	for (auto &o : Engine::area.dynamicObjects){
 		if (o->isDead) continue;
 
 		if (o->location.x == xTo && o->location.y == yTo){
-			if (thisObject.isBlockedBy(*o)){				
+			if (!thisObject.passable()){
 				if (o.get() == thisObject.target){
 					// Computing path to target
 					return 1;
@@ -97,7 +107,7 @@ bool AliveObject::moveTowardsTarget(){
 	return false;
 }
 
-void AliveObject::attack(DynamicObject &target){
+void AliveObject::damage(DynamicObject &target){
 	if (!target.isDead && weapon != nullptr){
 		Engine::GUI.log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
 		target.onTakeDamage(weapon->damage);
@@ -105,12 +115,24 @@ void AliveObject::attack(DynamicObject &target){
 }
 
 void AliveObject::update(){
+	//Effects
+	auto &effect = effects.items.begin();
+	while (effect != effects.items.end()){
+		if (effect->get()->duration <= 0){
+			effect = effects.items.erase(effect);
+		}
+		else{
+			effect->get()->duration--;
+			effect->get()->update(*this);
+			++effect;
+		}
+	}
 	calculateFov();
-	if (target != nullptr){		
+	if (target != nullptr){
 		if (moveTowardsTarget()){
-			attack(*target);
-		}		
-	}	
+			damage(*target);
+		}
+	}
 }
 
 void AliveObject::equip(Item *equipment){
@@ -118,4 +140,15 @@ void AliveObject::equip(Item *equipment){
 	case Equipment::WEAPON: weapon = static_cast<Weapon*>(equipment);
 	default: break;
 	}
+}
+
+void AliveObject::consume(std::shared_ptr<Item> consumable){
+	Consumable *c = static_cast<Consumable*>(consumable.get());
+	for (auto &effect : c->effects){
+		addEffect(effect);
+	}
+}
+
+void AliveObject::addEffect(std::shared_ptr<AliveObjectEffect> effect){
+	effects.add(effect);
 }

@@ -10,7 +10,7 @@ void EquipmentFrame::unequip(std::shared_ptr<Item> &item){
 		if (weapon != nullptr){			
 			Engine::GUI.inventory.addItem(weapon);			
 			removeItem(weapon);
-			Engine::playerHandler.playerCreature->weapon = nullptr;
+			Engine::playerController.playerCreature->weapon = nullptr;
 			weapon = nullptr;
 		}
 	}	
@@ -21,7 +21,7 @@ void EquipmentFrame::equip(std::shared_ptr<Item> &item){
 
 	if (item->type == Item::WEAPON){
 		weapon = item;
-		Engine::playerHandler.playerCreature->equip(weapon.get());
+		Engine::playerController.playerCreature->equip(weapon.get());
 	}
 }
 

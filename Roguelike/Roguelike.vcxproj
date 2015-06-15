@@ -12,10 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AliveObject.cpp" />
+    <ClCompile Include="AliveObjectEffect.cpp" />
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cave.cpp" />
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="Heal.cpp" />
     <ClCompile Include="InspectionFrame.cpp" />
+    <ClCompile Include="OperatableObject.cpp" />
     <ClCompile Include="StatisticsFrame.cpp" />
     <ClCompile Include="TheGoblinKing.cpp" />
     <ClCompile Include="Consumable.cpp" />
@@ -39,7 +43,7 @@
     <ClCompile Include="LogFrame.cpp" />
     <ClCompile Include="Loot.cpp" />
     <ClCompile Include="Human.cpp" />
-    <ClCompile Include="PlayerHandler.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestFrame.cpp" />
@@ -59,10 +63,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AliveObject.h" />
+    <ClInclude Include="AliveObjectEffect.h" />
     <ClInclude Include="Area.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cave.h" />
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="Heal.h" />
     <ClInclude Include="InspectionFrame.h" />
+    <ClInclude Include="OperatableObject.h" />
     <ClInclude Include="StatisticsFrame.h" />
     <ClInclude Include="TheGoblinKing.h" />
     <ClInclude Include="Consumable.h" />
@@ -86,7 +94,7 @@
     <ClInclude Include="LogFrame.h" />
     <ClInclude Include="Loot.h" />
     <ClInclude Include="Human.h" />
-    <ClInclude Include="PlayerHandler.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestFrame.h" />

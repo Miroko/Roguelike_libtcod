@@ -6,8 +6,8 @@ void StatisticsFrame::render(float elapsed){
 
 	console->printRectEx(1, 2, console->getWidth() - 1, 1, TCOD_BKGND_NONE, TCOD_LEFT, "Health: ");
 
-	int healthCurrent = Engine::playerHandler.playerCreature->health;
-	int healthMax = Engine::playerHandler.playerCreature->healthMax;
+	int healthCurrent = Engine::playerController.playerCreature->health;
+	int healthMax = Engine::playerController.playerCreature->healthMax;
 	
 	float percentage = ((float)healthCurrent / (float)healthMax);
 	TCODColor healthColor = TCODColor::lerp(healthMinColor, healthMaxColor, percentage);

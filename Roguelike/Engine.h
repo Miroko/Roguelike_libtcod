@@ -1,6 +1,6 @@
 #pragma once
 #include "Camera.h"
-#include "PlayerHandler.h"
+#include "PlayerController.h"
 #include "QuestHandler.h"
 #include "Area.h"
 #include "human.h"
@@ -16,7 +16,7 @@ private:
 	bool handleInput(TCOD_key_t key);
 public:
 	static Camera camera;
-	static PlayerHandler playerHandler;
+	static PlayerController playerController;
 	static QuestHandler questHandler;
 	static Area area;
 

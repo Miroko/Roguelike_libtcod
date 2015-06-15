@@ -13,16 +13,16 @@ void QuestHandler::setCurrentQuest(Quest *quest){
 void QuestHandler::generateNextPhase(){
 	currentQuest->getNextPhase()->generateArea(Engine::area);
 
-	Engine::area.placeAliveObject(Engine::playerHandler.playerCreature, Engine::area.bounds.getCenterPoint());
-	Engine::camera.centerOn(Engine::playerHandler.playerCreature->location);
+	Engine::area.placeAliveObject(Engine::playerController.playerCreature, Engine::area.bounds.getCenterPoint());
+	Engine::camera.centerOn(Engine::playerController.playerCreature->location);
 }
 
 void QuestHandler::toVillage(){
 	currentQuest->currentPhase = currentQuest->getVillage();
 	currentQuest->currentPhase->generateArea(Engine::area);
 
-	Engine::area.placeAliveObject(Engine::playerHandler.playerCreature, Engine::area.bounds.getCenterPoint());
-	Engine::camera.centerOn(Engine::playerHandler.playerCreature->location);
+	Engine::area.placeAliveObject(Engine::playerController.playerCreature, Engine::area.bounds.getCenterPoint());
+	Engine::camera.centerOn(Engine::playerController.playerCreature->location);
 }
 
 void QuestHandler::update(){

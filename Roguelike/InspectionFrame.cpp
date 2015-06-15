@@ -27,7 +27,7 @@ void InspectionFrame::render(float elapsed){
 	Point2D pointInMap = inspectorLocation + Engine::camera.location;
 	GameObject *objectInCursor = nullptr;
 
-	if (Engine::playerHandler.playerCreature->inFov(pointInMap.x, pointInMap.y)){
+	if (Engine::playerController.playerCreature->inFov(pointInMap.x, pointInMap.y)){
 		GuiFrame::render(elapsed);
 
 		std::vector<DynamicObject*> dynamicObjects = Engine::area.getDynamicObjectsAt(pointInMap);

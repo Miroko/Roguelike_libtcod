@@ -8,3 +8,7 @@ std::string GameObject::getDescription(){
 	return name;
 }
 
+bool GameObject::passable(){
+	return false;
+}
+

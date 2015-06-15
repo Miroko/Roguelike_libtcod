@@ -13,7 +13,7 @@ void TheGoblinKing::WayToCave::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		area.placeAliveObject(creature, p);
-		creature->setTarget(Engine::playerHandler.playerCreature.get());
+		creature->setTarget(Engine::playerController.playerCreature.get());
 	}
 
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE); //Prefer min and max values
@@ -27,7 +27,7 @@ void TheGoblinKing::WayToCave::generateArea(Area &area){
 
 bool TheGoblinKing::WayToCave::winCondition(){
 	for (auto &portal : Engine::area.portals){
-		if (Engine::playerHandler.playerCreature->location == portal->location){
+		if (Engine::playerController.playerCreature->location == portal->location){
 			return true;
 		}
 	}
@@ -41,7 +41,7 @@ void TheGoblinKing::CaveEntrance::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		if (area.placeAliveObject(creature, p)){
-			creature->setTarget(Engine::playerHandler.playerCreature.get());
+			creature->setTarget(Engine::playerController.playerCreature.get());
 		}
 	}
 
@@ -56,7 +56,7 @@ void TheGoblinKing::CaveEntrance::generateArea(Area &area){
 
 bool TheGoblinKing::CaveEntrance::winCondition(){
 	for (auto &portal : Engine::area.portals){
-		if (Engine::playerHandler.playerCreature->location == portal->location){
+		if (Engine::playerController.playerCreature->location == portal->location){
 			return true;
 		}
 	}
@@ -70,7 +70,7 @@ void TheGoblinKing::InTheCave::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		if (area.placeAliveObject(creature, p)){
-			creature->setTarget(Engine::playerHandler.playerCreature.get());
+			creature->setTarget(Engine::playerController.playerCreature.get());
 		}
 	}	
 }
@@ -100,7 +100,7 @@ void TheGoblinKing::InVillage::generateArea(Area &area){
 
 bool TheGoblinKing::InVillage::winCondition(){
 	for (auto &portal : Engine::area.portals){
-		if (Engine::playerHandler.playerCreature->location == portal->location){
+		if (Engine::playerController.playerCreature->location == portal->location){
 			return true;
 		}
 	}

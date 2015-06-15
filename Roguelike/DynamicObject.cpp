@@ -1,13 +1,6 @@
 #include "DynamicObject.h"
 #include "Engine.h"
 
-bool DynamicObject::isBlockedBy(DynamicObject &object){
-	if (this->size == SMALL) return false;
-	else{
-		return true;
-	}
-}
-
 void DynamicObject::onTakeDamage(int amount){
 	Engine::GUI.log.addToMessage(name + " takes " + std::to_string(amount) + " damage. ");
 	health -= amount;

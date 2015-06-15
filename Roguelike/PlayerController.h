@@ -3,7 +3,7 @@
 #include "Quest.h"
 #include "Direction.h"
 #include <memory>
-class PlayerHandler
+class PlayerController
 {
 private:
 	//True if player moved or waited
@@ -16,12 +16,15 @@ private:
 	//True if picker opened
 	bool take();
 
+	//True if opened something
+	bool operate();
+
 public:
 	std::shared_ptr<AliveObject> playerCreature;
 
 	//True if simulation update needed
 	bool handleKey(TCOD_key_t key);
 
-	PlayerHandler(){};
+	PlayerController(){};
 };
 

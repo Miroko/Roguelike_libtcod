@@ -1,5 +1,5 @@
 #include "StaticObject.h"
 
-bool StaticObject::passableBy(DynamicObject &dynamicObject){
+bool StaticObject::passable(){
 	return !raised;
 }

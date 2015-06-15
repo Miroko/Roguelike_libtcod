@@ -1,12 +1,14 @@
-#include "PlayerHandler.h"
+#include "PlayerController.h"
 #include "Engine.h"
 #include "KeyMapping.h"
+#include "Door.h"
 
-bool PlayerHandler::handleKey(TCOD_key_t key){
+bool PlayerController::handleKey(TCOD_key_t key){
 	switch (key.c) {
 		case UNDEFINED : return move(key);
 		case KEY_ATTACK: return attack();
 		case KEY_TAKE: return take();
+		case KEY_OPERATE: return operate();
 		case KEY_LEAVE_AREA: Engine::questHandler.toVillage(); return false;
 		default:{
 			if (!Engine::GUI.log.isOpen) Engine::GUI.log.open();
@@ -15,7 +17,7 @@ bool PlayerHandler::handleKey(TCOD_key_t key){
 	}
 }
 
-bool PlayerHandler::move(TCOD_key_t key){
+bool PlayerController::move(TCOD_key_t key){
 	Point2D direction = KeyMapping::direction(key.vk);
 
 	if (direction.undefined()) return false;
@@ -23,7 +25,7 @@ bool PlayerHandler::move(TCOD_key_t key){
 	else return Engine::area.moveDynamicObject(*playerCreature, playerCreature->location + direction);
 }
 
-bool PlayerHandler::attack(){	
+bool PlayerController::attack(){	
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	TCOD_key_t key = TCODConsole::waitForKeypress(false); // Wait for attack direction
 
@@ -35,11 +37,11 @@ bool PlayerHandler::attack(){
 		std::vector<DynamicObject*> objectsToAttack;
 		objectsToAttack = Engine::area.getDynamicObjectsAt(playerCreature->location + direction);
 		if (objectsToAttack.empty()) return false;
-		else playerCreature->attack(*objectsToAttack.front()); return true; //Attack first at location
+		else playerCreature->damage(*objectsToAttack.front()); return true; //Attack first at location
 	}
 }
 
-bool PlayerHandler::take(){
+bool PlayerController::take(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	std::vector<std::shared_ptr<Item>> itemsToTake;
 	itemsToTake = Engine::area.getItemsAt(playerCreature->location);
@@ -51,4 +53,32 @@ bool PlayerHandler::take(){
 		Engine::GUI.pickFrame.open();
 		return true;
 	}
+}
+
+bool PlayerController::operate(){
+	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
+	TCOD_key_t key = TCODConsole::waitForKeypress(false);
+
+	Point2D direction = KeyMapping::direction(key.vk);
+
+	if (direction.undefined()) return false;
+	else if (direction == CENTER) return false;
+	else{
+		std::vector<DynamicObject*> dynamicObjects;
+		dynamicObjects = Engine::area.getDynamicObjectsAt(playerCreature->location + direction);
+		if (dynamicObjects.empty()) return false;
+		else if(dynamicObjects.size() == 1){ //No other dynamic objects blocking
+			OperatableObject *operatable = dynamic_cast<OperatableObject*>(dynamicObjects.front());		
+			if (operatable != nullptr){
+				if (operatable->isOn){
+					operatable->off();
+				}
+				else{
+					operatable->on();
+				}
+				return true;
+			}
+		}
+	}
+	return false;
 }

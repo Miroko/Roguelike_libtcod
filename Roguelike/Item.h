@@ -26,6 +26,6 @@ public:
 	bool operator==(const Item &item);
 
 	Item(Glyph glyph, std::string name, float weight, Type type)
-		: GameObject(glyph, name), weight(weight), type(type){};
+		: GameObject(glyph, name, true), weight(weight), type(type){};
 };
 

@@ -1,5 +1,5 @@
 #include "Village.h"
-
+#include "Door.h"
 
 Village::Village() : Area(100, LAND){
 	villageBounds = Rectangle(bounds);
@@ -60,5 +60,6 @@ Village::Village() : Area(100, LAND){
 		//Door
 		Point2D doorPoint = points.at(Random::generator.getInt(0, points.size() - 1));
 		setStaticObject(WOOD_FLOOR, doorPoint);
+		placeDynamicObject(OperatableObject::newOperatable(WOOD_DOOR), doorPoint);
 	}
 }

@@ -78,9 +78,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerHandler.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Point2D.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
@@ -168,10 +165,25 @@
     <ClCompile Include="InspectionFrame.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="StatisticsFrame.cpp">
+    <ClCompile Include="Village.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Village.cpp">
+    <ClCompile Include="StatisticsFrame.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AliveObjectEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Heal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OperatableObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -189,9 +201,6 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerHandler.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="StaticObject.h">
@@ -302,10 +311,25 @@
     <ClInclude Include="InspectionFrame.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="StatisticsFrame.h">
+    <ClInclude Include="Village.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Village.h">
+    <ClInclude Include="StatisticsFrame.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AliveObjectEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Heal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OperatableObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

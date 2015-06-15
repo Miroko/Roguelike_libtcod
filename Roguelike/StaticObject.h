@@ -7,12 +7,11 @@ class StaticObject : public GameObject
 {
 
 public:
-	bool transparent;
 	bool raised;
 
-	bool passableBy(DynamicObject &dynamicObject);
+	bool passable();
 
-	StaticObject(std::string name, Glyph glyph, bool raised = false, bool transparent = true) : raised(raised), transparent(transparent), GameObject(glyph, name){};
+	StaticObject(std::string name, Glyph glyph, bool raised = false, bool transparent = true) : raised(raised), GameObject(glyph, name, transparent){};
 	StaticObject(){};
 };
 
