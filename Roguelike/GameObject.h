@@ -3,7 +3,6 @@
 #include "Point2D.h"
 #include "Glyph.h"
 #include <string>
-class DynamicObject;
 class GameObject
 {
 private:

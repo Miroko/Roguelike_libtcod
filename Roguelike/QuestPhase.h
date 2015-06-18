@@ -1,6 +1,8 @@
 #pragma once
 #include "Area.h"
 #include <string>
+#include <vector>
+#include <memory>
 class QuestPhase
 {
 public:

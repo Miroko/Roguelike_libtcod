@@ -1,11 +1,10 @@
 #pragma once
-#include "Race.h"
 #include "Creature.h"
 
-class Goblin : public Race{
+class Goblin : public Creature{
 public:
-	Goblin() : Race("Goblins"){};
+	Goblin(std::string name, const TCODColor color, int health, const RarityType &rarity, const Loot &loot) : Creature('g', name, MEDIUM, health, color, rarity, loot){};
 };
 
 const Loot GOBLIN_LOOT = Loot(std::vector<std::shared_ptr<Weapon>>({ DAGGER }));
-const Creature GOBLIN = Creature('g', "Goblin", DynamicObject::MEDIUM, 10, TCODColor::lightChartreuse, COMMON, GOBLIN_LOOT);
+const Goblin GOBLIN = Goblin("Goblin", TCODColor::lightChartreuse, 10, COMMON, GOBLIN_LOOT);

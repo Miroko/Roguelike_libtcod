@@ -30,9 +30,9 @@ void InspectionFrame::render(float elapsed){
 	if (Engine::playerController.playerCreature->inFov(pointInMap.x, pointInMap.y)){
 		GuiFrame::render(elapsed);
 
-		std::vector<DynamicObject*> dynamicObjects = Engine::area.getDynamicObjectsAt(pointInMap);
+		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects = Engine::area.getDynamicObjectsAt(pointInMap);
 		if (!dynamicObjects.empty()){
-			objectInCursor = dynamicObjects[0];
+			objectInCursor = dynamicObjects.at(0).get();
 		}
 		else{
 			std::vector<std::shared_ptr<Item>> items = Engine::area.getItemsAt(pointInMap);

@@ -6,6 +6,8 @@
 class PlayerController
 {
 private:
+	//if true takes turn
+
 	//True if player moved or waited
 	bool move(TCOD_key_t key);
 
@@ -18,6 +20,8 @@ private:
 
 	//True if opened something
 	bool operate();
+
+	bool talk();
 
 public:
 	std::shared_ptr<AliveObject> playerCreature;

@@ -80,9 +80,12 @@ void SelectableItemFrame::addItem(std::shared_ptr<Item> &item){
 
 void SelectableItemFrame::removeItem(std::shared_ptr<Item> &item){
 	items.remove(*item);
+	if (selectedRow > items.items.size() - 1) selectedRow--;
 	if (items.items.size() == 0) close();
-	else if (selectedRow > items.items.size() - 1) selectedRow--;
-	selectedOperation = 0;
+	else{
+		operations = getOperationsForItem(items.items.at(selectedRow));
+		selectedOperation = 0;
+	}
 }
 
 void SelectableItemFrame::removeAll(){

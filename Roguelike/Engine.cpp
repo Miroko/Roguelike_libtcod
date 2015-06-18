@@ -20,6 +20,7 @@ void Engine::start(){
 	GUI.pickFrame.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 10, 10), Point2D(TCODConsole::root->getWidth() / 2 + 10, TCODConsole::root->getHeight() - 20)));
 	GUI.statistics.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), 30 )));
 	GUI.inspection.resize(Rectangle(Point2D(0, 0), Point2D(30, 30)));
+	GUI.dialog.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 30, 1), Point2D(TCODConsole::root->getWidth() / 2 + 30, TCODConsole::root->getHeight() - 1)));
 
 	// Player creation
 	playerController.playerCreature = Creature::newCreature(MAN, false);

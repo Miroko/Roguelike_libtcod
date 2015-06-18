@@ -16,6 +16,9 @@
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cave.cpp" />
+    <ClCompile Include="Dialog.cpp" />
+    <ClCompile Include="DialogFrame.cpp" />
+    <ClCompile Include="DialogOption.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Heal.cpp" />
     <ClCompile Include="InspectionFrame.cpp" />
@@ -49,7 +52,6 @@
     <ClCompile Include="QuestFrame.cpp" />
     <ClCompile Include="QuestHandler.cpp" />
     <ClCompile Include="QuestPhase.cpp" />
-    <ClCompile Include="Race.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Glyph.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -67,6 +69,9 @@
     <ClInclude Include="Area.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cave.h" />
+    <ClInclude Include="Dialog.h" />
+    <ClInclude Include="DialogFrame.h" />
+    <ClInclude Include="DialogOption.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Heal.h" />
     <ClInclude Include="InspectionFrame.h" />
@@ -100,7 +105,6 @@
     <ClInclude Include="QuestFrame.h" />
     <ClInclude Include="QuestHandler.h" />
     <ClInclude Include="QuestPhase.h" />
-    <ClInclude Include="Race.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Glyph.h" />
     <ClInclude Include="Point2D.h" />

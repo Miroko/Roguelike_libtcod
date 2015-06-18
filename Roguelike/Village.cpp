@@ -1,5 +1,8 @@
 #include "Village.h"
 #include "Door.h"
+#include "Creature.h"
+#include "Human.h"
+#include "Engine.h"
 
 Village::Village() : Area(100, LAND){
 	villageBounds = Rectangle(bounds);
@@ -50,6 +53,16 @@ Village::Village() : Area(100, LAND){
 			for (int y = plot.start.y + 1; y < plot.end.y; y++){
 				setStaticObject(WOOD_FLOOR, Point2D(x, y));
 			}
+		}
+
+		//Villager
+		Rectangle villagerArea = Rectangle(Point2D(plot.start.x + 1, plot.start.y + 1),
+			                               Point2D(plot.end.x, plot.end.y));
+		int villagers = Random::generator.getInt(1, 3, 1);
+		for (int villager = villagers; villager > 0; villager--){
+			Point2D location = Random::point(villagerArea);
+			std::shared_ptr<Human> human = Creature::newCreature(MAN, false);
+			placeAliveObject(human, location);
 		}
 
 		//Wall

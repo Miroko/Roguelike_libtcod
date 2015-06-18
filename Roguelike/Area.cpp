@@ -88,11 +88,11 @@ bool Area::moveDynamicObject(DynamicObject &dynamicObject, Point2D &toLocation){
 	return false;
 }
 
-std::vector<DynamicObject*> Area::getDynamicObjectsAt(Point2D &location){
-	std::vector<DynamicObject*> objectsAtLocation;
+std::vector<std::shared_ptr<DynamicObject>> Area::getDynamicObjectsAt(Point2D &location){
+	std::vector<std::shared_ptr<DynamicObject>> objectsAtLocation;
 	for (auto &dynamicObject : dynamicObjects){
 		if (dynamicObject->location == location){
-			objectsAtLocation.push_back(dynamicObject.get());
+			objectsAtLocation.push_back(dynamicObject);
 		}
 	}
 	return objectsAtLocation;

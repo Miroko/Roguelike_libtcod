@@ -5,6 +5,9 @@
 #include "Cave.h"
 #include "Portal.h"
 #include "Village.h"
+#include "Human.h"
+
+bool TheGoblinKing::storyTold = false;
 
 void TheGoblinKing::WayToCave::generateArea(Area &area){
 	area = Forest(100, 10, 100);
@@ -126,4 +129,13 @@ std::shared_ptr<QuestPhase> TheGoblinKing::getNextPhase(){
 
 std::shared_ptr<QuestPhase> TheGoblinKing::getVillage(){
 	return std::shared_ptr<QuestPhase>(new InVillage());
+}
+
+std::shared_ptr<Dialog> TheGoblinKing::getDialog(std::shared_ptr<DynamicObject> &owner){
+	Human *human = dynamic_cast<Human*>(owner.get());
+	if (human != nullptr){
+		if (!storyTold) return std::shared_ptr<Dialog>(new DialogVillagerStory1(owner));
+		else return std::shared_ptr<Dialog>(new DialogVillagerTrade(owner));
+	}
+	else return Quest::getDialog(owner);
 }

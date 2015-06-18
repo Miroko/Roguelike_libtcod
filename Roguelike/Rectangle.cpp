@@ -1,9 +1,8 @@
 #include "Rectangle.h"
-#include <cmath>
 
 Rectangle::Rectangle(Point2D start, Point2D end) {
 	this->start = start;
-	this->end = end;	
+	this->end = end;
 }
 
 int Rectangle::getWidth(){

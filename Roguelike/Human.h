@@ -1,14 +1,13 @@
 #pragma once
-#include "Race.h"
 #include "Loot.h"
 #include "Creature.h"
 #include <memory>
 #include <vector>
 
-class Human : public Race{
+class Human : public Creature{
 	public:		
-		Human() : Race("Men"){};
+		Human(std::string name, const TCODColor color, int health, const RarityType &rarity, const Loot &loot) :Creature('h', name, MEDIUM, health, color, rarity, loot){};
 	};
 
 const Loot MAN_LOOT = Loot(std::vector<std::shared_ptr<Weapon>>({ SWORD }));
-const Creature MAN = Creature('h', "Man", DynamicObject::MEDIUM, 30, TCODColor::lightAmber, COMMON, MAN_LOOT);
+const Human MAN = Human("Man", TCODColor::lightestAmber, 30, COMMON, MAN_LOOT);
