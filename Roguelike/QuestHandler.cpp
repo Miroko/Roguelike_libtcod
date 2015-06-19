@@ -1,13 +1,10 @@
 #include "QuestHandler.h"
 #include "Engine.h"
 
-void QuestHandler::addQuest(Quest *quest){
-	quests.push_back(std::shared_ptr<Quest>(quest));
-	Engine::GUI.log.addMessage("Quest added: " + quest->name);
-}
-
-void QuestHandler::setCurrentQuest(Quest *quest){
+void QuestHandler::setCurrentQuest(std::shared_ptr<Quest> quest){
+	Random::reset();
 	currentQuest = quest;
+	Engine::GUI.log.addMessage("Quest added: " + quest->name);
 }
 
 void QuestHandler::generateNextPhase(){

@@ -8,3 +8,9 @@ bool Item::operator==(const Item &item){
 std::string Item::getDescription(){
 	return name;
 }
+
+int Item::getValue(){
+	int value = 0;
+	value += VALUE_PER_KG * weight;
+	return value;
+}

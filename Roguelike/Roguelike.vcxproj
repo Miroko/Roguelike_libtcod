@@ -60,6 +60,8 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="SelectableItemFrame.cpp" />
     <ClCompile Include="StaticObject.cpp" />
+    <ClCompile Include="TradeContainer.cpp" />
+    <ClCompile Include="TradeFrame.cpp" />
     <ClCompile Include="Village.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
@@ -112,6 +114,8 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="SelectableItemFrame.h" />
     <ClInclude Include="StaticObject.h" />
+    <ClInclude Include="TradeContainer.h" />
+    <ClInclude Include="TradeFrame.h" />
     <ClInclude Include="Village.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>

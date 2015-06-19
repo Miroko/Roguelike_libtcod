@@ -5,6 +5,8 @@
 #include "Weapon.h"
 #include <memory>
 
+const float MAX_WEIGHT = 5;
+
 class InventoryFrame : public SelectableItemFrame
 {
 private:
@@ -13,11 +15,17 @@ private:
 	const std::string DROP = "Drop";
 	const std::vector<std::string> EQUIPMENT_OPERATIONS = std::vector<std::string>({ EQUIP, DROP });
 	const std::vector<std::string> CONSUMABLE_OPERATIONS = std::vector<std::string>({ CONSUME, DROP });
+
 public:
+	int currency = 0;
+
+	float getCurrentWeight();
+
 	void equip(std::shared_ptr<Item> &item);
 	void consume(std::shared_ptr<Item> &item);
 	void drop(std::shared_ptr<Item> &item);
 
+	void render(float elapsed);
 	void SelectableItemFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &operation);
 	std::vector<std::string> SelectableItemFrame::getOperationsForItem(std::shared_ptr<Item> &item);
 

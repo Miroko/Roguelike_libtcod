@@ -21,6 +21,19 @@ public:
 			else ++currentItem;
 		}
 	}
+
+	bool PointerContainer<T>::contains(T &item){
+		auto currentItem = items.begin();
+		while (currentItem != items.end()){
+			if (currentItem->get() == &item){
+				return true;
+			}
+			else ++currentItem;
+		}
+		return false;
+	}
+
+	PointerContainer(std::vector<std::shared_ptr<T>> items) : items(items){};
 	PointerContainer(){};
 };
 

@@ -21,12 +21,14 @@ void Engine::start(){
 	GUI.statistics.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), 30 )));
 	GUI.inspection.resize(Rectangle(Point2D(0, 0), Point2D(30, 30)));
 	GUI.dialog.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 30, 1), Point2D(TCODConsole::root->getWidth() / 2 + 30, TCODConsole::root->getHeight() - 1)));
+	GUI.trade.resize(Rectangle(Point2D(0, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
 
 	// Player creation
 	playerController.playerCreature = Creature::newCreature(MAN, false);
 	playerController.playerCreature->name = "Player";
 	playerController.playerCreature->glyph.character = '@';
 	playerController.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
+
 	//Inventory
 	std::shared_ptr<Item> sword = Item::newItem(SWORD);
 	std::shared_ptr<Item> healthPotion = Item::newItem(HEALTH_POTION);
@@ -35,8 +37,7 @@ void Engine::start(){
 	GUI.inventory.equip(sword);
 	
 	// Quest
-	questHandler.addQuest(new TheGoblinKing());
-	questHandler.setCurrentQuest(questHandler.quests[0].get());
+	questHandler.setCurrentQuest(std::shared_ptr<Quest>(new TheGoblinKing()));
 	questHandler.toVillage();
 
 	// Main loop
@@ -48,7 +49,7 @@ void Engine::start(){
 			updateSimulation();
 			questHandler.update();
 		}
-		renderSimulation();
+
 		renderRealTime(TCODSystem::getLastFrameLength());
 		
 		TCODConsole::root->flush();
@@ -79,7 +80,8 @@ void Engine::updateSimulation(){
 	area.cleanDeadObjects();
 
 	if (playerController.playerCreature->isDead){
-		//Respawn in village
+		//Respawn in village, reset quest
+		questHandler.setCurrentQuest(std::shared_ptr<Quest>(new TheGoblinKing()));
 		playerController.playerCreature->health = playerController.playerCreature->healthMax;
 		playerController.playerCreature->isDead = false;
 		questHandler.toVillage();
@@ -88,6 +90,7 @@ void Engine::updateSimulation(){
 }
 
 void Engine::renderRealTime(float elapsed){
+	renderSimulation();
 	GUI.render(elapsed);
 }
 

@@ -10,6 +10,9 @@ public:
 
 	std::vector<std::shared_ptr<AliveObjectEffect>> effects;
 
+	std::string getDescription();
+	int getValue();
+
 	Consumable(std::string name, std::vector<std::shared_ptr<AliveObjectEffect>> effects, Glyph glyph, float weight)
 		: Item(glyph, name, weight, CONSUMABLE), effects(effects){};
 };

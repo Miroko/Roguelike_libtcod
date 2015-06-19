@@ -7,16 +7,17 @@
 
 class SelectableItemFrame : public GuiFrame
 {
-private:
+protected:
 	TCODColor selectionColor = TCODColor::lighterGreen;
 
-	PointerContainer<Item> items;
 	int selectedRow = 0;
 
 	std::vector<std::string> operations;
 	int selectedOperation = 0;
 
-public:	
+public:
+	PointerContainer<Item> items;
+
 	bool handleKey(TCOD_key_t key);
 	void GuiFrame::render(float elapsed);
 

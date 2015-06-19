@@ -2,6 +2,9 @@
 #include "GameObject.h"
 #include <memory>
 #include <string>
+
+const int VALUE_PER_KG = 1;
+
 class Item : public GameObject
 {
 public:
@@ -22,6 +25,7 @@ public:
 	float weight;
 
 	virtual std::string getDescription();
+	virtual int getValue();
 
 	bool operator==(const Item &item);
 

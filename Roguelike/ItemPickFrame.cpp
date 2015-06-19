@@ -2,9 +2,12 @@
 #include "Engine.h"
 
 bool ItemPickFrame::moveToInventory(std::shared_ptr<Item> &item){
-	Engine::area.removeItem(*item);
-	Engine::GUI.inventory.addItem(item);
-	removeItem(item);
+	if (Engine::GUI.inventory.getCurrentWeight() + item->weight > MAX_WEIGHT) Engine::GUI.log.addMessage("I need to drop something first.");
+	else{
+		Engine::area.removeItem(*item);
+		Engine::GUI.inventory.addItem(item);
+		removeItem(item);
+	}
 	return true;
 }
 

@@ -3,11 +3,9 @@
 class QuestHandler
 {
 public:
-	std::vector<std::shared_ptr<Quest>> quests;
-	Quest *currentQuest;
+	std::shared_ptr<Quest> currentQuest;
 
-	void addQuest(Quest *quest);
-	void setCurrentQuest(Quest *quest);
+	void setCurrentQuest(std::shared_ptr<Quest> quest);
 	void generateNextPhase();
 	void toVillage();
 	void update();

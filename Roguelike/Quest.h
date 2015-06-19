@@ -1,6 +1,7 @@
 #pragma once
 #include "QuestPhase.h"
 #include "Dialog.h"
+#include "TradeContainer.h"
 #include <memory>
 class Quest
 {
@@ -11,6 +12,7 @@ public:
 
 	virtual std::shared_ptr<QuestPhase> getNextPhase() = 0;
 	virtual std::shared_ptr<QuestPhase> getVillage() = 0;
+	virtual std::shared_ptr<TradeContainer> getTradeContainer(std::shared_ptr<DynamicObject> &owner) = 0;
 	virtual std::shared_ptr<Dialog> getDialog(std::shared_ptr<DynamicObject> &owner);
 	
 	Quest(std::string name) : name(name){};

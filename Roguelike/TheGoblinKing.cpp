@@ -9,6 +9,17 @@
 
 bool TheGoblinKing::storyTold = false;
 
+TheGoblinKing::TheGoblinKing() : Quest("The Goblin King"){
+	tradeContainerVillage = std::shared_ptr<TradeContainer>(new TradeContainer(
+		30,
+		std::vector<std::shared_ptr<Item>>({
+		Item::newItem(SWORD),
+		Item::newItem(HEALTH_POTION),
+		Item::newItem(HEALTH_POTION)
+	})));
+	storyTold = false;
+}
+
 void TheGoblinKing::WayToCave::generateArea(Area &area){
 	area = Forest(100, 10, 100);
 
@@ -138,4 +149,12 @@ std::shared_ptr<Dialog> TheGoblinKing::getDialog(std::shared_ptr<DynamicObject> 
 		else return std::shared_ptr<Dialog>(new DialogVillagerTrade(owner));
 	}
 	else return Quest::getDialog(owner);
+}
+
+std::shared_ptr<TradeContainer> TheGoblinKing::getTradeContainer(std::shared_ptr<DynamicObject> &owner){
+	Human *human = dynamic_cast<Human*>(owner.get());
+	if (human != nullptr){
+		return tradeContainerVillage;
+	}
+	else return nullptr;
 }

@@ -3,6 +3,7 @@
 
 class TheGoblinKing : public Quest{
 private:
+	//AREAS
 	class WayToCave : public QuestPhase{
 	public:
 		void QuestPhase::generateArea(Area &area);
@@ -27,9 +28,8 @@ private:
 		bool QuestPhase::winCondition();
 		InVillage() : QuestPhase(""){};
 	};
-
+	//DIALOG
 	static bool storyTold;
-
 	class DialogVillagerStory1 : public Dialog{
 		class OptionStory : public DialogOption{
 		public:
@@ -72,11 +72,14 @@ private:
 			std::shared_ptr<DialogOption>(new OptionTrade(owner))
 		})){};
 	};
+	//TRADE CONTAINERS
+	std::shared_ptr<TradeContainer> tradeContainerVillage;
 
 public:
 	std::shared_ptr<QuestPhase> Quest::getNextPhase();
 	std::shared_ptr<QuestPhase> Quest::getVillage();
 	std::shared_ptr<Dialog> getDialog(std::shared_ptr<DynamicObject> &owner);
+	std::shared_ptr<TradeContainer> getTradeContainer(std::shared_ptr<DynamicObject> &owner);
 
-	TheGoblinKing() : Quest("The Goblin King"){}
+	TheGoblinKing();
 };

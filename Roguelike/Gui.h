@@ -8,6 +8,7 @@
 #include "InspectionFrame.h"
 #include "StatisticsFrame.h"
 #include "DialogFrame.h"
+#include "TradeFrame.h"
 #include "KeyMapping.h"
 
 class Gui
@@ -22,6 +23,7 @@ public:
 	ItemPickFrame pickFrame = ItemPickFrame("Items", UNDEFINED, false, 1.0, 1.0);
 	StatisticsFrame statistics = StatisticsFrame("Statistics", KEY_STATISTICS, true, 1.0, 1.0);
 	DialogFrame dialog = DialogFrame("Dialog", UNDEFINED, false, 1.0, 1.0);
+	TradeFrame trade = TradeFrame("Trade", UNDEFINED, false, 1.0, 1.0);
 	
 	void render(float elapsed);
 	bool handleKey(TCOD_key_t key);
