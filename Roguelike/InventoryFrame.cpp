@@ -20,7 +20,11 @@ void InventoryFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &oper
 
 std::vector<std::string> InventoryFrame::getOperationsForItem(std::shared_ptr<Item> &item){
 	switch (item->type){
-	case Item::WEAPON: return EQUIPMENT_OPERATIONS;
+	case Item::WEAPON_MELEE: return EQUIPMENT_OPERATIONS;
+	case Item::ARMOR_HEAD: return EQUIPMENT_OPERATIONS;
+	case Item::ARMOR_BODY: return EQUIPMENT_OPERATIONS;
+	case Item::ARMOR_HAND: return EQUIPMENT_OPERATIONS;
+	case Item::ARMOR_LEG: return EQUIPMENT_OPERATIONS;
 	case Item::CONSUMABLE: return CONSUMABLE_OPERATIONS;
 	default: break;
 	}

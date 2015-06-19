@@ -16,7 +16,12 @@ public:
 	Point2D location;
 
 	enum Type{
-		WEAPON,
+		WEAPON_MELEE,
+		WEAPON_RANGED,
+		ARMOR_HEAD,
+		ARMOR_BODY,
+		ARMOR_HAND,
+		ARMOR_LEG,
 		CONSUMABLE
 	};
 	Type type;

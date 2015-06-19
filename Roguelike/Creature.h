@@ -10,7 +10,7 @@ public:
 	template <typename T> static std::shared_ptr<T> newCreature(const T &creatureTemplate, bool equip = true){
 		std::shared_ptr<T> creature = std::shared_ptr<T>(new T(creatureTemplate));
 		if (equip){
-			creature->equip(creature->loot.weapons.at(0).get());
+			creature->equip(creature->loot.weapons.at(0));
 		}
 		return creature;
 	}

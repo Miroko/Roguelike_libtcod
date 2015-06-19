@@ -2,13 +2,11 @@
 #include "Engine.h"
 
 void AliveObject::createFovMap(){
-	fovMap = std::shared_ptr<TCODMap>(new TCODMap(Engine::area.bounds.getWidth(), Engine::area.bounds.getHeight()));
-	
+	fovMap = std::shared_ptr<TCODMap>(new TCODMap(Engine::area.bounds.getWidth(), Engine::area.bounds.getHeight()));	
 	int startX = 0;
 	int startY = 0;
 	int endX = fovMap->getWidth();
-	int endY = fovMap->getHeight();
-	
+	int endY = fovMap->getHeight();	
 	for (int x = startX; x < endX; x++){
 		for (int y = startY; y < endY; y++){		
 			fovMap->setProperties(x, y,
@@ -44,7 +42,7 @@ float AliveObject::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, 
 
 		if (o->location.x == xTo && o->location.y == yTo){
 			if (!thisObject.passable()){
-				if (o.get() == thisObject.target){
+				if (o.get() == thisObject.target.get()){
 					// Computing path to target
 					return 1;
 				}
@@ -70,7 +68,7 @@ void AliveObject::calculatePath(int toX, int toY){
 	pathMap->compute(location.x, location.y, toX, toY);
 }
 
-void AliveObject::setTarget(DynamicObject *target){
+void AliveObject::setTarget(std::shared_ptr<DynamicObject> target){
 	this->target = target;
 }
 
@@ -107,11 +105,25 @@ bool AliveObject::moveTowardsTarget(){
 	return false;
 }
 
-void AliveObject::damage(DynamicObject &target){
-	if (!target.isDead && weapon != nullptr){
-		Engine::GUI.log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
-		target.onTakeDamage(weapon->damage);
+void AliveObject::damage(std::shared_ptr<DynamicObject> &target){
+	if (!target->isDead && weapon != nullptr){
+		Engine::GUI.log.addToMessage(name + " attacks " + target->name + " with " + weapon->name + ". ");	
+		target->onTakeDamage(weapon->damage);
 	}
+}
+
+void AliveObject::onTakeDamage(int amount){
+	int amountAfterDefence = amount;
+	int bodyPart = Random::generator.getInt(0, 3, 2);
+	switch (bodyPart){
+	case 3: if (armorHead != nullptr) amountAfterDefence -= Random::generator.getInt(0, armorHead->defence, armorHead->defence); Engine::GUI.log.addToMessage("Head is hit. "); break;
+	case 2: if (armorBody != nullptr) amountAfterDefence -= Random::generator.getInt(0, armorBody->defence, armorBody->defence); Engine::GUI.log.addToMessage("Body is hit. "); break;
+	case 1: if (armorHand != nullptr) amountAfterDefence -= Random::generator.getInt(0, armorHand->defence, armorHand->defence); Engine::GUI.log.addToMessage("Arm is hit. "); break;
+	case 0: if (armorLeg != nullptr) amountAfterDefence -= Random::generator.getInt(0, armorLeg->defence, armorLeg->defence); Engine::GUI.log.addToMessage("Leg is hit. "); break;
+	default: break;
+	}
+	if (amountAfterDefence < 0) amountAfterDefence = 0;
+	DynamicObject::onTakeDamage(amountAfterDefence);
 }
 
 void AliveObject::update(){
@@ -130,14 +142,18 @@ void AliveObject::update(){
 	calculateFov();
 	if (target != nullptr){
 		if (moveTowardsTarget()){
-			damage(*target);
+			damage(target);
 		}
 	}
 }
 
-void AliveObject::equip(Item *equipment){
+void AliveObject::equip(std::shared_ptr<Item> equipment){
 	switch (equipment->type){
-	case Equipment::WEAPON: weapon = static_cast<Weapon*>(equipment);
+	case Item::WEAPON_MELEE: weapon = std::dynamic_pointer_cast<Weapon>(equipment); break;
+	case Item::ARMOR_HEAD: armorHead = std::dynamic_pointer_cast<Armor>(equipment); break;
+	case Item::ARMOR_BODY: armorBody = std::dynamic_pointer_cast<Armor>(equipment); break;
+	case Item::ARMOR_HAND: armorHand = std::dynamic_pointer_cast<Armor>(equipment); break;
+	case Item::ARMOR_LEG: armorLeg = std::dynamic_pointer_cast<Armor>(equipment); break;
 	default: break;
 	}
 }

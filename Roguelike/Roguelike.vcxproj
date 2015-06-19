@@ -14,6 +14,7 @@
     <ClCompile Include="AliveObject.cpp" />
     <ClCompile Include="AliveObjectEffect.cpp" />
     <ClCompile Include="Area.cpp" />
+    <ClCompile Include="Armor.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cave.cpp" />
     <ClCompile Include="Dialog.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="AliveObject.h" />
     <ClInclude Include="AliveObjectEffect.h" />
     <ClInclude Include="Area.h" />
+    <ClInclude Include="Armor.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cave.h" />
     <ClInclude Include="Dialog.h" />

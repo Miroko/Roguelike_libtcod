@@ -31,10 +31,19 @@ void Engine::start(){
 
 	//Inventory
 	std::shared_ptr<Item> sword = Item::newItem(SWORD);
+	std::shared_ptr<Item> armorHead = Item::newItem(LEATHER_HEAD);
+	std::shared_ptr<Item> armorBody = Item::newItem(LEATHER_BODY);
+	std::shared_ptr<Item> armorHand = Item::newItem(LEATHER_HAND);
+	std::shared_ptr<Item> armorLeg = Item::newItem(LEATHER_LEG);
 	std::shared_ptr<Item> healthPotion = Item::newItem(HEALTH_POTION);
 	GUI.inventory.addItem(healthPotion);
 	GUI.inventory.addItem(sword);
+	GUI.inventory.addItem(armorBody);
 	GUI.inventory.equip(sword);
+	GUI.inventory.equip(armorHead);
+	GUI.inventory.equip(armorBody);
+	GUI.inventory.equip(armorHand);
+	GUI.inventory.equip(armorLeg);
 	
 	// Quest
 	questHandler.setCurrentQuest(std::shared_ptr<Quest>(new TheGoblinKing()));

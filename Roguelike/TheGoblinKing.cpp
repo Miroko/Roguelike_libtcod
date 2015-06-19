@@ -27,7 +27,7 @@ void TheGoblinKing::WayToCave::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		area.placeAliveObject(creature, p);
-		creature->setTarget(Engine::playerController.playerCreature.get());
+		creature->setTarget(Engine::playerController.playerCreature);
 	}
 
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE); //Prefer min and max values
@@ -55,7 +55,7 @@ void TheGoblinKing::CaveEntrance::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		if (area.placeAliveObject(creature, p)){
-			creature->setTarget(Engine::playerController.playerCreature.get());
+			creature->setTarget(Engine::playerController.playerCreature);
 		}
 	}
 
@@ -84,7 +84,7 @@ void TheGoblinKing::InTheCave::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
 		if (area.placeAliveObject(creature, p)){
-			creature->setTarget(Engine::playerController.playerCreature.get());
+			creature->setTarget(Engine::playerController.playerCreature);
 		}
 	}	
 }

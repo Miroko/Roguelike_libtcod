@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "DynamicObject.h"
 #include "Weapon.h"
+#include "Armor.h"
 #include "AliveObjectEffect.h"
 #include "PointerContainer.h"
 #include "Consumable.h"
@@ -27,8 +28,12 @@ public:
 	void calculatePath(int toX, int toY);
 	
 	//Equipment
-	Weapon *weapon = nullptr;
-	void equip(Item *equipment);
+	std::shared_ptr<Weapon> weapon = nullptr;
+	std::shared_ptr<Armor> armorHead = nullptr;
+	std::shared_ptr<Armor> armorBody = nullptr;
+	std::shared_ptr<Armor> armorHand = nullptr;
+	std::shared_ptr<Armor> armorLeg = nullptr;
+	void equip(std::shared_ptr<Item> equipment);
 
 	//Effects
 	PointerContainer<AliveObjectEffect> effects;
@@ -36,10 +41,12 @@ public:
 	void consume(std::shared_ptr<Item> consumable);
 
 	//Attack
-	DynamicObject *target = nullptr;
-	void setTarget(DynamicObject *target);
+	std::shared_ptr<DynamicObject> target = nullptr;
+	void setTarget(std::shared_ptr<DynamicObject> target);
 	bool moveTowardsTarget();
-	void damage(DynamicObject &target);
+	void damage(std::shared_ptr<DynamicObject> &target);
+
+	void onTakeDamage(int amount);
 
 	void update();
 

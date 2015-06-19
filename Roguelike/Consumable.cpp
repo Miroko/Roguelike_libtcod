@@ -1,7 +1,7 @@
 #include "Consumable.h"
 
 std::string Consumable::getDescription(){
-	return Item::getDescription() + " v:" + std::to_string(getValue()); 
+	return Item::getDescription() + " c:" + std::to_string(getValue()); 
 }
 
 int Consumable::getValue(){

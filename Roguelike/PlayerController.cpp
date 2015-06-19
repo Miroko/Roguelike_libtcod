@@ -38,7 +38,7 @@ bool PlayerController::attack(){
 		std::vector<std::shared_ptr<DynamicObject>> objectsToAttack;
 		objectsToAttack = Engine::area.getDynamicObjectsAt(playerCreature->location + direction);
 		if (objectsToAttack.empty()) return false;
-		else playerCreature->damage(*objectsToAttack.front()); return true; //Attack first at location
+		else playerCreature->damage(objectsToAttack.front()); return true; //Attack first at location
 	}
 }
 

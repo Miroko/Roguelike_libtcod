@@ -5,7 +5,7 @@
 #include "Weapon.h"
 #include <memory>
 
-const float MAX_WEIGHT = 5;
+const float MAX_WEIGHT = 50;
 
 class InventoryFrame : public SelectableItemFrame
 {
