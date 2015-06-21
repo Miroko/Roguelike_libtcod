@@ -18,8 +18,10 @@ public:
 	virtual void on();
 	virtual void off();
 
+	void messageDeath();
+
 	void render(int x, int y);
 
-	OperatableObject(Glyph onGlyph, Glyph offGlyph, std::string name, int health, const Loot &loot) :
+	OperatableObject(Glyph onGlyph, Glyph offGlyph, std::string name, int health, const LootContainer &loot) :
 		DynamicObject(offGlyph, name, LARGE, false, health, loot), onGlyph(onGlyph), offGlyph(offGlyph){};
 };

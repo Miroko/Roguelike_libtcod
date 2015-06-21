@@ -1,7 +1,7 @@
 #include "SelectableItemFrame.h"
 
-bool SelectableItemFrame::handleKey(TCOD_key_t key){
-	bool handled = GuiFrame::handleKey(key);
+bool SelectableItemFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
+	bool handled = GuiFrame::handleKey(key, requireUpdate);
 	if (isOpen){
 		Point2D direction;
 		if (!items.items.empty()){

@@ -61,7 +61,7 @@ Village::Village() : Area(100, LAND){
 		int villagers = Random::generator.getInt(1, 3, 1);
 		for (int villager = villagers; villager > 0; villager--){
 			Point2D location = Random::point(villagerArea);
-			std::shared_ptr<Human> human = Creature::newCreature(MAN, false);
+			std::shared_ptr<Human> human = Creature::newCreature(MAN, MAN_EQUIPMENT);
 			placeAliveObject(human, location);
 		}
 

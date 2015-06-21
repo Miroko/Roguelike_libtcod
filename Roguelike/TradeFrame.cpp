@@ -2,8 +2,9 @@
 #include "KeyMapping.h"
 #include "Direction.h"
 #include "Engine.h"
+#include "String.h"
 
-bool TradeFrame::handleKey(TCOD_key_t key){
+bool TradeFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	bool handled = false;
 	if (isOpen){
 		Point2D direction;		
@@ -80,7 +81,7 @@ void TradeFrame::render(float elapsed){
 	console->printFrame(1, 3, console->getWidth() / 3 - 2, 1, true);
 	console->printRectEx(2, 2, console->getWidth() / 3 , 1, TCOD_BKGND_NONE, TCOD_LEFT, (std::to_string(Engine::GUI.inventory.currency) + "c").c_str());
 	console->printRectEx(console->getWidth() / 3 - 3, 2, console->getWidth() / 3 - 2, 1, TCOD_BKGND_NONE, TCOD_RIGHT,
-		(std::to_string((int)Engine::GUI.inventory.getCurrentWeight()) + "/" + std::to_string((int)MAX_WEIGHT) + "kg").c_str());
+		(String::weight(Engine::GUI.inventory.getCurrentWeight()) + "/" + String::weight(MAX_WEIGHT) + "kg").c_str());
 
 	//Trader currency
 	console->printFrame(console->getWidth() + 1 - console->getWidth() / 3, 3, console->getWidth() / 3 - 2, 1, true);

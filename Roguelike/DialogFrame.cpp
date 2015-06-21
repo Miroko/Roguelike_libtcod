@@ -7,7 +7,7 @@ void DialogFrame::setDialog(std::shared_ptr<Dialog> dialog){
 	selectedOption = 0;
 }
 
-bool DialogFrame::handleKey(TCOD_key_t key){
+bool DialogFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	bool handled = false;
 	if (isOpen){
 		Point2D direction;

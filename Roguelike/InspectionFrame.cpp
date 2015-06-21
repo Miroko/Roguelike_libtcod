@@ -2,8 +2,8 @@
 #include "KeyMapping.h"
 #include "Engine.h"
 
-bool InspectionFrame::handleKey(TCOD_key_t key){
-	bool handled = GuiFrame::handleKey(key);
+bool InspectionFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
+	bool handled = GuiFrame::handleKey(key, requireUpdate);
 	if (isOpen){
 		Point2D direction = KeyMapping::direction(key.vk);
 		if (!direction.undefined()){
@@ -30,7 +30,7 @@ void InspectionFrame::render(float elapsed){
 	if (Engine::playerController.playerCreature->inFov(pointInMap.x, pointInMap.y)){
 		GuiFrame::render(elapsed);
 
-		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects = Engine::area.getDynamicObjectsAt(pointInMap);
+		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects = Engine::area.getDynamicObjects(pointInMap);
 		if (!dynamicObjects.empty()){
 			objectInCursor = dynamicObjects.at(0).get();
 		}

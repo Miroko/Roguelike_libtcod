@@ -1,6 +1,7 @@
 #include "PlayerController.h"
 #include "Engine.h"
 #include "KeyMapping.h"
+#include "Direction.h"
 #include "Door.h"
 
 bool PlayerController::handleKey(TCOD_key_t key){
@@ -22,24 +23,55 @@ bool PlayerController::move(TCOD_key_t key){
 	Point2D direction = KeyMapping::direction(key.vk);
 
 	if (direction.undefined()) return false;
-	else if (direction == CENTER) return true; //==Wait
+	else if (direction == CENTER) return wait();
 	else return Engine::area.moveDynamicObject(*playerCreature, playerCreature->location + direction);
+}
+
+bool PlayerController::wait(){
+	take();
+	return true;
 }
 
 bool PlayerController::attack(){	
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
-	TCOD_key_t key = TCODConsole::waitForKeypress(false); // Wait for attack direction
 
-	Point2D direction = KeyMapping::direction(key.vk);
-
-	if (direction.undefined()) return false;
-	else if (direction == CENTER) return false;
-	else{
-		std::vector<std::shared_ptr<DynamicObject>> objectsToAttack;
-		objectsToAttack = Engine::area.getDynamicObjectsAt(playerCreature->location + direction);
-		if (objectsToAttack.empty()) return false;
-		else playerCreature->damage(objectsToAttack.front()); return true; //Attack first at location
+	if (playerCreature->weapon != nullptr){
+		switch (playerCreature->weapon->type){
+		case Weapon::WEAPON_MELEE:{
+			TCOD_key_t key = TCODConsole::waitForKeypress(false); // Wait for attack direction
+			Point2D direction = KeyMapping::direction(key.vk);
+			if (direction.undefined()) return false;
+			else if (direction == CENTER) return false;
+			else{
+				std::vector<std::shared_ptr<DynamicObject>> objectsToAttack;
+				objectsToAttack = Engine::area.getDynamicObjects(playerCreature->location + direction);
+				if (objectsToAttack.empty()) return false;
+				else playerCreature->attackMelee(objectsToAttack.front()); return true; //Attack first at location
+			}
+		}break;
+		case Weapon::WEAPON_RANGED:{
+			Rectangle range = Rectangle(playerCreature->location, playerCreature->location);
+			range.expand(AliveObject::RANGED_SHOOT_DISTANCE_MAX);
+			std::vector<std::shared_ptr<DynamicObject>> objectsInRange = Engine::area.getDynamicObjects(range);
+			auto &o = objectsInRange.begin();
+			while (o != objectsInRange.end()){
+				if (o->get() == playerCreature.get() ||
+					!playerCreature->inFov(o->get()->location.x, o->get()->location.y)){
+					//Remove player and objects not in fov
+					o = objectsInRange.erase(o);					
+				}
+				else ++o;
+			}
+			if (objectsInRange.empty()) Engine::GUI.log.addMessage("Nothing to shoot at.");
+			else {
+				Engine::GUI.attack.setAttackableObjects(objectsInRange);
+				Engine::GUI.attack.open();
+			}
+		}break;
+		default: break;
+		}
 	}
+	return false;
 }
 
 bool PlayerController::take(){
@@ -66,7 +98,7 @@ bool PlayerController::operate(){
 	else if (direction == CENTER) return false;
 	else{
 		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects;
-		dynamicObjects = Engine::area.getDynamicObjectsAt(playerCreature->location + direction);
+		dynamicObjects = Engine::area.getDynamicObjects(playerCreature->location + direction);
 		if (dynamicObjects.empty()) return false;
 		else if(dynamicObjects.size() == 1){ //No other dynamic objects blocking
 			OperatableObject *operatableObject = dynamic_cast<OperatableObject*>(dynamicObjects.at(0).get());
@@ -94,7 +126,7 @@ bool PlayerController::talk(){
 	else if (direction == CENTER) return false;
 	else{
 		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects;
-		dynamicObjects = Engine::area.getDynamicObjectsAt(playerCreature->location + direction);
+		dynamicObjects = Engine::area.getDynamicObjects(playerCreature->location + direction);
 		if (dynamicObjects.empty()) return false;
 		else{
 			if (dynamicObjects.front() == nullptr) return false;

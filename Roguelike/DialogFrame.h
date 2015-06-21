@@ -10,7 +10,7 @@ private:
 public:
 	void setDialog(std::shared_ptr<Dialog> dialog);
 
-	bool handleKey(TCOD_key_t key);
+	bool handleKey(TCOD_key_t key, bool &requireUpdate);
 	void GuiFrame::render(float elapsed);
 
 	DialogFrame(std::string name, char controlKey, bool open, float alphaFg, float alphaBg) : GuiFrame(name, controlKey, open, alphaFg, alphaBg){};

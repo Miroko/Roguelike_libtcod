@@ -24,7 +24,7 @@ private:
 public:
 	void setTradeContainer(std::shared_ptr<TradeContainer> &tradeContainer);
 
-	bool handleKey(TCOD_key_t key);
+	bool handleKey(TCOD_key_t key, bool &requireUpdate);
 	void GuiFrame::render(float elapsed);
 	void onOpen();
 	void onClose();

@@ -1,12 +1,13 @@
 #pragma once
-#include "Weapon.h"
+#include "Item.h"
 #include <vector>
 #include <memory>
 class Loot
 {
 public:
-	std::vector<std::shared_ptr<Weapon>> weapons;
+	float dropChance;
+	const std::shared_ptr<Item> item;
 
-	Loot(std::vector<std::shared_ptr<Weapon>> weapons) : weapons(weapons){};
+	Loot(const std::shared_ptr<Item> &item, float dropChance) : item(item), dropChance(dropChance){};
 };
 

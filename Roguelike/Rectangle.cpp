@@ -1,4 +1,5 @@
 #include "Rectangle.h"
+#include "Direction.h"
 
 Rectangle::Rectangle(Point2D start, Point2D end) {
 	this->start = start;
@@ -54,4 +55,11 @@ std::vector<Point2D> Rectangle::getPoints(){
 	}
 
 	return points;
+}
+
+void Rectangle::expand(int amount){
+	start.x -= amount;
+	start.y -= amount;
+	end.x += amount;
+	end.y += amount;
 }

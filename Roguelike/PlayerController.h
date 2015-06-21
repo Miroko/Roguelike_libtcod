@@ -21,7 +21,11 @@ private:
 	//True if opened something
 	bool operate();
 
+	//False
 	bool talk();
+
+	//True
+	bool wait();
 
 public:
 	std::shared_ptr<AliveObject> playerCreature;

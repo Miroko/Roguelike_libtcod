@@ -6,7 +6,8 @@ void EquipmentFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &oper
 }
 
 void EquipmentFrame::unequip(std::shared_ptr<Item> &item){	
-	if (item->type == Item::WEAPON_MELEE){
+	if (item->type == Item::WEAPON_MELEE ||
+		item->type == Item::WEAPON_RANGED){
 		if (weapon != nullptr){			
 			Engine::GUI.inventory.addItem(weapon);			
 			removeItem(weapon);
@@ -51,7 +52,8 @@ void EquipmentFrame::unequip(std::shared_ptr<Item> &item){
 void EquipmentFrame::equip(std::shared_ptr<Item> &item){
 	addItem(item);
 
-	if (item->type == Item::WEAPON_MELEE){
+	if (item->type == Item::WEAPON_MELEE ||
+		item->type == Item::WEAPON_RANGED){
 		weapon = item;
 		Engine::playerController.playerCreature->equip(weapon);
 	}

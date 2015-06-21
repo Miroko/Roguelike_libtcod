@@ -1,7 +1,7 @@
 #include "LogFrame.h"
 
-bool LogFrame::handleKey(TCOD_key_t key){
-	return GuiFrame::handleKey(key);
+bool LogFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
+	return GuiFrame::handleKey(key, requireUpdate);
 }
 
 void LogFrame::render(float elapsed){

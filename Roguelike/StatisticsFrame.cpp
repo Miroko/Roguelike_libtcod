@@ -20,7 +20,7 @@ void StatisticsFrame::render(float elapsed){
 	blit();
 }
 
-bool StatisticsFrame::handleKey(TCOD_key_t key){
-	bool handled = GuiFrame::handleKey(key);
+bool StatisticsFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
+	bool handled = GuiFrame::handleKey(key, requireUpdate);
 	return handled;
 }

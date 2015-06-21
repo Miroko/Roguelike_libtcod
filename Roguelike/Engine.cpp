@@ -12,25 +12,38 @@ void Engine::start(){
 	TCODSystem::setFps(10);
 	TCODConsole::setKeyboardRepeat(100, 20);
 
-	GUI.log.resize(Rectangle(Point2D(0, TCODConsole::root->getHeight() - 12), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
-	GUI.inventory.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
-	GUI.equipment.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
-	GUI.quest.resize(Rectangle(Point2D(TCODConsole::root->getWidth()/2 - 30, 1), Point2D(TCODConsole::root->getWidth()/2 + 30, TCODConsole::root->getHeight()-1)));
-	GUI.help.resize(Rectangle(Point2D(0, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
-	GUI.pickFrame.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 10, 10), Point2D(TCODConsole::root->getWidth() / 2 + 10, TCODConsole::root->getHeight() - 20)));
-	GUI.statistics.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - 30, 0), Point2D(TCODConsole::root->getWidth(), 30 )));
-	GUI.inspection.resize(Rectangle(Point2D(0, 0), Point2D(30, 30)));
-	GUI.dialog.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 30, 1), Point2D(TCODConsole::root->getWidth() / 2 + 30, TCODConsole::root->getHeight() - 1)));
-	GUI.trade.resize(Rectangle(Point2D(0, 0), Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+	GUI.log.resize(Rectangle(Point2D(0, TCODConsole::root->getHeight() - 12),
+		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+	GUI.inventory.resize(Rectangle(Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth() / 2 - 10, TCODConsole::root->getHeight())));
+	GUI.equipment.resize(Rectangle(Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth() / 2 - 10, TCODConsole::root->getHeight())));
+	GUI.quest.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 7, TCODConsole::root->getHeight() / 9),
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 7, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 9)));
+	GUI.help.resize(Rectangle(Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+	GUI.pickFrame.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 3, TCODConsole::root->getHeight() / 3),
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 3, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 3)));
+	GUI.statistics.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, 0),
+		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getWidth() / 4 )));
+	GUI.inspection.resize(Rectangle(Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
+	GUI.attack.resize(Rectangle(Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
+	GUI.dialog.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 30, 2),
+		Point2D(TCODConsole::root->getWidth() / 2 + 30, TCODConsole::root->getHeight() - 2)));
+	GUI.trade.resize(Rectangle(Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
 
 	// Player creation
-	playerController.playerCreature = Creature::newCreature(MAN, false);
+	playerController.playerCreature = Creature::newCreature(MAN, EQUIPMENT_NONE);
 	playerController.playerCreature->name = "Player";
 	playerController.playerCreature->glyph.character = '@';
 	playerController.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
 
 	//Inventory
 	std::shared_ptr<Item> sword = Item::newItem(SWORD);
+	std::shared_ptr<Item> bow = Item::newItem(BOW);
 	std::shared_ptr<Item> armorHead = Item::newItem(LEATHER_HEAD);
 	std::shared_ptr<Item> armorBody = Item::newItem(LEATHER_BODY);
 	std::shared_ptr<Item> armorHand = Item::newItem(LEATHER_HAND);
@@ -38,12 +51,14 @@ void Engine::start(){
 	std::shared_ptr<Item> healthPotion = Item::newItem(HEALTH_POTION);
 	GUI.inventory.addItem(healthPotion);
 	GUI.inventory.addItem(sword);
+	GUI.inventory.addItem(bow);
 	GUI.inventory.addItem(armorBody);
 	GUI.inventory.equip(sword);
 	GUI.inventory.equip(armorHead);
 	GUI.inventory.equip(armorBody);
 	GUI.inventory.equip(armorHand);
 	GUI.inventory.equip(armorLeg);
+	GUI.inventory.equip(bow);
 	
 	// Quest
 	questHandler.setCurrentQuest(std::shared_ptr<Quest>(new TheGoblinKing()));
@@ -70,7 +85,7 @@ bool Engine::handleInput(TCOD_key_t key){
 	bool requireUpdate = false;
 	if (key.vk != TCODK_NONE){
 		//Input handled in gui
-		if (GUI.handleKey(key)) return false;
+		if (GUI.handleKey(key, requireUpdate)) return requireUpdate;
 
 		//Handle input in player controls
 		bool playerControls = playerController.handleKey(key);

@@ -25,7 +25,7 @@ void TheGoblinKing::WayToCave::generateArea(Area &area){
 
 	for (int creatures = 20; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
+		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
 		area.placeAliveObject(creature, p);
 		creature->setTarget(Engine::playerController.playerCreature);
 	}
@@ -53,7 +53,7 @@ void TheGoblinKing::CaveEntrance::generateArea(Area &area){
 
 	for (int creatures = 20; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
+		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
 		if (area.placeAliveObject(creature, p)){
 			creature->setTarget(Engine::playerController.playerCreature);
 		}
@@ -82,7 +82,7 @@ void TheGoblinKing::InTheCave::generateArea(Area &area){
 	
 	for (int creatures = 30; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN);
+		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
 		if (area.placeAliveObject(creature, p)){
 			creature->setTarget(Engine::playerController.playerCreature);
 		}

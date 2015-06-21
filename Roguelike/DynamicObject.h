@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Item.h"
-#include "Loot.h"
+#include "LootContainer.h"
 #include <memory>
 #include <vector>
 class DynamicObject : public GameObject
@@ -29,12 +29,12 @@ public:
 	virtual void onTakeDamage(int amount);
 	virtual void onDeath();
 
-	const Loot &loot;
+	virtual void messageDeath();
 
-	virtual std::vector<std::shared_ptr<Item>> generateLoot();
+	const LootContainer &loot;
 
 	virtual void update(){};
 
-	DynamicObject(Glyph glyph, std::string name, Size size, bool transparent, int health, const Loot &loot) :
+	DynamicObject(Glyph glyph, std::string name, Size size, bool transparent, int health, const LootContainer &loot) :
 		GameObject(glyph, name, transparent), size(size), health(health), healthMax(health), loot(loot){};
 };

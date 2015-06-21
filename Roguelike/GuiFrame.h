@@ -26,7 +26,7 @@ public:
 
 	void resize(Rectangle &bounds);
 	
-	virtual bool handleKey(TCOD_key_t key);
+	virtual bool handleKey(TCOD_key_t key, bool &requireUpdate);
 	virtual void render(float elapsed) = 0;
 	void blit(int fromX, int fromY, int width, int height, int toX, int toY, float alphaFg, float alphaBg);
 	void blit();

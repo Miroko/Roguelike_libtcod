@@ -28,6 +28,10 @@ Point2D& Point2D::operator-=(const Point2D &point){
 	return *this;
 }
 
+int Point2D::distance(Point2D &point){
+	return (int)sqrt((point.x - x) * (point.x - x) + (point.y - y) * (point.y - y));
+}
+
 bool Point2D::undefined(){
-	return x == FLT_MAX && y == FLT_MAX;
+	return x == INT_MAX && y == INT_MAX;
 }

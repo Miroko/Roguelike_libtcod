@@ -19,7 +19,7 @@ void GuiFrame::blit(){
 }
 
 //True if key handled
-bool GuiFrame::handleKey(TCOD_key_t key){
+bool GuiFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	if (controlKey != UNDEFINED){
 		if (key.c == controlKey){
 			if (isOpen) close();

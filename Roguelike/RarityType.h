@@ -10,9 +10,10 @@ public:
 
 	RarityType(std::string name, const TCODColor &color) : name(name), color(color){};
 };
-const RarityType COMMON = RarityType("Common", TCODColor::lightestCyan);
-const RarityType UNCOMMON = RarityType("Uncommon", TCODColor::lightestAzure);
-const RarityType RARE = RarityType("Rare", TCODColor::lightestPurple);
-const RarityType EPIC = RarityType("Epic", TCODColor::lightestGreen);
-const RarityType UNIQUE = RarityType("Unique", TCODColor::lightestAmber);
+
+const RarityType RARITY_COMMON = RarityType("Common", TCODColor::lightestCyan);
+const RarityType RARITY_UNCOMMON = RarityType("Uncommon", TCODColor::lightestAzure);
+const RarityType RARITY_RARE = RarityType("Rare", TCODColor::lightestPurple);
+const RarityType RARITY_EPIC = RarityType("Epic", TCODColor::lightestGreen);
+const RarityType RARITY_UNIQUE = RarityType("Unique", TCODColor::lightestAmber);
 

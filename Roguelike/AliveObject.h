@@ -12,7 +12,7 @@ class AliveObject : public DynamicObject
 	
 public:
 	//FOV
-	const int FOV_RADIUS_MAX = 0;
+	static const int FOV_RADIUS_MAX = 0;
 	std::shared_ptr<TCODMap> fovMap;
 	void createFovMap();
 	void calculateFov();
@@ -26,7 +26,6 @@ public:
 	};
 	void createPathMap();
 	void calculatePath(int toX, int toY);
-	
 	//Equipment
 	std::shared_ptr<Weapon> weapon = nullptr;
 	std::shared_ptr<Armor> armorHead = nullptr;
@@ -39,17 +38,22 @@ public:
 	PointerContainer<AliveObjectEffect> effects;
 	void addEffect(std::shared_ptr<AliveObjectEffect> effect);
 	void consume(std::shared_ptr<Item> consumable);
-
-	//Attack
+	
+	//Combat
+	static const int RANGED_SHOOT_DISTANCE_MAX = 4;
 	std::shared_ptr<DynamicObject> target = nullptr;
 	void setTarget(std::shared_ptr<DynamicObject> target);
-	bool moveTowardsTarget();
 	void damage(std::shared_ptr<DynamicObject> &target);
+	void attackMelee(std::shared_ptr<DynamicObject> &target);
+	void attackRanged(std::shared_ptr<DynamicObject> &target);
+	bool moveOnPath();
+	bool targetInFov();
+	void calculatePathToTarget();
 
 	void onTakeDamage(int amount);
 
 	void update();
 
-	AliveObject(Glyph glyph, std::string name, Size size, int health, const Loot &loot) :
+	AliveObject(Glyph glyph, std::string name, Size size, int health, const LootContainer &loot) :
 		DynamicObject(glyph, name, size, true, health, loot){};
 };

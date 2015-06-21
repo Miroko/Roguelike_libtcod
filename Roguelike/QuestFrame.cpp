@@ -13,8 +13,8 @@ void QuestFrame::render(float elapsed){
 	blit();
 }
 
-bool QuestFrame::handleKey(TCOD_key_t key){
-	bool handled = GuiFrame::handleKey(key);
+bool QuestFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
+	bool handled = GuiFrame::handleKey(key, requireUpdate);
 	if (!handled && isOpen){
 		close();
 		handled = true;

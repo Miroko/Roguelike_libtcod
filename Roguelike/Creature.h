@@ -1,20 +1,20 @@
 #pragma once
 #include "AliveObject.h"
 #include "RarityType.h"
+#include "EquipmentContainer.h"
 
 class Creature : public AliveObject
 {
 public:
-	const RarityType &rarity;	
-
-	template <typename T> static std::shared_ptr<T> newCreature(const T &creatureTemplate, bool equip = true){
+	template <typename T> static std::shared_ptr<T> newCreature(const T &creatureTemplate, const EquipmentContainer &equipment){
 		std::shared_ptr<T> creature = std::shared_ptr<T>(new T(creatureTemplate));
-		if (equip){
-			creature->equip(creature->loot.weapons.at(0));
-		}
+		equipment.equipOn(creature);
 		return creature;
 	}
 
-	Creature(char character, std::string name, Size size, int health, const TCODColor &color, const RarityType &rarity, const Loot &loot) :
-		rarity(rarity), AliveObject(Glyph(color * rarity.color, character), name, size, health, loot){};
+	const RarityType &rarity;
+	const EquipmentContainer &equipment;
+
+	Creature(char character, std::string name, Size size, int health, const TCODColor &color, const RarityType &rarity, const LootContainer &loot) :
+		rarity(rarity), equipment(equipment), AliveObject(Glyph(color * rarity.color, character), name, size, health, loot){};
 };

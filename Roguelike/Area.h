@@ -29,7 +29,8 @@ public:
 	void cleanDeadObjects();
 	bool moveDynamicObject(DynamicObject &dynamicObject, Point2D &toLocation);
 	bool placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Point2D &location);
-	std::vector<std::shared_ptr<DynamicObject>> getDynamicObjectsAt(Point2D &location);
+	std::vector<std::shared_ptr<DynamicObject>> getDynamicObjects(Point2D &location);
+	std::vector<std::shared_ptr<DynamicObject>> getDynamicObjects(Rectangle &bounds);
 
 	//Inits fov and pathfinding
 	bool placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &location);

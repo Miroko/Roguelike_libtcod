@@ -18,7 +18,7 @@ protected:
 public:
 	PointerContainer<Item> items;
 
-	bool handleKey(TCOD_key_t key);
+	bool handleKey(TCOD_key_t key, bool &requireUpdate);
 	void GuiFrame::render(float elapsed);
 
 	void addItem(std::shared_ptr<Item> &item);

@@ -8,7 +8,7 @@ public:
 	Point2D inspectorLocation;
 	
 	void GuiFrame::render(float elapsed);
-	bool handleKey(TCOD_key_t key);
+	bool handleKey(TCOD_key_t key, bool &requireUpdate);
 
 	void onOpen();
 

@@ -12,19 +12,15 @@ void DynamicObject::onTakeDamage(int amount){
 	}
 }
 
-std::vector<std::shared_ptr<Item>> DynamicObject::generateLoot(){
-	std::vector<std::shared_ptr<Item>> items;
-	for (auto &weapon : loot.weapons){
-		items.push_back(Item::newItem<Weapon>(weapon));
-	}
-	return items;
-}
-
 void DynamicObject::onDeath(){
-	for (auto &item : generateLoot()){
+	for (auto &item : loot.generateLoot()){
 		Engine::area.placeItem(item, location);
 	}
 
-	Engine::GUI.log.finishMessage(name + " dies.");
+	messageDeath();
 	Engine::area.killDynamicObject(*this);
+}
+
+void DynamicObject::messageDeath(){
+	Engine::GUI.log.finishMessage(name + " dies.");
 }
