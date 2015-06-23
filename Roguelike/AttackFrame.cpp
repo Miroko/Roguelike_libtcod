@@ -22,7 +22,7 @@ bool AttackFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 				handled = true;
 			}
 			else if (direction == CENTER){
-				Engine::playerController.playerCreature->attackRanged(attackableObjects.at(objectIndex));
+				Engine::playerController.playerCreature->attackRanged(*attackableObjects.at(objectIndex));
 				close();
 				handled = true;
 				requireUpdate = true;

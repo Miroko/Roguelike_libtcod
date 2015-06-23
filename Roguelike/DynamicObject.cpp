@@ -1,7 +1,7 @@
 #include "DynamicObject.h"
 #include "Engine.h"
 
-void DynamicObject::onTakeDamage(int amount){
+void DynamicObject::onTakeDamage(DynamicObject &attacker, int amount){
 	Engine::GUI.log.addToMessage(name + " takes " + std::to_string(amount) + " damage. ");
 
 	if (amount > 0){

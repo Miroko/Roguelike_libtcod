@@ -61,9 +61,9 @@ bool Area::placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Poin
 
 bool Area::placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &location){
 	if (placeDynamicObject(aliveObject, location)){
-		aliveObject->createFovMap();
-		aliveObject->calculateFov();
-		aliveObject->createPathMap();
+		aliveObject->ai.createFovMap(*this);
+		aliveObject->ai.calculateFov(*this, *aliveObject);
+		aliveObject->ai.createPathMap(*this, *aliveObject);
 		return true;
 	}
 	else return false;

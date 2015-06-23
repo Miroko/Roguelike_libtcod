@@ -63,6 +63,7 @@ Village::Village() : Area(100, LAND){
 			Point2D location = Random::point(villagerArea);
 			std::shared_ptr<Human> human = Creature::newCreature(MAN, MAN_EQUIPMENT);
 			placeAliveObject(human, location);
+			human->ai.state = AliveObjectAi::FREE;
 		}
 
 		//Wall

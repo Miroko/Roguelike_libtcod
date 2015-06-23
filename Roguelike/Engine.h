@@ -9,7 +9,6 @@
 #include "TheGoblinKing.h"
 class Engine
 {
-
 private:
 	void renderSimulation();
 	void updateSimulation();

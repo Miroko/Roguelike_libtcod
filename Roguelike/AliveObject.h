@@ -3,6 +3,7 @@
 #include "Weapon.h"
 #include "Armor.h"
 #include "AliveObjectEffect.h"
+#include "AliveObjectAi.h"
 #include "PointerContainer.h"
 #include "Consumable.h"
 #include <memory>
@@ -11,21 +12,8 @@ class AliveObject : public DynamicObject
 {
 	
 public:
-	//FOV
-	static const int FOV_RADIUS_MAX = 0;
-	std::shared_ptr<TCODMap> fovMap;
-	void createFovMap();
-	void calculateFov();
-	bool inFov(int x, int y);
+	AliveObjectAi ai;
 
-	//Pathfinder
-	std::shared_ptr<TCODPath> pathMap;
-	class PathCostCallback : public ITCODPathCallback{
-	public:
-		float getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const;
-	};
-	void createPathMap();
-	void calculatePath(int toX, int toY);
 	//Equipment
 	std::shared_ptr<Weapon> weapon = nullptr;
 	std::shared_ptr<Armor> armorHead = nullptr;
@@ -38,19 +26,12 @@ public:
 	PointerContainer<AliveObjectEffect> effects;
 	void addEffect(std::shared_ptr<AliveObjectEffect> effect);
 	void consume(std::shared_ptr<Item> consumable);
-	
-	//Combat
-	static const int RANGED_SHOOT_DISTANCE_MAX = 4;
-	std::shared_ptr<DynamicObject> target = nullptr;
-	void setTarget(std::shared_ptr<DynamicObject> target);
-	void damage(std::shared_ptr<DynamicObject> &target);
-	void attackMelee(std::shared_ptr<DynamicObject> &target);
-	void attackRanged(std::shared_ptr<DynamicObject> &target);
-	bool moveOnPath();
-	bool targetInFov();
-	void calculatePathToTarget();
 
-	void onTakeDamage(int amount);
+	void damage(DynamicObject &target);
+	void attackMelee(DynamicObject &target);
+	void attackRanged(DynamicObject &target);
+
+	void onTakeDamage(DynamicObject &attacker, int amount);
 
 	void update();
 

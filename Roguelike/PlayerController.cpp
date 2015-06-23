@@ -46,17 +46,17 @@ bool PlayerController::attack(){
 				std::vector<std::shared_ptr<DynamicObject>> objectsToAttack;
 				objectsToAttack = Engine::area.getDynamicObjects(playerCreature->location + direction);
 				if (objectsToAttack.empty()) return false;
-				else playerCreature->attackMelee(objectsToAttack.front()); return true; //Attack first at location
+				else playerCreature->attackMelee(*objectsToAttack.front()); return true; //Attack first at location
 			}
 		}break;
 		case Weapon::WEAPON_RANGED:{
 			Rectangle range = Rectangle(playerCreature->location, playerCreature->location);
-			range.expand(AliveObject::RANGED_SHOOT_DISTANCE_MAX);
+			range.expand(AliveObjectAi::RANGED_SHOOT_DISTANCE_MAX);
 			std::vector<std::shared_ptr<DynamicObject>> objectsInRange = Engine::area.getDynamicObjects(range);
 			auto &o = objectsInRange.begin();
 			while (o != objectsInRange.end()){
 				if (o->get() == playerCreature.get() ||
-					!playerCreature->inFov(o->get()->location.x, o->get()->location.y)){
+					!playerCreature->ai.inFov(o->get()->location.x, o->get()->location.y)){
 					//Remove player and objects not in fov
 					o = objectsInRange.erase(o);					
 				}

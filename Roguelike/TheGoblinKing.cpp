@@ -35,7 +35,8 @@ void TheGoblinKing::PhaseForest::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
 		area.placeAliveObject(creature, p);
-		creature->setTarget(Engine::playerController.playerCreature);
+		creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
+		creature->ai.state = AliveObjectAi::COMBAT;
 	}
 
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE); //Prefer min and max values
@@ -65,7 +66,7 @@ void TheGoblinKing::PhaseNearCave::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
 		if (area.placeAliveObject(creature, p)){
-			creature->setTarget(Engine::playerController.playerCreature);
+			creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
 		}
 	}
 
@@ -96,7 +97,7 @@ void TheGoblinKing::PhaseCave::generateArea(Area &area){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
 		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
 		if (area.placeAliveObject(creature, p)){
-			creature->setTarget(Engine::playerController.playerCreature);
+			creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
 		}
 	}	
 

@@ -125,7 +125,7 @@ void Engine::renderSimulation(){
 	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){		
 		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
 			if (area.bounds.inside(Point2D(x, y))){
-				if (playerController.playerCreature->inFov(x,y)){
+				if (playerController.playerCreature->ai.inFov(x,y)){
 					area.staticObjects[x][y]->render(x - camera.location.x, y - camera.location.y);
 				}
 			}
@@ -135,7 +135,7 @@ void Engine::renderSimulation(){
 	for (auto &item : area.items){
 		int renderX = item->location.x - camera.location.x;
 		int renderY = item->location.y - camera.location.y;
-		if (playerController.playerCreature->inFov(item->location.x, item->location.y)){
+		if (playerController.playerCreature->ai.inFov(item->location.x, item->location.y)){
 			item->render(renderX, renderY);
 		}
 	}
@@ -144,7 +144,7 @@ void Engine::renderSimulation(){
 	for (auto &dynamicObject : area.dynamicObjects){
 		int renderX = dynamicObject->location.x - camera.location.x;
 		int renderY = dynamicObject->location.y - camera.location.y;
-		if (playerController.playerCreature->inFov(dynamicObject->location.x, dynamicObject->location.y)){
+		if (playerController.playerCreature->ai.inFov(dynamicObject->location.x, dynamicObject->location.y)){
 			dynamicObject->render(renderX, renderY);
 		}
 	}

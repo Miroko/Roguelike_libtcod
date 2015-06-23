@@ -1,126 +1,22 @@
 #include "AliveObject.h"
 #include "Engine.h"
+#include "Random.h"
 
-void AliveObject::createFovMap(){
-	fovMap = std::shared_ptr<TCODMap>(new TCODMap(Engine::area.bounds.getWidth(), Engine::area.bounds.getHeight()));
-	int startX = 0;
-	int startY = 0;
-	int endX = fovMap->getWidth();
-	int endY = fovMap->getHeight();
-	for (int x = startX; x < endX; x++){
-		for (int y = startY; y < endY; y++){
-			fovMap->setProperties(x, y,
-				Engine::area.staticObjects[x][y]->transparent, Engine::area.staticObjects[x][y]->passable());
-		}
-	}
+void AliveObject::damage(DynamicObject &target){
+	target.onTakeDamage(*this, weapon->damage);
 }
 
-void AliveObject::calculateFov(){
-	//Update fov map
-	for (auto &o : Engine::area.dynamicObjects){
-		if (o->isDead) fovMap->setProperties(o->location.x, o->location.y,
-			Engine::area.staticObjects[o->location.x][o->location.y]->transparent,
-			Engine::area.staticObjects[o->location.x][o->location.y]->passable());
-		else{
-			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable());
-		}
-	}
-	//Compute
-	fovMap->computeFov(location.x, location.y, FOV_RADIUS_MAX, true, FOV_RESTRICTIVE);
-}
-
-bool AliveObject::inFov(int x, int y){
-	return fovMap->isInFov(x, y);
-}
-
-float AliveObject::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
-	AliveObject *thisObject = static_cast<AliveObject*>(userData);
-	if (Engine::area.staticObjects[xTo][yTo]->passable() == false) return 0;
-
-	for (auto &o : Engine::area.dynamicObjects){
-		if (o->isDead) continue;
-
-		if (o->location.x == xTo && o->location.y == yTo){
-			if (!o->passable()){
-				if (o.get() == thisObject->target.get()){
-					// Computing path to target
-					return 1;
-				}
-				else{
-					return 0;
-				}
-			}
-		}
-	}
-
-	return 1;
-}
-
-void AliveObject::createPathMap(){
-	pathMap = std::shared_ptr<TCODPath>(new TCODPath(
-		Engine::area.bounds.getWidth(),
-		Engine::area.bounds.getHeight(),
-		new PathCostCallback(),
-		this));
-}
-
-void AliveObject::calculatePath(int toX, int toY){
-	pathMap->compute(location.x, location.y, toX, toY);
-}
-
-void AliveObject::setTarget(std::shared_ptr<DynamicObject> target){
-	this->target = target;
-}
-
-//Returns true if target in next spot else false
-bool AliveObject::moveOnPath(){
-	if (!pathMap->isEmpty()){
-		int x, y;
-		if (pathMap->walk(&x, &y, false) == true){
-			if (target->location == Point2D(x, y)){
-				// Target in next point
-				return true;
-			}
-			else{
-				// Move
-				location.x = x;
-				location.y = y;
-			}
-		}
-		else{
-			// Stuck
-		}
-	}
-	else{
-		//Lost track
-	}
-	return false;
-}
-
-bool AliveObject::targetInFov(){
-	if (inFov(target->location.x, target->location.y)) return true;
-	else return false;
-}
-
-void AliveObject::calculatePathToTarget(){
-	calculatePath(target->location.x, target->location.y);
-}
-
-void AliveObject::damage(std::shared_ptr<DynamicObject> &target){
-	target->onTakeDamage(weapon->damage);
-}
-
-void AliveObject::attackMelee(std::shared_ptr<DynamicObject> &target){
-	Engine::GUI.log.addToMessage(name + " attacks " + target->name + " with " + weapon->name + ". ");
+void AliveObject::attackMelee(DynamicObject &target){
+	Engine::GUI.log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
 	damage(target);
 }
 
-void AliveObject::attackRanged(std::shared_ptr<DynamicObject> &target){
-	Engine::GUI.log.addToMessage(name + " shoots " + target->name + " with " + weapon->name + ". ");
+void AliveObject::attackRanged(DynamicObject &target){
+	Engine::GUI.log.addToMessage(name + " shoots " + target.name + " with " + weapon->name + ". ");
 	damage(target);
 }
 
-void AliveObject::onTakeDamage(int amount){
+void AliveObject::onTakeDamage(DynamicObject &attacker, int amount){
 	int amountAfterDefence = amount;
 	int bodyPart = Random::generator.getInt(0, 3, 2);
 	switch (bodyPart){
@@ -131,7 +27,10 @@ void AliveObject::onTakeDamage(int amount){
 	default: break;
 	}
 	if (amountAfterDefence < 0) amountAfterDefence = 0;
-	DynamicObject::onTakeDamage(amountAfterDefence);
+
+	ai.startCombat(attacker);
+
+	DynamicObject::onTakeDamage(attacker, amountAfterDefence);
 }
 
 void AliveObject::update(){
@@ -147,34 +46,7 @@ void AliveObject::update(){
 			++effect;
 		}
 	}
-	//AI
-	calculateFov();
-	if (target != nullptr){
-		if (!target->isDead){
-			if (!targetInFov()){ //Can't see target
-				moveOnPath(); //Move using path to last seen position
-				return;
-			}
-			else calculatePathToTarget(); //Target in fov, calculate new path to it
-
-			if (weapon != nullptr){
-				switch (weapon->type) {
-				case Weapon::WEAPON_MELEE:
-					if (moveOnPath()) attackMelee(target);
-					break;
-				case Weapon::WEAPON_RANGED:{
-					int distance = location.distance(target->location);
-					if (distance <= RANGED_SHOOT_DISTANCE_MAX){
-						attackRanged(target);
-					}
-					else moveOnPath();
-			    	}
-					break;
-				default: break;
-				}
-			}
-		}
-	}
+	ai.update(*this);
 }
 
 void AliveObject::equip(std::shared_ptr<Item> equipment){

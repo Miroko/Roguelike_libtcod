@@ -10,7 +10,7 @@ public:
 		return operatableObject;
 	}
 
-	bool isOn;
+	bool isOn = false;
 
 	Glyph onGlyph;
 	Glyph offGlyph;

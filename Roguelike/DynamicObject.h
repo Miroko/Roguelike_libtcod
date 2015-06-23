@@ -4,16 +4,15 @@
 #include "LootContainer.h"
 #include <memory>
 #include <vector>
+
 class DynamicObject : public GameObject
 {
 
 public:
 	bool isDead = false;
 
-	// Location
 	Point2D location;
 
-	//Size
 	enum Size
 	{
 		SMALL,
@@ -26,7 +25,7 @@ public:
 	int healthMax;
 	int health;
 
-	virtual void onTakeDamage(int amount);
+	virtual void onTakeDamage(DynamicObject &attacker, int amount);
 	virtual void onTakeDamageEffect();
 	virtual void onDeath();
 

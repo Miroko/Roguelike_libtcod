@@ -7,7 +7,7 @@ private:
 	static const std::shared_ptr<QuestPhase> FOREST;
 	static const std::shared_ptr<QuestPhase> NEAR_CAVE;
 	static const std::shared_ptr<QuestPhase> CAVE;
-
+	
 	static bool VILLAGE_STORY_TOLD;
 
 	static std::shared_ptr<TradeContainer> VILLAGE_TRADE_CONTAINER;

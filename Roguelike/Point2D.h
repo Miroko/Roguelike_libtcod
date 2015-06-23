@@ -1,5 +1,6 @@
 #pragma once
 #include <limits>
+
 class Point2D
 {
 
@@ -20,4 +21,6 @@ public:
 	Point2D(int x, int y) : x(x), y(y){};
 	Point2D(){};
 };
+
+static const Point2D UNDEFINED_POINT = Point2D();
 

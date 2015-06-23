@@ -222,6 +222,9 @@
     <ClCompile Include="String.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="AliveObjectAi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Area.h">
@@ -403,6 +406,9 @@
     </ClInclude>
     <ClInclude Include="String.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AliveObjectAi.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

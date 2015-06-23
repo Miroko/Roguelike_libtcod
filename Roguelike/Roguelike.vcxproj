@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AliveObject.cpp" />
+    <ClCompile Include="AliveObjectAi.cpp" />
     <ClCompile Include="AliveObjectEffect.cpp" />
     <ClCompile Include="Area.cpp" />
     <ClCompile Include="Armor.cpp" />
@@ -75,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AliveObject.h" />
+    <ClInclude Include="AliveObjectAi.h" />
     <ClInclude Include="AliveObjectEffect.h" />
     <ClInclude Include="Area.h" />
     <ClInclude Include="Armor.h" />
