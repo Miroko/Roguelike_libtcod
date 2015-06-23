@@ -3,13 +3,18 @@
 
 void DynamicObject::onTakeDamage(int amount){
 	Engine::GUI.log.addToMessage(name + " takes " + std::to_string(amount) + " damage. ");
-	health -= amount;
-	if (health <= 0){
-		onDeath();
+
+	if (amount > 0){
+		health -= amount;
+		onTakeDamageEffect();
 	}
-	else{
-		Engine::GUI.log.finishMessage("");
-	}
+
+	if (health <= 0) onDeath();
+	else Engine::GUI.log.finishMessage("");
+}
+
+void DynamicObject::onTakeDamageEffect(){
+	Engine::visualEffectHandler.playEffect(location, Random::direction(), VisualEffect::BLOOD_SPLATTER);
 }
 
 void DynamicObject::onDeath(){

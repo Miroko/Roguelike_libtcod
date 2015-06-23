@@ -8,10 +8,11 @@ class Quest
 public:
 	std::string name;
 
-	std::shared_ptr<QuestPhase> currentPhase = nullptr;
+	std::shared_ptr<QuestPhase> currentPhase;
 
 	virtual std::shared_ptr<QuestPhase> getNextPhase() = 0;
 	virtual std::shared_ptr<QuestPhase> getVillage() = 0;
+
 	virtual std::shared_ptr<TradeContainer> getTradeContainer(std::shared_ptr<DynamicObject> &owner) = 0;
 	virtual std::shared_ptr<Dialog> getDialog(std::shared_ptr<DynamicObject> &owner);
 	

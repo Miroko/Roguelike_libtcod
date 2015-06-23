@@ -18,6 +18,7 @@ public:
 	virtual void on();
 	virtual void off();
 
+	void onTakeDamageEffect();
 	void messageDeath();
 
 	void render(int x, int y);

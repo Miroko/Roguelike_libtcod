@@ -15,5 +15,4 @@ public:
 	static Point2D direction();
 	static void useStatic();
 	static void useRandom();
-	static void reset();
 };

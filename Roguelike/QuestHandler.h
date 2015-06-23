@@ -6,8 +6,10 @@ public:
 	std::shared_ptr<Quest> currentQuest;
 
 	void setCurrentQuest(std::shared_ptr<Quest> quest);
-	void generateNextPhase();
+
+	void toNextPhase();
 	void toVillage();
+
 	void update();
 
 	QuestHandler(){};

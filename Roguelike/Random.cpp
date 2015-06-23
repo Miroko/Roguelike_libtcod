@@ -25,9 +25,3 @@ void Random::useStatic(){
 	//Set to use static state
 	generator.restore(staticState.get());
 }
-
-void Random::reset(){
-	generator.getInt(0, 1);
-	randomState = std::shared_ptr<TCODRandom>(Random::generator.save());
-	staticState = std::shared_ptr<TCODRandom>(Random::generator.save());
-}

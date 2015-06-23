@@ -5,6 +5,7 @@
 #include "Area.h"
 #include "human.h"
 #include "Gui.h"
+#include "VisualEffectHandler.h"
 #include "TheGoblinKing.h"
 class Engine
 {
@@ -19,6 +20,7 @@ public:
 	static PlayerController playerController;
 	static QuestHandler questHandler;
 	static Area area;
+	static VisualEffectHandler visualEffectHandler;
 
 	static Gui GUI;
 

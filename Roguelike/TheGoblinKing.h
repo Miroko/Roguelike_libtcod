@@ -3,38 +3,46 @@
 
 class TheGoblinKing : public Quest{
 private:
-	//AREAS
-	class WayToCave : public QuestPhase{
+	static const std::shared_ptr<QuestPhase> VILLAGE;
+	static const std::shared_ptr<QuestPhase> FOREST;
+	static const std::shared_ptr<QuestPhase> NEAR_CAVE;
+	static const std::shared_ptr<QuestPhase> CAVE;
+
+	static bool VILLAGE_STORY_TOLD;
+
+	static std::shared_ptr<TradeContainer> VILLAGE_TRADE_CONTAINER;
+
+	class PhaseVillage : public QuestPhase{
 	public:
 		void QuestPhase::generateArea(Area &area);
-		bool QuestPhase::winCondition();
-		WayToCave() : QuestPhase(""){};
+		bool QuestPhase::nextPhaseCondition();
+		PhaseVillage() : QuestPhase(""){};
 	};
-	class CaveEntrance : public QuestPhase{
+	class PhaseForest : public QuestPhase{
 	public:
 		void QuestPhase::generateArea(Area &area);
-		bool QuestPhase::winCondition();
-		CaveEntrance() : QuestPhase(""){};
+		bool QuestPhase::nextPhaseCondition();
+		PhaseForest() : QuestPhase(""){};
 	};
-	class InTheCave : public QuestPhase{
+	class PhaseNearCave : public QuestPhase{
 	public:
 		void QuestPhase::generateArea(Area &area);
-		bool QuestPhase::winCondition();
-		InTheCave() : QuestPhase(""){};
+		bool QuestPhase::nextPhaseCondition();
+		PhaseNearCave() : QuestPhase(""){};
 	};
-	class InVillage : public QuestPhase{
+	class PhaseCave : public QuestPhase{
 	public:
 		void QuestPhase::generateArea(Area &area);
-		bool QuestPhase::winCondition();
-		InVillage() : QuestPhase(""){};
+		bool QuestPhase::nextPhaseCondition();
+		PhaseCave() : QuestPhase(""){};
 	};
-	//DIALOG
-	static bool storyTold;
+
 	class DialogVillagerStory1 : public Dialog{
 		class OptionStory : public DialogOption{
 		public:
-			OptionStory(std::shared_ptr<DynamicObject> &owner) : DialogOption(owner->name + " asked me to find valuables that goblins have stolen from village.\n\n",
-				                                                              "Tell me where those goblins came from.", owner){};
+			OptionStory(std::shared_ptr<DynamicObject> &owner) :
+				DialogOption(owner->name + " asked me to find valuables that goblins have stolen from village.\n\n",
+				             "Tell me where those goblins came from.", owner){};
 			std::shared_ptr<Dialog> getNextDialog(std::shared_ptr<DynamicObject> &owner){
 				return std::shared_ptr<Dialog>(new DialogVillagerStory2(owner));
 			}
@@ -46,16 +54,25 @@ private:
 		})){};
 	};
 
+	class DialogVillagerTrade : public Dialog{
+	public:
+		DialogVillagerTrade(std::shared_ptr<DynamicObject> &owner) : Dialog(std::vector<std::shared_ptr<DialogOption>>({
+			std::shared_ptr<DialogOption>(new OptionEnd(owner)),
+			std::shared_ptr<DialogOption>(new OptionTrade(owner))
+		})){};
+	};
+
 	class DialogVillagerStory2 : public Dialog{
 		class OptionWillHelp : public DialogOption{
 		public:
-			OptionWillHelp(std::shared_ptr<DynamicObject> &owner) : DialogOption(owner->name + " told me that goblins came from an nearby cave. I should find that cave and return the stolen valuables.\n\n",
-			                                                                  "I will help you.", owner){};
+			OptionWillHelp(std::shared_ptr<DynamicObject> &owner) :
+				DialogOption(owner->name + " told me that goblins came from an nearby cave. I should find that cave and return the stolen valuables.\n\n",
+			                 "I will help you.", owner){};
 			std::shared_ptr<Dialog> getNextDialog(std::shared_ptr<DynamicObject> &owner){
 				return std::shared_ptr<Dialog>(new DialogVillagerTrade(owner));
 			}
 			void onOptionSelect(){
-				storyTold = true;
+				VILLAGE_STORY_TOLD = true;
 			}
 		};
 	public:
@@ -64,16 +81,6 @@ private:
 			std::shared_ptr<DialogOption>(new OptionWillHelp(owner))
 		})){};
 	};
-
-	class DialogVillagerTrade : public Dialog{
-	public:
-		DialogVillagerTrade(std::shared_ptr<DynamicObject> &owner) : Dialog(std::vector<std::shared_ptr<DialogOption>>({
-			std::shared_ptr<DialogOption>(new OptionEnd(owner)),
-			std::shared_ptr<DialogOption>(new OptionTrade(owner))
-		})){};
-	};
-	//TRADE CONTAINERS
-	std::shared_ptr<TradeContainer> tradeContainerVillage;
 
 public:
 	std::shared_ptr<QuestPhase> Quest::getNextPhase();

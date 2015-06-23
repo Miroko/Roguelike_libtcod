@@ -21,3 +21,7 @@ void OperatableObject::render(int x, int y){
 void OperatableObject::messageDeath(){
 	Engine::GUI.log.finishMessage(name + " is destroyed.");
 }
+
+void OperatableObject::onTakeDamageEffect(){
+	
+}

@@ -27,6 +27,7 @@ public:
 	int health;
 
 	virtual void onTakeDamage(int amount);
+	virtual void onTakeDamageEffect();
 	virtual void onDeath();
 
 	virtual void messageDeath();

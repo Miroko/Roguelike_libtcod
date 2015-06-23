@@ -52,14 +52,13 @@ void AttackFrame::render(float elapsed){
 }
 
 void AttackFrame::onOpen(){
-	previouslyAttacked != nullptr;
-	int index = 0;
+	int index = 0;	
 	for (auto &o : attackableObjects){
 		if (o == previouslyAttacked){
 			objectIndex = index;
 			return;
 		}
 		index++;
-	}
+	}	
 	objectIndex = 0;
 }

@@ -25,6 +25,7 @@
     <ClCompile Include="EquipmentContainer.cpp" />
     <ClCompile Include="Heal.cpp" />
     <ClCompile Include="InspectionFrame.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="LootContainer.cpp" />
     <ClCompile Include="OperatableObject.cpp" />
     <ClCompile Include="StatisticsFrame.cpp" />
@@ -68,6 +69,8 @@
     <ClCompile Include="TradeContainer.cpp" />
     <ClCompile Include="TradeFrame.cpp" />
     <ClCompile Include="Village.cpp" />
+    <ClCompile Include="VisualEffect.cpp" />
+    <ClCompile Include="VisualEffectHandler.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +88,7 @@
     <ClInclude Include="EquipmentContainer.h" />
     <ClInclude Include="Heal.h" />
     <ClInclude Include="InspectionFrame.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="LootContainer.h" />
     <ClInclude Include="OperatableObject.h" />
     <ClInclude Include="StatisticsFrame.h" />
@@ -127,6 +131,8 @@
     <ClInclude Include="TradeContainer.h" />
     <ClInclude Include="TradeFrame.h" />
     <ClInclude Include="Village.h" />
+    <ClInclude Include="VisualEffect.h" />
+    <ClInclude Include="VisualEffectHandler.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

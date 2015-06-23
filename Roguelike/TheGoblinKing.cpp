@@ -7,20 +7,28 @@
 #include "Village.h"
 #include "Human.h"
 
-bool TheGoblinKing::storyTold = false;
+const std::shared_ptr<QuestPhase> TheGoblinKing::VILLAGE = std::shared_ptr<QuestPhase>(new PhaseVillage());
+const std::shared_ptr<QuestPhase> TheGoblinKing::FOREST = std::shared_ptr<QuestPhase>(new PhaseForest());;
+const std::shared_ptr<QuestPhase> TheGoblinKing::NEAR_CAVE = std::shared_ptr<QuestPhase>(new PhaseNearCave());
+const std::shared_ptr<QuestPhase> TheGoblinKing::CAVE = std::shared_ptr<QuestPhase>(new PhaseCave());;
+
+bool TheGoblinKing::VILLAGE_STORY_TOLD;
+
+std::shared_ptr<TradeContainer> TheGoblinKing::VILLAGE_TRADE_CONTAINER;
 
 TheGoblinKing::TheGoblinKing() : Quest("The Goblin King"){
-	tradeContainerVillage = std::shared_ptr<TradeContainer>(new TradeContainer(
+	VILLAGE_STORY_TOLD = false;
+
+	VILLAGE_TRADE_CONTAINER = std::shared_ptr<TradeContainer>(new TradeContainer(
 		30,
 		std::vector<std::shared_ptr<Item>>({
 		Item::newItem(SWORD),
 		Item::newItem(HEALTH_POTION),
 		Item::newItem(HEALTH_POTION)
 	})));
-	storyTold = false;
 }
 
-void TheGoblinKing::WayToCave::generateArea(Area &area){
+void TheGoblinKing::PhaseForest::generateArea(Area &area){
 	area = Forest(100, 10, 100);
 
 	for (int creatures = 20; creatures > 0; creatures--){
@@ -37,9 +45,11 @@ void TheGoblinKing::WayToCave::generateArea(Area &area){
 		area.placePortal(portal, p);
 	}
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_LINEAR); //back to normal
+
+	placePlayer();
 }
 
-bool TheGoblinKing::WayToCave::winCondition(){
+bool TheGoblinKing::PhaseForest::nextPhaseCondition(){
 	for (auto &portal : Engine::area.portals){
 		if (Engine::playerController.playerCreature->location == portal->location){
 			return true;
@@ -48,7 +58,7 @@ bool TheGoblinKing::WayToCave::winCondition(){
 	return false;
 }
 
-void TheGoblinKing::CaveEntrance::generateArea(Area &area){
+void TheGoblinKing::PhaseNearCave::generateArea(Area &area){
 	area = Forest(100, 20, 30);
 
 	for (int creatures = 20; creatures > 0; creatures--){
@@ -66,9 +76,11 @@ void TheGoblinKing::CaveEntrance::generateArea(Area &area){
 		area.placePortal(portal, p);
 	}
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_LINEAR);
+
+	placePlayer();
 }
 
-bool TheGoblinKing::CaveEntrance::winCondition(){
+bool TheGoblinKing::PhaseNearCave::nextPhaseCondition(){
 	for (auto &portal : Engine::area.portals){
 		if (Engine::playerController.playerCreature->location == portal->location){
 			return true;
@@ -77,7 +89,7 @@ bool TheGoblinKing::CaveEntrance::winCondition(){
 	return false;
 }
 
-void TheGoblinKing::InTheCave::generateArea(Area &area){
+void TheGoblinKing::PhaseCave::generateArea(Area &area){
 	area = Cave(100, 0.2, 3, 0.10, 3);
 	
 	for (int creatures = 30; creatures > 0; creatures--){
@@ -87,32 +99,38 @@ void TheGoblinKing::InTheCave::generateArea(Area &area){
 			creature->setTarget(Engine::playerController.playerCreature);
 		}
 	}	
+
+	placePlayer();
 }
 
-bool TheGoblinKing::InTheCave::winCondition(){
+bool TheGoblinKing::PhaseCave::nextPhaseCondition(){
 	return false;
 }
 
-void TheGoblinKing::InVillage::generateArea(Area &area){
+void TheGoblinKing::PhaseVillage::generateArea(Area &area){
 	Random::useStatic();
 
 	Village villageArea = Village();
-	area = villageArea;
 
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE);
 	for (int portals = 20; portals > 0; portals--){
-		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
+		Point2D p = Point2D(Random::generator.getInt(0, villageArea.bounds.getWidth() - 1),
+			                Random::generator.getInt(0, villageArea.bounds.getHeight() - 1));
 		std::shared_ptr<Portal> portal = Portal::newPortal(FOREST_PORTAL);
 		if (!villageArea.villageBounds.inside(p)){
-			area.placePortal(portal, p);
+			villageArea.placePortal(portal, p);
 		}
 	}
-	Random::generator.setDistribution(TCOD_DISTRIBUTION_LINEAR);
 
+	area = villageArea;
+
+	Random::generator.setDistribution(TCOD_DISTRIBUTION_LINEAR);
 	Random::useRandom();
+
+	placePlayer();
 }
 
-bool TheGoblinKing::InVillage::winCondition(){
+bool TheGoblinKing::PhaseVillage::nextPhaseCondition(){
 	for (auto &portal : Engine::area.portals){
 		if (Engine::playerController.playerCreature->location == portal->location){
 			return true;
@@ -121,40 +139,30 @@ bool TheGoblinKing::InVillage::winCondition(){
 	return false;
 }
 
-
 std::shared_ptr<QuestPhase> TheGoblinKing::getNextPhase(){
-	if (typeid(*currentPhase.get()) == typeid(InVillage)){
-		currentPhase = std::shared_ptr<QuestPhase>(new WayToCave());
-	}
-	else if (typeid(*currentPhase.get()) == typeid(WayToCave)){
-		currentPhase = std::shared_ptr<QuestPhase>(new CaveEntrance());
-	}
-	else if (typeid(*currentPhase.get()) == typeid(CaveEntrance)){
-		currentPhase = std::shared_ptr<QuestPhase>(new InTheCave());
-	}
-	else{
-		currentPhase = std::shared_ptr<QuestPhase>(new WayToCave());
-	}
-	return currentPhase;
+	if (currentPhase == VILLAGE) return FOREST;
+	if (currentPhase == FOREST) return NEAR_CAVE;
+	if (currentPhase == NEAR_CAVE) return CAVE;
+	if (currentPhase == CAVE) return VILLAGE;
 }
 
 std::shared_ptr<QuestPhase> TheGoblinKing::getVillage(){
-	return std::shared_ptr<QuestPhase>(new InVillage());
+	return VILLAGE;
 }
 
 std::shared_ptr<Dialog> TheGoblinKing::getDialog(std::shared_ptr<DynamicObject> &owner){
-	Human *human = dynamic_cast<Human*>(owner.get());
+	std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(owner);
 	if (human != nullptr){
-		if (!storyTold) return std::shared_ptr<Dialog>(new DialogVillagerStory1(owner));
+		if (!VILLAGE_STORY_TOLD) return std::shared_ptr<Dialog>(new DialogVillagerStory1(owner));
 		else return std::shared_ptr<Dialog>(new DialogVillagerTrade(owner));
 	}
 	else return Quest::getDialog(owner);
 }
 
 std::shared_ptr<TradeContainer> TheGoblinKing::getTradeContainer(std::shared_ptr<DynamicObject> &owner){
-	Human *human = dynamic_cast<Human*>(owner.get());
+	std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(owner);
 	if (human != nullptr){
-		return tradeContainerVillage;
+		return VILLAGE_TRADE_CONTAINER;
 	}
 	else return nullptr;
 }

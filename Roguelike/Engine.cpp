@@ -7,6 +7,7 @@ Camera Engine::camera = Camera();
 PlayerController Engine::playerController = PlayerController();
 QuestHandler Engine::questHandler = QuestHandler();
 Area Engine::area = Area();
+VisualEffectHandler Engine::visualEffectHandler = VisualEffectHandler();
 
 void Engine::start(){
 	TCODSystem::setFps(10);
@@ -22,8 +23,8 @@ void Engine::start(){
 		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 7, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 9)));
 	GUI.help.resize(Rectangle(Point2D(0, 0),
 		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
-	GUI.pickFrame.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 3, TCODConsole::root->getHeight() / 3),
-		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 3, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 3)));
+	GUI.pickFrame.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 3, TCODConsole::root->getHeight() / 5),
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 3, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 5)));
 	GUI.statistics.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, 0),
 		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getWidth() / 4 )));
 	GUI.inspection.resize(Rectangle(Point2D(0, 0),
@@ -115,6 +116,7 @@ void Engine::updateSimulation(){
 
 void Engine::renderRealTime(float elapsed){
 	renderSimulation();
+	visualEffectHandler.render();
 	GUI.render(elapsed);
 }
 
