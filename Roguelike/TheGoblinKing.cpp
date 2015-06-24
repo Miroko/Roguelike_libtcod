@@ -33,8 +33,8 @@ void TheGoblinKing::PhaseForest::generateArea(Area &area){
 
 	for (int creatures = 20; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
-		area.placeAliveObject(creature, p);
+		std::shared_ptr<Creature> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
+		area.placeCreature(creature, p);
 		creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
 		creature->ai.state = AliveObjectAi::COMBAT;
 	}
@@ -64,10 +64,9 @@ void TheGoblinKing::PhaseNearCave::generateArea(Area &area){
 
 	for (int creatures = 20; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
-		if (area.placeAliveObject(creature, p)){
-			creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
-		}
+		std::shared_ptr<Creature> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
+		area.placeCreature(creature, p);
+		creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
 	}
 
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE);
@@ -95,10 +94,9 @@ void TheGoblinKing::PhaseCave::generateArea(Area &area){
 	
 	for (int creatures = 30; creatures > 0; creatures--){
 		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<AliveObject> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
-		if (area.placeAliveObject(creature, p)){
-			creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
-		}
+		std::shared_ptr<Creature> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
+		area.placeCreature(creature, p);
+		creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
 	}	
 
 	placePlayer();

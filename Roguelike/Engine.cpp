@@ -96,13 +96,8 @@ bool Engine::handleInput(TCOD_key_t key){
 }
 
 void Engine::updateSimulation(){
-	for (auto &o : area.dynamicObjects){
-		if (!o->isDead){
-			o->update();
-		}
-	}
-
-	area.cleanDeadObjects();
+	area.update();
+	area.cleanDeadDynamicObjects();
 
 	if (playerController.playerCreature->isDead){
 		//Respawn in village, reset quest
@@ -140,12 +135,21 @@ void Engine::renderSimulation(){
 		}
 	}
 
-	//Render dynamic objects in fov
-	for (auto &dynamicObject : area.dynamicObjects){
-		int renderX = dynamicObject->location.x - camera.location.x;
-		int renderY = dynamicObject->location.y - camera.location.y;
-		if (playerController.playerCreature->ai.inFov(dynamicObject->location.x, dynamicObject->location.y)){
-			dynamicObject->render(renderX, renderY);
+	//Render operatable objects in fov
+	for (auto &operatable : area.operatableObjects){
+		int renderX = operatable->location.x - camera.location.x;
+		int renderY = operatable->location.y - camera.location.y;
+		if (playerController.playerCreature->ai.inFov(operatable->location.x, operatable->location.y)){
+			operatable->render(renderX, renderY);
+		}
+	}
+
+	//Render creatures objects in fov
+	for (auto &creature : area.creatures){
+		int renderX = creature->location.x - camera.location.x;
+		int renderY = creature->location.y - camera.location.y;
+		if (playerController.playerCreature->ai.inFov(creature->location.x, creature->location.y)){
+			creature->render(renderX, renderY);
 		}
 	}
 }

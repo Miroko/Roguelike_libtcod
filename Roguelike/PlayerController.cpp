@@ -24,7 +24,7 @@ bool PlayerController::move(TCOD_key_t key){
 
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return wait();
-	else return Engine::area.moveDynamicObject(*playerCreature, playerCreature->location + direction);
+	else return Engine::area.moveCreature(*playerCreature, playerCreature->location + direction);
 }
 
 bool PlayerController::wait(){
@@ -44,7 +44,17 @@ bool PlayerController::attack(){
 			else if (direction == CENTER) return false;
 			else{
 				std::vector<std::shared_ptr<DynamicObject>> objectsToAttack;
-				objectsToAttack = Engine::area.getDynamicObjects(playerCreature->location + direction);
+				Point2D attackLocation = playerCreature->location + direction;
+				for (auto &creature : Engine::area.getCreatures(attackLocation)){
+					objectsToAttack.push_back(creature);
+				}
+				if (objectsToAttack.empty()){
+					//no creatures to attack
+					//check for operatables
+					for (auto &operatable : Engine::area.getOperatables(attackLocation)){
+						objectsToAttack.push_back(operatable);
+					}
+				}
 				if (objectsToAttack.empty()) return false;
 				else playerCreature->attackMelee(*objectsToAttack.front()); return true; //Attack first at location
 			}
@@ -52,7 +62,15 @@ bool PlayerController::attack(){
 		case Weapon::WEAPON_RANGED:{
 			Rectangle range = Rectangle(playerCreature->location, playerCreature->location);
 			range.expand(AliveObjectAi::RANGED_SHOOT_DISTANCE_MAX);
-			std::vector<std::shared_ptr<DynamicObject>> objectsInRange = Engine::area.getDynamicObjects(range);
+			std::vector<std::shared_ptr<DynamicObject>> objectsInRange;
+			//can target creatures
+			for (auto &creature : Engine::area.getCreatures(range)){
+				objectsInRange.push_back(creature);
+			}
+			//and operatables
+			for (auto &operatable : Engine::area.getOperatables(range)){
+				objectsInRange.push_back(operatable);
+			}
 			auto &o = objectsInRange.begin();
 			while (o != objectsInRange.end()){
 				if (o->get() == playerCreature.get() ||
@@ -97,20 +115,14 @@ bool PlayerController::operate(){
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
-		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects;
-		dynamicObjects = Engine::area.getDynamicObjects(playerCreature->location + direction);
-		if (dynamicObjects.empty()) return false;
-		else if(dynamicObjects.size() == 1){ //No other dynamic objects blocking
-			OperatableObject *operatableObject = dynamic_cast<OperatableObject*>(dynamicObjects.at(0).get());
-			if (operatableObject != nullptr){
-				if (operatableObject->isOn){
-					operatableObject->off();
-				}
-				else{
-					operatableObject->on();
-				}
-				return true;
-			}
+		std::vector<std::shared_ptr<OperatableObject>> operatables;
+		operatables = Engine::area.getOperatables(playerCreature->location + direction);
+		if (operatables.empty()) return false;
+		else{
+			std::shared_ptr<OperatableObject> operatable = operatables.front();
+			if (operatable->isOn) operatable->off();
+			else operatable->on();
+			return true;
 		}
 	}
 	return false;
@@ -126,14 +138,15 @@ bool PlayerController::talk(){
 	else if (direction == CENTER) return false;
 	else{
 		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects;
-		dynamicObjects = Engine::area.getDynamicObjects(playerCreature->location + direction);
+		Point2D talkDirection = playerCreature->location + direction;
+		//can talk to creatures
+		for (auto &creature : Engine::area.getCreatures(talkDirection)){
+			dynamicObjects.push_back(creature);
+		}
 		if (dynamicObjects.empty()) return false;
 		else{
-			if (dynamicObjects.front() == nullptr) return false;
-			else{
-				Engine::GUI.dialog.setDialog(Engine::questHandler.currentQuest->getDialog(dynamicObjects.front()));
-				Engine::GUI.dialog.open();
-			}
+			Engine::GUI.dialog.setDialog(Engine::questHandler.currentQuest->getDialog(dynamicObjects.front()));
+			Engine::GUI.dialog.open();
 		}
 	}
 	return false;

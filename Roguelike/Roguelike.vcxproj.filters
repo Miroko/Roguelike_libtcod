@@ -223,7 +223,7 @@
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="AliveObjectAi.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -408,7 +408,7 @@
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="AliveObjectAi.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

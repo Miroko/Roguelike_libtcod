@@ -6,7 +6,6 @@
 #include <deque>
 #include <functional>
 
-
 class Area;
 class AliveObject;
 class AliveObjectAi
@@ -49,7 +48,7 @@ public:
 	void setTargetLocation(Point2D &location);
 
 	//Combat
-	static const int RANGED_SHOOT_DISTANCE_MAX = 4;
+	static const int RANGED_SHOOT_DISTANCE_MAX = 5;
 	DynamicObject *combatTarget = nullptr;
 	void startCombat(DynamicObject &target);
 	void setCombatTarget(DynamicObject &target);
@@ -62,7 +61,7 @@ public:
 	bool wander(AliveObject &owner);
 	bool combat(AliveObject &owner);
 
-	void update(AliveObject &owner);
+	virtual void update(AliveObject &owner);
 
 	AliveObjectAi(){};
 };

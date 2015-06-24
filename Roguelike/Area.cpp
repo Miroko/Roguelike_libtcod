@@ -33,12 +33,9 @@ void Area::placePortal(std::shared_ptr<Portal> &portal, Point2D &location){
 	}
 }
 
-//Returns true when object placed. First tries to place at set location then by expanding placement area
-//Should always return true else in infinite loop trying to find free spot
-bool Area::placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Point2D &location){
-	if (moveDynamicObject(*dynamicObject, location)){
-		dynamicObjects.push_back(dynamicObject);
-		return true;
+void Area::placeCreature(std::shared_ptr<Creature> creature, Point2D &location){
+	if (moveCreature(*creature, location)){
+		creatures.push_back(creature);
 	}
 	else {
 		//Increase placement area until placed on open spot
@@ -47,87 +44,128 @@ bool Area::placeDynamicObject(std::shared_ptr<DynamicObject> dynamicObject, Poin
 		while (true){ //Every object must be placed somewhere
 			for (alternativeLocation.x = location.x - offset; alternativeLocation.x < location.x + offset; alternativeLocation.x++){
 				for (alternativeLocation.y = location.y - offset; alternativeLocation.y < location.y + offset; alternativeLocation.y++){
-					if (moveDynamicObject(*dynamicObject, alternativeLocation)){
-						dynamicObjects.push_back(dynamicObject);
-						return true;
+					if (moveCreature(*creature, alternativeLocation)){
+						creatures.push_back(creature);
+						goto INIT_AI;
 					}
 				}
 			}
 			++offset;
 		}
 	}
-	return false;
+	INIT_AI:
+	creature->ai.createFovMap(*this);
+	creature->ai.calculateFov(*this, *creature);
+	creature->ai.createPathMap(*this, *creature);
 }
 
-bool Area::placeAliveObject(std::shared_ptr<AliveObject> aliveObject, Point2D &location){
-	if (placeDynamicObject(aliveObject, location)){
-		aliveObject->ai.createFovMap(*this);
-		aliveObject->ai.calculateFov(*this, *aliveObject);
-		aliveObject->ai.createPathMap(*this, *aliveObject);
-		return true;
-	}
-	else return false;
-}
-
-bool Area::moveDynamicObject(DynamicObject &dynamicObject, Point2D &toLocation){
-	if (bounds.inside(toLocation)){
-		if (staticObjects[(int)toLocation.x][(int)toLocation.y]->passable() == false) {
-			return false;
-		}
-		for (auto &o : dynamicObjects){
-			if (o->location.x == toLocation.x && o->location.y == toLocation.y){
+bool Area::moveCreature(Creature &creature, Point2D &location){
+	if (bounds.inside(location)){
+		if (!staticObjects[location.x][location.y]->passable()) return false;
+		for (auto &o : creatures){
+			if (o->location == location){
 				if (!o->passable()){
 					return false;
 				}
 			}
 		}
-		// Can move
-		dynamicObject.location = toLocation;
+		for (auto &o : operatableObjects){
+			if (o->location == location){
+				if (!o->passable()){
+					return false;
+				}
+			}
+		}
+		creature.location = location;
 		return true;
 	}
 	return false;
 }
 
-std::vector<std::shared_ptr<DynamicObject>> Area::getDynamicObjects(Point2D &location){
-	std::vector<std::shared_ptr<DynamicObject>> objectsAtLocation;
-	for (auto &dynamicObject : dynamicObjects){
-		if (dynamicObject->location == location){
-			objectsAtLocation.push_back(dynamicObject);
+std::vector<std::shared_ptr<Creature>> Area::getCreatures(Point2D &location){
+	std::vector<std::shared_ptr<Creature>> creaturesAtLocation;
+	for (auto &creature : creatures){
+		if (creature->location == location){
+			creaturesAtLocation.push_back(creature);
 		}
 	}
-	return objectsAtLocation;
+	return creaturesAtLocation;
 }
 
-std::vector<std::shared_ptr<DynamicObject>> Area::getDynamicObjects(Rectangle &bounds){
-	std::vector<std::shared_ptr<DynamicObject>> objectsInBounds;
-	for (auto &dynamicObject : dynamicObjects){
-		if (bounds.contains(dynamicObject->location)){
-			objectsInBounds.push_back(dynamicObject);
+std::vector<std::shared_ptr<Creature>> Area::getCreatures(Rectangle &bounds){
+	std::vector<std::shared_ptr<Creature>> creaturesInBounds;
+	for (auto &creature : creatures){
+		if (bounds.contains(creature->location)){
+			creaturesInBounds.push_back(creature);
 		}
 	}
-	return objectsInBounds;
+	return creaturesInBounds;
 }
 
-void Area::killDynamicObject(DynamicObject &dynamicObject){
-	for (auto &o : dynamicObjects){
-		if (o.get() == &dynamicObject){
-			o->isDead = true;
-			requireClean = true;
-		}
+void Area::placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D &location){
+	if (moveOperatable(*operatable, location)){
+		operatableObjects.push_back(operatable);
+		return;
 	}
-}
-
-void Area::cleanDeadObjects(){
-	if (requireClean){
-		auto &o = dynamicObjects.begin();
-		while (o != dynamicObjects.end()){
-			if (o->get()->isDead){
-				o = dynamicObjects.erase(o);
+	else {
+		//Increase placement area until placed on open spot
+		Point2D alternativeLocation = location;
+		int offset = 1;
+		while (true){ //Every object must be placed somewhere
+			for (alternativeLocation.x = location.x - offset; alternativeLocation.x < location.x + offset; alternativeLocation.x++){
+				for (alternativeLocation.y = location.y - offset; alternativeLocation.y < location.y + offset; alternativeLocation.y++){
+					if (moveOperatable(*operatable, alternativeLocation)){
+						operatableObjects.push_back(operatable);
+						return;
+					}
+				}
 			}
-			else ++o;
+			++offset;
 		}
-		requireClean = false;
 	}
+}
+
+bool Area::moveOperatable(OperatableObject &operatable, Point2D &location){
+	if (bounds.inside(location)){
+		if (!staticObjects[location.x][location.y]->passable()) return false;
+		for (auto &o : operatableObjects){
+			if (o->location == location){
+				if (!o->passable()){
+					return false;
+				}
+			}
+		}
+		for (auto &o : creatures){
+			if (o->location == location){
+				if (!o->passable()){
+					return false;
+				}
+			}
+		}
+		operatable.location = location;
+		return true;
+	}
+	return false;
+}
+
+std::vector<std::shared_ptr<OperatableObject>> Area::getOperatables(Point2D &location){
+	std::vector<std::shared_ptr<OperatableObject>> operatablesInLocation;
+	for (auto &operatable : operatableObjects){
+		if (operatable->location == location){
+			operatablesInLocation.push_back(operatable);
+		}
+	}
+	return operatablesInLocation;
+}
+
+std::vector<std::shared_ptr<OperatableObject>> Area::getOperatables(Rectangle &bounds){
+	std::vector<std::shared_ptr<OperatableObject>> operatablesInBounds;
+	for (auto &operatable : operatableObjects){
+		if (bounds.contains(operatable->location)){
+			operatablesInBounds.push_back(operatable);
+		}
+	}
+	return operatablesInBounds;
 }
 
 void Area::placeItem(std::shared_ptr<Item> &item, Point2D &toLocation){
@@ -154,4 +192,42 @@ std::vector<std::shared_ptr<Item>> Area::getItemsAt(Point2D &location){
 		}
 	}
 	return itemsAtLocation;
+}
+
+void Area::killDynamicObject(DynamicObject &dynamicObject){
+	dynamicObject.isDead = true;
+	requireClean = true;
+}
+
+void Area::cleanDeadDynamicObjects(){
+	if (requireClean){
+		auto &creature = creatures.begin();
+		while (creature != creatures.end()){
+			if (creature->get()->isDead){
+				creature = creatures.erase(creature);
+			}
+			else ++creature;
+		}
+		auto &operatable = operatableObjects.begin();
+		while (operatable != operatableObjects.end()){
+			if (operatable->get()->isDead){
+				operatable = operatableObjects.erase(operatable);
+			}
+			else ++operatable;
+		}
+		requireClean = false;
+	}
+}
+
+void Area::update(){
+	for (auto &creature : creatures){
+		if (!creature->isDead){
+			creature->update();
+		}
+	}
+	for (auto &operatable : operatableObjects){
+		if (!operatable->isDead){
+			operatable->update();
+		}
+	}
 }

@@ -62,7 +62,7 @@ Village::Village() : Area(100, LAND){
 		for (int villager = villagers; villager > 0; villager--){
 			Point2D location = Random::point(villagerArea);
 			std::shared_ptr<Human> human = Creature::newCreature(MAN, MAN_EQUIPMENT);
-			placeAliveObject(human, location);
+			placeCreature(human, location);
 			human->ai.state = AliveObjectAi::FREE;
 		}
 
@@ -74,6 +74,6 @@ Village::Village() : Area(100, LAND){
 		//Door
 		Point2D doorPoint = points.at(Random::generator.getInt(0, points.size() - 1));
 		setStaticObject(WOOD_FLOOR, doorPoint);
-		placeDynamicObject(OperatableObject::newOperatable(WOOD_DOOR), doorPoint);
+		placeOperatable(OperatableObject::newOperatable(WOOD_DOOR), doorPoint);
 	}
 }

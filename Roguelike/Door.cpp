@@ -1,4 +1,5 @@
 #include "Door.h"
+#include "Engine.h"
 
 bool Door::passable(){
 	return isOn;
@@ -10,6 +11,8 @@ void Door::on(){
 }
 
 void Door::off(){
-	OperatableObject::off();
-	transparent = false;
+	if (Engine::area.getCreatures(location).empty()){
+		OperatableObject::off();
+		transparent = false;
+	}
 }

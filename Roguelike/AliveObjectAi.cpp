@@ -28,13 +28,27 @@ void AliveObjectAi::createFovMap(Area &area){
 }
 
 void AliveObjectAi::calculateFov(Area &area, AliveObject &owner){
-	//Update fov map
-	for (auto &o : area.dynamicObjects){
-		if (o->isDead) fovMap->setProperties(o->location.x, o->location.y,
-			area.staticObjects[o->location.x][o->location.y]->transparent,
-			area.staticObjects[o->location.x][o->location.y]->passable());
-		else{
+	//creatures blocking sight
+	for (auto &o : area.creatures){
+		if (!o->isDead){
 			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable());
+		}
+		else{
+			//if dead use static object
+			fovMap->setProperties(o->location.x, o->location.y,
+				area.staticObjects[o->location.x][o->location.y]->transparent,
+				area.staticObjects[o->location.x][o->location.y]->passable());
+		}
+	}
+	//and operatables
+	for (auto &o : area.operatableObjects){
+		if (!o->isDead){
+			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable());
+		}
+		else{
+			fovMap->setProperties(o->location.x, o->location.y,
+				area.staticObjects[o->location.x][o->location.y]->transparent,
+				area.staticObjects[o->location.x][o->location.y]->passable());
 		}
 	}
 	//Compute
@@ -49,9 +63,9 @@ std::vector<std::shared_ptr<Door>> AliveObjectAi::getDoorsInFov(int maxDistance,
 	std::vector<std::shared_ptr<Door>> doorsInFov;
 	Rectangle scanArea = Rectangle(owner.location, owner.location);
 	scanArea.expand(maxDistance);
-	for (auto &dynamicObject : Engine::area.getDynamicObjects(scanArea)){
-		if (inFov(dynamicObject->location.x, dynamicObject->location.y)){
-			std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(dynamicObject);
+	for (auto &operatable : Engine::area.getOperatables(scanArea)){
+		if (inFov(operatable->location.x, operatable->location.y)){
+			std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(operatable);
 			if (door != nullptr){
 				doorsInFov.push_back(door);
 			}
@@ -61,17 +75,21 @@ std::vector<std::shared_ptr<Door>> AliveObjectAi::getDoorsInFov(int maxDistance,
 }
 
 float AliveObjectAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
-	AliveObject *thisObject = static_cast<AliveObject*>(userData);
-	if (Engine::area.staticObjects[xTo][yTo]->passable() == false) return 0;
+	float walkability = 0; // 0 == unwalkable
 
-	for (auto &o : Engine::area.dynamicObjects){
+	AliveObject *thisObject = static_cast<AliveObject*>(userData);
+	if (Engine::area.staticObjects[xTo][yTo]->passable()) walkability = 1;
+	else return 0;
+
+	for (auto &o : Engine::area.creatures){
 		if (o->isDead) continue;
 
 		if (o->location.x == xTo && o->location.y == yTo){
 			if (!o->passable()){
 				if (o->location == thisObject->ai.targetLocation){
 					// Computing path to target
-					return 1;
+					// If set to 0 will not calculate path to it
+					walkability = 1;
 				}
 				else{
 					return 0;
@@ -80,7 +98,22 @@ float AliveObjectAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo
 		}
 	}
 
-	return 1;
+	for (auto &o : Engine::area.operatableObjects){
+		if (o->isDead) continue;
+
+		if (o->location.x == xTo && o->location.y == yTo){
+			if (!o->passable()){
+				if (o->location == thisObject->ai.targetLocation){
+					walkability = 1;
+				}
+				else{
+					return 0;
+				}
+			}
+		}
+	}
+
+	return walkability;
 }
 
 void AliveObjectAi::createPathMap(Area &area, AliveObject &owner){
@@ -144,14 +177,12 @@ void AliveObjectAi::startCombat(DynamicObject &target){
 
 bool AliveObjectAi::closeDoor(AliveObject &owner){
 	std::shared_ptr<Door> doorToClose = nullptr;
-	for (auto &dynamicObject : Engine::area.getDynamicObjects(getScanArea(owner.location, DISTANCE_MEDIUM))){
-		if (doorToClose != nullptr){
-			if (dynamicObject->location == doorToClose->location) return false;
-		}
-		std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(dynamicObject);
-		if (door != nullptr && doorToClose == nullptr){
-			if (door->isOn){ //Is open
+	for (auto &operatable : Engine::area.getOperatables(getScanArea(owner.location, DISTANCE_MEDIUM))){
+		std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(operatable);
+		if (door != nullptr){
+			if (door->isOn){ // on == open
 				doorToClose = door;
+				break;
 			}
 		}
 	}
@@ -168,7 +199,7 @@ bool AliveObjectAi::closeDoor(AliveObject &owner){
 
 bool AliveObjectAi::wander(AliveObject &owner){
 	Point2D direction = Random::direction();
-	Engine::area.moveDynamicObject(owner, owner.location + direction);
+	Engine::area.moveCreature(static_cast<Creature&>(owner), owner.location + direction);
 	return false;
 }
 
@@ -216,25 +247,27 @@ void AliveObjectAi::update(AliveObject &owner){
 			AiState nextState = FREE;
 			Rectangle small = getScanArea(owner.location, DISTANCE_SMALL);
 			Rectangle medium = getScanArea(owner.location, DISTANCE_MEDIUM);
-			for (auto &dynamicObject : Engine::area.dynamicObjects){
-				if (medium.contains(dynamicObject->location)){
-					std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(dynamicObject);
+			for (auto &creature : Engine::area.creatures){
+				if (small.contains(creature->location)){
+					if (creature.get() != &owner){
+						//Other creature near
+						nextState = IDLE; break;
+					}					
+				}
+			}
+			for (auto &operatable : Engine::area.operatableObjects){
+				if (medium.contains(operatable->location)){
+					std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(operatable);
 					if (door != nullptr){
 						if (door->isOn){
+							//Open door in medium range
 							nextState = CLOSE_DOOR; break;
-						}
-					}
-					if (small.contains(dynamicObject->location)){
-						std::shared_ptr<Creature> creature = std::dynamic_pointer_cast<Creature>(dynamicObject);
-						if (creature != nullptr){
-							if (creature.get() != &owner){
-								nextState = IDLE; break;
-							}
 						}
 					}
 				}
 			}
 			if (nextState == FREE){
+				//Nothing to do
 				nextState = WANDER;
 			}
 			state = nextState;

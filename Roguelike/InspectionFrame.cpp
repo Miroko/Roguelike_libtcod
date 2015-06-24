@@ -30,11 +30,19 @@ void InspectionFrame::render(float elapsed){
 	if (Engine::playerController.playerCreature->ai.inFov(pointInMap.x, pointInMap.y)){
 		GuiFrame::render(elapsed);
 
-		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects = Engine::area.getDynamicObjects(pointInMap);
-		if (!dynamicObjects.empty()){
-			objectInCursor = dynamicObjects.at(0).get();
+		std::vector<std::shared_ptr<Creature>> creatures = Engine::area.getCreatures(pointInMap);	
+		if (!creatures.empty()){
+			objectInCursor = creatures.front().get();
 		}
-		else{
+		
+		if (objectInCursor == nullptr){
+			std::vector<std::shared_ptr<OperatableObject>> operatables = Engine::area.getOperatables(pointInMap);
+			if (!operatables.empty()){
+				objectInCursor = operatables.front().get();
+			}
+		}
+
+		if(objectInCursor == nullptr){
 			std::vector<std::shared_ptr<Item>> items = Engine::area.getItemsAt(pointInMap);
 			if (!items.empty()){
 				objectInCursor = items[0].get();
@@ -43,8 +51,8 @@ void InspectionFrame::render(float elapsed){
 				objectInCursor = Engine::area.staticObjects[pointInMap.x][pointInMap.y].get();
 			}
 		}
-		if (objectInCursor != nullptr) description = objectInCursor->getDescription();
-		console->printRect(1, 1, console->getWidth() - 2, 1, description.c_str());
+
+		console->printRect(1, 1, console->getWidth() - 2, 1, objectInCursor->getDescription().c_str());
 
 		blit();
 	}

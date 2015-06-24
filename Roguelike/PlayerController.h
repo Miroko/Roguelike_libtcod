@@ -28,7 +28,7 @@ private:
 	bool wait();
 
 public:
-	std::shared_ptr<AliveObject> playerCreature;
+	std::shared_ptr<Creature> playerCreature;
 
 	//True if simulation update needed
 	bool handleKey(TCOD_key_t key);
