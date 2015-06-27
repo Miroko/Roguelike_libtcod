@@ -1,6 +1,6 @@
 #include "Engine.h"
-#include "Human.h"
 #include "Weapon.h"
+#include "ObjectLibrary.h"
 
 Gui Engine::GUI = Gui();
 Camera Engine::camera = Camera();
@@ -11,45 +11,28 @@ VisualEffectHandler Engine::visualEffectHandler = VisualEffectHandler();
 
 void Engine::start(){
 	TCODSystem::setFps(10);
-	TCODConsole::setKeyboardRepeat(100, 20);
+	TCODConsole::setKeyboardRepeat(20, 20);
 
-	GUI.log.resize(Rectangle(Point2D(0, TCODConsole::root->getHeight() - 12),
-		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
-	GUI.inventory.resize(Rectangle(Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 2 - 10, TCODConsole::root->getHeight())));
-	GUI.equipment.resize(Rectangle(Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 2 - 10, TCODConsole::root->getHeight())));
-	GUI.quest.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 7, TCODConsole::root->getHeight() / 9),
-		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 7, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 9)));
-	GUI.help.resize(Rectangle(Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
-	GUI.pickFrame.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 3, TCODConsole::root->getHeight() / 5),
-		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 3, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 5)));
-	GUI.statistics.resize(Rectangle(Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, 0),
-		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getWidth() / 4 )));
-	GUI.inspection.resize(Rectangle(Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
-	GUI.attack.resize(Rectangle(Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
-	GUI.dialog.resize(Rectangle(Point2D(TCODConsole::root->getWidth() / 2 - 30, 2),
-		Point2D(TCODConsole::root->getWidth() / 2 + 30, TCODConsole::root->getHeight() - 2)));
-	GUI.trade.resize(Rectangle(Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+	GUI.init();
 
 	// Player creation
-	playerController.playerCreature = Creature::newCreature(MAN, EQUIPMENT_NONE);
+	playerController.playerCreature = ObjectLibrary::generateCreature(
+		ObjectLibrary::MAN,
+		RarityType::COMMON,
+		ObjectLibrary::MAN_EQUIPMENT,
+		ObjectLibrary::MAN_LOOT);
 	playerController.playerCreature->name = "Player";
 	playerController.playerCreature->glyph.character = '@';
 	playerController.playerCreature->glyph.fgColor = TCODColor::lightestBlue;
 
 	//Inventory
-	std::shared_ptr<Item> sword = Item::newItem(SWORD);
-	std::shared_ptr<Item> bow = Item::newItem(BOW);
-	std::shared_ptr<Item> armorHead = Item::newItem(LEATHER_HEAD);
-	std::shared_ptr<Item> armorBody = Item::newItem(LEATHER_BODY);
-	std::shared_ptr<Item> armorHand = Item::newItem(LEATHER_HAND);
-	std::shared_ptr<Item> armorLeg = Item::newItem(LEATHER_LEG);
-	std::shared_ptr<Item> healthPotion = Item::newItem(HEALTH_POTION);
+	std::shared_ptr<Item> sword = ObjectLibrary::generateWeapon(ObjectLibrary::SWORD, RarityType::COMMON);
+	std::shared_ptr<Item> bow = ObjectLibrary::generateWeapon(ObjectLibrary::BOW, RarityType::UNCOMMON);
+	std::shared_ptr<Item> armorHead = ObjectLibrary::generateArmor(ObjectLibrary::LEATHER_HEAD, RarityType::RARE);
+	std::shared_ptr<Item> armorBody = ObjectLibrary::generateArmor(ObjectLibrary::LEATHER_BODY, RarityType::EPIC);
+	std::shared_ptr<Item> armorHand = ObjectLibrary::generateArmor(ObjectLibrary::LEATHER_HAND, RarityType::UNIQUE);
+	std::shared_ptr<Item> armorLeg = ObjectLibrary::generateArmor(ObjectLibrary::LEATHER_LEG, RarityType::RARE);
+	std::shared_ptr<Item> healthPotion = ObjectLibrary::generateConsumable(ObjectLibrary::HEALTH_POTION);
 	GUI.inventory.addItem(healthPotion);
 	GUI.inventory.addItem(sword);
 	GUI.inventory.addItem(bow);
@@ -106,13 +89,14 @@ void Engine::updateSimulation(){
 		playerController.playerCreature->isDead = false;
 		questHandler.toVillage();
 	}
+
 	camera.centerOn(playerController.playerCreature->location);
 }
 
 void Engine::renderRealTime(float elapsed){
 	renderSimulation();
 	visualEffectHandler.render();
-	GUI.render(elapsed);
+	GUI.render();
 }
 
 void Engine::renderSimulation(){	
@@ -126,12 +110,22 @@ void Engine::renderSimulation(){
 			}
 		}
 	}
+
 	//Render items in fov
 	for (auto &item : area.items){
 		int renderX = item->location.x - camera.location.x;
 		int renderY = item->location.y - camera.location.y;
 		if (playerController.playerCreature->ai.inFov(item->location.x, item->location.y)){
 			item->render(renderX, renderY);
+		}
+	}
+
+	//Render portals in fov
+	for (auto &portal : area.portals){
+		int renderX = portal->location.x - camera.location.x;
+		int renderY = portal->location.y - camera.location.y;
+		if (playerController.playerCreature->ai.inFov(portal->location.x, portal->location.y)){
+			portal->render(renderX, renderY);
 		}
 	}
 

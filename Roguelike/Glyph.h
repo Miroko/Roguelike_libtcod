@@ -12,7 +12,7 @@ public:
 
 	void render(int x, int y);
 
-	Glyph(TCODColor fg, TCODColor bg, char character) :
+	Glyph(TCODColor fg, TCODColor bg, char character = ' ') :
 		fgColor(fg), bgColor(bg), character(character){
 		bgFlag = TCOD_BKGND_SET;
 	};

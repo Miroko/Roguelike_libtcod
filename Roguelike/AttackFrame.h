@@ -15,12 +15,12 @@ public:
 
 	void setAttackableObjects(std::vector<std::shared_ptr<DynamicObject>> attackableObjects);
 
-	void GuiFrame::render(float elapsed);
+	void GuiFrame::render();
 	bool handleKey(TCOD_key_t key, bool &requireUpdate);
 
 	void onOpen();
 
-	AttackFrame(std::string name, char controlKey, bool open, float alphaFg, float alphaBg) :
-		GuiFrame(name, controlKey, open, alphaFg, alphaBg){};
+	AttackFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
+		GuiFrame(controlKey, open, alphaFg, alphaBg){};
 };
 

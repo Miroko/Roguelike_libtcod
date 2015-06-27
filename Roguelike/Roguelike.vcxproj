@@ -25,10 +25,13 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="EquipmentContainer.cpp" />
     <ClCompile Include="Heal.cpp" />
+    <ClCompile Include="HeavyRarityEffect.cpp" />
     <ClCompile Include="InspectionFrame.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="LootContainer.cpp" />
+    <ClCompile Include="ObjectLibrary.cpp" />
     <ClCompile Include="OperatableObject.cpp" />
+    <ClCompile Include="RarityEffect.cpp" />
     <ClCompile Include="StatisticsFrame.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="TheGoblinKing.cpp" />
@@ -41,7 +44,6 @@
     <ClCompile Include="EquipmentFrame.cpp" />
     <ClCompile Include="Forest.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Goblin.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="GuiFrame.cpp" />
     <ClCompile Include="HelpFrame.cpp" />
@@ -52,7 +54,6 @@
     <ClCompile Include="ItemPickFrame.cpp" />
     <ClCompile Include="LogFrame.cpp" />
     <ClCompile Include="Loot.cpp" />
-    <ClCompile Include="Human.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Quest.cpp" />
@@ -89,10 +90,13 @@
     <ClInclude Include="Door.h" />
     <ClInclude Include="EquipmentContainer.h" />
     <ClInclude Include="Heal.h" />
+    <ClInclude Include="HeavyRarityEffect.h" />
     <ClInclude Include="InspectionFrame.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LootContainer.h" />
+    <ClInclude Include="ObjectLibrary.h" />
     <ClInclude Include="OperatableObject.h" />
+    <ClInclude Include="RarityEffect.h" />
     <ClInclude Include="StatisticsFrame.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="TheGoblinKing.h" />
@@ -105,7 +109,6 @@
     <ClInclude Include="EquipmentFrame.h" />
     <ClInclude Include="Forest.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Goblin.h" />
     <ClInclude Include="Gui.h" />
     <ClInclude Include="GuiFrame.h" />
     <ClInclude Include="HelpFrame.h" />
@@ -116,7 +119,6 @@
     <ClInclude Include="ItemPickFrame.h" />
     <ClInclude Include="LogFrame.h" />
     <ClInclude Include="Loot.h" />
-    <ClInclude Include="Human.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Quest.h" />

@@ -1,18 +1,19 @@
 #include "Door.h"
 #include "Engine.h"
 
-bool Door::passable(){
-	return isOn;
-}
-
 void Door::on(){
-	OperatableObject::on();
 	transparent = true;
+	OperatableObject::on();
 }
 
 void Door::off(){
 	if (Engine::area.getCreatures(location).empty()){
-		OperatableObject::off();
 		transparent = false;
+		OperatableObject::off();
 	}
+}
+
+bool Door::passable(DynamicObject &dynamicObject){
+	if (isOn) return true;
+	else return false;
 }

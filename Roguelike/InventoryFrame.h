@@ -25,9 +25,9 @@ public:
 	void consume(std::shared_ptr<Item> &item);
 	void drop(std::shared_ptr<Item> &item);
 
-	void render(float elapsed);
 	void SelectableItemFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &operation);
 	std::vector<std::string> SelectableItemFrame::getOperationsForItem(std::shared_ptr<Item> &item);
 
-	InventoryFrame(std::string name, char controlKey, bool open, float alphaFg, float alphaBg) : SelectableItemFrame(name, controlKey, open, alphaFg, alphaBg){};
+	InventoryFrame(char controlKey, bool open, float alphaFg, float alphaBg) : 
+		SelectableItemFrame(controlKey, open, alphaFg, alphaBg, "Inventory"){};
 };

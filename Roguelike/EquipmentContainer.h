@@ -5,10 +5,10 @@
 class EquipmentContainer
 {
 public:
-	const std::vector<std::shared_ptr<Equipment>> allEquipment;
+	std::vector<Equipment*> allEquipment;
 
-	void equipOn(std::shared_ptr<AliveObject> aliveObject) const;
+	void equipOn(AliveObject &aliveObject);
 
-	EquipmentContainer(const std::vector<std::shared_ptr<Equipment>> &allEquipment) : allEquipment(allEquipment){};
+	EquipmentContainer(std::vector<Equipment*> &allEquipment) : allEquipment(allEquipment){};
 };
 

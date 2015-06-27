@@ -1,7 +1,7 @@
 #include "EquipmentContainer.h"
 
-void EquipmentContainer::equipOn(std::shared_ptr<AliveObject> aliveObject) const{
+void EquipmentContainer::equipOn(AliveObject &aliveObject){
 	for (auto &equipment : allEquipment){
-		aliveObject->equip(equipment);
+		aliveObject.equipItem(*equipment);
 	}
 }

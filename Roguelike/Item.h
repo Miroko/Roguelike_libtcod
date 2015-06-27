@@ -3,17 +3,14 @@
 #include <memory>
 #include <string>
 
-const int VALUE_PER_KG = 1;
-
+class RarityType;
+class RarityEffect;
 class Item : public GameObject
 {
+private:
+	const int VALUE_WEIGHT_MULTIPLIER = 1.2;
+
 public:
-	template <typename T> static std::shared_ptr<T> newItem(const std::shared_ptr<T> &itemTemplate){
-		return std::shared_ptr<T>(new T(*itemTemplate));
-	}
-
-	Point2D location;
-
 	enum Type{
 		WEAPON_MELEE,
 		WEAPON_RANGED,
@@ -24,16 +21,23 @@ public:
 		CONSUMABLE
 	};
 	Type type;
+	Point2D location;
+	RarityType *rarity = nullptr;
+	RarityEffect *rarityEffect = nullptr;
+	float weight; 	// Kg
 
-	// Kg
-	float weight;
-
-	virtual std::string getDescription();
 	virtual int getValue();
+
+	virtual std::string getStatistics();
+	virtual std::string getDescription();
+
+
+	void print(int x, int y, int width, int height, TCODConsole &console);
+	void printWithBg(int x, int y, int width, int height, TCODConsole &console);
 
 	bool operator==(const Item &item);
 
-	Item(Glyph glyph, std::string name, float weight, Type type)
-		: GameObject(glyph, name, true), weight(weight), type(type){};
+	Item(std::string name, Glyph glyph, float weight, Type type)
+		: GameObject(name, glyph), weight(weight), type(type){};
 };
 

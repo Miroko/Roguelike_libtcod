@@ -11,13 +11,9 @@ public:
 	Glyph glyph;
 	std::string name;
 
-	bool transparent;
-
-	virtual bool passable();
 	virtual void render(int x, int y);
 	virtual std::string getDescription();
 
-	GameObject(Glyph glyph, std::string name, bool transparent) : glyph(glyph), name(name), transparent(transparent){};
-	GameObject(){};
+	GameObject(std::string name, Glyph glyph) : glyph(glyph), name(name){};
 };
 

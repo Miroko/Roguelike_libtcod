@@ -7,23 +7,21 @@
 
 class DynamicObject : public GameObject
 {
-
 public:
+	LootContainer *loot = nullptr;
+
 	bool isDead = false;
 
 	Point2D location;
 
-	enum Size
-	{
-		SMALL,
-		MEDIUM,
-		LARGE
-	};
-	Size size;
+	bool transparent;
 
 	//Stats
 	int healthMax;
 	int health;
+	void setHealth(int health);
+
+	virtual bool passable(DynamicObject &dynamicObject);
 
 	virtual void onTakeDamage(DynamicObject &attacker, int amount);
 	virtual void onTakeDamageEffect();
@@ -31,10 +29,11 @@ public:
 
 	virtual void messageDeath();
 
-	const LootContainer &loot;
-
 	virtual void update(){};
 
-	DynamicObject(Glyph glyph, std::string name, Size size, bool transparent, int health, const LootContainer &loot) :
-		GameObject(glyph, name, transparent), size(size), health(health), healthMax(health), loot(loot){};
+	DynamicObject(std::string name, Glyph glyph, int health, bool transparent = true) :
+		GameObject(name, glyph),
+		transparent(transparent){
+		setHealth(health);
+	};
 };

@@ -10,8 +10,8 @@ bool HelpFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	return handled;
 }
 
-void HelpFrame::render(float elapsed){
-	GuiFrame::render(elapsed);
+void HelpFrame::render(){
+	GuiFrame::render();
 
 	blit();
 }

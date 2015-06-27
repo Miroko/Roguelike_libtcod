@@ -1,12 +1,15 @@
 #pragma once
 #include "Loot.h"
+#include <vector>
+#include <memory>
+
 class LootContainer
 {
 public:
-	const std::vector<std::shared_ptr<Loot>> allLoot;
+	std::vector<Loot> containerLoot;
 
-	std::vector<std::shared_ptr<Item>> generateLoot() const;
+	std::vector<std::shared_ptr<Item>> generateLoot();
 
-	LootContainer(const std::vector<std::shared_ptr<Loot>> allLoot) : allLoot(allLoot){}
+	LootContainer(std::vector<Loot> containerLoot) : containerLoot(containerLoot){}
 };
 

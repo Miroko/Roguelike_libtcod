@@ -22,33 +22,33 @@ bool InspectionFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	return handled;
 }
 
-void InspectionFrame::render(float elapsed){
+void InspectionFrame::render(){
 	std::string description = "";
 	Point2D pointInMap = inspectorLocation + Engine::camera.location;
 	GameObject *objectInCursor = nullptr;
 
 	if (Engine::playerController.playerCreature->ai.inFov(pointInMap.x, pointInMap.y)){
-		GuiFrame::render(elapsed);
+		GuiFrame::render();
 
-		std::vector<std::shared_ptr<Creature>> creatures = Engine::area.getCreatures(pointInMap);	
+		std::vector<std::shared_ptr<Creature>*> creatures = Engine::area.getCreatures(pointInMap);	
 		if (!creatures.empty()){
-			objectInCursor = creatures.front().get();
+			objectInCursor = creatures.front()->get();
 		}
 		
 		if (objectInCursor == nullptr){
-			std::vector<std::shared_ptr<OperatableObject>> operatables = Engine::area.getOperatables(pointInMap);
+			std::vector<std::shared_ptr<OperatableObject>*> operatables = Engine::area.getOperatables(pointInMap);
 			if (!operatables.empty()){
-				objectInCursor = operatables.front().get();
+				objectInCursor = operatables.front()->get();
 			}
 		}
 
 		if(objectInCursor == nullptr){
-			std::vector<std::shared_ptr<Item>> items = Engine::area.getItemsAt(pointInMap);
+			std::vector<std::shared_ptr<Item>*> items = Engine::area.getItemsAt(pointInMap);
 			if (!items.empty()){
-				objectInCursor = items[0].get();
+				objectInCursor = items.front()->get();
 			}
 			else{
-				objectInCursor = Engine::area.staticObjects[pointInMap.x][pointInMap.y].get();
+				objectInCursor = Engine::area.staticObjects[pointInMap.x][pointInMap.y];
 			}
 		}
 

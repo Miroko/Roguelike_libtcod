@@ -2,6 +2,7 @@
 #include "KeyMapping.h"
 #include "Direction.h"
 
+
 void DialogFrame::setDialog(std::shared_ptr<Dialog> dialog){
 	currentDialog = dialog;
 	selectedOption = 0;
@@ -40,23 +41,22 @@ bool DialogFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	return handled;
 }
 
-void DialogFrame::render(float elapsed){
-	GuiFrame::render(elapsed);
+void DialogFrame::render(){
+	GuiFrame::render();
 
 	//Text
-	console->printRectEx(2, 2, console->getWidth() - 4, console->getHeight(), TCOD_BKGND_NONE, TCOD_LEFT,
-			                                    currentDialog->getText().c_str());
-	blit();
+	printString(0, 0, getWidth(), getHeight(), FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, currentDialog->getText().c_str());
 
 	//Options
-	int y = 0;
+	int offsetY = 0;
 	for (auto &option : currentDialog->dialogOptions){
-		if (y == selectedOption) console->setDefaultForeground(selectionColor);
-		else console->setDefaultForeground(FG_COLOR);
-		console->printRectEx(2, console->getHeight() - 3 - y, console->getWidth(), 1, TCOD_BKGND_NONE, TCOD_LEFT,
-				                             currentDialog->dialogOptions.at(y)->optionText.c_str());
-
-		blit(2, console->getHeight() - 3 - y, console->getWidth() - 4, 1, bounds.start.x + 2, bounds.end.y - y - 3, alphaFg, alphaBg);
-		++y;
+		if (offsetY == selectedOption){
+			printString(0, getHeight() - offsetY, getWidth(), 1, selectionColor, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, currentDialog->dialogOptions.at(offsetY)->optionText.c_str());
+		}
+		else{
+			printString(0, getHeight() - offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, currentDialog->dialogOptions.at(offsetY)->optionText.c_str());
+		}
+		++offsetY;
 	}
+	blit();
 }

@@ -55,23 +55,23 @@ void EquipmentFrame::equip(std::shared_ptr<Item> &item){
 	if (item->type == Item::WEAPON_MELEE ||
 		item->type == Item::WEAPON_RANGED){
 		weapon = item;
-		Engine::playerController.playerCreature->equip(weapon);
+		Engine::playerController.playerCreature->equipItem(static_cast<Weapon&>(*weapon));
 	}
 	else if (item->type == Item::ARMOR_HEAD){
 		armorHead = item;
-		Engine::playerController.playerCreature->equip(armorHead);
+		Engine::playerController.playerCreature->equipItem(static_cast<Armor&>(*armorHead));
 	}
 	else if (item->type == Item::ARMOR_BODY){
 		armorBody = item;
-		Engine::playerController.playerCreature->equip(armorBody);
+		Engine::playerController.playerCreature->equipItem(static_cast<Armor&>(*armorBody));
 	}
 	else if (item->type == Item::ARMOR_HAND){
 		armorHand = item;
-		Engine::playerController.playerCreature->equip(armorHand);
+		Engine::playerController.playerCreature->equipItem(static_cast<Armor&>(*armorHand));
 	}
 	else if (item->type == Item::ARMOR_LEG){
 		armorLeg = item;
-		Engine::playerController.playerCreature->equip(armorLeg);
+		Engine::playerController.playerCreature->equipItem(static_cast<Armor&>(*armorLeg));
 	}
 }
 

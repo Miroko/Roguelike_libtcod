@@ -1,6 +1,7 @@
 #include "AliveObject.h"
 #include "Engine.h"
 #include "Random.h"
+#include "ObjectLibrary.h"
 
 void AliveObject::damage(DynamicObject &target){
 	target.onTakeDamage(*this, weapon->damage);
@@ -34,43 +35,31 @@ void AliveObject::onTakeDamage(DynamicObject &attacker, int amount){
 }
 
 void AliveObject::update(){
-	//Effects
-	auto &effect = effects.items.begin();
-	while (effect != effects.items.end()){
-		if (effect->get()->duration <= 0){
-			effect = effects.items.erase(effect);
-		}
-		else{
-			effect->get()->duration--;
-			effect->get()->update(*this);
-			++effect;
-		}
+	//Consumable effects
+	if (!effects.empty()){
+		effects.front()->apply(*this);
+		effects.pop_front();
 	}
+	//Ai
 	ai.update(*this);
 }
 
-void AliveObject::equip(std::shared_ptr<Item> equipment){
-	switch (equipment->type){
-	case Item::WEAPON_MELEE: weapon = std::static_pointer_cast<Weapon>(equipment); break;
-	case Item::WEAPON_RANGED: weapon = std::static_pointer_cast<Weapon>(equipment); break;
-	case Item::ARMOR_HEAD: armorHead = std::static_pointer_cast<Armor>(equipment); break;
-	case Item::ARMOR_BODY: armorBody = std::static_pointer_cast<Armor>(equipment); break;
-	case Item::ARMOR_HAND: armorHand = std::static_pointer_cast<Armor>(equipment); break;
-	case Item::ARMOR_LEG: armorLeg = std::static_pointer_cast<Armor>(equipment); break;
+void AliveObject::equipItem(Equipment &equipment){
+	switch (equipment.type){
+	case Item::WEAPON_MELEE: weapon = static_cast<Weapon*>(&equipment); break;
+	case Item::WEAPON_RANGED: weapon = static_cast<Weapon*>(&equipment); break;
+	case Item::ARMOR_HEAD: armorHead = static_cast<Armor*>(&equipment); break;
+	case Item::ARMOR_BODY: armorBody = static_cast<Armor*>(&equipment); break;
+	case Item::ARMOR_HAND: armorHand = static_cast<Armor*>(&equipment); break;
+	case Item::ARMOR_LEG: armorLeg = static_cast<Armor*>(&equipment); break;
 	default: break;
 	}
 }
 
-void AliveObject::consume(std::shared_ptr<Item> consumable){
-	Consumable *c = static_cast<Consumable*>(consumable.get());
-	for (auto &effect : c->effects){
-		switch (effect->type){
-		case AliveObjectEffect::HEAL: addEffect(AliveObjectEffect::newEffect(std::static_pointer_cast<Heal>(effect))); break;
-		default: break;
+void AliveObject::consume(Consumable &consumable){
+	for (auto &effect : consumable.effects){
+		for (int duration = effect->duration; duration > 0; duration--){
+			effects.push_back(effect);
 		}
 	}
-}
-
-void AliveObject::addEffect(std::shared_ptr<AliveObjectEffect> effect){
-	effects.add(effect);
 }

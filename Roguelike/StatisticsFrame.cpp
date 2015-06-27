@@ -1,8 +1,8 @@
 #include "StatisticsFrame.h"
 #include "Engine.h"
 
-void StatisticsFrame::render(float elapsed){
-	GuiFrame::render(elapsed);
+void StatisticsFrame::render(){
+	GuiFrame::render();
 
 	console->printRectEx(1, 2, console->getWidth() - 1, 1, TCOD_BKGND_NONE, TCOD_LEFT, "Health: ");
 

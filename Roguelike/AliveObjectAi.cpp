@@ -22,7 +22,7 @@ void AliveObjectAi::createFovMap(Area &area){
 	for (int x = startX; x < endX; x++){
 		for (int y = startY; y < endY; y++){
 			fovMap->setProperties(x, y,
-				area.staticObjects[x][y]->transparent, area.staticObjects[x][y]->passable());
+				area.staticObjects[x][y]->transparent, area.staticObjects[x][y]->raised);
 		}
 	}
 }
@@ -31,24 +31,24 @@ void AliveObjectAi::calculateFov(Area &area, AliveObject &owner){
 	//creatures blocking sight
 	for (auto &o : area.creatures){
 		if (!o->isDead){
-			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable());
+			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable(owner));
 		}
 		else{
 			//if dead use static object
 			fovMap->setProperties(o->location.x, o->location.y,
 				area.staticObjects[o->location.x][o->location.y]->transparent,
-				area.staticObjects[o->location.x][o->location.y]->passable());
+				area.staticObjects[o->location.x][o->location.y]->raised);
 		}
 	}
 	//and operatables
 	for (auto &o : area.operatableObjects){
 		if (!o->isDead){
-			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable());
+			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable(owner));
 		}
 		else{
 			fovMap->setProperties(o->location.x, o->location.y,
 				area.staticObjects[o->location.x][o->location.y]->transparent,
-				area.staticObjects[o->location.x][o->location.y]->passable());
+				area.staticObjects[o->location.x][o->location.y]->raised);
 		}
 	}
 	//Compute
@@ -64,8 +64,8 @@ std::vector<std::shared_ptr<Door>> AliveObjectAi::getDoorsInFov(int maxDistance,
 	Rectangle scanArea = Rectangle(owner.location, owner.location);
 	scanArea.expand(maxDistance);
 	for (auto &operatable : Engine::area.getOperatables(scanArea)){
-		if (inFov(operatable->location.x, operatable->location.y)){
-			std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(operatable);
+		if (inFov(operatable->get()->location.x, operatable->get()->location.y)){
+			std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(*operatable);
 			if (door != nullptr){
 				doorsInFov.push_back(door);
 			}
@@ -78,14 +78,14 @@ float AliveObjectAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo
 	float walkability = 0; // 0 == unwalkable
 
 	AliveObject *thisObject = static_cast<AliveObject*>(userData);
-	if (Engine::area.staticObjects[xTo][yTo]->passable()) walkability = 1;
+	if (!Engine::area.staticObjects[xTo][yTo]->raised) walkability = 1;
 	else return 0;
 
 	for (auto &o : Engine::area.creatures){
 		if (o->isDead) continue;
 
 		if (o->location.x == xTo && o->location.y == yTo){
-			if (!o->passable()){
+			if (!o->passable(*thisObject)){
 				if (o->location == thisObject->ai.targetLocation){
 					// Computing path to target
 					// If set to 0 will not calculate path to it
@@ -102,7 +102,7 @@ float AliveObjectAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo
 		if (o->isDead) continue;
 
 		if (o->location.x == xTo && o->location.y == yTo){
-			if (!o->passable()){
+			if (!o->passable(*thisObject)){
 				if (o->location == thisObject->ai.targetLocation){
 					walkability = 1;
 				}
@@ -178,7 +178,7 @@ void AliveObjectAi::startCombat(DynamicObject &target){
 bool AliveObjectAi::closeDoor(AliveObject &owner){
 	std::shared_ptr<Door> doorToClose = nullptr;
 	for (auto &operatable : Engine::area.getOperatables(getScanArea(owner.location, DISTANCE_MEDIUM))){
-		std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(operatable);
+		std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(*operatable);
 		if (door != nullptr){
 			if (door->isOn){ // on == open
 				doorToClose = door;
@@ -260,7 +260,7 @@ void AliveObjectAi::update(AliveObject &owner){
 					std::shared_ptr<Door> door = std::dynamic_pointer_cast<Door>(operatable);
 					if (door != nullptr){
 						if (door->isOn){
-							//Open door in medium range
+							//Close door in medium range
 							nextState = CLOSE_DOOR; break;
 						}
 					}
@@ -273,7 +273,7 @@ void AliveObjectAi::update(AliveObject &owner){
 			state = nextState;
 		}
 		else if (state == IDLE){
-			if (Random::generator.get(0.0, 1.0) < 0.05){
+			if (Random::generator.get(0.0, 1.0) < 0.10){
 				state = WANDER;
 			}
 		}

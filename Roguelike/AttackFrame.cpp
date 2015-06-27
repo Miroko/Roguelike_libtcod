@@ -37,18 +37,18 @@ bool AttackFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	return handled;
 }
 
-void AttackFrame::render(float elapsed){
-	GuiFrame::render(elapsed);
+void AttackFrame::render(){
+	GuiFrame::render();
 
 	std::shared_ptr<DynamicObject> selectedObject = attackableObjects.at(objectIndex);
-
-	console->printRect(1, 1, console->getWidth() - 2, 1, selectedObject->getDescription().c_str());
-
-	blit();	
+	
+	printString(0, 0, getWidth(), getHeight(), FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, selectedObject->name);
 
 	attackLocation = selectedObject->location;
 	TCODConsole::root->setCharBackground(attackLocation.x - Engine::camera.location.x, attackLocation.y - Engine::camera.location.y,
 		cursorColor, TCOD_BKGND_ALPHA(0.5));
+
+	blit();
 }
 
 void AttackFrame::onOpen(){

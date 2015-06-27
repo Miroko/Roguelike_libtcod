@@ -3,7 +3,6 @@
 #include "PlayerController.h"
 #include "QuestHandler.h"
 #include "Area.h"
-#include "human.h"
 #include "Gui.h"
 #include "VisualEffectHandler.h"
 #include "TheGoblinKing.h"

@@ -1,7 +1,8 @@
 #include "Cave.h"
 #include "Direction.h"
+#include "ObjectLibrary.h"
 
-Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance, int roomSize) : Area(size, STONE_WALL){
+Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance, int roomSize) : Area(size, ObjectLibrary::STONE_WALL){
 	int corridors = bounds.getSize() * corridorsPerTile;
 	Point2D nextPoint = bounds.getCenterPoint();
 	Point2D previousDirection;
@@ -12,7 +13,7 @@ Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance,
 		int currentCorridorSize = corridorSize;
 		while (currentCorridorSize > 0){
 			//Place corridor			
-			setStaticObject(STONE_WALL_FLOOR, nextPoint);
+			setStaticObject(ObjectLibrary::STONE_FLOOR, nextPoint);
 			
 			//Place room
 			if (Random::generator.getFloat(0.0, 1.0) <= roomChance){
@@ -24,7 +25,7 @@ Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance,
 							roomPoint.x = x;
 							roomPoint.y = y;
 							if (bounds.inside(roomPoint)){
-								setStaticObject(STONE_WALL_FLOOR, roomPoint);
+								setStaticObject(ObjectLibrary::STONE_FLOOR, roomPoint);
 							}
 						}
 					}

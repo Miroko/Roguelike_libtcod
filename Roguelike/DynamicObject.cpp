@@ -1,5 +1,10 @@
 #include "DynamicObject.h"
 #include "Engine.h"
+#include "ObjectLibrary.h"
+
+bool DynamicObject::passable(DynamicObject &dynamicObject){
+	return false;
+}
 
 void DynamicObject::onTakeDamage(DynamicObject &attacker, int amount){
 	Engine::GUI.log.addToMessage(name + " takes " + std::to_string(amount) + " damage. ");
@@ -18,14 +23,16 @@ void DynamicObject::onTakeDamageEffect(){
 }
 
 void DynamicObject::onDeath(){
-	for (auto &item : loot.generateLoot()){
-		Engine::area.placeItem(item, location);
-	}
-
 	messageDeath();
+	ObjectLibrary::generateLootDrop(Engine::area, *this);
 	Engine::area.killDynamicObject(*this);
 }
 
 void DynamicObject::messageDeath(){
 	Engine::GUI.log.finishMessage(name + " dies.");
+}
+
+void DynamicObject::setHealth(int health){
+	this->healthMax = health;
+	this->health = health;
 }

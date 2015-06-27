@@ -1,23 +1,23 @@
 #include "Village.h"
 #include "Door.h"
 #include "Creature.h"
-#include "Human.h"
 #include "Engine.h"
+#include "ObjectLibrary.h"
 
-Village::Village() : Area(100, LAND){
+Village::Village() : Area(100, ObjectLibrary::FOREST_LAND){
 	villageBounds = Rectangle(bounds);
 	villageBounds.start.x += bounds.getWidth() / 4;
 	villageBounds.start.y += bounds.getHeight() / 4;
 	villageBounds.end.x -= bounds.getWidth() / 4;
 	villageBounds.end.y -= bounds.getHeight() / 4;
 
-	//Trees
+	//FOREST_TREEs
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE);
-	int trees = bounds.getSize() / 20;
-	for (int tree = trees; tree > 0; tree--){
+	int FOREST_TREEs = bounds.getSize() / 20;
+	for (int FOREST_TREE = FOREST_TREEs; FOREST_TREE > 0; FOREST_TREE--){
 		Point2D p = Random::point(bounds);
 		if (!villageBounds.inside(p)){
-			setStaticObject(TREE, p);
+			setStaticObject(ObjectLibrary::FOREST_TREE, p);
 		}
 	}
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_LINEAR);
@@ -51,7 +51,7 @@ Village::Village() : Area(100, LAND){
 		//Floor
 		for (int x = plot.start.x + 1; x < plot.end.x; x++){
 			for (int y = plot.start.y + 1; y < plot.end.y; y++){
-				setStaticObject(WOOD_FLOOR, Point2D(x, y));
+				setStaticObject(ObjectLibrary::WOOD_FLOOR, Point2D(x, y));
 			}
 		}
 
@@ -61,19 +61,23 @@ Village::Village() : Area(100, LAND){
 		int villagers = Random::generator.getInt(1, 3, 1);
 		for (int villager = villagers; villager > 0; villager--){
 			Point2D location = Random::point(villagerArea);
-			std::shared_ptr<Human> human = Creature::newCreature(MAN, MAN_EQUIPMENT);
-			placeCreature(human, location);
-			human->ai.state = AliveObjectAi::FREE;
+			std::shared_ptr<Creature> man = ObjectLibrary::generateCreature(
+				ObjectLibrary::MAN,
+				RarityType::COMMON,
+				ObjectLibrary::MAN_EQUIPMENT,
+				ObjectLibrary::MAN_LOOT);
+			man->ai.state = AliveObjectAi::FREE;
+			placeCreature(std::move(man), location);
 		}
 
 		//Wall
 		for (Point2D p : points){
-			setStaticObject(WOOD_WALL, p);
+			setStaticObject(ObjectLibrary::WOOD_WALL, p);
 		}
 
 		//Door
 		Point2D doorPoint = points.at(Random::generator.getInt(0, points.size() - 1));
-		setStaticObject(WOOD_FLOOR, doorPoint);
-		placeOperatable(OperatableObject::newOperatable(WOOD_DOOR), doorPoint);
+		setStaticObject(ObjectLibrary::WOOD_FLOOR, doorPoint);
+		placeOperatable(ObjectLibrary::generateDoor(ObjectLibrary::WOOD_DOOR, ObjectLibrary::DOOR_LOOT), doorPoint);
 	}
 }

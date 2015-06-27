@@ -12,6 +12,7 @@ public:
 	std::vector<std::string> SelectableItemFrame::getOperationsForItem(std::shared_ptr<Item> &item);
 	void onClose();
 
-	ItemPickFrame(std::string name, char controlKey, bool open, float alphaFg, float alphaBg) : SelectableItemFrame(name, controlKey, open, alphaFg, alphaBg){};
+	ItemPickFrame(char controlKey, bool open, float alphaFg, float alphaBg) : 
+		SelectableItemFrame(controlKey, open, alphaFg, alphaBg, "Items"){};
 };
 

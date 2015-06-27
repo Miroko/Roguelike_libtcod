@@ -4,28 +4,28 @@
 #include "Armor.h"
 #include "AliveObjectEffect.h"
 #include "AliveObjectAi.h"
-#include "PointerContainer.h"
 #include "Consumable.h"
+#include <deque>
 #include <memory>
 
 class AliveObject : public DynamicObject
-{
-	
+{	
 public:
 	AliveObjectAi ai;
 
 	//Equipment
-	std::shared_ptr<Weapon> weapon = nullptr;
-	std::shared_ptr<Armor> armorHead = nullptr;
-	std::shared_ptr<Armor> armorBody = nullptr;
-	std::shared_ptr<Armor> armorHand = nullptr;
-	std::shared_ptr<Armor> armorLeg = nullptr;
-	void equip(std::shared_ptr<Item> equipment);
+	Weapon *weapon = nullptr;
+	Armor *armorHead = nullptr;
+	Armor *armorBody = nullptr;
+	Armor *armorHand = nullptr;
+	Armor *armorLeg = nullptr;
+
+	void equipItem(Equipment &equipment);
 
 	//Effects
-	PointerContainer<AliveObjectEffect> effects;
-	void addEffect(std::shared_ptr<AliveObjectEffect> effect);
-	void consume(std::shared_ptr<Item> consumable);
+	std::deque<AliveObjectEffect*> effects;
+	void addEffect(AliveObjectEffect &effect);
+	void consume(Consumable &consumable);
 
 	void damage(DynamicObject &target);
 	void attackMelee(DynamicObject &target);
@@ -33,8 +33,8 @@ public:
 
 	void onTakeDamage(DynamicObject &attacker, int amount);
 
-	void update();
+	virtual void update();
 
-	AliveObject(Glyph glyph, std::string name, Size size, int health, const LootContainer &loot) :
-		DynamicObject(glyph, name, size, true, health, loot){};
+	AliveObject(std::string name, Glyph glyph, int health) :
+		DynamicObject(name, glyph, health){};
 };

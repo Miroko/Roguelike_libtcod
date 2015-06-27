@@ -25,3 +25,7 @@ void OperatableObject::messageDeath(){
 void OperatableObject::onTakeDamageEffect(){
 	
 }
+
+bool OperatableObject::passable(DynamicObject &dynamicObject){
+	return DynamicObject::passable(dynamicObject);
+}

@@ -1,11 +1,10 @@
 #include "TheGoblinKing.h"
 #include "Engine.h"
-#include "Goblin.h"
 #include "Forest.h"
 #include "Cave.h"
 #include "Portal.h"
 #include "Village.h"
-#include "Human.h"
+#include "ObjectLibrary.h"
 
 const std::shared_ptr<QuestPhase> TheGoblinKing::VILLAGE = std::shared_ptr<QuestPhase>(new PhaseVillage());
 const std::shared_ptr<QuestPhase> TheGoblinKing::FOREST = std::shared_ptr<QuestPhase>(new PhaseForest());;
@@ -20,29 +19,48 @@ TheGoblinKing::TheGoblinKing() : Quest("The Goblin King"){
 	VILLAGE_STORY_TOLD = false;
 
 	VILLAGE_TRADE_CONTAINER = std::shared_ptr<TradeContainer>(new TradeContainer(
-		30,
+		300,
 		std::vector<std::shared_ptr<Item>>({
-		Item::newItem(SWORD),
-		Item::newItem(HEALTH_POTION),
-		Item::newItem(HEALTH_POTION)
+		ObjectLibrary::generateWeapon(ObjectLibrary::SWORD, RarityType::COMMON),
+		ObjectLibrary::generateWeapon(ObjectLibrary::SWORD, RarityType::UNCOMMON),
+		ObjectLibrary::generateWeapon(ObjectLibrary::SWORD, RarityType::RARE),
+		ObjectLibrary::generateWeapon(ObjectLibrary::SWORD, RarityType::EPIC),
+		ObjectLibrary::generateWeapon(ObjectLibrary::SWORD, RarityType::UNIQUE),
+		ObjectLibrary::generateConsumable(ObjectLibrary::HEALTH_POTION) 
 	})));
 }
 
 void TheGoblinKing::PhaseForest::generateArea(Area &area){
 	area = Forest(100, 10, 100);
 
-	for (int creatures = 20; creatures > 0; creatures--){
-		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<Creature> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
-		area.placeCreature(creature, p);
-		creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
-		creature->ai.state = AliveObjectAi::COMBAT;
+	for (int creatures = 10; creatures > 0; creatures--){
+		Point2D p = Random::point(area.bounds);
+		std::shared_ptr<Creature> goblin = ObjectLibrary::generateCreature(
+			ObjectLibrary::GOBLIN,
+			RarityType::COMMON,
+			ObjectLibrary::GOBLIN_EQUIPMENT,
+			ObjectLibrary::GOBLIN_LOOT);
+		area.placeCreature(goblin, p);
+		goblin->ai.setCombatTarget(*Engine::playerController.playerCreature);
+		goblin->ai.state = AliveObjectAi::COMBAT;
+	}
+
+	for (int creatures = 10; creatures > 0; creatures--){
+		Point2D p = Random::point(area.bounds);
+		std::shared_ptr<Creature> goblin = ObjectLibrary::generateCreature(
+			ObjectLibrary::GOBLIN,
+			RarityType::UNCOMMON,
+			ObjectLibrary::GOBLIN_EQUIPMENT,
+			ObjectLibrary::GOBLIN_LOOT);
+		area.placeCreature(goblin, p);
+		goblin->ai.setCombatTarget(*Engine::playerController.playerCreature);
+		goblin->ai.state = AliveObjectAi::COMBAT;
 	}
 
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE); //Prefer min and max values
 	for (int portals = 12; portals > 0; portals--){
-		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<Portal> portal = Portal::newPortal(FOREST_PORTAL);
+		Point2D p = Random::point(area.bounds);
+		std::shared_ptr<Portal> portal = Portal::newPortal(ObjectLibrary::FOREST_PORTAL);
 		area.placePortal(portal, p);
 	}
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_LINEAR); //back to normal
@@ -62,17 +80,34 @@ bool TheGoblinKing::PhaseForest::nextPhaseCondition(){
 void TheGoblinKing::PhaseNearCave::generateArea(Area &area){
 	area = Forest(100, 20, 30);
 
-	for (int creatures = 20; creatures > 0; creatures--){
-		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<Creature> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
-		area.placeCreature(creature, p);
-		creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
+	for (int creatures = 10; creatures > 0; creatures--){
+		Point2D p = Random::point(area.bounds);
+		std::shared_ptr<Creature> goblin = ObjectLibrary::generateCreature(
+			ObjectLibrary::GOBLIN,
+			RarityType::COMMON,
+			ObjectLibrary::GOBLIN_EQUIPMENT,
+			ObjectLibrary::GOBLIN_LOOT);
+		area.placeCreature(goblin, p);
+		goblin->ai.setCombatTarget(*Engine::playerController.playerCreature);
+		goblin->ai.state = AliveObjectAi::COMBAT;
+	}
+
+	for (int creatures = 10; creatures > 0; creatures--){
+		Point2D p = Random::point(area.bounds);
+		std::shared_ptr<Creature> goblin = ObjectLibrary::generateCreature(
+			ObjectLibrary::GOBLIN,
+			RarityType::RARE,
+			ObjectLibrary::GOBLIN_EQUIPMENT,
+			ObjectLibrary::GOBLIN_LOOT);
+		area.placeCreature(goblin, p);
+		goblin->ai.setCombatTarget(*Engine::playerController.playerCreature);
+		goblin->ai.state = AliveObjectAi::COMBAT;
 	}
 
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE);
 	for (int portals = 6; portals > 0; portals--){
-		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<Portal> portal = Portal::newPortal(CAVE_PORTAL);
+		Point2D p = Random::point(area.bounds);
+		std::shared_ptr<Portal> portal = Portal::newPortal(ObjectLibrary::CAVE_PORTAL);
 		area.placePortal(portal, p);
 	}
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_LINEAR);
@@ -93,11 +128,26 @@ void TheGoblinKing::PhaseCave::generateArea(Area &area){
 	area = Cave(100, 0.2, 3, 0.10, 3);
 	
 	for (int creatures = 30; creatures > 0; creatures--){
-		Point2D p = Point2D(Random::generator.getInt(0, area.bounds.getWidth() - 1), Random::generator.getInt(0, area.bounds.getHeight() - 1));
-		std::shared_ptr<Creature> creature = Creature::newCreature(GOBLIN, GOBLIN_EQUIPMENT);
-		area.placeCreature(creature, p);
-		creature->ai.setCombatTarget(*Engine::playerController.playerCreature);
+		Point2D p = Random::point(area.bounds);
+		std::shared_ptr<Creature> goblin = ObjectLibrary::generateCreature(
+			ObjectLibrary::GOBLIN,
+			RarityType::COMMON,
+			ObjectLibrary::GOBLIN_EQUIPMENT,
+			ObjectLibrary::GOBLIN_LOOT);
+		area.placeCreature(goblin, p);
+		goblin->ai.setCombatTarget(*Engine::playerController.playerCreature);
+		goblin->ai.state = AliveObjectAi::COMBAT;
 	}	
+
+	Point2D p = Random::point(area.bounds);
+	std::shared_ptr<Creature> goblin = ObjectLibrary::generateCreature(
+		ObjectLibrary::GOBLIN,
+		RarityType::UNIQUE,
+		ObjectLibrary::GOBLIN_EQUIPMENT,
+		ObjectLibrary::GOBLIN_LOOT);
+	area.placeCreature(goblin, p);
+	goblin->ai.setCombatTarget(*Engine::playerController.playerCreature);
+	goblin->ai.state = AliveObjectAi::COMBAT;
 
 	placePlayer();
 }
@@ -113,9 +163,8 @@ void TheGoblinKing::PhaseVillage::generateArea(Area &area){
 
 	Random::generator.setDistribution(TCOD_DISTRIBUTION_GAUSSIAN_RANGE_INVERSE);
 	for (int portals = 20; portals > 0; portals--){
-		Point2D p = Point2D(Random::generator.getInt(0, villageArea.bounds.getWidth() - 1),
-			                Random::generator.getInt(0, villageArea.bounds.getHeight() - 1));
-		std::shared_ptr<Portal> portal = Portal::newPortal(FOREST_PORTAL);
+		Point2D p = Random::point(villageArea.bounds);
+		std::shared_ptr<Portal> portal = Portal::newPortal(ObjectLibrary::FOREST_PORTAL);
 		if (!villageArea.villageBounds.inside(p)){
 			villageArea.placePortal(portal, p);
 		}
@@ -150,7 +199,7 @@ std::shared_ptr<QuestPhase> TheGoblinKing::getVillage(){
 }
 
 std::shared_ptr<Dialog> TheGoblinKing::getDialog(std::shared_ptr<DynamicObject> &owner){
-	std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(owner);
+	std::shared_ptr<Creature> human = std::dynamic_pointer_cast<Creature>(owner);
 	if (human != nullptr){
 		if (!VILLAGE_STORY_TOLD) return std::shared_ptr<Dialog>(new DialogVillagerStory1(owner));
 		else return std::shared_ptr<Dialog>(new DialogVillagerTrade(owner));
@@ -159,7 +208,7 @@ std::shared_ptr<Dialog> TheGoblinKing::getDialog(std::shared_ptr<DynamicObject> 
 }
 
 std::shared_ptr<TradeContainer> TheGoblinKing::getTradeContainer(std::shared_ptr<DynamicObject> &owner){
-	std::shared_ptr<Human> human = std::dynamic_pointer_cast<Human>(owner);
+	std::shared_ptr<Creature> human = std::dynamic_pointer_cast<Creature>(owner);
 	if (human != nullptr){
 		return VILLAGE_TRADE_CONTAINER;
 	}

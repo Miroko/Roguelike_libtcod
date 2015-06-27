@@ -4,8 +4,8 @@ bool LogFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	return GuiFrame::handleKey(key, requireUpdate);
 }
 
-void LogFrame::render(float elapsed){
-	GuiFrame::render(elapsed);
+void LogFrame::render(){
+	GuiFrame::render();
 
 	blit();
 
@@ -15,7 +15,7 @@ void LogFrame::render(float elapsed){
 		console->printRectEx(console->getWidth()/2, y, console->getWidth(), 1, TCOD_BKGND_NONE, TCOD_CENTER, message.c_str());
 		float fadeAlpha = alphaFg - alphaFg / maxY * y;
 		if (fadeAlpha < 0.1) fadeAlpha = 0.1;
-		blit(1, y, console->getWidth() - 1, 1, bounds.start.x + 1, bounds.start.y + y, fadeAlpha, 0.0);
+		blit(1, y, console->getWidth() - 1, 1, screenBounds.start.x + 1, screenBounds.start.y + y, fadeAlpha, 0.0);
 		++y;
 	}
 }

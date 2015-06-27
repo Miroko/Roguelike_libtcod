@@ -6,10 +6,9 @@ public:
 	int amount;
 
 	int AliveObjectEffect::getPotency();
+	void AliveObjectEffect::apply(DynamicObject &dynamicObject);
 
-	void update(DynamicObject &dynamicObject);
-
-	Heal(int amount, int duration) : AliveObjectEffect("Heal", duration, AliveObjectEffect::HEAL), amount(amount){};
+	Heal(int amount, int duration) :
+		AliveObjectEffect("Heal", duration),
+		amount(amount){};
 };
-
-const std::shared_ptr<Heal> HEAL = std::shared_ptr<Heal>(new Heal(1,5));

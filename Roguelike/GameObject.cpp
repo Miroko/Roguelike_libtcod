@@ -7,8 +7,3 @@ void GameObject::render(int x, int y){
 std::string GameObject::getDescription(){
 	return name;
 }
-
-bool GameObject::passable(){
-	return false;
-}
-

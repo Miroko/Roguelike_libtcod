@@ -1,7 +1,8 @@
 #include "Weapon.h"
+#include "String.h"
 
-std::string Weapon::getDescription(){
-	return Item::getDescription() + " dm:" + std::to_string(damage) + " c:" + std::to_string(getValue());
+std::string Weapon::getStatistics(){
+	return std::to_string(damage) + "d ";
 }
 
 int Weapon::getValue(){

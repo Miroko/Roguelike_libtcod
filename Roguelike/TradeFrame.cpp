@@ -70,8 +70,8 @@ bool TradeFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	return handled;
 }
 
-void TradeFrame::render(float elapsed){
-	GuiFrame::render(elapsed);
+void TradeFrame::render(){
+	GuiFrame::render();
 
 	//Frames
 	console->printFrame(1, 1, console->getWidth() / 3 - 2, console->getHeight() - 2, true, TCOD_BKGND_DEFAULT, "Player");
@@ -111,12 +111,22 @@ void TradeFrame::render(float elapsed){
 	//Player items
 	int y = 0;
 	for (auto &item : Engine::GUI.inventory.items.items){
-		if (y == selectionRowPlayer && selectionCol == 0) console->setDefaultForeground(cursorColor);
-		else if (playerSelected.contains(*item)) console->setDefaultForeground(selectedColor);
-		else console->setDefaultForeground(FG_COLOR);
-		console->printRectEx(2, 4 + y, console->getWidth()/3, 1, TCOD_BKGND_NONE, TCOD_LEFT,
-			item->getDescription().c_str());
-		blit(2, 4 + y, console->getWidth()/3, 1, bounds.start.x + 2, bounds.start.y + 4 + y, alphaFg, alphaBg);
+		if (y == selectionRowPlayer && selectionCol == 0){
+			//cursor
+			console->setDefaultForeground(cursorColor);
+			item->print(2, 4 + y, console->getWidth() / 3, 1, *console);
+		}
+		else if (playerSelected.contains(*item)){
+			//selected for trade
+			console->setDefaultForeground(selectedColor);
+			item->print(2, 4 + y, console->getWidth() / 3, 1, *console);
+		}
+		else{
+			//normal
+			console->setDefaultForeground(FG_COLOR);
+			item->print(2, 4 + y, console->getWidth() / 3, 1, *console);
+		}
+		blit(2, 4 + y, console->getWidth()/3, 1, screenBounds.start.x + 2, screenBounds.start.y + 4 + y, alphaFg, alphaBg);
 		++y;
 	}
 
@@ -125,21 +135,29 @@ void TradeFrame::render(float elapsed){
 	else console->setDefaultForeground(FG_COLOR);
 	console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 4, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER,
 		"ACCEPT");
-	blit(console->getWidth() / 3, console->getHeight() / 3 + 4, console->getWidth() / 3, 1, bounds.getWidth() / 3, bounds.getHeight() / 3 + 4, alphaFg, alphaBg);
+	blit(console->getWidth() / 3, console->getHeight() / 3 + 4, console->getWidth() / 3, 1, screenBounds.getWidth() / 3, screenBounds.getHeight() / 3 + 4, alphaFg, alphaBg);
 
 	//Trader items
 	y = 0;
 	for (auto &item : currentTradeContainer->items){
-		if (y == selectionRowTrader && selectionCol == 2) console->setDefaultForeground(cursorColor);
-		else if (traderSelected.contains(*item)) console->setDefaultForeground(selectedColor);
-		else console->setDefaultForeground(FG_COLOR);
-		console->printRectEx(console->getWidth() + 2 - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_LEFT,
-			item->getDescription().c_str());
-		blit(console->getWidth() + 2 - console->getWidth() / 3, 4 + y, console->getWidth() / 3 - 2, 1, bounds.end.x + 2 - console->getWidth() / 3, bounds.start.y + 4 + y, alphaFg, alphaBg);
+		if (y == selectionRowTrader && selectionCol == 2){
+			//cursor
+			console->setDefaultForeground(cursorColor);
+			item->printWithBg(console->getWidth() + 2 - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, *console);
+		}
+		else if (traderSelected.contains(*item)){
+			//selected for trade
+			console->setDefaultForeground(selectedColor);
+			item->print(console->getWidth() + 2 - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, *console);
+		}
+		else{
+			//normal
+			console->setDefaultForeground(FG_COLOR);
+			item->print(2 + console->getWidth() - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, *console);
+		}
+		blit(2 + console->getWidth() - console->getWidth() / 3, 4 + y, console->getWidth() / 3 - 2, 1, screenBounds.end.x + 2 - console->getWidth() / 3, screenBounds.start.y + 4 + y, alphaFg, alphaBg);
 		++y;
 	}
-
-
 }
 
 void TradeFrame::setTradeContainer(std::shared_ptr<TradeContainer> &tradeContainer){

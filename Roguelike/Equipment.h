@@ -1,8 +1,9 @@
 #pragma once
 #include "Item.h"
+
 class Equipment : public Item
 {
 public:
-	Equipment(Glyph glyph, std::string name, float weight, Type type) : Item(glyph, name, weight, type){};
+	Equipment(std::string name, Glyph glyph, float weight, Type type) : Item(name, glyph, weight, type){};
 	virtual ~Equipment(){};
 };

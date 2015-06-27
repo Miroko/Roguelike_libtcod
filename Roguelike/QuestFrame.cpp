@@ -1,8 +1,8 @@
 #include "QuestFrame.h"
 #include "Engine.h"
 
-void QuestFrame::render(float elapsed){
-	GuiFrame::render(elapsed);
+void QuestFrame::render(){
+	GuiFrame::render();
 
 	//Title
 	console->printRectEx(console->getWidth()/2, 2, console->getWidth() - 1, 1, TCOD_BKGND_NONE, TCOD_CENTER, Engine::questHandler.currentQuest->name.c_str());

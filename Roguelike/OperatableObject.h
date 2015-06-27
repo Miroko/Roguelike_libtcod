@@ -18,11 +18,15 @@ public:
 	virtual void on();
 	virtual void off();
 
+	virtual bool passable(DynamicObject &dynamicObject);
+
 	void onTakeDamageEffect();
 	void messageDeath();
 
 	void render(int x, int y);
 
-	OperatableObject(Glyph onGlyph, Glyph offGlyph, std::string name, int health, const LootContainer &loot) :
-		DynamicObject(offGlyph, name, LARGE, false, health, loot), onGlyph(onGlyph), offGlyph(offGlyph){};
+	OperatableObject(Glyph onGlyph, Glyph offGlyph, std::string name, int health) :
+		DynamicObject(name, offGlyph, health, false),
+		onGlyph(onGlyph),
+		offGlyph(offGlyph){};
 };

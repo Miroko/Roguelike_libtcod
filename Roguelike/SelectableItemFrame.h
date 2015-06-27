@@ -8,27 +8,30 @@
 class SelectableItemFrame : public GuiFrame
 {
 protected:
-	TCODColor selectionColor = TCODColor::lighterGreen;
+	const TCODColor SELECTION_COLOR = TCODColor::darkestGreen;
+	const TCODColor OPERATION_COLOR = TCODColor::lightRed;
 
 	int selectedRow = 0;
-
-	std::vector<std::string> operations;
 	int selectedOperation = 0;
+	std::vector<std::string> operations;
+
+	virtual void onItemSelect(std::shared_ptr<Item> &item, std::string &operation) = 0;
+	virtual std::vector<std::string> getOperationsForItem(std::shared_ptr<Item> &item) = 0;
+	void renderSelection();
 
 public:
 	PointerContainer<Item> items;
-
-	bool handleKey(TCOD_key_t key, bool &requireUpdate);
-	void GuiFrame::render(float elapsed);
 
 	void addItem(std::shared_ptr<Item> &item);
 	void removeItem(std::shared_ptr<Item> &item);
 	void removeAll();
 	void onOpen();
 
-	virtual void onItemSelect(std::shared_ptr<Item> &item, std::string &operation) = 0;
-	virtual std::vector<std::string> getOperationsForItem(std::shared_ptr<Item> &item) = 0;
+	void GuiFrame::render();
 
-	SelectableItemFrame(std::string name, char controlKey, bool open, float alphaFg = 1.0, float alphaBg = 1.0) : GuiFrame(name, controlKey, open, alphaFg, alphaBg){};
+	bool handleKey(TCOD_key_t key, bool &requireUpdate);
+
+	SelectableItemFrame(char controlKey, bool open, float alphaFg = 1.0, float alphaBg = 1.0, std::string title = "") :
+		GuiFrame(controlKey, open, alphaFg, alphaBg, title){};
 };
 

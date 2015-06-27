@@ -1,19 +1,34 @@
 #pragma once
 #include "libtcod.hpp"
+#include "RarityEffect.h"
 #include <string>
+#include <vector>
 
 class RarityType
 {
 public:
-	const TCODColor &color;
+	static RarityType COMMON;
+	static RarityType UNCOMMON;
+	static RarityType RARE;
+	static RarityType EPIC;
+	static RarityType UNIQUE;
+
 	std::string name;
+	const TCODColor &color;
+	float effectMultiplier;
 
-	RarityType(std::string name, const TCODColor &color) : name(name), color(color){};
+	std::vector<std::shared_ptr<RarityEffect>> effects;
+	RarityEffect* getRandomEffect();
+
+	void apply(Creature &creature);
+	void apply(Weapon &weapon);
+	void apply(Armor &armor);
+	void apply(Consumable &consumable);
+
+	RarityType(std::string name, const TCODColor &color, float effectMultiplier, std::vector<std::shared_ptr<RarityEffect>> effects) :
+		name(name),
+		color(color),
+		effectMultiplier(effectMultiplier),
+		effects(effects){};
 };
-
-const RarityType RARITY_COMMON = RarityType("Common", TCODColor::lightestCyan);
-const RarityType RARITY_UNCOMMON = RarityType("Uncommon", TCODColor::lightestAzure);
-const RarityType RARITY_RARE = RarityType("Rare", TCODColor::lightestPurple);
-const RarityType RARITY_EPIC = RarityType("Epic", TCODColor::lightestGreen);
-const RarityType RARITY_UNIQUE = RarityType("Unique", TCODColor::lightestAmber);
 

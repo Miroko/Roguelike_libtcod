@@ -1,13 +1,17 @@
 #include "Consumable.h"
 
-std::string Consumable::getDescription(){
-	return Item::getDescription() + " c:" + std::to_string(getValue()); 
+int Consumable::getValue(){
+	return getPotency();
 }
 
-int Consumable::getValue(){
-	int value = Item::getValue();
+int Consumable::getPotency(){
+	int potency = 0;
 	for (auto &effect : effects){
-		value += effect->getPotency();
+		potency += effect->getPotency();
 	}
-	return value;
+	return potency;
+}
+
+std::string Consumable::getStatistics(){
+	return std::to_string(getPotency()) + "p ";
 }

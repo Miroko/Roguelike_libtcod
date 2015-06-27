@@ -46,13 +46,13 @@ bool PlayerController::attack(){
 				std::vector<std::shared_ptr<DynamicObject>> objectsToAttack;
 				Point2D attackLocation = playerCreature->location + direction;
 				for (auto &creature : Engine::area.getCreatures(attackLocation)){
-					objectsToAttack.push_back(creature);
+					objectsToAttack.push_back(*creature);
 				}
 				if (objectsToAttack.empty()){
 					//no creatures to attack
 					//check for operatables
 					for (auto &operatable : Engine::area.getOperatables(attackLocation)){
-						objectsToAttack.push_back(operatable);
+						objectsToAttack.push_back(*operatable);
 					}
 				}
 				if (objectsToAttack.empty()) return false;
@@ -65,11 +65,11 @@ bool PlayerController::attack(){
 			std::vector<std::shared_ptr<DynamicObject>> objectsInRange;
 			//can target creatures
 			for (auto &creature : Engine::area.getCreatures(range)){
-				objectsInRange.push_back(creature);
+				objectsInRange.push_back(*creature);
 			}
 			//and operatables
 			for (auto &operatable : Engine::area.getOperatables(range)){
-				objectsInRange.push_back(operatable);
+				objectsInRange.push_back(*operatable);
 			}
 			auto &o = objectsInRange.begin();
 			while (o != objectsInRange.end()){
@@ -94,12 +94,12 @@ bool PlayerController::attack(){
 
 bool PlayerController::take(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
-	std::vector<std::shared_ptr<Item>> itemsToTake;
+	std::vector<std::shared_ptr<Item>*> itemsToTake;
 	itemsToTake = Engine::area.getItemsAt(playerCreature->location);
 	if (itemsToTake.empty()) return false;
 	else{
 		for (auto &item : itemsToTake){
-			Engine::GUI.pickFrame.addItem(item);
+			Engine::GUI.pickFrame.addItem(*item);
 		}
 		Engine::GUI.pickFrame.open();
 		return true;
@@ -115,11 +115,11 @@ bool PlayerController::operate(){
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
-		std::vector<std::shared_ptr<OperatableObject>> operatables;
+		std::vector<std::shared_ptr<OperatableObject>*> operatables;
 		operatables = Engine::area.getOperatables(playerCreature->location + direction);
 		if (operatables.empty()) return false;
 		else{
-			std::shared_ptr<OperatableObject> operatable = operatables.front();
+			std::shared_ptr<OperatableObject> operatable = *operatables.front();
 			if (operatable->isOn) operatable->off();
 			else operatable->on();
 			return true;
@@ -141,7 +141,7 @@ bool PlayerController::talk(){
 		Point2D talkDirection = playerCreature->location + direction;
 		//can talk to creatures
 		for (auto &creature : Engine::area.getCreatures(talkDirection)){
-			dynamicObjects.push_back(creature);
+			dynamicObjects.push_back(*creature);
 		}
 		if (dynamicObjects.empty()) return false;
 		else{

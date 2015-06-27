@@ -25,9 +25,10 @@ public:
 	void setTradeContainer(std::shared_ptr<TradeContainer> &tradeContainer);
 
 	bool handleKey(TCOD_key_t key, bool &requireUpdate);
-	void GuiFrame::render(float elapsed);
+	void GuiFrame::render();
 	void onOpen();
 	void onClose();
 
-	TradeFrame(std::string name, char controlKey, bool open, float alphaFg, float alphaBg) : GuiFrame(name, controlKey, open, alphaFg, alphaBg){};
+	TradeFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
+		GuiFrame(controlKey, open, alphaFg, alphaBg, "Trade"){};
 };

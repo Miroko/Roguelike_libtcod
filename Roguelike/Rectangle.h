@@ -11,9 +11,10 @@ public:
 	int getHeight();
 	int getSize();
 	Point2D getCenterPoint();
-	bool inside(Point2D point);
-	bool contains(Point2D point);
+	bool inside(Point2D &point);
+	bool contains(Point2D &point);
 	void expand(int amount);
+	void shrink(int amount);
 
 	std::vector<Point2D> getPoints();
 

@@ -1,4 +1,6 @@
 #include "SelectableItemFrame.h"
+#include "RarityType.h"
+#include "String.h"
 
 bool SelectableItemFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	bool handled = GuiFrame::handleKey(key, requireUpdate);
@@ -45,31 +47,37 @@ bool SelectableItemFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 	return handled;
 }
 
-void SelectableItemFrame::render(float elapsed){
-	//Frame
-	GuiFrame::render(elapsed);
-
+void SelectableItemFrame::render(){
+	GuiFrame::render();
+	
+	//No items
 	if (items.items.empty()){
 		console->printRectEx(console->getWidth() / 2, console->getHeight() / 2, console->getWidth(), 1, TCOD_BKGND_SET, TCOD_CENTER, "No items");
 	}
+	else{
+		//Items
+		int offsetY = 0;
+		for (auto &item : items.items){
+			//item
+			printString(0, offsetY, getWidth(), 1, item->rarity->color, item->rarity->color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
+			//stats
+			printString(0, offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_CENTER, TCOD_BKGND_NONE, item->getStatistics() + std::to_string(item->getValue()) + "c " + String::weight(item->weight));
+			//operator
+			if (offsetY == selectedRow){
+				printString(0, offsetY, getWidth(), 1, OPERATION_COLOR, OPERATION_COLOR, TCOD_RIGHT, TCOD_BKGND_NONE, operations.at(selectedOperation));
+				renderSelection();
+			}
+			++offsetY;
+		}
+	}
 
 	blit();
+}
 
+void SelectableItemFrame::renderSelection(){
 	if (!items.items.empty()){
-		//Items
-		int y = 0;
-		for (auto &item : items.items){
-			if (y == selectedRow) console->setDefaultForeground(selectionColor);
-			else console->setDefaultForeground(FG_COLOR);
-			//Item
-			console->printRectEx(1, y + 1, console->getWidth(), 1, TCOD_BKGND_SET, TCOD_LEFT, item->getDescription().c_str());
-			//Operation
-			if (y == selectedRow){
-				console->printRectEx(console->getWidth() - 2, y + 1, console->getWidth(), 1, TCOD_BKGND_NONE, TCOD_RIGHT, operations[selectedOperation].c_str());
-			}
-
-			blit(1, y + 1, console->getWidth() - 1, 1, bounds.start.x + 1, bounds.start.y + y + 1, alphaFg, alphaBg);
-			++y;
+		for (int x = 1; x <= console->getWidth() - 2; x++){
+			console->setCharBackground(x, selectedRow + MARGIN + 1, SELECTION_COLOR);
 		}
 	}
 }

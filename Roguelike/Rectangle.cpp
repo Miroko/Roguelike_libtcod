@@ -22,7 +22,7 @@ Point2D Rectangle::getCenterPoint(){
 	return Point2D(start.x + getWidth()/2, start.y + getHeight()/2);
 }
 
-bool Rectangle::inside(Point2D point){
+bool Rectangle::inside(Point2D &point){
 	if (start.x <= point.x && point.x < end.x
 		&& start.y <= point.y && point.y < end.y){
 		return true;
@@ -32,7 +32,7 @@ bool Rectangle::inside(Point2D point){
 	}
 }
 
-bool Rectangle::contains(Point2D point){
+bool Rectangle::contains(Point2D &point){
 	if (start.x <= point.x && point.x <= end.x
 		&& start.y <= point.y && point.y <= end.y){
 		return true;
@@ -62,4 +62,11 @@ void Rectangle::expand(int amount){
 	start.y -= amount;
 	end.x += amount;
 	end.y += amount;
+}
+
+void Rectangle::shrink(int amount){
+	start.x += amount;
+	start.y += amount;
+	end.x -= amount;
+	end.y -= amount;
 }

@@ -1,7 +1,7 @@
 #include "Armor.h"
 
-std::string Armor::getDescription(){
-	return Item::getDescription() + " df:" + std::to_string(defence) + " c:" + std::to_string(getValue());
+std::string Armor::getStatistics(){
+	return std::to_string(defence) + "a ";
 }
 
 int Armor::getValue(){
