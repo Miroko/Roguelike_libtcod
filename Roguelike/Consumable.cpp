@@ -7,7 +7,7 @@ int Consumable::getValue(){
 int Consumable::getPotency(){
 	int potency = 0;
 	for (auto &effect : effects){
-		potency += effect->getPotency();
+		//potency += effect->getPotency();
 	}
 	return potency;
 }

@@ -1,16 +1,17 @@
 #pragma once
-#include "Quest.h"
+#include <vector>
+#include <memory>
+
+class Quest;
 class QuestHandler
 {
-public:
+private:
 	std::shared_ptr<Quest> currentQuest;
 
+public:
+	std::shared_ptr<Quest> const &getCurrentQuest();
 	void setCurrentQuest(std::shared_ptr<Quest> quest);
-
-	void toNextPhase();
-	void toVillage();
-
-	void update();
+	void travelToVillage();
 
 	QuestHandler(){};
 };

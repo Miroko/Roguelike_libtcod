@@ -1,27 +1,30 @@
 #include "Random.h"
-
-TCODRandom Random::generator = TCODRandom(TCOD_RNG_CMWC);
-std::shared_ptr<TCODRandom> Random::randomState = std::shared_ptr<TCODRandom>(Random::generator.save());
-std::shared_ptr<TCODRandom> Random::staticState = std::shared_ptr<TCODRandom>(Random::generator.save());
+#include "Direction.h"
 
 Point2D Random::point(Rectangle &inBounds){
-	return Point2D(generator.getInt(inBounds.start.x, inBounds.end.x - 1),
-		           generator.getInt(inBounds.start.y, inBounds.end.y - 1));
+	return Point2D(generator->getInt(inBounds.start.x, inBounds.end.x),
+		           generator->getInt(inBounds.start.y, inBounds.end.y));
 }
 
 Point2D Random::direction(){
-	int r = generator.getInt(0, 7);
-	return DIRECTIONS[r];
+	int index = generator->getInt(0, 7);
+	return DIRECTIONS[index];
 }
 
 void Random::useRandom(){
 	//Restore saved state
-	generator.restore(randomState.get());
+	generator->restore(randomState.get());
 }
 
 void Random::useStatic(){
-	//Save state
-	randomState.reset(generator.save());
-	//Set to use static state
-	generator.restore(staticState.get());
+	//Save random state
+	randomState.reset(generator->save());
+	//Set generator to use static state
+	generator->restore(staticState.get());
+}
+
+void Random::init(){
+	generator = std::shared_ptr<TCODRandom>(new TCODRandom(TCOD_RNG_CMWC));
+	randomState.reset(generator->save());
+	staticState.reset(generator->save());
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "libtcod.hpp"
+
 class Glyph
 {
 public:
@@ -16,7 +17,7 @@ public:
 		fgColor(fg), bgColor(bg), character(character){
 		bgFlag = TCOD_BKGND_SET;
 	};
-	Glyph(TCODColor fg, char character) : fgColor(fg), character(character){
+	Glyph(char character, TCODColor fg) : fgColor(fg), character(character){
 		bgFlag = TCOD_BKGND_NONE;
 	};
 

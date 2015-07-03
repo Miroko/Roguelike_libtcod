@@ -2,6 +2,7 @@
 #include "VisualEffect.h"
 #include <vector>
 #include <memory>
+
 class VisualEffectHandler
 {
 public:

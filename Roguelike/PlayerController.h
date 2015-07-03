@@ -1,35 +1,20 @@
 #pragma once
-#include "AliveObject.h"
-#include "Quest.h"
-#include "Direction.h"
+#include "libtcod.hpp"
+#include "Point2D.h"
 #include <memory>
+
 class PlayerController
 {
 private:
-	//if true takes turn
-
-	//True if player moved or waited
-	bool move(TCOD_key_t key);
-
-	//True if attacked
-	bool attack();
-
-	//Take items at player location
-	//True if picker opened
-	bool take();
-
-	//True if opened something
-	bool operate();
-
-	//False
-	bool talk();
-
-	//True
+	bool move(Point2D &direction);
 	bool wait();
+	bool attack(Point2D &direction);
+	bool take();
+	bool operate(Point2D &direction);
+	bool talk(Point2D &direction);
+	bool leaveArea();
 
 public:
-	std::shared_ptr<Creature> playerCreature;
-
 	//True if simulation update needed
 	bool handleKey(TCOD_key_t key);
 

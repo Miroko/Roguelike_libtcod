@@ -6,10 +6,6 @@
 
 int main(int argc, char* argv[])
 {
-	TCODConsole::initRoot(120, 60, "Roguelike", false);
-
-	Engine engine = Engine();
-	engine.start();
-
+	engine::init();
 	return 0;
 }

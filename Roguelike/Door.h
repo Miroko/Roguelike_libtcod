@@ -1,5 +1,6 @@
 #pragma once
 #include "OperatableObject.h"
+
 class Door : public OperatableObject
 {
 public:
@@ -8,6 +9,6 @@ public:
 	bool passable(DynamicObject &dynamicObject);
 	
 	Door(std::string name, Glyph openGlyph, Glyph closedGlyph) :
-		OperatableObject(openGlyph, closedGlyph, name, 100){};
+		OperatableObject(name, GameObject::DOOR ,100, openGlyph, closedGlyph){};
 };
 

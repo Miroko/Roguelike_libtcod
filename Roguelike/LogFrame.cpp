@@ -1,7 +1,7 @@
 #include "LogFrame.h"
 
-bool LogFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
-	return GuiFrame::handleKey(key, requireUpdate);
+bool LogFrame::handleKey(TCOD_key_t key){
+	return GuiFrame::handleKey(key);
 }
 
 void LogFrame::render(){
@@ -14,7 +14,7 @@ void LogFrame::render(){
 	for (std::string message : messages){
 		console->printRectEx(console->getWidth()/2, y, console->getWidth(), 1, TCOD_BKGND_NONE, TCOD_CENTER, message.c_str());
 		float fadeAlpha = alphaFg - alphaFg / maxY * y;
-		if (fadeAlpha < 0.1) fadeAlpha = 0.1;
+		if (fadeAlpha < 0.1) fadeAlpha = 0.1f;
 		blit(1, y, console->getWidth() - 1, 1, screenBounds.start.x + 1, screenBounds.start.y + y, fadeAlpha, 0.0);
 		++y;
 	}

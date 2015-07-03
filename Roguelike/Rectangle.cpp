@@ -6,12 +6,17 @@ Rectangle::Rectangle(Point2D start, Point2D end) {
 	this->end = end;
 }
 
+Rectangle::Rectangle(int width, int height) {
+	this->start = Point2D(0, 0);
+	this->end = Point2D(width, height);
+}
+
 int Rectangle::getWidth(){
-	return (int)(end.x - start.x);
+	return (int)(end.x + 1 - start.x);
 }
 
 int Rectangle::getHeight(){
-	return (int)(end.y - start.y);
+	return (int)(end.y + 1 - start.y);
 }
 
 int Rectangle::getSize(){
@@ -23,8 +28,8 @@ Point2D Rectangle::getCenterPoint(){
 }
 
 bool Rectangle::inside(Point2D &point){
-	if (start.x <= point.x && point.x < end.x
-		&& start.y <= point.y && point.y < end.y){
+	if (start.x < point.x && point.x < end.x
+		&& start.y < point.y && point.y < end.y){
 		return true;
 	}
 	else{
@@ -42,7 +47,7 @@ bool Rectangle::contains(Point2D &point){
 	}
 }
 
-std::vector<Point2D> Rectangle::getPoints(){
+std::vector<Point2D> Rectangle::getEdgePoints(){
 	std::vector<Point2D> points;
 		
 	for (int x = start.x; x <= end.x; x++){

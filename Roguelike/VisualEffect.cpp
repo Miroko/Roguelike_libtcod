@@ -12,13 +12,15 @@ VisualEffect::VisualEffect(const TCODColor &color, Point2D start, Point2D direct
 };
 
 void VisualEffect::update(){
-	float time = 1.0 - (float)currentDuration / (float)duration;
-	pathIndex = round((path.points.size() - 1) * time);
+	float time = 1.0f - (float)currentDuration / (float)duration;
+	pathIndex = (int)round((path.points.size() - 1) * time);
 	currentDuration--;
 }
 
 void VisualEffect::render(){
 	float time = (float)currentDuration / (float)duration;
-	TCODConsole::root->setCharBackground(path.points.at(pathIndex)->x - Engine::camera.location.x, path.points.at(pathIndex)->y - Engine::camera.location.y,
-		                                 color, TCOD_BKGND_ADDALPHA(time));
+	TCODConsole::root->setCharBackground(
+		path.points.at(pathIndex)->x - engine::camera.location.x,
+		path.points.at(pathIndex)->y - engine::camera.location.y,
+		color, TCOD_BKGND_ADDALPHA(time));
 }

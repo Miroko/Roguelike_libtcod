@@ -1,6 +1,8 @@
 #include "QuestPhase.h"
+#include "Dialog.h"
 #include "Engine.h"
 
-void QuestPhase::placePlayer(){
-	Engine::area.placeCreature(Engine::playerController.playerCreature, Engine::area.bounds.getCenterPoint());
+std::shared_ptr<Dialog> const &QuestPhase::getDialog(DynamicObject &speaker){
+	Dialog::NO_RESPONSE->setSpeaker(speaker);
+	return Dialog::NO_RESPONSE;
 }

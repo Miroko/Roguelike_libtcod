@@ -1,10 +1,20 @@
 #include "String.h"
 
-std::string String::weight(float weight, int precision){
+std::string String::outOf(int current, int max){
+	return "(" + std::to_string(current) + "/" + std::to_string(max) + ")";
+}
+
+std::string String::weight(float weight, bool kg, int precision){
 	int rounded = (int)weight;
-	int decimals = pow(10, precision);
-	int decimalPart = weight * decimals - rounded * decimals;
-	return std::to_string(rounded) + "." + std::to_string(decimalPart) + "kg";
+	int decimals = (int)pow(10, precision);
+	int decimalPart = (int)(weight * decimals - rounded * decimals);
+	std::string value = std::to_string(rounded) + "." + std::to_string(decimalPart);
+	if (kg) value += "kg";
+	return value;
+}
+
+std::string String::currency(int currency){
+	return std::to_string(currency) + "c";
 }
 
 std::string String::loremIpsum(){

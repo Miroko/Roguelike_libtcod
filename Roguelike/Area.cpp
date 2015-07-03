@@ -1,28 +1,54 @@
 #include "Area.h"
+#include "Engine.h"
 
-Area::Area(int size, StaticObject &base) :
-bounds(Rectangle(Point2D(0, 0), Point2D(size, size)))
-{
-	staticObjects.resize(bounds.getWidth());
-	for (int x = 0; x < bounds.getWidth(); x++){
-		staticObjects[x].resize(bounds.getHeight(), &base);
-	}	
+void Area::placeTile(Tile &tile, Point2D &location){
+	if (bounds.contains(location)){
+		tiles[location.x][location.y] = &tile;
+	}
 }
 
-void Area::setStaticObject(StaticObject &staticObject, Point2D &location){
-	staticObjects[(int)location.x][(int)location.y] = &staticObject;
+Tile *Area::getTile(Point2D &location){
+	if (bounds.contains(location)){
+		return tiles[location.x][location.y];
+	}
+	else return nullptr;
 }
 
-void Area::placePortal(std::shared_ptr<Portal> portal, Point2D &location){
+Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
+	Point2D scanLocation = location;
+	int offset = 0;
+	while (
+		scanLocation.x + offset != bounds.end.x &&
+		scanLocation.y + offset != bounds.end.x &&
+		scanLocation.x - offset != bounds.start.x &&
+		scanLocation.y - offset != bounds.start.y){
+		for (scanLocation.x = location.x - offset; scanLocation.x < location.x + offset; scanLocation.x++){
+			for (scanLocation.y = location.y - offset; scanLocation.y < location.y + offset; scanLocation.y++){
+				if (bounds.contains(scanLocation)){
+					if (tiles[scanLocation.x][scanLocation.y]->getType() == type){
+						return scanLocation;
+					}
+				}
+			}
+		}
+		++offset;
+	}
+	return Point2D();
+}
+
+void Area::placeTile(Tile &portal, Point2D &location, GameObject::Type placeType){
 	Point2D placementLocation = location;
 	int offset = 0;
-	while (true){
+	while (
+		placementLocation.x + offset <= bounds.end.x &&
+		placementLocation.y + offset <= bounds.end.x &&
+		placementLocation.x - offset >= bounds.start.x &&
+		placementLocation.y - offset >= bounds.start.y){
 		for (placementLocation.x = location.x - offset; placementLocation.x < location.x + offset; placementLocation.x++){
 			for (placementLocation.y = location.y - offset; placementLocation.y < location.y + offset; placementLocation.y++){
-				if (bounds.inside(placementLocation)){
-					if (!staticObjects[placementLocation.x][placementLocation.y]->raised){
-						portal->location = placementLocation;
-						portals.push_back(portal);
+				if (bounds.contains(placementLocation)){
+					if (tiles[placementLocation.x][placementLocation.y]->getType() == placeType){
+						placeTile(portal, placementLocation);
 						return;
 					}
 				}
@@ -33,52 +59,24 @@ void Area::placePortal(std::shared_ptr<Portal> portal, Point2D &location){
 }
 
 void Area::placeCreature(std::shared_ptr<Creature> creature, Point2D &location){
-	if (moveCreature(*creature, location)){
-		creatures.push_back(creature);
-	}
-	else {
-		//Increase placement area until placed on open spot
-		Point2D alternativeLocation = location;
-		int offset = 1;
-		while (true){ //Every object must be placed somewhere
-			for (alternativeLocation.x = location.x - offset; alternativeLocation.x < location.x + offset; alternativeLocation.x++){
-				for (alternativeLocation.y = location.y - offset; alternativeLocation.y < location.y + offset; alternativeLocation.y++){
-					if (moveCreature(*creature, alternativeLocation)){
-						creatures.push_back(creature);
-						goto INIT_AI;
-					}
-				}
-			}
-			++offset;
-		}
-	}
-	INIT_AI:
-	creature->ai.createFovMap(*this);
-	creature->ai.calculateFov(*this, *creature);
-	creature->ai.createPathMap(*this, *creature);
-}
-
-bool Area::moveCreature(Creature &creature, Point2D &location){
-	if (bounds.inside(location)){
-		if (staticObjects[location.x][location.y]->raised) return false;
-		for (auto &o : creatures){
-			if (o->location == location){
-				if (!o->passable(creature)){
-					return false;
+	Point2D placementLocation = location;
+	int offset = 0;
+	while (
+		placementLocation.x + offset <= bounds.end.x &&
+		placementLocation.y + offset <= bounds.end.x &&
+		placementLocation.x - offset >= bounds.start.x &&
+		placementLocation.y - offset >= bounds.start.y){
+		for (placementLocation.x = location.x - offset; placementLocation.x < location.x + offset; placementLocation.x++){
+			for (placementLocation.y = location.y - offset; placementLocation.y < location.y + offset; placementLocation.y++){
+				if (passable(placementLocation, *creature)){
+					creature->location = placementLocation;
+					creatures.push_back(creature);
+					return;
 				}
 			}
 		}
-		for (auto &o : operatableObjects){
-			if (o->location == location){
-				if (!o->passable(creature)){
-					return false;
-				}
-			}
-		}
-		creature.location = location;
-		return true;
+		++offset;
 	}
-	return false;
 }
 
 std::vector<std::shared_ptr<Creature>*> Area::getCreatures(Point2D &location){
@@ -102,18 +100,22 @@ std::vector<std::shared_ptr<Creature>*> Area::getCreatures(Rectangle &bounds){
 }
 
 void Area::placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D &location){
-	if (moveOperatable(operatable, location)){
+	if (operatable->move(location)){
 		operatableObjects.push_back(operatable);
 		return;
 	}
 	else {
 		//Increase placement area until placed on open spot
-		Point2D alternativeLocation = location;
+		Point2D placementLocation = location;
 		int offset = 1;
-		while (true){ //Every object must be placed somewhere
-			for (alternativeLocation.x = location.x - offset; alternativeLocation.x < location.x + offset; alternativeLocation.x++){
-				for (alternativeLocation.y = location.y - offset; alternativeLocation.y < location.y + offset; alternativeLocation.y++){
-					if (moveOperatable(operatable, alternativeLocation)){
+		while (
+			placementLocation.x + offset <= bounds.end.x &&
+			placementLocation.y + offset <= bounds.end.x &&
+			placementLocation.x - offset >= bounds.start.x &&
+			placementLocation.y - offset >= bounds.start.y){ //Every object must be placed somewhere
+			for (placementLocation.x = location.x - offset; placementLocation.x < location.x + offset; placementLocation.x++){
+				for (placementLocation.y = location.y - offset; placementLocation.y < location.y + offset; placementLocation.y++){
+					if (operatable->move(placementLocation)){
 						operatableObjects.push_back(operatable);
 						return;
 					}
@@ -122,29 +124,6 @@ void Area::placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D
 			++offset;
 		}
 	}
-}
-
-bool Area::moveOperatable(std::shared_ptr<OperatableObject> &operatable, Point2D &location){
-	if (bounds.inside(location)){
-		if (staticObjects[location.x][location.y]->raised) return false;
-		for (auto &o : operatableObjects){
-			if (o->location == location){
-				if (!o->passable(*operatable)){
-					return false;
-				}
-			}
-		}
-		for (auto &o : creatures){
-			if (o->location == location){
-				if (!o->passable(*operatable)){
-					return false;
-				}
-			}
-		}
-		operatable->location = location;
-		return true;
-	}
-	return false;
 }
 
 std::vector<std::shared_ptr<OperatableObject>*> Area::getOperatables(Point2D &location){
@@ -193,13 +172,30 @@ std::vector<std::shared_ptr<Item>*> Area::getItemsAt(Point2D &location){
 	return itemsAtLocation;
 }
 
-void Area::killDynamicObject(DynamicObject &dynamicObject){
-	dynamicObject.isDead = true;
-	requireClean = true;
+bool Area::passable(Point2D &location, DynamicObject &dynamicObjectMoving){
+	if (bounds.contains(location)){
+		if (tiles[location.x][location.y]->type == GameObject::WALL) return false;
+		for (auto &o : creatures){
+			if (o->location == location){
+				if (!o->passable(dynamicObjectMoving)){
+					return false;
+				}
+			}
+		}
+		for (auto &o : operatableObjects){
+			if (o->location == location){
+				if (!o->passable(dynamicObjectMoving)){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	else return false;
 }
 
 void Area::cleanDeadDynamicObjects(){
-	if (requireClean){
+	if (cleaningRequired){
 		auto &creature = creatures.begin();
 		while (creature != creatures.end()){
 			if (creature->get()->isDead){
@@ -214,7 +210,43 @@ void Area::cleanDeadDynamicObjects(){
 			}
 			else ++operatable;
 		}
-		requireClean = false;
+		cleaningRequired = false;
+	}
+}
+
+Rectangle &Area::getBounds(){
+	return bounds;
+}
+
+void Area::requireClean(){
+	cleaningRequired = true;
+}
+
+void Area::generateBase(Rectangle bounds, Tile &tile){
+	this->bounds = bounds;
+
+	tiles.resize(bounds.getWidth() + 1);
+	for (int x = 0; x < bounds.getWidth() + 1; x++){
+		tiles[x].resize(bounds.getHeight() + 1, &tile);
+	}
+}
+
+void Area::generateEdge(Tile &tile){
+	for (Point2D &edgePoint : bounds.getEdgePoints()){
+		Rectangle surrounding = Rectangle(edgePoint, edgePoint);
+		surrounding.expand(1);
+		for (int coarseness = 4; coarseness > 0; --coarseness){
+			Point2D &location = engine::random.point(surrounding);
+			placeTile(tile, location);
+		}
+		placeTile(tile, edgePoint);
+	}
+}
+
+
+void Area::initAi(){
+	for (auto &creature : creatures){
+		creature->initAi();
 	}
 }
 
@@ -227,6 +259,45 @@ void Area::update(){
 	for (auto &operatable : operatableObjects){
 		if (!operatable->isDead){
 			operatable->update();
+		}
+	}
+}
+
+void Area::render(){
+	using engine::camera;
+	using engine::playerHandler;
+	//Static objects
+	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){
+		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
+			if (bounds.contains(Point2D(x, y))){
+				if (playerHandler.getPlayerCreature()->ai->inFov(Point2D(x, y)) || SEE_THROUGH){
+					tiles[x][y]->render(x - camera.location.x, y - camera.location.y);
+				}
+			}
+		}
+	}
+	//Item
+	for (auto &item : items){
+		int renderX = item->location.x - camera.location.x;
+		int renderY = item->location.y - camera.location.y;
+		if (playerHandler.getPlayerCreature()->ai->inFov(item->location) || SEE_THROUGH){
+			item->render(renderX, renderY);
+		}
+	}
+	//Operatables
+	for (auto &operatable : operatableObjects){
+		int renderX = operatable->location.x - camera.location.x;
+		int renderY = operatable->location.y - camera.location.y;
+		if (playerHandler.getPlayerCreature()->ai->inFov(operatable->location) || SEE_THROUGH){
+			operatable->render(renderX, renderY);
+		}
+	}
+	//Creatures
+	for (auto &creature : creatures){
+		int renderX = creature->location.x - camera.location.x;
+		int renderY = creature->location.y - camera.location.y;
+		if (playerHandler.getPlayerCreature()->ai->inFov(creature->location) || SEE_THROUGH){
+			creature->render(renderX, renderY);
 		}
 	}
 }

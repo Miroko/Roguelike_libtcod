@@ -7,7 +7,7 @@ void Door::on(){
 }
 
 void Door::off(){
-	if (Engine::area.getCreatures(location).empty()){
+	if (engine::areaHandler.getCurrentArea()->getCreatures(location).empty()){
 		transparent = false;
 		OperatableObject::off();
 	}

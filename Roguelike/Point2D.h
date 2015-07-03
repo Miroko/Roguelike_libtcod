@@ -22,5 +22,5 @@ public:
 	Point2D(){};
 };
 
-static const Point2D UNDEFINED_POINT = Point2D();
+static const Point2D POINT_UNDEFINED = Point2D();
 

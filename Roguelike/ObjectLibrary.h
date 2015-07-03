@@ -1,64 +1,54 @@
 #pragma once
-#include "StaticObject.h"
-#include "Portal.h"
-#include "LootContainer.h"
-#include "EquipmentContainer.h"
-#include "Heal.h"
-#include "Area.h"
+#include "Tile.h"
+#include "TemplateCreature.h"
+#include "TemplateCreaturePreset.h"
+#include "TemplateWeapon.h"
+#include "TemplateArmor.h"
+#include "Item.h"
 #include "RarityType.h"
-#include <map>
+#include <unordered_map>
 #include <memory>
+#include <list>
 
 class ObjectLibrary
 {
 public:
-	template <typename T> static std::shared_ptr<T> createNew(T &templateObject){
-		return std::shared_ptr<T>(new T(templateObject));
-	}
+	float maxHealth;
+	float maxDamage;
+	float maxDefence;
+	float maxWeight;
+	float headDefence;
+	float bodyDefence;
+	float handDefence;
+	float legDefence;
+	float rangedMultiplier;
 
-	static StaticObject FOREST_LAND;
-	static StaticObject FOREST_TREE;
+	std::list<RarityType> rarityTypes;
+	std::unordered_map<std::string, std::unique_ptr<Tile>> tiles;
+	std::unordered_map<std::string, TemplateWeapon> weaponTemplates;
+	std::unordered_map<std::string, TemplateArmor> armorTemplates;
+	std::unordered_map<std::string, TemplateCreature> creatureTemplates;
+	std::unordered_map<std::string, TemplateCreaturePreset> creaturePresetTemplates;
 
-	static StaticObject STONE_WALL;
-	static StaticObject STONE_FLOOR;
+	bool addTile(std::string id, std::unique_ptr<Tile> tile);
+	bool addItem(std::string id, std::unique_ptr<Item> item);
+	bool addWeaponTemplate(TemplateWeapon weaponTemplate);
+	bool addArmorTemplate(TemplateArmor armorTemplate);
+	void addRarity(RarityType rarity);
+	bool addCreatureTemplate(TemplateCreature creatureTemplate);
+	bool addCreaturePresetTemplate(TemplateCreaturePreset creaturePresetTemplate);
+	Tile *getTile(std::string id);
+	Item *getItem(std::string id);
+	RarityType *getRarity(std::string id);
+	RarityType *getRarity(float roll);
+	TemplateWeapon *getTemplateWeapon(std::string id);
+	TemplateArmor *getTemplateArmor(std::string id);
+	TemplateCreature *getTemplateCreature(std::string id);
+	TemplateCreaturePreset *getTemplateCreaturePreset(std::string id);
 
-	static StaticObject WOOD_WALL;
-	static StaticObject WOOD_FLOOR; 
+	void sortRarityTypes();
 
-	static Portal FOREST_PORTAL;
-	static Portal CAVE_PORTAL;
-
-	static Weapon DAGGER;
-	static Weapon SWORD;
-	static Weapon BOW;
-
-	static Armor LEATHER_HEAD;
-	static Armor LEATHER_BODY;
-	static Armor LEATHER_HAND;
-	static Armor LEATHER_LEG;
-
-	static Heal HEAL;
-	static Consumable HEALTH_POTION;
-
-	static LootContainer MAN_LOOT;
-	static EquipmentContainer MAN_EQUIPMENT;
-	static Creature MAN;
-
-	static LootContainer GOBLIN_LOOT;
-	static EquipmentContainer GOBLIN_EQUIPMENT;
-	static Creature GOBLIN;
-
-	static LootContainer DOOR_LOOT;
-	static Door WOOD_DOOR;
-
-	static std::shared_ptr<Creature> generateCreature(Creature &templateCreature, RarityType &rarity, EquipmentContainer &equipment, LootContainer &loot);
-	static std::shared_ptr<Weapon> generateWeapon(Weapon &templateWeapon, RarityType &rarity);
-	static std::shared_ptr<Armor> generateArmor(Armor &templateArmor, RarityType &rarity);
-	static std::shared_ptr<Consumable> generateConsumable(Consumable &templateConsumable);
-	static std::shared_ptr<Door> generateDoor(Door &templateDoor, LootContainer &loot);
-
-	static void generateLootDrop(Area &toArea, DynamicObject &dynamicObject);
+	void init();
 
 	ObjectLibrary(){};
 };
-

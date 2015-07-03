@@ -1,6 +1,7 @@
 #pragma once
 #include "Point2D.h"
 #include <vector>
+
 class Rectangle
 {
 public:
@@ -15,10 +16,10 @@ public:
 	bool contains(Point2D &point);
 	void expand(int amount);
 	void shrink(int amount);
-
-	std::vector<Point2D> getPoints();
+	std::vector<Point2D> getEdgePoints();
 
 	Rectangle(Point2D start, Point2D end);
+	Rectangle(int width, int height);
 	Rectangle(){};
 };
 

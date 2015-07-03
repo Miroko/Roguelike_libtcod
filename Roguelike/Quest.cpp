@@ -1,5 +1,13 @@
 #include "Quest.h"
 
-std::shared_ptr<Dialog> Quest::getDialog(std::shared_ptr<DynamicObject> &owner){
-	return std::shared_ptr<Dialog>(new DialogNoResponse(owner));
+std::shared_ptr<QuestPhase> const &Quest::getCurrentPhase(){
+	return currentPhase;
+}
+
+void Quest::setCurrentPhase(std::shared_ptr<QuestPhase> phase){
+	currentPhase = phase;
+}
+
+std::shared_ptr<QuestPhase> const &Quest::getVillage(){
+	return village;
 }

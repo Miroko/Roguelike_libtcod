@@ -3,6 +3,7 @@
 #include "DynamicObject.h"
 #include <vector>
 #include <memory>
+
 class AttackFrame : public GuiFrame
 {
 private:
@@ -16,7 +17,7 @@ public:
 	void setAttackableObjects(std::vector<std::shared_ptr<DynamicObject>> attackableObjects);
 
 	void GuiFrame::render();
-	bool handleKey(TCOD_key_t key, bool &requireUpdate);
+	bool handleKey(TCOD_key_t key);
 
 	void onOpen();
 

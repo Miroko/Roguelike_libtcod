@@ -1,23 +1,24 @@
 #include "QuestHandler.h"
+#include "Quest.h"
 #include "Engine.h"
 
 void QuestHandler::setCurrentQuest(std::shared_ptr<Quest> quest){
 	currentQuest = quest;
-	Engine::GUI.log.addMessage("Quest added: " + quest->name);
 }
 
-void QuestHandler::toNextPhase(){
-	currentQuest->currentPhase = currentQuest->getNextPhase();
-	currentQuest->currentPhase->generateArea(Engine::area);
-	Engine::camera.centerOn(Engine::playerController.playerCreature->location);
+std::shared_ptr<Quest> const &QuestHandler::getCurrentQuest(){
+	return currentQuest;
 }
 
-void QuestHandler::toVillage(){
-	currentQuest->currentPhase = currentQuest->getVillage();
-	currentQuest->currentPhase->generateArea(Engine::area);
-	Engine::camera.centerOn(Engine::playerController.playerCreature->location);
-}
+void QuestHandler::travelToVillage(){
+	currentQuest->setCurrentPhase(currentQuest->getVillage());
+	engine::areaHandler.setCurrentArea(currentQuest->getCurrentPhase()->generateArea());
 
-void QuestHandler::update(){
-	if (currentQuest->currentPhase->nextPhaseCondition()) toNextPhase();
+	engine::areaHandler.getCurrentArea()->placeCreature(
+		engine::playerHandler.getPlayerCreature(), 
+		engine::areaHandler.getCurrentArea()->getBounds().getCenterPoint());
+
+	engine::camera.centerOn(engine::playerHandler.getPlayerCreature()->location);
+
+	engine::areaHandler.getCurrentArea()->initAi();
 }

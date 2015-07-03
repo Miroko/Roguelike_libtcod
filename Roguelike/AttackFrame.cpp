@@ -6,8 +6,8 @@ void AttackFrame::setAttackableObjects(std::vector<std::shared_ptr<DynamicObject
 	this->attackableObjects = attackableObjects;
 }
 
-bool AttackFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
-	bool handled = GuiFrame::handleKey(key, requireUpdate);
+bool AttackFrame::handleKey(TCOD_key_t key){
+	bool handled = GuiFrame::handleKey(key);
 	if (isOpen){
 		Point2D direction = KeyMapping::direction(key.vk);
 		if (!direction.undefined()){
@@ -22,11 +22,11 @@ bool AttackFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 				handled = true;
 			}
 			else if (direction == CENTER){
-				Engine::playerController.playerCreature->attackRanged(*attackableObjects.at(objectIndex));
-				close();
-				handled = true;
-				requireUpdate = true;
+				engine::playerHandler.getPlayerCreature()->attack(*attackableObjects.at(objectIndex));
 				previouslyAttacked = attackableObjects.at(objectIndex);
+				handled = true;
+				engine::requestUpdate = true;
+				close();
 			}
 		}
 		if (!handled){
@@ -45,7 +45,7 @@ void AttackFrame::render(){
 	printString(0, 0, getWidth(), getHeight(), FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, selectedObject->name);
 
 	attackLocation = selectedObject->location;
-	TCODConsole::root->setCharBackground(attackLocation.x - Engine::camera.location.x, attackLocation.y - Engine::camera.location.y,
+	TCODConsole::root->setCharBackground(attackLocation.x - engine::camera.location.x, attackLocation.y - engine::camera.location.y,
 		cursorColor, TCOD_BKGND_ALPHA(0.5));
 
 	blit();

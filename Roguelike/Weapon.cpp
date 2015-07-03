@@ -1,5 +1,8 @@
 #include "Weapon.h"
-#include "String.h"
+
+std::string Weapon::getDescription(){
+	return rarity.name + " " + name;
+}
 
 std::string Weapon::getStatistics(){
 	return std::to_string(damage) + "d ";

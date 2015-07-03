@@ -1,19 +1,24 @@
 #pragma once
-#include "QuestPhase.h"
 #include "Dialog.h"
 #include "TradeContainer.h"
 #include <memory>
+
+class QuestPhase;
 class Quest
 {
+private:
+	std::vector<std::shared_ptr<QuestPhase>> phases;
+	std::shared_ptr<QuestPhase> village;
+	std::shared_ptr<QuestPhase> currentPhase;
+
 public:
 	std::string name;
 
-	std::shared_ptr<QuestPhase> currentPhase;
+	std::shared_ptr<QuestPhase> const &getCurrentPhase();
+	void setCurrentPhase(std::shared_ptr<QuestPhase> phase);
 
-	virtual std::shared_ptr<QuestPhase> getNextPhase() = 0;
-	virtual std::shared_ptr<QuestPhase> getVillage() = 0;
-	virtual std::shared_ptr<TradeContainer> getTradeContainer(std::shared_ptr<DynamicObject> &owner) = 0;
-	virtual std::shared_ptr<Dialog> getDialog(std::shared_ptr<DynamicObject> &owner);
-	
-	Quest(std::string name) : name(name){};
+	std::shared_ptr<QuestPhase> const &getVillage();
+
+	Quest(std::string name, std::vector<std::shared_ptr<QuestPhase>> phases) :
+		name(name), phases(phases), village(phases.at(0)){};
 };

@@ -2,6 +2,7 @@
 #include "Point2D.h"
 #include <vector>
 #include <memory>
+
 class Line
 {
 public:

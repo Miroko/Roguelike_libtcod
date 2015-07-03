@@ -1,18 +1,21 @@
 #pragma once
 #include "libtcod.hpp"
 #include "Rectangle.h"
-#include "Direction.h"
 #include <memory>
+
 class Random
 {
 private:
-	static std::shared_ptr<TCODRandom> randomState;
-	static std::shared_ptr<TCODRandom> staticState;
-public:
-	static TCODRandom generator;
+	std::shared_ptr<TCODRandom> randomState;
+	std::shared_ptr<TCODRandom> staticState;
 
-	static Point2D point(Rectangle &inBounds);
-	static Point2D direction();
-	static void useStatic();
-	static void useRandom();
+public:
+	std::shared_ptr<TCODRandom> generator;
+
+	Point2D point(Rectangle &inBounds);
+	Point2D direction();
+
+	void init();
+	void useStatic();
+	void useRandom();
 };

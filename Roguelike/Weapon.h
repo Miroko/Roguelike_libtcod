@@ -1,6 +1,7 @@
 #pragma once
+#include "TemplateWeapon.h"
 #include "Equipment.h"
-#include "Random.h"
+#include "Engine.h"
 #include <memory>
 
 class Weapon : public Equipment
@@ -8,9 +9,20 @@ class Weapon : public Equipment
 public:
 	int damage;
 
+	std::vector<RarityModWeapon*> rarityMods;
+
+	std::string getDescription();
 	std::string getStatistics();
 	int getValue();
 
-	Weapon(std::string name, Glyph glyph, float weight, int damage, Type type) : Equipment(name, glyph, weight, type), damage(damage){};
+	Weapon(std::string name, Glyph glyph, float weight, Type type, int damage, RarityType &rarity, std::vector<RarityModWeapon*> rarityMods) :
+		Equipment(
+		name,
+		glyph,
+		weight,
+		type,
+		rarity),
+		damage(damage),
+		rarityMods(rarityMods){};
 };
 

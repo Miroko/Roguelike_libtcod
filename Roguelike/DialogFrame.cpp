@@ -8,7 +8,7 @@ void DialogFrame::setDialog(std::shared_ptr<Dialog> dialog){
 	selectedOption = 0;
 }
 
-bool DialogFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
+bool DialogFrame::handleKey(TCOD_key_t key){
 	bool handled = false;
 	if (isOpen){
 		Point2D direction;
@@ -27,7 +27,7 @@ bool DialogFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 				}
 				else if (direction == CENTER){
 					currentDialog = currentDialog->getNextDialog(currentDialog->dialogOptions.at(selectedOption));
-					if (currentDialog == DIALOG_END) close();
+					if (currentDialog == Dialog::END) close();
 					else selectedOption = 0;
 					handled = true;
 				}
@@ -51,10 +51,12 @@ void DialogFrame::render(){
 	int offsetY = 0;
 	for (auto &option : currentDialog->dialogOptions){
 		if (offsetY == selectedOption){
-			printString(0, getHeight() - offsetY, getWidth(), 1, selectionColor, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, currentDialog->dialogOptions.at(offsetY)->optionText.c_str());
+			printString(0, getHeight() - offsetY, getWidth(), 1, selectionColor, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE,
+				currentDialog->dialogOptions.at(offsetY)->getOptionText(*currentDialog->getSpeaker()).c_str());
 		}
 		else{
-			printString(0, getHeight() - offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, currentDialog->dialogOptions.at(offsetY)->optionText.c_str());
+			printString(0, getHeight() - offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE,
+				currentDialog->dialogOptions.at(offsetY)->getOptionText(*currentDialog->getSpeaker()).c_str());
 		}
 		++offsetY;
 	}

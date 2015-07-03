@@ -1,35 +1,40 @@
 #include "RarityType.h"
-#include "RarityEffect.h"
-#include "Random.h"
+#include "Engine.h"
+#include <vector>
+#include <memory>
 
-RarityEffect* RarityType::getRandomEffect(){
-	if (!effects.empty()){
-		int randomIndex = Random::generator.getInt(0, effects.size() - 1);
-		RarityEffect& effect = *effects.at(randomIndex);
-		effect.rarityAttachedTo = this;
-		return &effect;
+std::vector<RarityModCreature*> RarityType::getRandomCreatureMods(){
+	std::vector<RarityModCreature*> rarityMods;
+	for (int modNumber = engine::random.generator->getInt(0, modsPerItemMax); modNumber > 0; --modNumber){
+		float roll = engine::random.generator->getFloat(0.0, 1.0);
+		if (roll < modRollChance){
+			int randomIndex = engine::random.generator->getInt(0, creatureMods.size() - 1);
+			rarityMods.push_back(&creatureMods.at(randomIndex));
+		}
 	}
-	else return nullptr;
+	return rarityMods;
 }
 
-void RarityType::apply(Creature &creature){
-	creature.rarity = this;
-	creature.glyph.fgColor = creature.glyph.fgColor * color;
-	getRandomEffect()->apply(creature);
+std::vector<RarityModWeapon*> RarityType::getRandomWeaponMods(){
+	std::vector<RarityModWeapon*> rarityMods;
+	for (int modNumber = engine::random.generator->getInt(0, modsPerItemMax); modNumber > 0; --modNumber){
+		float roll = engine::random.generator->getFloat(0.0, 1.0);
+		if (roll < modRollChance){
+			int randomIndex = engine::random.generator->getInt(0, weaponMods.size() - 1);
+			rarityMods.push_back(&weaponMods.at(randomIndex));
+		}
+	}
+	return rarityMods;
 }
 
-void RarityType::apply(Weapon &weapon){
-	weapon.rarity = this;
-	weapon.glyph.fgColor = weapon.glyph.fgColor * color;
-	getRandomEffect()->apply(weapon);
-}
-
-void RarityType::apply(Armor &armor){
-	armor.rarity = this;
-	armor.glyph.fgColor = armor.glyph.fgColor * color;
-	getRandomEffect()->apply(armor);
-}
-
-void RarityType::apply(Consumable &consumable){
-	consumable.rarity = this;
+std::vector<RarityModArmor*> RarityType::getRandomArmorMods(){
+	std::vector<RarityModArmor*> rarityMods;
+	for (int modNumber = engine::random.generator->getInt(0, modsPerItemMax); modNumber > 0; --modNumber){
+		float roll = engine::random.generator->getFloat(0.0, 1.0);
+		if (roll < modRollChance){
+			int randomIndex = engine::random.generator->getInt(0, armorMods.size() - 1);
+			rarityMods.push_back(&armorMods.at(randomIndex));
+		}
+	}
+	return rarityMods;
 }

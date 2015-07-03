@@ -1,7 +1,8 @@
 #pragma once
-#include "Point2D.h"
 #include "libtcod.hpp"
+#include "Point2D.h"
 #include "Rectangle.h"
+
 class Camera
 {
 private:

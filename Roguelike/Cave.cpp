@@ -1,3 +1,4 @@
+/*
 #include "Cave.h"
 #include "Direction.h"
 #include "ObjectLibrary.h"
@@ -16,7 +17,7 @@ Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance,
 			setStaticObject(ObjectLibrary::STONE_FLOOR, nextPoint);
 			
 			//Place room
-			if (Random::generator.getFloat(0.0, 1.0) <= roomChance){
+			if (Random::generator->getFloat(0.0, 1.0) <= roomChance){
 				Rectangle roomBounds = Rectangle(Point2D(nextPoint.x - roomSize / 2, nextPoint.y - roomSize / 2),
 					                             Point2D(nextPoint.x + roomSize / 2, nextPoint.y + roomSize / 2));
 				Point2D roomPoint;
@@ -48,3 +49,4 @@ Cave::Cave(int size, float corridorsPerTile, int corridorSize, float roomChance,
 	}
 }
 
+*/

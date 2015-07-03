@@ -1,25 +1,30 @@
 #include "SelectableItemFrame.h"
 #include "RarityType.h"
 #include "String.h"
+#include "Engine.h"
 
-bool SelectableItemFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
-	bool handled = GuiFrame::handleKey(key, requireUpdate);
+void SelectableItemFrame::setItemContainer(ItemContainer &itemContainer){
+	currentItemContainer = &itemContainer;
+}
+
+bool SelectableItemFrame::handleKey(TCOD_key_t &key){
+	bool handled = GuiFrame::handleKey(key);
 	if (isOpen){
 		Point2D direction;
-		if (!items.items.empty()){
+		if (!currentItemContainer->items.empty()){
 			direction = KeyMapping::direction(key.vk);
 			if (!direction.undefined()){
 				if (direction == UP){
-					if (selectedRow == 0) selectedRow = items.items.size() - 1;
+					if (selectedRow == 0) selectedRow = currentItemContainer->items.size() - 1;
 					else selectedRow--;
-					operations = getOperationsForItem(items.items.at(selectedRow));
+					operations = getOperationsForItem(currentItemContainer->getAt(selectedRow));
 					selectedOperation = 0;
 					handled = true;
 				}
 				else if (direction == DOWN){
-					if (selectedRow == items.items.size() - 1) selectedRow = 0;
+					if (selectedRow == currentItemContainer->items.size() - 1) selectedRow = 0;
 					else selectedRow++;
-					operations = getOperationsForItem(items.items.at(selectedRow));
+					operations = getOperationsForItem(currentItemContainer->getAt(selectedRow));
 					selectedOperation = 0;
 					handled = true;
 				}
@@ -34,7 +39,8 @@ bool SelectableItemFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 					handled = true;
 				}
 				else if (direction == CENTER){
-					onItemSelect(items.items.at(selectedRow), operations[selectedOperation]);
+					onItemSelect(currentItemContainer->getAt(selectedRow), operations[selectedOperation]);
+					updateSelection();
 					handled = true;
 				}
 			}
@@ -51,21 +57,21 @@ void SelectableItemFrame::render(){
 	GuiFrame::render();
 	
 	//No items
-	if (items.items.empty()){
+	if (currentItemContainer->items.empty()){
 		console->printRectEx(console->getWidth() / 2, console->getHeight() / 2, console->getWidth(), 1, TCOD_BKGND_SET, TCOD_CENTER, "No items");
 	}
 	else{
 		//Items
 		int offsetY = 0;
-		for (auto &item : items.items){
+		for (auto &item : currentItemContainer->items){
 			//item
-			printString(0, offsetY, getWidth(), 1, item->rarity->color, item->rarity->color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
+			printString(0, offsetY, getWidth(), 1, TCODColor::amber, TCODColor::amber, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 			//stats
-			printString(0, offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_CENTER, TCOD_BKGND_NONE, item->getStatistics() + std::to_string(item->getValue()) + "c " + String::weight(item->weight));
+			printString(getWidth() / 2, offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
 			//operator
 			if (offsetY == selectedRow){
 				printString(0, offsetY, getWidth(), 1, OPERATION_COLOR, OPERATION_COLOR, TCOD_RIGHT, TCOD_BKGND_NONE, operations.at(selectedOperation));
-				renderSelection();
+				paintRowBg(SELECTION_COLOR, selectedRow);
 			}
 			++offsetY;
 		}
@@ -74,34 +80,26 @@ void SelectableItemFrame::render(){
 	blit();
 }
 
-void SelectableItemFrame::renderSelection(){
-	if (!items.items.empty()){
+void SelectableItemFrame::paintRowBg(const TCODColor &color, int row){
+	if (!currentItemContainer->items.empty()){
 		for (int x = 1; x <= console->getWidth() - 2; x++){
-			console->setCharBackground(x, selectedRow + MARGIN + 1, SELECTION_COLOR);
+			console->setCharBackground(x, row + MARGIN + 1, color);
 		}
 	}
 }
 
-void SelectableItemFrame::addItem(std::shared_ptr<Item> &item){
-	items.add(item);
-}
-
-void SelectableItemFrame::removeItem(std::shared_ptr<Item> &item){
-	items.remove(*item);
-	if (selectedRow > items.items.size() - 1) selectedRow--;
-	if (items.items.size() == 0) close();
-	else{
-		operations = getOperationsForItem(items.items.at(selectedRow));
+void SelectableItemFrame::updateSelection(){
+	if (currentItemContainer->items.size() == 0) close();
+	else {
+		if(selectedRow >= (int)currentItemContainer->items.size()) selectedRow = currentItemContainer->items.size() - 1;
+		operations = getOperationsForItem(currentItemContainer->getAt(selectedRow));
 		selectedOperation = 0;
 	}
 }
 
-void SelectableItemFrame::removeAll(){
-	items.items.clear();
-}
-
 void SelectableItemFrame::onOpen(){
+	GuiFrame::onOpen();
 	selectedRow = 0;
 	selectedOperation = 0;
-	if (!items.items.empty()) operations = getOperationsForItem(items.items.at(0));
+	if (!currentItemContainer->items.empty()) operations = getOperationsForItem(currentItemContainer->getAt(0));
 }

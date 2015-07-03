@@ -1,9 +1,13 @@
 #pragma once
-#include "PointerContainer.h"
-class TradeContainer : public PointerContainer<Item>
+#include "ItemContainer.h"
+
+class TradeContainer
 {
 public:
 	int currency;
+	ItemContainer items;
 
-	TradeContainer(int currency, std::vector<std::shared_ptr<Item>> items) : PointerContainer(items), currency(currency){};
+	TradeContainer(int currency, ItemContainer items) : 
+		currency(currency),
+		items(items){};
 };

@@ -1,35 +1,43 @@
 #pragma once
 #include "DynamicObject.h"
+#include "QuestPhase.h"
 #include <memory>
 #include <string>
-
-const std::string DIALOG_OPTION_END = "End.";
-const std::string DIALOG_OPTION_TRADE = "Trade.";
 
 class Dialog;
 class DialogOption
 {
+private:
+	virtual void onOptionSelect(DynamicObject &speaker) = 0;
+
 public:
-	std::string text;
-	std::string optionText;
-	std::shared_ptr<DynamicObject> owner;
+	virtual std::string getText(DynamicObject &speaker) = 0;
+	virtual std::string getOptionText(DynamicObject &speaker) = 0;
+	virtual std::shared_ptr<Dialog> const &getNextDialog(DynamicObject &owner) = 0;
 
-	virtual void onOptionSelect();
-	virtual std::shared_ptr<Dialog> getNextDialog(std::shared_ptr<DynamicObject> &owner);
-
-	DialogOption(std::string text, const std::string &optionText, std::shared_ptr<DynamicObject> &owner = std::shared_ptr<DynamicObject>(nullptr)) : text(text), optionText(optionText), owner(owner){};
+	DialogOption(){};
 };
 
 class OptionEnd : public DialogOption{
+private:
+	void DialogOption::onOptionSelect(DynamicObject &speaker);
+
 public:
-	OptionEnd(std::shared_ptr<DynamicObject> &owner) : DialogOption("", DIALOG_OPTION_END){};
+	std::string DialogOption::getText(DynamicObject &speaker);
+	std::string DialogOption::getOptionText(DynamicObject &speaker);
+	std::shared_ptr<Dialog> const &DialogOption::getNextDialog(DynamicObject &speaker);
+
+	OptionEnd() : DialogOption(){};
 };
 
 class OptionTrade : public DialogOption{
+private:
+	void DialogOption::onOptionSelect(DynamicObject &speaker);
+
 public:
-	OptionTrade(std::shared_ptr<DynamicObject> &owner) : DialogOption(owner->name + " is willing to trade.\n\n", DIALOG_OPTION_TRADE, owner){};
-	void onOptionSelect();
+	std::string DialogOption::getText(DynamicObject &speaker);
+	std::string DialogOption::getOptionText(DynamicObject &speaker);
+	std::shared_ptr<Dialog> const &DialogOption::getNextDialog(DynamicObject &speaker);
+
+	OptionTrade() : DialogOption(){};
 };
-
-
-const std::shared_ptr<Dialog> DIALOG_END(nullptr);

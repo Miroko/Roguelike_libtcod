@@ -1,15 +1,9 @@
 #pragma once
 #include "DynamicObject.h"
+
 class OperatableObject : public DynamicObject
 {
 public:
-	template <typename T> static std::shared_ptr<T> newOperatable(const std::shared_ptr<T> &operatableObjectTemplate, bool isOn = false){
-		std::shared_ptr<T> operatableObject = std::shared_ptr<T>(new T(*operatableObjectTemplate));
-		if (isOn) operatableObject->on();
-		else operatableObject->off();
-		return operatableObject;
-	}
-
 	bool isOn = false;
 
 	Glyph onGlyph;
@@ -25,8 +19,8 @@ public:
 
 	void render(int x, int y);
 
-	OperatableObject(Glyph onGlyph, Glyph offGlyph, std::string name, int health) :
-		DynamicObject(name, offGlyph, health, false),
+	OperatableObject(std::string name, Type type, int health, Glyph onGlyph, Glyph offGlyph) :
+		DynamicObject(name, type, offGlyph, health, false),
 		onGlyph(onGlyph),
 		offGlyph(offGlyph){};
 };

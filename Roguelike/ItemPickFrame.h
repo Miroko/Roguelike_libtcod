@@ -5,6 +5,7 @@ class ItemPickFrame : public SelectableItemFrame
 {
 private:
 	const std::vector<std::string> PICK_OPERATIONS = std::vector<std::string>({ "Take" });
+
 public:
 	bool moveToInventory(std::shared_ptr<Item> &item);
 

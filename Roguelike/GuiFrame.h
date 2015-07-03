@@ -3,6 +3,7 @@
 #include "Rectangle.h"
 #include <string>
 #include <memory>
+
 class GuiFrame
 {
 protected:
@@ -26,8 +27,6 @@ protected:
 	int getHeight();
 
 	//True if key handled
-	virtual bool handleKey(TCOD_key_t key, bool &requireUpdate);
-	virtual void render() = 0;
 	void blit(int fromX, int fromY, int width, int height, int toX, int toY, float alphaFg, float alphaBg);
 	void blit();
 
@@ -43,6 +42,9 @@ public:
 	virtual void close();
 
 	void init(Rectangle bounds);
+
+	virtual bool handleKey(TCOD_key_t &key);
+	virtual void render() = 0;
 
 	GuiFrame(char controlKey, bool open, float alphaFg = 1.0, float alphaBg = 1.0, std::string title = "") :
 		controlKey(controlKey),

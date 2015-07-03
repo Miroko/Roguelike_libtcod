@@ -8,23 +8,28 @@ private:
 	const std::string ERROR_NOT_ENOUGH_CURRENCY = "Not enough currency";
 	const std::string ERROR_TOO_MUCH_WEIGHT = "Can't carry that much";
 	const std::string ERROR_NONE = "";
+	const TCODColor cursorColor = TCODColor::lighterGreen;
+	const TCODColor selectedColor = TCODColor::yellow;
 
-	TCODColor cursorColor = TCODColor::lighterGreen;
-	TCODColor selectedColor = TCODColor::yellow;
-	std::shared_ptr<TradeContainer> currentTradeContainer;
+	ItemContainer *currentPlayerItems;
+	TradeContainer *currentTraderContainer;
+
+	ItemContainer selectedPlayerItems;
+	ItemContainer selectedTraderItems;
+
 	int selectionCol; // 0player 1accept 2trader
 	int selectionRowPlayer;
 	int selectionRowTrader;
-	PointerContainer<Item> playerSelected;
-	PointerContainer<Item> traderSelected;
 	int currencyFromTrade;
-	void calculateCurrencyFromTrade();
 	std::string errorMessage = "";
-	void makeTrade();
-public:
-	void setTradeContainer(std::shared_ptr<TradeContainer> &tradeContainer);
 
-	bool handleKey(TCOD_key_t key, bool &requireUpdate);
+	void calculateCurrencyFromTrade();
+	void makeTrade();
+
+public:
+	void setContainers(ItemContainer &playerItems, TradeContainer &tradeContainer);
+
+	bool handleKey(TCOD_key_t key);
 	void GuiFrame::render();
 	void onOpen();
 	void onClose();

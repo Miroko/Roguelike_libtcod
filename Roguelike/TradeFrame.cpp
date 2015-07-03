@@ -4,7 +4,7 @@
 #include "Engine.h"
 #include "String.h"
 
-bool TradeFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
+bool TradeFrame::handleKey(TCOD_key_t key){
 	bool handled = false;
 	if (isOpen){
 		Point2D direction;		
@@ -13,22 +13,22 @@ bool TradeFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 			errorMessage = ERROR_NONE;
 			if (direction == UP){				
 				if (selectionCol == 0){
-					if (selectionRowPlayer == 0) selectionRowPlayer = Engine::GUI.inventory.items.items.size() - 1;
+					if (selectionRowPlayer == 0) selectionRowPlayer = currentPlayerItems->items.size() - 1;
 					else selectionRowPlayer--;
 				}
 				else{
-					if (selectionRowTrader == 0) selectionRowTrader = currentTradeContainer->items.size() - 1;
+					if (selectionRowTrader == 0) selectionRowTrader = currentTraderContainer->items.items.size() - 1;
 					else selectionRowTrader--;
 				}
 				handled = true;
 			}
 			else if (direction == DOWN){
 				if (selectionCol == 0){
-					if (selectionRowPlayer == Engine::GUI.inventory.items.items.size() - 1) selectionRowPlayer = 0;
+					if (selectionRowPlayer == currentPlayerItems->items.size() - 1) selectionRowPlayer = 0;
 					else selectionRowPlayer++;
 				}
 				else{
-					if (selectionRowTrader == currentTradeContainer->items.size() - 1) selectionRowTrader = 0;
+					if (selectionRowTrader == currentTraderContainer->items.items.size() - 1) selectionRowTrader = 0;
 					else selectionRowTrader++;
 				}
 				handled = true;
@@ -45,15 +45,15 @@ bool TradeFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
 			}
 			else if (direction == CENTER){
 				if (selectionCol == 0){
-					auto item = Engine::GUI.inventory.items.items.at(selectionRowPlayer);
-					if (playerSelected.contains(*item)) playerSelected.remove(*item);
-					else playerSelected.add(item);
+					auto item = currentPlayerItems->getAt(selectionRowPlayer);
+					if (selectedPlayerItems.contains(item)) selectedPlayerItems.remove(item);
+					else selectedPlayerItems.add(item);
 					calculateCurrencyFromTrade();
 				}
 				else if(selectionCol == 2){
-					auto item = currentTradeContainer->items.at(selectionRowTrader);
-					if (traderSelected.contains(*item)) traderSelected.remove(*item);
-					else traderSelected.add(item);
+					auto item = currentTraderContainer->items.getAt(selectionRowTrader);
+					if (selectedTraderItems.contains(item)) selectedTraderItems.remove(item);
+					else selectedTraderItems.add(item);
 					calculateCurrencyFromTrade();
 				}
 				else{
@@ -79,14 +79,14 @@ void TradeFrame::render(){
 
 	//Player currency + weight
 	console->printFrame(1, 3, console->getWidth() / 3 - 2, 1, true);
-	console->printRectEx(2, 2, console->getWidth() / 3 , 1, TCOD_BKGND_NONE, TCOD_LEFT, (std::to_string(Engine::GUI.inventory.currency) + "c").c_str());
+	console->printRectEx(2, 2, console->getWidth() / 3 , 1, TCOD_BKGND_NONE, TCOD_LEFT, engine::string.currency(engine::playerHandler.playerInventory.currency).c_str());
 	console->printRectEx(console->getWidth() / 3 - 3, 2, console->getWidth() / 3 - 2, 1, TCOD_BKGND_NONE, TCOD_RIGHT,
-		(String::weight(Engine::GUI.inventory.getCurrentWeight()) + "/" + String::weight(MAX_WEIGHT) + "kg").c_str());
+		(engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight(), false) + "/" + engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight())).c_str());
 
 	//Trader currency
 	console->printFrame(console->getWidth() + 1 - console->getWidth() / 3, 3, console->getWidth() / 3 - 2, 1, true);
 	console->printRectEx(console->getWidth() + 2 - console->getWidth() / 3, 2, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_LEFT,
-		(std::to_string(currentTradeContainer->currency) + "c").c_str());
+		(std::to_string(currentTraderContainer->currency) + "c").c_str());
 
 	//Currency from trade
 	if (currencyFromTrade > 0){
@@ -110,13 +110,13 @@ void TradeFrame::render(){
 
 	//Player items
 	int y = 0;
-	for (auto &item : Engine::GUI.inventory.items.items){
+	for (auto &item : currentPlayerItems->items){
 		if (y == selectionRowPlayer && selectionCol == 0){
 			//cursor
 			console->setDefaultForeground(cursorColor);
 			item->print(2, 4 + y, console->getWidth() / 3, 1, *console);
 		}
-		else if (playerSelected.contains(*item)){
+		else if (currentPlayerItems->contains(item)){
 			//selected for trade
 			console->setDefaultForeground(selectedColor);
 			item->print(2, 4 + y, console->getWidth() / 3, 1, *console);
@@ -139,13 +139,13 @@ void TradeFrame::render(){
 
 	//Trader items
 	y = 0;
-	for (auto &item : currentTradeContainer->items){
+	for (auto &item : currentTraderContainer->items.items){
 		if (y == selectionRowTrader && selectionCol == 2){
 			//cursor
 			console->setDefaultForeground(cursorColor);
 			item->printWithBg(console->getWidth() + 2 - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, *console);
 		}
-		else if (traderSelected.contains(*item)){
+		else if (currentTraderContainer->items.contains(item)){
 			//selected for trade
 			console->setDefaultForeground(selectedColor);
 			item->print(console->getWidth() + 2 - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, *console);
@@ -160,8 +160,9 @@ void TradeFrame::render(){
 	}
 }
 
-void TradeFrame::setTradeContainer(std::shared_ptr<TradeContainer> &tradeContainer){
-	currentTradeContainer = tradeContainer;
+void TradeFrame::setContainers(ItemContainer &playerItems, TradeContainer &tradeContainer){
+	currentPlayerItems = &playerItems;
+	currentTraderContainer = &tradeContainer;
 }
 
 void TradeFrame::onOpen(){
@@ -173,40 +174,40 @@ void TradeFrame::onOpen(){
 }
 
 void TradeFrame::onClose(){
-	playerSelected.items.clear();
-	traderSelected.items.clear();
+	selectedPlayerItems.items.clear();
+	selectedTraderItems.items.clear();
 }
 
 void TradeFrame::calculateCurrencyFromTrade(){
 	int currencyFromPlayerItems = 0;
 	int currencyFromTraderItems = 0;
-	for (auto &item : playerSelected.items){ currencyFromPlayerItems += item->getValue(); }
-	for (auto &item : traderSelected.items){ currencyFromTraderItems += item->getValue(); }
+	for (auto &item : currentPlayerItems->items){ currencyFromPlayerItems += item->getValue(); }
+	for (auto &item : currentTraderContainer->items.items){ currencyFromTraderItems += item->getValue(); }
 	currencyFromTrade = currencyFromPlayerItems - currencyFromTraderItems;
 }
 
 void TradeFrame::makeTrade(){
-	if (Engine::GUI.inventory.currency + currencyFromTrade < 0 ||
-		currentTradeContainer->currency - currencyFromTrade < 0) errorMessage = ERROR_NOT_ENOUGH_CURRENCY;
+	if (engine::playerHandler.playerInventory.currency + currencyFromTrade < 0 ||
+		currentTraderContainer->currency - currencyFromTrade < 0) errorMessage = ERROR_NOT_ENOUGH_CURRENCY;
 	else{
-		float newWeight = Engine::GUI.inventory.getCurrentWeight();
-		for (auto &item : playerSelected.items){ newWeight -= item->weight; }
-		for (auto &item : traderSelected.items){ newWeight += item->weight; }
-		if (newWeight > MAX_WEIGHT) errorMessage = ERROR_TOO_MUCH_WEIGHT;
+		float newWeight = engine::playerHandler.playerInventory.getCurrentWeight();
+		for (auto &item : selectedPlayerItems.items){ newWeight -= item->weight; }
+		for (auto &item : selectedTraderItems.items){ newWeight += item->weight; }
+		if (newWeight > engine::playerHandler.playerInventory.MAX_WEIGHT) errorMessage = ERROR_TOO_MUCH_WEIGHT;
 		else{
-			for (auto &item : playerSelected.items){
-				Engine::GUI.inventory.items.remove(*item);
-				currentTradeContainer->add(item);
+			for (auto &item : selectedPlayerItems.items){
+				currentPlayerItems->remove(item);
+				currentTraderContainer->items.add(item);
 			}
-			for (auto &item : traderSelected.items){
-				currentTradeContainer->remove(*item);
-				Engine::GUI.inventory.items.add(item);
+			for (auto &item : selectedTraderItems.items){
+				currentPlayerItems->add(item);
+				currentTraderContainer->items.remove(item);
 			}
-			Engine::GUI.inventory.currency += currencyFromTrade;
-			currentTradeContainer->currency -= currencyFromTrade;
+			engine::playerHandler.playerInventory.currency += currencyFromTrade;
+			currentTraderContainer->currency -= currencyFromTrade;
 
-			playerSelected.items.clear();
-			traderSelected.items.clear();
+			selectedPlayerItems.items.clear();
+			selectedTraderItems.items.clear();
 			currencyFromTrade = 0;
 		}
 	}

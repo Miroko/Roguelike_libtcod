@@ -1,417 +1,595 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Classes">
-      <UniqueIdentifier>{205bf5eb-6540-43e1-94c6-b1c36e23d4cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Areas">
-      <UniqueIdentifier>{25e0db99-23d6-4929-95b6-ce75537f78d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Core">
-      <UniqueIdentifier>{87178f12-c43b-4b52-b47f-899fef236087}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Core\Alive">
-      <UniqueIdentifier>{66c1efe9-bfe1-4bec-ad92-d8fcc0f708d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Core\Dynamic">
-      <UniqueIdentifier>{76f6d429-948f-44f4-9a27-2a7cbcbb06dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Core\Engine">
+    <Filter Include="Engine">
       <UniqueIdentifier>{dcd7fa3b-d60f-426d-9da7-0a8d03c0cbfb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Core\Item">
+    <Filter Include="Engine\Quest">
+      <UniqueIdentifier>{36cecfc7-2ff1-4476-a15b-fa8a868f935a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area">
+      <UniqueIdentifier>{1f338d4f-5130-4f57-ba72-22a0747047c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Dialog">
+      <UniqueIdentifier>{8a41f4ab-1477-4305-b20f-11cf05425bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{aefc922d-6759-4fdf-89b6-ee8c954769ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject">
+      <UniqueIdentifier>{8e3a7028-e956-4d17-855a-f85652fec277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic">
+      <UniqueIdentifier>{76f6d429-948f-44f4-9a27-2a7cbcbb06dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item">
       <UniqueIdentifier>{f0a59b72-97b0-43a6-a420-da18a3dc1a4a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Gui">
-      <UniqueIdentifier>{fa6d0318-8ba5-4d8f-a723-3eeb438f2378}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\RarityEffects">
-      <UniqueIdentifier>{002d39a9-f0bd-482a-8cf7-0fe7dc45bdb0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Tools">
+    <Filter Include="Engine\Tools">
       <UniqueIdentifier>{23f6e7fe-f36f-4aa7-860a-8ebc1b67e9ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Quests">
+    <Filter Include="Engine\Gui">
+      <UniqueIdentifier>{fa6d0318-8ba5-4d8f-a723-3eeb438f2378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Areas">
+      <UniqueIdentifier>{25e0db99-23d6-4929-95b6-ce75537f78d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Player">
+      <UniqueIdentifier>{db8e10a7-aafb-4386-b313-b9e4f59309d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Quest\Quests">
       <UniqueIdentifier>{955f5c54-59dd-488d-b4c1-f74ec4f10f2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Static">
+      <UniqueIdentifier>{8c618f36-a98e-407f-a056-c9383f675729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ObjectFactory">
+      <UniqueIdentifier>{036e4e42-3716-467a-87cf-d0ae3949ad4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Operatable">
+      <UniqueIdentifier>{fe1be4f4-8f54-42f3-9fac-12e92ae3b33e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Tile">
+      <UniqueIdentifier>{698a8e41-461c-44e2-9e97-efcd79291f4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Tile\Portal">
+      <UniqueIdentifier>{671066f7-73ca-46bf-af05-b6be0fcaed45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature">
+      <UniqueIdentifier>{66c1efe9-bfe1-4bec-ad92-d8fcc0f708d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai">
+      <UniqueIdentifier>{2f03f7ea-d683-45dd-af13-2f923e27e617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ObjectFactory\Templates">
+      <UniqueIdentifier>{b8850659-05eb-4fa8-9af0-a7497152e674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment">
+      <UniqueIdentifier>{7e899205-98bd-4969-af1e-9a5f266f7c7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment\Weapon">
+      <UniqueIdentifier>{c830f1d0-dce0-4f94-b8cb-3c9f3943c3a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment\Armor">
+      <UniqueIdentifier>{386503d9-9dda-43e8-aa82-aed40eb5ac79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Effect">
+      <UniqueIdentifier>{f47ef8df-23e7-48e3-bf8c-d2cabe187f32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment\Weapon\Effect">
+      <UniqueIdentifier>{de4e219f-8b85-4ccf-a338-a3687806a5d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment\Armor\Effect">
+      <UniqueIdentifier>{bc08dc3f-1617-4ae3-80fe-7f7c641533e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ObjectFactory\Rarity">
+      <UniqueIdentifier>{16a16cf3-5ce6-446a-b2c3-bab03caced29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ObjectFactory\Rarity\RarityMod">
+      <UniqueIdentifier>{002d39a9-f0bd-482a-8cf7-0fe7dc45bdb0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cave.cpp">
-      <Filter>Classes\Areas</Filter>
+      <Filter>Engine\Area\Areas</Filter>
     </ClCompile>
     <ClCompile Include="Forest.cpp">
-      <Filter>Classes\Areas</Filter>
+      <Filter>Engine\Area\Areas</Filter>
     </ClCompile>
     <ClCompile Include="Village.cpp">
-      <Filter>Classes\Areas</Filter>
-    </ClCompile>
-    <ClCompile Include="AliveObject.cpp">
-      <Filter>Classes\Core\Alive</Filter>
-    </ClCompile>
-    <ClCompile Include="AliveObjectAi.cpp">
-      <Filter>Classes\Core\Alive</Filter>
-    </ClCompile>
-    <ClCompile Include="AliveObjectEffect.cpp">
-      <Filter>Classes\Core\Alive</Filter>
+      <Filter>Engine\Area\Areas</Filter>
     </ClCompile>
     <ClCompile Include="Creature.cpp">
-      <Filter>Classes\Core\Alive</Filter>
-    </ClCompile>
-    <ClCompile Include="Heal.cpp">
-      <Filter>Classes\Core\Alive</Filter>
-    </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Classes\Core\Dynamic</Filter>
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
     </ClCompile>
     <ClCompile Include="DynamicObject.cpp">
-      <Filter>Classes\Core\Dynamic</Filter>
-    </ClCompile>
-    <ClCompile Include="OperatableObject.cpp">
-      <Filter>Classes\Core\Dynamic</Filter>
-    </ClCompile>
-    <ClCompile Include="Area.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Dialog.cpp">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine\GameObject\Dynamic</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Glyph.cpp">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="KeyMapping.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectLibrary.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerController.cpp">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="PointerContainer.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Portal.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Quest.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestHandler.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestPhase.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="RarityEffect.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="RarityType.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticObject.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualEffect.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualEffectHandler.cpp">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Armor.cpp">
-      <Filter>Classes\Core\Item</Filter>
+      <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Consumable.cpp">
-      <Filter>Classes\Core\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Equipment.cpp">
-      <Filter>Classes\Core\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="EquipmentContainer.cpp">
-      <Filter>Classes\Core\Item</Filter>
+      <Filter>Engine\GameObject\Item</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>Classes\Core\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Loot.cpp">
-      <Filter>Classes\Core\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="LootContainer.cpp">
-      <Filter>Classes\Core\Item</Filter>
+      <Filter>Engine\GameObject\Item</Filter>
     </ClCompile>
     <ClCompile Include="TradeContainer.cpp">
-      <Filter>Classes\Core\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Classes\Core\Item</Filter>
+      <Filter>Engine\GameObject\Item</Filter>
     </ClCompile>
     <ClCompile Include="AttackFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="DialogFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="EquipmentFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Gui.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="GuiFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="HelpFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="InspectionFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="InventoryFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="ItemPickFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="LogFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="QuestFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="SelectableItemFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="StatisticsFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="TradeFrame.cpp">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Direction.cpp">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Line.cpp">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Point2D.cpp">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Random.cpp">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Rectangle.cpp">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClCompile>
     <ClCompile Include="String.cpp">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="TheGoblinKing.cpp">
-      <Filter>Classes\Quests</Filter>
+    <ClCompile Include="Quest.cpp">
+      <Filter>Engine\Quest</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Classes</Filter>
+    <ClCompile Include="QuestHandler.cpp">
+      <Filter>Engine\Quest</Filter>
     </ClCompile>
-    <ClCompile Include="HeavyRarityEffect.cpp">
-      <Filter>Classes\RarityEffects</Filter>
+    <ClCompile Include="QuestPhase.cpp">
+      <Filter>Engine\Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="Area.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialog.cpp">
+      <Filter>Engine\Dialog</Filter>
     </ClCompile>
     <ClCompile Include="DialogOption.cpp">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Glyph.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffect.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffectHandler.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Engine\GameObject\Tile\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="AreaHandler.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemContainer.cpp">
+      <Filter>Engine\GameObject\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Engine\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHandler.cpp">
+      <Filter>Engine\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInventory.cpp">
+      <Filter>Engine\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityType.cpp">
+      <Filter>Engine\ObjectFactory\Rarity</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
+    </ClCompile>
+    <ClCompile Include="OperatableObject.cpp">
+      <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticObject.cpp">
+      <Filter>Engine\GameObject\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectFactory.cpp">
+      <Filter>Engine\ObjectFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectLibrary.cpp">
+      <Filter>Engine\ObjectFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="LootMap.cpp">
+      <Filter>Engine\GameObject\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Engine\GameObject\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestTheGoblinKing.cpp">
+      <Filter>Engine\Quest\Quests</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaDrop.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureInventory.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="AliveObject.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="AliveObjectAiold.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureLimb.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="AiMonster.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="AiNone.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityModCreature.cpp">
+      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiCreature.cpp">
+      <Filter>Engine\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityModWeapon.cpp">
+      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Engine\GameObject\Item\Equipment\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponEffect.cpp">
+      <Filter>Engine\GameObject\Item\Equipment\Weapon\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectIncreasedDamage.cpp">
+      <Filter>Engine\GameObject\Item\Equipment\Weapon\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateCreature.cpp">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateCreaturePreset.cpp">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateWeapon.cpp">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureAi.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="Armor.cpp">
+      <Filter>Engine\GameObject\Item\Equipment\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="Equipment.cpp">
+      <Filter>Engine\GameObject\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateArmor.cpp">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiWeapon.cpp">
+      <Filter>Engine\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureEffect.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectHealth.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityModArmor.cpp">
+      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmorEffect.cpp">
+      <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectIncreasedDefence.cpp">
+      <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="EquipmentFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="InventoryFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="LogFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="QuestFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="HelpFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="ItemPickFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="SelectableItemFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Cave.h">
-      <Filter>Classes\Areas</Filter>
+      <Filter>Engine\Area\Areas</Filter>
     </ClInclude>
     <ClInclude Include="Forest.h">
-      <Filter>Classes\Areas</Filter>
-    </ClInclude>
-    <ClInclude Include="TheGoblinKing.h">
-      <Filter>Classes\Quests</Filter>
+      <Filter>Engine\Area\Areas</Filter>
     </ClInclude>
     <ClInclude Include="InspectionFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="StatisticsFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="DialogFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Village.h">
-      <Filter>Classes\Areas</Filter>
+      <Filter>Engine\Area\Areas</Filter>
     </ClInclude>
     <ClInclude Include="TradeFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="AttackFrame.h">
-      <Filter>Classes\Gui</Filter>
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Random.h">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="String.h">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Line.h">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Rectangle.h">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Direction.h">
-      <Filter>Classes\Tools</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Point2D.h">
-      <Filter>Classes\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="AliveObject.h">
-      <Filter>Classes\Core\Alive</Filter>
-    </ClInclude>
-    <ClInclude Include="AliveObjectAi.h">
-      <Filter>Classes\Core\Alive</Filter>
-    </ClInclude>
-    <ClInclude Include="AliveObjectEffect.h">
-      <Filter>Classes\Core\Alive</Filter>
-    </ClInclude>
-    <ClInclude Include="Area.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Armor.h">
-      <Filter>Classes\Core\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Consumable.h">
-      <Filter>Classes\Core\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Creature.h">
-      <Filter>Classes\Core\Alive</Filter>
-    </ClInclude>
-    <ClInclude Include="Dialog.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogOption.h">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine\GameObject\Item</Filter>
     </ClInclude>
     <ClInclude Include="DynamicObject.h">
-      <Filter>Classes\Core\Dynamic</Filter>
-    </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Classes\Core\Dynamic</Filter>
+      <Filter>Engine\GameObject\Dynamic</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Equipment.h">
-      <Filter>Classes\Core\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="EquipmentContainer.h">
-      <Filter>Classes\Core\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Glyph.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Heal.h">
-      <Filter>Classes\Core\Alive</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>Classes\Core\Item</Filter>
+      <Filter>Engine\GameObject\Item</Filter>
     </ClInclude>
     <ClInclude Include="KeyMapping.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Loot.h">
-      <Filter>Classes\Core\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="LootContainer.h">
-      <Filter>Classes\Core\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectLibrary.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="OperatableObject.h">
-      <Filter>Classes\Core\Dynamic</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerController.h">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="PointerContainer.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Portal.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Quest.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="QuestHandler.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="QuestPhase.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="RarityEffect.h">
-      <Filter>Classes\Core\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticObject.h">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="TradeContainer.h">
-      <Filter>Classes\Core\Item</Filter>
+      <Filter>Engine\GameObject\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Classes\Core\Item</Filter>
+    <ClInclude Include="Quest.h">
+      <Filter>Engine\Quest</Filter>
     </ClInclude>
-    <ClInclude Include="VisualEffect.h">
-      <Filter>Classes\Core\Engine</Filter>
+    <ClInclude Include="QuestHandler.h">
+      <Filter>Engine\Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestPhase.h">
+      <Filter>Engine\Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="Area.h">
+      <Filter>Engine\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog.h">
+      <Filter>Engine\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogOption.h">
+      <Filter>Engine\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Glyph.h">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="VisualEffectHandler.h">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffect.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Engine\GameObject\Tile\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaHandler.h">
+      <Filter>Engine\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemContainer.h">
+      <Filter>Engine\GameObject\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Engine\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHandler.h">
+      <Filter>Engine\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInventory.h">
+      <Filter>Engine\Player</Filter>
     </ClInclude>
     <ClInclude Include="RarityType.h">
-      <Filter>Classes\Core\Engine</Filter>
+      <Filter>Engine\ObjectFactory\Rarity</Filter>
     </ClInclude>
-    <ClInclude Include="HeavyRarityEffect.h">
-      <Filter>Classes\RarityEffects</Filter>
+    <ClInclude Include="Door.h">
+      <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
+    </ClInclude>
+    <ClInclude Include="OperatableObject.h">
+      <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticObject.h">
+      <Filter>Engine\GameObject\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFactory.h">
+      <Filter>Engine\ObjectFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectLibrary.h">
+      <Filter>Engine\ObjectFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="LootMap.h">
+      <Filter>Engine\GameObject\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Engine\GameObject\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestTheGoblinKing.h">
+      <Filter>Engine\Quest\Quests</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaDrop.h">
+      <Filter>Engine\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureInventory.h">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureLimb.h">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="AliveObject.h">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="AliveObjectAiold.h">
+      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="AiMonster.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="AiNone.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityModCreature.h">
+      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiCreature.h">
+      <Filter>Engine\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityModWeapon.h">
+      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Engine\GameObject\Item\Equipment\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponEffect.h">
+      <Filter>Engine\GameObject\Item\Equipment\Weapon\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectIncreasedDamage.h">
+      <Filter>Engine\GameObject\Item\Equipment\Weapon\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateWeapon.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateCreature.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateCreaturePreset.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureAi.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="Armor.h">
+      <Filter>Engine\GameObject\Item\Equipment\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="Equipment.h">
+      <Filter>Engine\GameObject\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateArmor.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiWeapon.h">
+      <Filter>Engine\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectHealth.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureEffect.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityModArmor.h">
+      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmorEffect.h">
+      <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectIncreasedDefence.h">
+      <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

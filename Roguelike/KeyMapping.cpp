@@ -12,6 +12,6 @@ Point2D KeyMapping::direction(TCOD_keycode_t keyCode){
 	case TCODK_KP3: return DOWN_RIGHT;
 	case TCODK_KP2: return DOWN;
 	case TCODK_KP5: return CENTER;
-	default: return Point2D(); //Undefined point
+	default: return POINT_UNDEFINED;
 	}
 }

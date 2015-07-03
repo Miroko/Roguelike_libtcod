@@ -1,34 +1,45 @@
 #pragma once
 #include "libtcod.hpp"
-#include "RarityEffect.h"
+#include "RarityModCreature.h"
+#include "RarityModWeapon.h"
+#include "RarityModArmor.h"
 #include <string>
 #include <vector>
 
 class RarityType
 {
 public:
-	static RarityType COMMON;
-	static RarityType UNCOMMON;
-	static RarityType RARE;
-	static RarityType EPIC;
-	static RarityType UNIQUE;
-
+	std::string id;
 	std::string name;
 	const TCODColor &color;
-	float effectMultiplier;
+	float modRollChance;
+	int modsPerItemMax;
+	float prevalence;
 
-	std::vector<std::shared_ptr<RarityEffect>> effects;
-	RarityEffect* getRandomEffect();
+	std::vector<RarityModCreature> creatureMods;
+	std::vector<RarityModWeapon> weaponMods;
+	std::vector<RarityModArmor> armorMods;
+	std::vector<RarityModCreature*> getRandomCreatureMods();
+	std::vector<RarityModWeapon*> getRandomWeaponMods();
+	std::vector<RarityModArmor*> getRandomArmorMods();
 
-	void apply(Creature &creature);
-	void apply(Weapon &weapon);
-	void apply(Armor &armor);
-	void apply(Consumable &consumable);
-
-	RarityType(std::string name, const TCODColor &color, float effectMultiplier, std::vector<std::shared_ptr<RarityEffect>> effects) :
+	RarityType(
+		std::string id,
+		std::string name,
+		float prevalence,
+		float modRollChance,
+		int modsPerItemMax,
+		const TCODColor &color,
+		std::vector<RarityModCreature> creatureMods,
+		std::vector<RarityModWeapon> weaponMods,
+		std::vector<RarityModArmor> armorMods) :
+		id(id),
 		name(name),
+		prevalence(prevalence),
+		modRollChance(modRollChance),
+		modsPerItemMax(modsPerItemMax),
 		color(color),
-		effectMultiplier(effectMultiplier),
-		effects(effects){};
+		creatureMods(creatureMods),
+		weaponMods(weaponMods),
+		armorMods(armorMods){};
 };
-

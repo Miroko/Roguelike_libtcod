@@ -28,8 +28,8 @@ void GuiFrame::blit(){
 		);
 }
 
-bool GuiFrame::handleKey(TCOD_key_t key, bool &requireUpdate){
-	if (controlKey != UNDEFINED){
+bool GuiFrame::handleKey(TCOD_key_t &key){
+	if (controlKey != KEY_UNDEFINED){
 		if (key.c == controlKey){
 			if (isOpen) close();
 			else open();

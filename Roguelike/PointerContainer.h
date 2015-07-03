@@ -2,6 +2,7 @@
 #include "Item.h"
 #include <vector>
 #include <memory>
+
 template<typename T> class PointerContainer
 {
 public:
