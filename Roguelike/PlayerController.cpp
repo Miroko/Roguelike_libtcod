@@ -10,11 +10,12 @@ bool PlayerController::handleKey(TCOD_key_t key){
 	Point2D direction = KeyMapping::direction(key.vk);
 	switch (key.c) {
 	case KEY_UNDEFINED: return move(direction);
-	case KEY_ATTACK: return attack(direction);
+	case KEY_ATTACK: return attack();
 	case KEY_TAKE: return take();
-	case KEY_OPERATE: return operate(direction);
-	case KEY_TALK: return talk(direction);
-	case KEY_LEAVE_Area: return leaveArea();
+	case KEY_OPERATE: return operate();
+	case KEY_TALK: return talk();
+	case KEY_ENTER_AREA: return enterArea();
+	case KEY_LEAVE_AREA: return leaveArea();
 	default:
 		if (!engine::gui.log.isOpen) engine::gui.log.open();
 		engine::gui.log.addMessage("Invalid input, press 'h' for help.");
@@ -31,7 +32,7 @@ bool PlayerController::wait(){
 	take();
 	return true;
 }
-bool PlayerController::attack(Point2D &direction){
+bool PlayerController::attack(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	if (engine::playerHandler.getPlayerCreature()->inventory.currentWeapon != nullptr){
 		switch (engine::playerHandler.getPlayerCreature()->inventory.currentWeapon->type){
@@ -89,10 +90,10 @@ bool PlayerController::attack(Point2D &direction){
 	return false;
 }
 bool PlayerController::take(){
-	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	std::vector<std::shared_ptr<Item>*> itemsToTake = engine::areaHandler.getCurrentArea()->getItemsAt(engine::playerHandler.getPlayerCreature()->location);
 	if (itemsToTake.empty()) return false;
 	else{
+		while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 		for (auto &item : itemsToTake){
 			engine::playerHandler.playerInventory.temporary.add(*item);
 		}
@@ -101,9 +102,10 @@ bool PlayerController::take(){
 		return true;
 	}
 }
-bool PlayerController::operate(Point2D &direction){
+bool PlayerController::operate(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	TCOD_key_t key = TCODConsole::waitForKeypress(false);
+	Point2D direction = KeyMapping::direction(key.vk);
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
@@ -119,9 +121,10 @@ bool PlayerController::operate(Point2D &direction){
 	}
 	return false;
 }
-bool PlayerController::talk(Point2D &direction){
+bool PlayerController::talk(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	TCOD_key_t key = TCODConsole::waitForKeypress(false);
+	Point2D direction = KeyMapping::direction(key.vk);
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
@@ -135,6 +138,14 @@ bool PlayerController::talk(Point2D &direction){
 			engine::gui.dialog.setDialog(engine::questHandler.getCurrentQuest()->getCurrentPhase()->getDialog(*dynamicObjects.front()));
 			engine::gui.dialog.open();
 		}
+	}
+	return false;
+}
+bool PlayerController::enterArea(){
+	if (engine::areaHandler.getCurrentArea()->getTile(engine::playerHandler.getPlayerCreature()->location)->type == Item::PORTAL ||
+		engine::questHandler.getCurrentQuest()->getCurrentPhase() == engine::questHandler.getCurrentQuest()->getVillage()){
+		engine::questHandler.travelToNextPhase();
+		return true;
 	}
 	return false;
 }

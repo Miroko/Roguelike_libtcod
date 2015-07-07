@@ -4,7 +4,10 @@
 class Tile : public GameObject
 {
 public:
-	Tile(std::string name, Type type, Glyph glyph) :
-		GameObject(name, type, glyph){};
+	bool transparent;
+	float walkCost;
+
+	Tile(std::string name, Type type, Glyph glyph, bool transparent, float walkCost) :
+		GameObject(name, type, glyph), transparent(transparent), walkCost(walkCost){};
 };
 

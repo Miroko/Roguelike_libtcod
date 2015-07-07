@@ -23,8 +23,8 @@ void Gui::init(){
 		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
 
 	pickFrame.init(Rectangle(
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() / 4),
-		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 4)));
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() / 5),
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 5)));
 
 	statistics.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, 0),

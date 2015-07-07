@@ -8,10 +8,11 @@ class PlayerController
 private:
 	bool move(Point2D &direction);
 	bool wait();
-	bool attack(Point2D &direction);
+	bool attack();
 	bool take();
-	bool operate(Point2D &direction);
-	bool talk(Point2D &direction);
+	bool operate();
+	bool talk();
+	bool enterArea();
 	bool leaveArea();
 
 public:

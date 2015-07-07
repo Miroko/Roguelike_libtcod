@@ -14,7 +14,7 @@ Tile *Area::getTile(Point2D &location){
 	else return nullptr;
 }
 
-Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
+Point2D Area::getNearestTile(Point2D &location, Tile &tile){
 	Point2D scanLocation = location;
 	int offset = 0;
 	while (
@@ -22,10 +22,10 @@ Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
 		scanLocation.y + offset != bounds.end.x &&
 		scanLocation.x - offset != bounds.start.x &&
 		scanLocation.y - offset != bounds.start.y){
-		for (scanLocation.x = location.x - offset; scanLocation.x < location.x + offset; scanLocation.x++){
-			for (scanLocation.y = location.y - offset; scanLocation.y < location.y + offset; scanLocation.y++){
+		for (scanLocation.x = location.x - offset; scanLocation.x <= location.x + offset; scanLocation.x++){
+			for (scanLocation.y = location.y - offset; scanLocation.y <= location.y + offset; scanLocation.y++){
 				if (bounds.contains(scanLocation)){
-					if (tiles[scanLocation.x][scanLocation.y]->getType() == type){
+					if (tiles[scanLocation.x][scanLocation.y] == &tile){
 						return scanLocation;
 					}
 				}
@@ -36,7 +36,7 @@ Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
 	return Point2D();
 }
 
-void Area::placeTile(Tile &portal, Point2D &location, GameObject::Type placeType){
+void Area::placeTile(Tile &portal, Point2D &location, Tile &placeOnNearest){
 	Point2D placementLocation = location;
 	int offset = 0;
 	while (
@@ -44,10 +44,10 @@ void Area::placeTile(Tile &portal, Point2D &location, GameObject::Type placeType
 		placementLocation.y + offset <= bounds.end.x &&
 		placementLocation.x - offset >= bounds.start.x &&
 		placementLocation.y - offset >= bounds.start.y){
-		for (placementLocation.x = location.x - offset; placementLocation.x < location.x + offset; placementLocation.x++){
-			for (placementLocation.y = location.y - offset; placementLocation.y < location.y + offset; placementLocation.y++){
+		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
+			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
 				if (bounds.contains(placementLocation)){
-					if (tiles[placementLocation.x][placementLocation.y]->getType() == placeType){
+					if (tiles[placementLocation.x][placementLocation.y] == &placeOnNearest){
 						placeTile(portal, placementLocation);
 						return;
 					}
@@ -66,8 +66,8 @@ void Area::placeCreature(std::shared_ptr<Creature> creature, Point2D &location){
 		placementLocation.y + offset <= bounds.end.x &&
 		placementLocation.x - offset >= bounds.start.x &&
 		placementLocation.y - offset >= bounds.start.y){
-		for (placementLocation.x = location.x - offset; placementLocation.x < location.x + offset; placementLocation.x++){
-			for (placementLocation.y = location.y - offset; placementLocation.y < location.y + offset; placementLocation.y++){
+		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
+			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
 				if (passable(placementLocation, *creature)){
 					creature->location = placementLocation;
 					creatures.push_back(creature);
@@ -100,29 +100,23 @@ std::vector<std::shared_ptr<Creature>*> Area::getCreatures(Rectangle &bounds){
 }
 
 void Area::placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D &location){
-	if (operatable->move(location)){
-		operatableObjects.push_back(operatable);
-		return;
-	}
-	else {
-		//Increase placement area until placed on open spot
-		Point2D placementLocation = location;
-		int offset = 1;
-		while (
-			placementLocation.x + offset <= bounds.end.x &&
-			placementLocation.y + offset <= bounds.end.x &&
-			placementLocation.x - offset >= bounds.start.x &&
-			placementLocation.y - offset >= bounds.start.y){ //Every object must be placed somewhere
-			for (placementLocation.x = location.x - offset; placementLocation.x < location.x + offset; placementLocation.x++){
-				for (placementLocation.y = location.y - offset; placementLocation.y < location.y + offset; placementLocation.y++){
-					if (operatable->move(placementLocation)){
-						operatableObjects.push_back(operatable);
-						return;
-					}
+	Point2D placementLocation = location;
+	int offset = 0;
+	while (
+		placementLocation.x + offset <= bounds.end.x &&
+		placementLocation.y + offset <= bounds.end.x &&
+		placementLocation.x - offset >= bounds.start.x &&
+		placementLocation.y - offset >= bounds.start.y){
+		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
+			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
+				if (passable(placementLocation, *operatable)){
+					operatable->location = placementLocation;
+					operatableObjects.push_back(operatable);
+					return;
 				}
 			}
-			++offset;
 		}
+		++offset;
 	}
 }
 
@@ -231,11 +225,11 @@ void Area::generateBase(Rectangle bounds, Tile &tile){
 	}
 }
 
-void Area::generateEdge(Tile &tile){
+void Area::generateEdge(Tile &tile, int size, int randomTilesPerEdgeTile){
 	for (Point2D &edgePoint : bounds.getEdgePoints()){
 		Rectangle surrounding = Rectangle(edgePoint, edgePoint);
-		surrounding.expand(1);
-		for (int coarseness = 4; coarseness > 0; --coarseness){
+		surrounding.expand(size);
+		for (int randomTile = randomTilesPerEdgeTile; randomTile > 0; --randomTile){
 			Point2D &location = engine::random.point(surrounding);
 			placeTile(tile, location);
 		}
@@ -246,7 +240,7 @@ void Area::generateEdge(Tile &tile){
 
 void Area::initAi(){
 	for (auto &creature : creatures){
-		creature->initAi();
+		creature->initAi(*this);
 	}
 }
 

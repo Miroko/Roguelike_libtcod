@@ -2,11 +2,33 @@
 #include "Quest.h"
 #include "QuestPhase.h"
 #include "AreaDrop.h"
+#include "Village.h"
 #include "Forest.h"
 
 class QuestTheGoblinKing : public Quest
 {
 private:
+	class VillageMain : public Village{
+	public:
+		AreaDrop houseResidents = AreaDrop(
+		{
+			std::make_pair("human_man_villager", std::make_pair("rarity_common", 1.0f)),
+			std::make_pair("human_woman_villager", std::make_pair("rarity_common", 0.9f)),
+			std::make_pair("human_child_villager", std::make_pair("rarity_common", 0.3f)),
+			std::make_pair("human_child_villager", std::make_pair("rarity_common", 0.1f))
+		});
+
+		VillageMain() : Village(
+			"forest_floor",
+			"forest_wall",
+			"wood_wall",
+			"wood_floor",
+			"sand_path",
+			"door_wooden",
+			100, 
+			houseResidents){};
+
+	};
 	class ForestGoblin : public Forest{
 	public:
 		AreaDrop dropGoblin = AreaDrop(
@@ -17,9 +39,6 @@ private:
 			std::make_pair("goblin_dagger", std::make_pair("rarity_common", 0.3f))
 		});
 
-		void onGatePlace(Point2D &location);
-		void onStonePlaced(Point2D &location);
-
 		ForestGoblin() : Forest(
 		"forest_floor",
 		"forest_wall",
@@ -27,6 +46,10 @@ private:
 		"stone_floor",
 		"forest_portal",
 		100, 0.6f, 0.02f, 8){};
+
+		void onGatePlace(Point2D &location);
+		void onStonePlaced(Point2D &location);
+
 	};
 	class PhaseVillage : public QuestPhase
 	{
@@ -50,7 +73,6 @@ public:
 	{
 		std::shared_ptr<QuestPhase>(new PhaseVillage()),
 		std::shared_ptr<QuestPhase>(new PhaseWayThroughForest())
-	}
-	){};
+	}){};
 };
 

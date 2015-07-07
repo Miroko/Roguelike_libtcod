@@ -21,6 +21,7 @@ const char KEY_TALK = 't';
 const char KEY_TAKE = 'l'; //Loot
 const char KEY_ATTACK = 'a';
 const char KEY_OPERATE = 'o';
-const char KEY_LEAVE_Area = '<';
+const char KEY_ENTER_AREA = '>';
+const char KEY_LEAVE_AREA = '<';
 
 const char KEY_UNDEFINED = 0;

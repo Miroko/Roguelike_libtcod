@@ -52,9 +52,6 @@
     <Filter Include="Engine\GameObject\Tile">
       <UniqueIdentifier>{698a8e41-461c-44e2-9e97-efcd79291f4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject\Tile\Portal">
-      <UniqueIdentifier>{671066f7-73ca-46bf-af05-b6be0fcaed45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Creature">
       <UniqueIdentifier>{66c1efe9-bfe1-4bec-ad92-d8fcc0f708d8}</UniqueIdentifier>
     </Filter>
@@ -87,6 +84,9 @@
     </Filter>
     <Filter Include="Engine\ObjectFactory\Rarity\RarityMod">
       <UniqueIdentifier>{002d39a9-f0bd-482a-8cf7-0fe7dc45bdb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module">
+      <UniqueIdentifier>{056e93e4-4e2b-4d0d-830c-27884fa0d64f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -213,9 +213,6 @@
     <ClCompile Include="VisualEffectHandler.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Portal.cpp">
-      <Filter>Engine\GameObject\Tile\Portal</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
@@ -340,6 +337,24 @@
     <ClCompile Include="EffectIncreasedDefence.cpp">
       <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="AreaHouse.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaTreeSpot.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaPath.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="AiVillager.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="AiModule.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="AiModuleCombat.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -461,9 +476,6 @@
     </ClInclude>
     <ClInclude Include="VisualEffect.h">
       <Filter>Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Portal.h">
-      <Filter>Engine\GameObject\Tile\Portal</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Engine\GameObject</Filter>
@@ -590,6 +602,24 @@
     </ClInclude>
     <ClInclude Include="EffectIncreasedDefence.h">
       <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaHouse.h">
+      <Filter>Engine\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaTreeSpot.h">
+      <Filter>Engine\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaPath.h">
+      <Filter>Engine\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="AiVillager.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="AiModuleCombat.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="AiModule.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

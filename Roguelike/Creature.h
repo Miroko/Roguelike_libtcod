@@ -26,7 +26,7 @@ public:
 	void onTakeDamage(DynamicObject &attacker, int amount);
 	void onDeath();
 	void changeAi(std::shared_ptr<CreatureAi> newAi);
-	void initAi();
+	void initAi(Area &area);
 	void update();
 
 	Creature(std::string name, std::string presetId, Glyph glyph, Type type, int health, RarityType &rarity, std::vector<RarityModCreature*> mods, std::shared_ptr<CreatureAi> ai, std::vector<CreatureLimb> limbs) :

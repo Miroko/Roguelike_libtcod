@@ -24,10 +24,9 @@ void engine::init(){
 	gui.init();
 
 	//Player
-	std::shared_ptr<Creature> playerCreature = objectFactory.createCreaturePreset("human_man_sword", *engine::objectLibrary.getRarity("rarity_common"));
+	std::shared_ptr<Creature> playerCreature = objectFactory.createCreaturePreset("player", *engine::objectLibrary.getRarity("rarity_common"));
 	playerCreature->glyph.character = '@';
 	playerCreature->glyph.fgColor = TCODColor::lightAmber;
-	playerCreature->changeAi(std::shared_ptr<AiNone>(new AiNone()));
 	playerHandler.setPlayerCreature(playerCreature);
 
 	//Quest

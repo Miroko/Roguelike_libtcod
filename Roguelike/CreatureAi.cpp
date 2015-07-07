@@ -2,51 +2,39 @@
 #include "Engine.h"
 
 void CreatureAi::createFovMap(){
-	//todo: smaller fov map
 	Rectangle fovBounds = engine::areaHandler.getCurrentArea()->getBounds();
 	fovMap = std::shared_ptr<TCODMap>(new TCODMap(fovBounds.getWidth(), fovBounds.getHeight()));
 	for (int x = fovBounds.start.x; x < fovBounds.end.x; x++){
 		for (int y = fovBounds.start.y; y < fovBounds.end.y; y++){
 			fovMap->setProperties(x, y,
-				engine::areaHandler.getCurrentArea()->tiles[x][y]->type == GameObject::FLOOR,
-				engine::areaHandler.getCurrentArea()->tiles[x][y]->type == GameObject::WALL);
+				engine::areaHandler.getCurrentArea()->tiles[x][y]->transparent, false); // walkability from callback function
 		}
 	}
 }
 float CreatureAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
-	float walkability = 0; // 0 == unwalkable
-
 	CreatureAi *thisObject = static_cast<CreatureAi*>(userData);
-	if (!engine::areaHandler.getCurrentArea()->tiles[xTo][yTo]->type == GameObject::WALL) walkability = 1;
-	else return 0;
-
-	for (auto &o : engine::areaHandler.getCurrentArea()->creatures){
-		if (o->isDead) continue;
-		if (o->location.x == xTo && o->location.y == yTo){
-			if (!o->passable(*thisObject->owner)){
-				if (o->location == thisObject->targetLocation){
-					walkability = 1;
+	float walkCost = 0; // 0 == unwalkable
+	walkCost = engine::areaHandler.getCurrentArea()->tiles[xTo][yTo]->walkCost;
+	if (walkCost != 0 && !thisObject->cheapPathCalculation){
+		Point2D destination;
+		thisObject->pathMap->getDestination(&destination.x, &destination.y);
+		if (xTo == destination.x &&	yTo == destination.y) return walkCost;
+		else{
+			for (auto &creature : engine::areaHandler.getCurrentArea()->creatures){
+				if (creature->isDead) continue;
+				if (creature->location.x == xTo && creature->location.y == yTo){
+					if (!creature->passable(*thisObject->owner)) return 0;
 				}
-				else{
-					return 0;
+			}
+			for (auto &operatable : engine::areaHandler.getCurrentArea()->operatableObjects){
+				if (operatable->isDead) continue;
+				if (operatable->location.x == xTo && operatable->location.y == yTo){
+					if (!operatable->passable(*thisObject->owner)) return 0;
 				}
 			}
 		}
 	}
-	for (auto &o : engine::areaHandler.getCurrentArea()->operatableObjects){
-		if (o->isDead) continue;
-		if (o->location.x == xTo && o->location.y == yTo){
-			if (!o->passable(*thisObject->owner)){
-				if (o->location == thisObject->targetLocation){
-					walkability = 1;
-				}
-				else{
-					return 0;
-				}
-			}
-		}
-	}
-	return walkability;
+	return walkCost;
 }
 void CreatureAi::createPathMap(){
 	pathMap = std::shared_ptr<TCODPath>(new TCODPath(
@@ -63,8 +51,7 @@ void CreatureAi::calculateFov(){
 		else{
 			//if dead use static object
 			fovMap->setProperties(o->location.x, o->location.y,
-				engine::areaHandler.getCurrentArea()->tiles[o->location.x][o->location.y]->type == GameObject::FLOOR,
-				engine::areaHandler.getCurrentArea()->tiles[o->location.x][o->location.y]->type == GameObject::WALL);
+				engine::areaHandler.getCurrentArea()->tiles[o->location.x][o->location.y]->transparent, false);
 		}
 	}
 	for (auto &o : engine::areaHandler.getCurrentArea()->operatableObjects){
@@ -73,35 +60,31 @@ void CreatureAi::calculateFov(){
 		}
 		else{
 			fovMap->setProperties(o->location.x, o->location.y,
-				engine::areaHandler.getCurrentArea()->tiles[o->location.x][o->location.y]->type == GameObject::FLOOR,
-				engine::areaHandler.getCurrentArea()->tiles[o->location.x][o->location.y]->type == GameObject::WALL);
+				engine::areaHandler.getCurrentArea()->tiles[o->location.x][o->location.y]->transparent, false);
 		}
 	}
 	fovMap->computeFov(owner->location.x, owner->location.y, 0, true, FOV_RESTRICTIVE);
 }
-void CreatureAi::calculatePath(Point2D &location){
+void CreatureAi::calculatePath(Point2D &location, bool cheapPathing){
+	cheapPathCalculation = cheapPathing;
 	pathMap->compute(owner->location.x, owner->location.y, location.x, location.y);
+	currentPathIndex = 0;
+	cheapPathCalculation = true;
 }
 bool CreatureAi::moveOnPath(){
-	Point2D nextLocation;
-	if (!pathMap->isEmpty()){
-		if (pathMap->walk(&nextLocation.x, &nextLocation.y, false) == true){
-			Point2D destination;
-			pathMap->getDestination(&destination.x, &destination.y);
-			if (nextLocation == destination){
-				onDestination(nextLocation);
-				return true;
-			}
-			else{
-				owner->location = nextLocation;
-			}
+	if (currentPathIndex + 1 < pathMap->size()){
+		Point2D nextLocation;
+		pathMap->get(currentPathIndex, &nextLocation.x, &nextLocation.y);
+		if (!owner->move(nextLocation)){
+			onPathBlocked(nextLocation);
 		}
 		else{
-			onPathBlocked(nextLocation);
+			++currentPathIndex;
 		}
 	}
 	else{
-		onPathEnd(nextLocation);
+		onPathEnd(owner->location);
+		return true;
 	}
 	return false;
 }
@@ -114,7 +97,7 @@ void CreatureAi::onCreatureInFov(Creature &creature, int distance){
 void CreatureAi::onOperatableInFov(OperatableObject &operatable, int distance){
 
 }
-void CreatureAi::onDestination(Point2D &location){
+void CreatureAi::nextToDestination(Point2D &location){
 
 }
 void CreatureAi::onPathBlocked(Point2D &location){
@@ -123,15 +106,12 @@ void CreatureAi::onPathBlocked(Point2D &location){
 void CreatureAi::onPathEnd(Point2D &location){
 
 }
-void CreatureAi::setTargetLocation(Point2D &location){
-	targetLocation = location;
-	calculatePath(targetLocation);
-}
 bool CreatureAi::inFov(Point2D &location){
 	return fovMap->isInFov(location.x, location.y);
 }
-void CreatureAi::initAi(Creature &owner){
+void CreatureAi::initAi(Creature &owner, Area &area){
 	this->owner = &owner;
+	this->area = &area;
 	createFovMap();
 	createPathMap();
 	calculateFov();
@@ -140,7 +120,9 @@ void CreatureAi::update(){
 	calculateFov();
 	for (auto &creature : engine::areaHandler.getCurrentArea()->creatures){
 		if (inFov(creature->location)){
-			onCreatureInFov(*creature, creature->location.distance(owner->location));
+			if (creature.get() != owner){
+				onCreatureInFov(*creature, creature->location.distance(owner->location));
+			}
 		}
 	}
 	for (auto &operatable : engine::areaHandler.getCurrentArea()->operatableObjects){
@@ -148,5 +130,4 @@ void CreatureAi::update(){
 			onOperatableInFov(*operatable, operatable->location.distance(owner->location));
 		}
 	}
-	moveOnPath();
 }

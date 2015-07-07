@@ -10,7 +10,7 @@ private:
 
 public:
 
-	void drop(Point2D &location, Area &area);
+	void drop(Point2D &location, int dropAreaSize, Area &area);
 
 	AreaDrop(std::vector<std::pair<std::string, std::pair<std::string, float>>> creaturesRarityChance) :
 		creaturesRarityChance(creaturesRarityChance){};

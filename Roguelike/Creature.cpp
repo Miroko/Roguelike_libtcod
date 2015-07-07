@@ -37,6 +37,7 @@ void Creature::onTakeDamage(DynamicObject &attacker, int amount){
 		}
 	}
 	if (amountAfterDefence < 0) amountAfterDefence = 0;
+	ai->onTakeDamage(attacker);
 	DynamicObject::onTakeDamage(attacker, amountAfterDefence);
 }
 void Creature::onDeath(){
@@ -46,8 +47,8 @@ void Creature::onDeath(){
 void Creature::changeAi(std::shared_ptr<CreatureAi> newAi){
 	ai = newAi;
 }
-void Creature::initAi(){
-	ai->initAi(*this);
+void Creature::initAi(Area &area){
+	ai->initAi(*this, area);
 }
 void Creature::update(){
 	ai->update();

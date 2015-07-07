@@ -4,9 +4,9 @@
 #include "OperatableObject.h"
 #include "Creature.h"
 #include "Item.h"
-#include "Portal.h"
 #include "Rectangle.h"
 #include "Camera.h"
+#include "Tile.h"
 #include "PlayerController.h"
 #include <vector>
 #include <memory>
@@ -23,9 +23,9 @@ private:
 public:
 	std::vector<std::vector<Tile*>> tiles;
 	void placeTile(Tile &tile, Point2D &location);
-	void placeTile(Tile &portal, Point2D &location, GameObject::Type placeType);
+	void placeTile(Tile &tile, Point2D &location, Tile &placeOnNearest);
 	Tile *getTile(Point2D &location);
-	Point2D getNearestTile(Point2D &location, Tile::Type type);
+	Point2D getNearestTile(Point2D &location, Tile &tile);
 
 	std::vector<std::shared_ptr<Creature>> creatures;
 	void placeCreature(std::shared_ptr<Creature> creature, Point2D &location);
@@ -53,7 +53,7 @@ public:
 	virtual void generate() = 0;
 	//rezise area and fill with tile
 	void generateBase(Rectangle bounds, Tile &tile);
-	void generateEdge(Tile &tile);
+	void generateEdge(Tile &tile, int size, int randomTilesPerEdgeTile);
 
 	void initAi();
 

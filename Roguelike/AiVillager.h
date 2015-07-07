@@ -2,11 +2,17 @@
 #include "CreatureAi.h"
 #include "AiModuleCombat.h"
 
-class AiMonster : public CreatureAi
+class AiVillager : public CreatureAi
 {
 public:
-	Creature *target;
-	AiModuleCombat combat;
+	enum State{
+		VISIT_HOUSE,
+		WANDER,
+		COMBAT
+	};
+	State currentState;
+
+	AiModuleCombat combatModule;
 
 	void onTakeDamage(DynamicObject &attacker);
 	void onCreatureInFov(Creature &, int distance);
@@ -16,12 +22,10 @@ public:
 	void onPathEnd(Point2D &location);
 
 	void initAi(Creature &owner, Area &area);
-
 	void update();
 
 	std::shared_ptr<CreatureAi> CreatureAi::copy();
 
-	AiMonster() : CreatureAi(),
-		combat(AiModuleCombat()){}
+	AiVillager() : CreatureAi(){};
 };
 

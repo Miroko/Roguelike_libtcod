@@ -24,9 +24,10 @@ void Forest::generate(){
 	int treeAreas = (int)(getBounds().getSize() * treeDistribution);
 	int branches = treeThickness;
 	for (int treeArea = treeAreas; treeArea > 0; --treeArea){
-		Point2D areaLocation = getNearestTile(engine::random.point(getBounds()), land.type);
+		Point2D areaLocation = getNearestTile(engine::random.point(getBounds()), land);
 		//location found
 		int treesPerArea = trees / treeAreas;
+
 		for (int branch = branches; branch > 0; --branch){
 			int halfTreesPerBranch = treesPerArea / branches / 2;
 			Point2D locationA = areaLocation;
@@ -57,22 +58,22 @@ void Forest::generate(){
 	int stones = (int)(getBounds().getSize() * stonePercentage);
 	for (int stoneNumber = stones; stoneNumber > 0; --stoneNumber){
 		Point2D location = engine::random.point(getBounds());
-		placeTile(stoneHigh, location, tree.type);
+		placeTile(stoneHigh, location, tree);
 		onStonePlaced(location);
 
 		Rectangle surrounding = Rectangle(location, location);
 		surrounding.expand(2);
 		for (int lowStone = engine::random.generator->getInt(1, 4); lowStone > 0; lowStone--){
 			Point2D location = engine::random.point(surrounding);
-			placeTile(stoneLow, location, land.type);
+			placeTile(stoneLow, location, land);
 		}
 	}
 
-	generateEdge(tree);
+	generateEdge(tree, 1, 4);
 
 	for (int portalNumber = portals; portalNumber > 0; --portalNumber){
 		Point2D location = engine::random.point(getBounds());
-		placeTile(portal, location, land.type);
+		placeTile(portal, location, land);
 	}
 }
 

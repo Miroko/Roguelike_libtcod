@@ -4,13 +4,14 @@
 #include "AiMonster.h"
 #include "Engine.h"
 #include "Weapon.h"
+#include "Door.h"
 #include "Armor.h"
 
 std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creaturePresetTemplateId, RarityType &rarity){
 	TemplateCreaturePreset &templateCreaturePreset = *engine::objectLibrary.getTemplateCreaturePreset(creaturePresetTemplateId);
 	TemplateCreature &templateCreature = *engine::objectLibrary.getTemplateCreature(templateCreaturePreset.creatureTemplateId);
 	std::shared_ptr<Creature> creature = std::shared_ptr<Creature>(new Creature(
-		templateCreature.name,
+		templateCreaturePreset.name,
 		creaturePresetTemplateId,
 		templateCreature.glyph,
 		Creature::CREATURE,
@@ -18,7 +19,7 @@ std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creatu
 			 (1.00f - engine::random.generator->getFloat(0.0, valueVariation))),
 		rarity,
 		rarity.getRandomCreatureMods(),
-		std::shared_ptr<AiMonster>(new AiMonster()),
+		engine::objectLibrary.getAi(templateCreaturePreset.AiId)->copy(),
 		templateCreature.limbs));
 	//ai
 	creature->ai->owner = creature.get();
@@ -89,6 +90,10 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, R
 		mod->apply(*armor);
 	}
 	return armor;
+}
+
+std::shared_ptr<Door> ObjectFactory::createDoor(std::string doorId){
+	return std::shared_ptr<Door>(new Door(*engine::objectLibrary.getDoor(doorId)));
 }
 
 std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creaturePresetTemplateId, float rarityRoll){

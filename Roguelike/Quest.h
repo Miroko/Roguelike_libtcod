@@ -6,17 +6,16 @@
 class QuestPhase;
 class Quest
 {
-private:
+public:
+	std::string name;
+	int currentPhaseIndex;
 	std::vector<std::shared_ptr<QuestPhase>> phases;
 	std::shared_ptr<QuestPhase> village;
 	std::shared_ptr<QuestPhase> currentPhase;
 
-public:
-	std::string name;
-
-	std::shared_ptr<QuestPhase> const &getCurrentPhase();
 	void setCurrentPhase(std::shared_ptr<QuestPhase> phase);
-
+	std::shared_ptr<QuestPhase> const &getNextPhase();
+	std::shared_ptr<QuestPhase> const &getCurrentPhase();
 	std::shared_ptr<QuestPhase> const &getVillage();
 
 	Quest(std::string name, std::vector<std::shared_ptr<QuestPhase>> phases) :

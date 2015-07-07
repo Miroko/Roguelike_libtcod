@@ -65,7 +65,7 @@ void SelectableItemFrame::render(){
 		int offsetY = 0;
 		for (auto &item : currentItemContainer->items){
 			//item
-			printString(0, offsetY, getWidth(), 1, TCODColor::amber, TCODColor::amber, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
+			printString(0, offsetY, getWidth(), 1, item->rarity.color, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 			//stats
 			printString(getWidth() / 2, offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
 			//operator

@@ -11,9 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AiModule.cpp" />
+    <ClCompile Include="AiModuleCombat.cpp" />
     <ClCompile Include="AiNone.cpp" />
+    <ClCompile Include="AiVillager.cpp" />
     <ClCompile Include="AliveObject.cpp" />
     <ClCompile Include="AliveObjectAiold.cpp" />
+    <ClCompile Include="AreaHouse.cpp" />
+    <ClCompile Include="AreaPath.cpp" />
+    <ClCompile Include="AreaTreeSpot.cpp" />
     <ClCompile Include="ArmorEffect.cpp" />
     <ClCompile Include="CreatureAi.cpp" />
     <ClCompile Include="CreatureEffect.cpp" />
@@ -73,7 +79,6 @@
     <ClCompile Include="LogFrame.cpp" />
     <ClCompile Include="LootMap.cpp" />
     <ClCompile Include="PlayerController.cpp" />
-    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Quest.cpp" />
     <ClCompile Include="QuestFrame.cpp" />
     <ClCompile Include="QuestHandler.cpp" />
@@ -97,9 +102,15 @@
     <ClCompile Include="WeaponEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AiModule.h" />
+    <ClInclude Include="AiModuleCombat.h" />
     <ClInclude Include="AiNone.h" />
+    <ClInclude Include="AiVillager.h" />
     <ClInclude Include="AliveObject.h" />
     <ClInclude Include="AliveObjectAiold.h" />
+    <ClInclude Include="AreaHouse.h" />
+    <ClInclude Include="AreaPath.h" />
+    <ClInclude Include="AreaTreeSpot.h" />
     <ClInclude Include="ArmorEffect.h" />
     <ClInclude Include="CreatureAi.h" />
     <ClInclude Include="CreatureEffect.h" />
@@ -159,7 +170,6 @@
     <ClInclude Include="LogFrame.h" />
     <ClInclude Include="LootMap.h" />
     <ClInclude Include="PlayerController.h" />
-    <ClInclude Include="Portal.h" />
     <ClInclude Include="Quest.h" />
     <ClInclude Include="QuestFrame.h" />
     <ClInclude Include="QuestHandler.h" />

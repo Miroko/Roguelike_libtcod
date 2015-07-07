@@ -13,15 +13,8 @@ void QuestTheGoblinKing::ForestGoblin::onStonePlaced(Point2D &location){
 
 //Village phase
 std::shared_ptr<Area> QuestTheGoblinKing::PhaseVillage::generateArea(){
-	std::shared_ptr<ForestGoblin> area = std::shared_ptr<ForestGoblin>(new ForestGoblin());
+	std::shared_ptr<VillageMain> area = std::shared_ptr<VillageMain>(new VillageMain());
 	area->generate();
-	
-	int drops = area->getBounds().getSize() / 500;
-	for (int drop = drops; drop > 0; --drop){
-		Point2D location = engine::random.point(area->getBounds());
-		area->dropGoblin.drop(location, *area);
-	}
-
 	return area;
 }
 std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseVillage::getDialog(DynamicObject &owner){
@@ -35,6 +28,11 @@ std::shared_ptr<TradeContainer> const &QuestTheGoblinKing::PhaseVillage::getTrad
 std::shared_ptr<Area> QuestTheGoblinKing::PhaseWayThroughForest::generateArea(){
 	std::shared_ptr<ForestGoblin> area = std::shared_ptr<ForestGoblin>(new ForestGoblin());
 	area->generate();
+	int drops = area->getBounds().getSize() / 500;
+	for (int drop = drops; drop > 0; --drop){
+		Point2D location = engine::random.point(area->getBounds());
+		area->dropGoblin.drop(location, 2, *area);
+	}
 	return area;
 }
 std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseWayThroughForest::getDialog(DynamicObject &owner){
