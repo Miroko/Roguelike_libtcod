@@ -43,7 +43,7 @@ bool DialogFrame::handleKey(TCOD_key_t key){
 
 void DialogFrame::render(){
 	GuiFrame::render();
-
+	
 	//Text
 	printString(0, 0, getWidth(), getHeight(), FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, currentDialog->getText().c_str());
 
@@ -52,13 +52,14 @@ void DialogFrame::render(){
 	for (auto &option : currentDialog->dialogOptions){
 		if (offsetY == selectedOption){
 			printString(0, getHeight() - offsetY, getWidth(), 1, selectionColor, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE,
-				currentDialog->dialogOptions.at(offsetY)->getOptionText(*currentDialog->getSpeaker()).c_str());
+				currentDialog->dialogOptions.at(offsetY)->getOptionText(currentDialog->getSpeaker()).c_str());
 		}
 		else{
 			printString(0, getHeight() - offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE,
-				currentDialog->dialogOptions.at(offsetY)->getOptionText(*currentDialog->getSpeaker()).c_str());
+				currentDialog->dialogOptions.at(offsetY)->getOptionText(currentDialog->getSpeaker()).c_str());
 		}
 		++offsetY;
 	}
+
 	blit();
 }

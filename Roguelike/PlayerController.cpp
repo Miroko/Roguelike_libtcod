@@ -16,6 +16,7 @@ bool PlayerController::handleKey(TCOD_key_t key){
 	case KEY_TALK: return talk();
 	case KEY_ENTER_AREA: return enterArea();
 	case KEY_LEAVE_AREA: return leaveArea();
+	case KEY_DEBUG: engine::areaHandler.getCurrentArea()->SEE_THROUGH = !engine::areaHandler.getCurrentArea()->SEE_THROUGH; return false;
 	default:
 		if (!engine::gui.log.isOpen) engine::gui.log.open();
 		engine::gui.log.addMessage("Invalid input, press 'h' for help.");
@@ -128,10 +129,10 @@ bool PlayerController::talk(){
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
-		std::vector<std::shared_ptr<DynamicObject>> dynamicObjects;
+		std::vector<DynamicObject*> dynamicObjects;
 		Point2D talkDirection = engine::playerHandler.getPlayerCreature()->location + direction;
 		for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(talkDirection)){
-			dynamicObjects.push_back(*creature);
+			dynamicObjects.push_back(creature->get());
 		}
 		if (dynamicObjects.empty()) return false;
 		else{

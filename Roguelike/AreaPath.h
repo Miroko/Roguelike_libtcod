@@ -7,7 +7,7 @@ public:
 	Tile &pathTile;
 	Area &area;
 	std::vector<Tile*> blockingTiles;
-	Tile &overlay;
+	std::vector<Tile*> overlayTiles;
 	Point2D destination;
 
 	std::shared_ptr<TCODPath> pathMap;
@@ -16,6 +16,6 @@ public:
 
 	void build(Point2D &from, Point2D &to);
 
-	AreaPath(Tile &pathTile, Area &area, std::vector<Tile*> blockingTiles, Tile &overlay) :
-		pathTile(pathTile), area(area), blockingTiles(blockingTiles), overlay(overlay){};
+	AreaPath(Tile &pathTile, Area &area, std::vector<Tile*> blockingTiles, std::vector<Tile*> overlayTiles) :
+		pathTile(pathTile), area(area), blockingTiles(blockingTiles), overlayTiles(overlayTiles){};
 };

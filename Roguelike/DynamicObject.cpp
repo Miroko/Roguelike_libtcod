@@ -32,7 +32,7 @@ void DynamicObject::onTakeDamage(DynamicObject &attacker, int amount){
 	else engine::gui.log.finishMessage("");
 }
 void DynamicObject::onTakeDamageEffect(){
-	engine::visualEffectHandler.playEffect(location, engine::random.direction(), VisualEffect::BLOOD_SPLATTER);
+	engine::visualEffectHandler.playEffect(std::shared_ptr<ParticleEffect>(new EffectBloodSplatter(location)));
 }
 void DynamicObject::onDeath(){
 	messageDeath();

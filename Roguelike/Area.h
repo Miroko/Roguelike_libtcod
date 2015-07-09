@@ -14,13 +14,12 @@
 class Area
 {
 private:
-	static const bool SEE_THROUGH = true;
-	bool t;
-
 	Rectangle bounds;
 	bool cleaningRequired = false;
 
 public:
+	static bool SEE_THROUGH;
+
 	std::vector<std::vector<Tile*>> tiles;
 	void placeTile(Tile &tile, Point2D &location);
 	void placeTile(Tile &tile, Point2D &location, Tile &placeOnNearest);

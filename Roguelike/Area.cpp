@@ -1,6 +1,8 @@
 #include "Area.h"
 #include "Engine.h"
 
+bool Area::SEE_THROUGH = false;
+
 void Area::placeTile(Tile &tile, Point2D &location){
 	if (bounds.contains(location)){
 		tiles[location.x][location.y] = &tile;

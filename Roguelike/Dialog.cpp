@@ -5,13 +5,13 @@ const std::shared_ptr<Dialog> Dialog::END = nullptr;
 const std::shared_ptr<Dialog> Dialog::NO_RESPONSE = std::make_shared<Dialog>(DialogNoResponse());
 
 void Dialog::setSpeaker(DynamicObject &speaker){
-	this->speaker.reset(&speaker);
+	this->speaker = &speaker;
 }
-std::shared_ptr<DynamicObject> const &Dialog::getSpeaker(){
-	return speaker;
+DynamicObject &Dialog::getSpeaker(){
+	return *speaker;
 }
 std::string Dialog::getText(){
-	std::string text;
+	std::string text = "";
 	for (auto &option : dialogOptions){
 		text.append(option->getText(*speaker));
 	}
@@ -26,7 +26,7 @@ void DialogNoResponse::OptionNoResponse::onOptionSelect(DynamicObject &speaker){
 	//Do nothing
 }
 std::string DialogNoResponse::OptionNoResponse::getText(DynamicObject &speaker){
-	return speaker.name + " is not respoding.\n\n";
+	return speaker.name + " is not responding.\n\n";
 }
 std::string DialogNoResponse::OptionNoResponse::getOptionText(DynamicObject &speaker){
 	return engine::string.DIALOG_OPTION_END;

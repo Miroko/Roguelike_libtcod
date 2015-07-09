@@ -8,24 +8,23 @@ class Village : public Area
 public:
 	std::vector<AreaHouse> houses;
 	Rectangle villageBounds;
-	AreaDrop &residents;
+
 	int size;
 	Tile &land;
 	Tile &tree;
-	Tile &houseWall;
-	Tile &houseFloor;
+	Tile &stoneHigh;
+	Tile &stoneLow;
 	Tile &path;
-	std::string doorId;
+	std::vector<std::pair<AreaHouse*, float>> houseChances;
 
 	void Area::generate();
 
 	Village(
 		std::string landId,
 		std::string treeId,
-		std::string houseWallId,
-		std::string houseFloorId,
+		std::string stoneHighId,
+		std::string stoneLowId,
 		std::string pathId,
-		std::string doorId,
 		int size,
-		AreaDrop &residents);
+		std::vector<std::pair<AreaHouse* ,float>> houseChances);
 };

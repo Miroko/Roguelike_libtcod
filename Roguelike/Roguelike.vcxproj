@@ -11,16 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AiBlacksmith.cpp" />
     <ClCompile Include="AiModule.cpp" />
     <ClCompile Include="AiModuleCombat.cpp" />
+    <ClCompile Include="AiModuleResident.cpp" />
     <ClCompile Include="AiNone.cpp" />
+    <ClCompile Include="AiTrader.cpp" />
     <ClCompile Include="AiVillager.cpp" />
     <ClCompile Include="AliveObject.cpp" />
     <ClCompile Include="AliveObjectAiold.cpp" />
+    <ClCompile Include="Anvil.cpp" />
     <ClCompile Include="AreaHouse.cpp" />
     <ClCompile Include="AreaPath.cpp" />
     <ClCompile Include="AreaTreeSpot.cpp" />
     <ClCompile Include="ArmorEffect.cpp" />
+    <ClCompile Include="Bed.cpp" />
     <ClCompile Include="CreatureAi.cpp" />
     <ClCompile Include="CreatureEffect.cpp" />
     <ClCompile Include="CreatureLimb.cpp" />
@@ -36,14 +41,23 @@
     <ClCompile Include="DialogFrame.cpp" />
     <ClCompile Include="DialogOption.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="EffectBloodSplatter.cpp" />
     <ClCompile Include="EffectHealth.cpp" />
     <ClCompile Include="EffectIncreasedDamage.cpp" />
     <ClCompile Include="EffectIncreasedDefence.cpp" />
+    <ClCompile Include="EffectSmoke.cpp" />
+    <ClCompile Include="EffectSparkles.cpp" />
+    <ClCompile Include="Forge.cpp" />
     <ClCompile Include="GuiCreature.cpp" />
     <ClCompile Include="GuiWeapon.cpp" />
     <ClCompile Include="ItemContainer.cpp" />
     <ClCompile Include="AiMonster.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleEffect.cpp" />
+    <ClCompile Include="ParticleSpark.cpp" />
+    <ClCompile Include="ParticleSpiralUp.cpp" />
+    <ClCompile Include="ParticleSplash.cpp" />
     <ClCompile Include="PlayerHandler.cpp" />
     <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="InspectionFrame.cpp" />
@@ -96,22 +110,26 @@
     <ClCompile Include="TradeContainer.cpp" />
     <ClCompile Include="TradeFrame.cpp" />
     <ClCompile Include="Village.cpp" />
-    <ClCompile Include="VisualEffect.cpp" />
     <ClCompile Include="VisualEffectHandler.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AiBlacksmith.h" />
     <ClInclude Include="AiModule.h" />
     <ClInclude Include="AiModuleCombat.h" />
+    <ClInclude Include="AiModuleResident.h" />
     <ClInclude Include="AiNone.h" />
+    <ClInclude Include="AiTrader.h" />
     <ClInclude Include="AiVillager.h" />
     <ClInclude Include="AliveObject.h" />
     <ClInclude Include="AliveObjectAiold.h" />
+    <ClInclude Include="Anvil.h" />
     <ClInclude Include="AreaHouse.h" />
     <ClInclude Include="AreaPath.h" />
     <ClInclude Include="AreaTreeSpot.h" />
     <ClInclude Include="ArmorEffect.h" />
+    <ClInclude Include="Bed.h" />
     <ClInclude Include="CreatureAi.h" />
     <ClInclude Include="CreatureEffect.h" />
     <ClInclude Include="CreatureLimb.h" />
@@ -127,14 +145,23 @@
     <ClInclude Include="DialogFrame.h" />
     <ClInclude Include="DialogOption.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="EffectBloodSplatter.h" />
     <ClInclude Include="EffectHealth.h" />
     <ClInclude Include="EffectIncreasedDamage.h" />
     <ClInclude Include="EffectIncreasedDefence.h" />
+    <ClInclude Include="EffectSmoke.h" />
+    <ClInclude Include="EffectSparkles.h" />
+    <ClInclude Include="Forge.h" />
     <ClInclude Include="GuiCreature.h" />
     <ClInclude Include="GuiWeapon.h" />
     <ClInclude Include="ItemContainer.h" />
     <ClInclude Include="AiMonster.h" />
     <ClInclude Include="ObjectFactory.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleEffect.h" />
+    <ClInclude Include="ParticleSpark.h" />
+    <ClInclude Include="ParticleSpiralUp.h" />
+    <ClInclude Include="ParticleSplash.h" />
     <ClInclude Include="PlayerHandler.h" />
     <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="InspectionFrame.h" />
@@ -186,7 +213,6 @@
     <ClInclude Include="TradeContainer.h" />
     <ClInclude Include="TradeFrame.h" />
     <ClInclude Include="Village.h" />
-    <ClInclude Include="VisualEffect.h" />
     <ClInclude Include="VisualEffectHandler.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponEffect.h" />

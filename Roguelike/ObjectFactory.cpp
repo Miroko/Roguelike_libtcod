@@ -13,7 +13,7 @@ std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creatu
 	std::shared_ptr<Creature> creature = std::shared_ptr<Creature>(new Creature(
 		templateCreaturePreset.name,
 		creaturePresetTemplateId,
-		templateCreature.glyph,
+		templateCreaturePreset.glyph,
 		Creature::CREATURE,
 		(int)((templateCreaturePreset.health / rarity.prevalence * engine::objectLibrary.maxHealth) *
 			 (1.00f - engine::random.generator->getFloat(0.0, valueVariation))),
@@ -92,8 +92,8 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, R
 	return armor;
 }
 
-std::shared_ptr<Door> ObjectFactory::createDoor(std::string doorId){
-	return std::shared_ptr<Door>(new Door(*engine::objectLibrary.getDoor(doorId)));
+std::shared_ptr<OperatableObject> ObjectFactory::createOperatable(std::string operatableId){
+	return engine::objectLibrary.getOperatable(operatableId)->copy();
 }
 
 std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creaturePresetTemplateId, float rarityRoll){

@@ -1,18 +1,25 @@
 #pragma once
 #include "CreatureAi.h"
 #include "AiModuleCombat.h"
+#include "AreaHouse.h"
+#include "AiModuleResident.h"
 
 class AiVillager : public CreatureAi
 {
 public:
 	enum State{
 		VISIT_HOUSE,
+		IN_HOUSE,
 		WANDER,
 		COMBAT
 	};
 	State currentState;
 
+	bool operatedLastTurn;
+	AreaHouse *houseToVisit;
+
 	AiModuleCombat combatModule;
+	AiModuleResident residentModule;
 
 	void onTakeDamage(DynamicObject &attacker);
 	void onCreatureInFov(Creature &, int distance);

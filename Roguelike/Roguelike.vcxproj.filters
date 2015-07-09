@@ -31,9 +31,6 @@
     <Filter Include="Engine\Gui">
       <UniqueIdentifier>{fa6d0318-8ba5-4d8f-a723-3eeb438f2378}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Area\Areas">
-      <UniqueIdentifier>{25e0db99-23d6-4929-95b6-ce75537f78d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Player">
       <UniqueIdentifier>{db8e10a7-aafb-4386-b313-b9e4f59309d6}</UniqueIdentifier>
     </Filter>
@@ -88,17 +85,35 @@
     <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module">
       <UniqueIdentifier>{056e93e4-4e2b-4d0d-830c-27884fa0d64f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Area\Infrastructure">
+      <UniqueIdentifier>{d745cc87-98d4-4cd5-907a-6c9676876701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Nature">
+      <UniqueIdentifier>{be772b72-aa79-4bc4-ba07-6debcb8ee874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Effect">
+      <UniqueIdentifier>{f76e6f26-6733-4379-b90c-b4e2357643f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\VisualEffect">
+      <UniqueIdentifier>{bc35c2ac-151b-4a0a-8cfd-092bc4417cdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\VisualEffect\Particle">
+      <UniqueIdentifier>{e42c52aa-7c35-4bcd-924d-bfa090792888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\VisualEffect\Particle\Particles">
+      <UniqueIdentifier>{4b116c30-4511-4a25-887b-61c444e96317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\VisualEffect\Effect">
+      <UniqueIdentifier>{980f8b06-6bf3-437b-ac4f-c0570fbc0d1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\VisualEffect\Effect\Effects">
+      <UniqueIdentifier>{c9c09015-516f-4931-a6d5-5d324bc8980e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Operatable\Operatables">
+      <UniqueIdentifier>{81e38b99-306d-468e-8e30-4df6dfd51254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cave.cpp">
-      <Filter>Engine\Area\Areas</Filter>
-    </ClCompile>
-    <ClCompile Include="Forest.cpp">
-      <Filter>Engine\Area\Areas</Filter>
-    </ClCompile>
-    <ClCompile Include="Village.cpp">
-      <Filter>Engine\Area\Areas</Filter>
-    </ClCompile>
     <ClCompile Include="Creature.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature</Filter>
     </ClCompile>
@@ -207,12 +222,6 @@
     <ClCompile Include="Glyph.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="VisualEffect.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualEffectHandler.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Engine\GameObject</Filter>
     </ClCompile>
@@ -235,9 +244,6 @@
     <ClCompile Include="RarityType.cpp">
       <Filter>Engine\ObjectFactory\Rarity</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
-    </ClCompile>
     <ClCompile Include="OperatableObject.cpp">
       <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
     </ClCompile>
@@ -258,9 +264,6 @@
     </ClCompile>
     <ClCompile Include="QuestTheGoblinKing.cpp">
       <Filter>Engine\Quest\Quests</Filter>
-    </ClCompile>
-    <ClCompile Include="AreaDrop.cpp">
-      <Filter>Engine\Area</Filter>
     </ClCompile>
     <ClCompile Include="CreatureInventory.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature</Filter>
@@ -337,15 +340,6 @@
     <ClCompile Include="EffectIncreasedDefence.cpp">
       <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="AreaHouse.cpp">
-      <Filter>Engine\Area</Filter>
-    </ClCompile>
-    <ClCompile Include="AreaTreeSpot.cpp">
-      <Filter>Engine\Area</Filter>
-    </ClCompile>
-    <ClCompile Include="AreaPath.cpp">
-      <Filter>Engine\Area</Filter>
-    </ClCompile>
     <ClCompile Include="AiVillager.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClCompile>
@@ -354,6 +348,75 @@
     </ClCompile>
     <ClCompile Include="AiModuleCombat.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaPath.cpp">
+      <Filter>Engine\Area\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaHouse.cpp">
+      <Filter>Engine\Area\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaTreeSpot.cpp">
+      <Filter>Engine\Area\Nature</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaDrop.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="Village.cpp">
+      <Filter>Engine\Area\Infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="Cave.cpp">
+      <Filter>Engine\Area\Nature</Filter>
+    </ClCompile>
+    <ClCompile Include="Forest.cpp">
+      <Filter>Engine\Area\Nature</Filter>
+    </ClCompile>
+    <ClCompile Include="AiTrader.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffectHandler.cpp">
+      <Filter>Engine\Graphics\VisualEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectBloodSplatter.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectSmoke.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSpiralUp.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSplash.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEffect.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="AiBlacksmith.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="AiModuleResident.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSpark.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectSparkles.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Anvil.cpp">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClCompile>
+    <ClCompile Include="Bed.cpp">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClCompile>
+    <ClCompile Include="Forge.cpp">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -384,12 +447,6 @@
     <ClInclude Include="SelectableItemFrame.h">
       <Filter>Engine\Gui</Filter>
     </ClInclude>
-    <ClInclude Include="Cave.h">
-      <Filter>Engine\Area\Areas</Filter>
-    </ClInclude>
-    <ClInclude Include="Forest.h">
-      <Filter>Engine\Area\Areas</Filter>
-    </ClInclude>
     <ClInclude Include="InspectionFrame.h">
       <Filter>Engine\Gui</Filter>
     </ClInclude>
@@ -398,9 +455,6 @@
     </ClInclude>
     <ClInclude Include="DialogFrame.h">
       <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="Village.h">
-      <Filter>Engine\Area\Areas</Filter>
     </ClInclude>
     <ClInclude Include="TradeFrame.h">
       <Filter>Engine\Gui</Filter>
@@ -471,12 +525,6 @@
     <ClInclude Include="Glyph.h">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="VisualEffectHandler.h">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="VisualEffect.h">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Engine\GameObject</Filter>
     </ClInclude>
@@ -497,9 +545,6 @@
     </ClInclude>
     <ClInclude Include="RarityType.h">
       <Filter>Engine\ObjectFactory\Rarity</Filter>
-    </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
     </ClInclude>
     <ClInclude Include="OperatableObject.h">
       <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
@@ -603,15 +648,6 @@
     <ClInclude Include="EffectIncreasedDefence.h">
       <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="AreaHouse.h">
-      <Filter>Engine\Area</Filter>
-    </ClInclude>
-    <ClInclude Include="AreaTreeSpot.h">
-      <Filter>Engine\Area</Filter>
-    </ClInclude>
-    <ClInclude Include="AreaPath.h">
-      <Filter>Engine\Area</Filter>
-    </ClInclude>
     <ClInclude Include="AiVillager.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClInclude>
@@ -620,6 +656,72 @@
     </ClInclude>
     <ClInclude Include="AiModule.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaPath.h">
+      <Filter>Engine\Area\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaHouse.h">
+      <Filter>Engine\Area\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaTreeSpot.h">
+      <Filter>Engine\Area\Nature</Filter>
+    </ClInclude>
+    <ClInclude Include="Village.h">
+      <Filter>Engine\Area\Infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="Cave.h">
+      <Filter>Engine\Area\Nature</Filter>
+    </ClInclude>
+    <ClInclude Include="Forest.h">
+      <Filter>Engine\Area\Nature</Filter>
+    </ClInclude>
+    <ClInclude Include="AiTrader.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectHandler.h">
+      <Filter>Engine\Graphics\VisualEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectBloodSplatter.h">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Engine\Graphics\VisualEffect\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectSmoke.h">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSplash.h">
+      <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSpiralUp.h">
+      <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEffect.h">
+      <Filter>Engine\Graphics\VisualEffect\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="AiBlacksmith.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="AiModuleResident.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSpark.h">
+      <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectSparkles.h">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Forge.h">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClInclude>
+    <ClInclude Include="Anvil.h">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClInclude>
+    <ClInclude Include="Bed.h">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

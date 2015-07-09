@@ -25,8 +25,6 @@ void engine::init(){
 
 	//Player
 	std::shared_ptr<Creature> playerCreature = objectFactory.createCreaturePreset("player", *engine::objectLibrary.getRarity("rarity_common"));
-	playerCreature->glyph.character = '@';
-	playerCreature->glyph.fgColor = TCODColor::lightAmber;
 	playerHandler.setPlayerCreature(playerCreature);
 
 	//Quest

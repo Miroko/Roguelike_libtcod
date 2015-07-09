@@ -1,11 +1,14 @@
 #pragma once
 #include "AiModule.h"
 
-class Creature;
+class DynamicObject;
 class AiModuleCombat : public AiModule
 {
+private:
+	void pursueAndAttack(DynamicObject &target);
+
 public:
-	Creature *target;
+	DynamicObject *target = nullptr;
 
 	void AiModule::run();
 

@@ -27,15 +27,15 @@ public:
 
 	std::list<RarityType> rarityTypes;
 	std::unordered_map<std::string, std::unique_ptr<Tile>> tiles;
-	std::unordered_map<std::string, Door> doors;
+	std::unordered_map<std::string, std::unique_ptr<OperatableObject>> operatableObjects;
 	std::unordered_map<std::string, TemplateWeapon> weaponTemplates;
 	std::unordered_map<std::string, TemplateArmor> armorTemplates;
-	std::unordered_map<std::string, std::unique_ptr<CreatureAi>> creatureAIs;
+	std::unordered_map<std::string, std::unique_ptr<CreatureAi>> creatureAis;
 	std::unordered_map<std::string, TemplateCreature> creatureTemplates;
 	std::unordered_map<std::string, TemplateCreaturePreset> creaturePresetTemplates;
 
 	bool addTile(std::string id, std::unique_ptr<Tile> tile);
-	bool addDoor(std::string id, Door door);
+	bool addOperatable(std::string id, std::unique_ptr<OperatableObject> operatable);
 	bool addWeaponTemplate(TemplateWeapon weaponTemplate);
 	bool addArmorTemplate(TemplateArmor armorTemplate);
 	void addRarity(RarityType rarity);
@@ -43,7 +43,7 @@ public:
 	bool addCreatureTemplate(TemplateCreature creatureTemplate);
 	bool addCreaturePresetTemplate(TemplateCreaturePreset creaturePresetTemplate);
 	Tile *getTile(std::string id);
-	Door *getDoor(std::string id);
+	OperatableObject *getOperatable(std::string id);
 	RarityType *getRarity(std::string id);
 	RarityType *getRarity(float roll);
 	TemplateWeapon *getTemplateWeapon(std::string id);

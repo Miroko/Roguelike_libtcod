@@ -9,15 +9,6 @@ void OperatableObject::off(){
 	isOn = false;
 }
 
-void OperatableObject::render(int x, int y){
-	if (isOn){
-		onGlyph.render(x, y);
-	}
-	else{
-		offGlyph.render(x, y);
-	}
-}
-
 void OperatableObject::messageDeath(){
 	engine::gui.log.finishMessage(name + " is destroyed.");
 }
@@ -28,4 +19,9 @@ void OperatableObject::onTakeDamageEffect(){
 
 bool OperatableObject::passable(DynamicObject &dynamicObject){
 	return DynamicObject::passable(dynamicObject);
+}
+
+
+std::shared_ptr<OperatableObject> OperatableObject::copy(){
+	return std::shared_ptr<OperatableObject>(new OperatableObject(*this));
 }

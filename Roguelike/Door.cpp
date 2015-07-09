@@ -17,3 +17,17 @@ bool Door::passable(DynamicObject &dynamicObject){
 	if (isOn) return true;
 	else return false;
 }
+
+
+void Door::render(int x, int y){
+	if (isOn){
+		onGlyph.render(x, y);
+	}
+	else{
+		offGlyph.render(x, y);
+	}
+}
+
+std::shared_ptr<OperatableObject> Door::copy(){
+	return std::shared_ptr<OperatableObject>(new Door(*this));
+}

@@ -6,9 +6,6 @@ class OperatableObject : public DynamicObject
 public:
 	bool isOn = false;
 
-	Glyph onGlyph;
-	Glyph offGlyph;
-
 	virtual void on();
 	virtual void off();
 
@@ -17,10 +14,8 @@ public:
 	void onTakeDamageEffect();
 	void messageDeath();
 
-	void render(int x, int y);
+	virtual std::shared_ptr<OperatableObject> copy();
 
-	OperatableObject(std::string name, Type type, int health, Glyph onGlyph, Glyph offGlyph) :
-		DynamicObject(name, type, offGlyph, health, false),
-		onGlyph(onGlyph),
-		offGlyph(offGlyph){};
+	OperatableObject(std::string name, Type type, int health, Glyph glyph, bool transparent) :
+		DynamicObject(name, type, glyph, health, transparent){}
 };

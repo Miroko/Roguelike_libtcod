@@ -5,8 +5,7 @@
 class AiMonster : public CreatureAi
 {
 public:
-	Creature *target;
-	AiModuleCombat combat;
+	AiModuleCombat combatModule;
 
 	void onTakeDamage(DynamicObject &attacker);
 	void onCreatureInFov(Creature &, int distance);
@@ -22,6 +21,6 @@ public:
 	std::shared_ptr<CreatureAi> CreatureAi::copy();
 
 	AiMonster() : CreatureAi(),
-		combat(AiModuleCombat()){}
+		combatModule(AiModuleCombat()){}
 };
 

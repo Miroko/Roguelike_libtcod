@@ -9,21 +9,19 @@
 Village::Village(
 	std::string landId,
 	std::string treeId,
-	std::string houseWallId,
-	std::string houseFloorId,
+	std::string stoneHighId,
+	std::string stoneLowId,
 	std::string pathId,
-	std::string doorId,
 	int size,
-	AreaDrop &residents) :
+	std::vector<std::pair<AreaHouse*, float>> houseChances) :
 	Area(),
 	size(size),
 	land(*engine::objectLibrary.getTile(landId)),
 	tree(*engine::objectLibrary.getTile(treeId)),
-	houseWall(*engine::objectLibrary.getTile(houseWallId)),
-	houseFloor(*engine::objectLibrary.getTile(houseFloorId)),
+	stoneHigh(*engine::objectLibrary.getTile(stoneHighId)),
+	stoneLow(*engine::objectLibrary.getTile(stoneLowId)),
 	path(*engine::objectLibrary.getTile(pathId)),
-	doorId(doorId),
-	residents(residents){
+	houseChances(houseChances){
 }
 
 void Village::generate(){
@@ -40,15 +38,18 @@ void Village::generate(){
 	int offsetY = 0;
 	for (int x = villageBounds.start.x; x < villageBounds.end.x - largestPlot;){
 		for (int y = villageBounds.start.y; y < villageBounds.end.y - largestPlot;){
-			offsetX = engine::random.generator->getInt(4, 6);
-			offsetY = engine::random.generator->getInt(4, 6);
-			plotSize = engine::random.generator->getInt(7, 12);
+			offsetX = engine::random.generator->getInt(4, 8);
+			offsetY = engine::random.generator->getInt(4, 8);
+			plotSize = engine::random.generator->getInt(5, 8);
 			Rectangle plot = Rectangle(
 				Point2D(x + offsetX, y + offsetY),
 				Point2D(x + plotSize + offsetX, y + plotSize + offsetY));
 			if (!plot.contains(villageBounds.getCenterPoint())){
-				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.8f){
-					houses.push_back(AreaHouse(houseWall, houseFloor, plot));
+				int randomIndex = engine::random.generator->getInt(0, houseChances.size() - 1);
+				auto &houseChance = houseChances.at(randomIndex);
+				if (engine::random.generator->getFloat(0.0f, 1.0f) < houseChance.second){
+					houseChance.first->build(plot, *this);
+					houses.push_back(*houseChance.first);
 				}
 			}
 			y += plotSize + offsetY;
@@ -56,17 +57,39 @@ void Village::generate(){
 		}
 		x += largestPlot;
 	}
-	for (AreaHouse house : houses){
-		house.build(engine::objectFactory.createDoor(doorId), residents, *this);
-	}
-
-	//village center
-	for (int centerSize = villageBounds.getSize() / 30; centerSize > 0; --centerSize){
-		placeTile(path, villageBounds.getCenterPoint(), land);
-	}
 
 	//build roads to houses in random order
-	AreaPath pathBuilder = AreaPath(path, *this, { &houseWall }, houseFloor);
+	//road build block tiles
+	std::vector<Tile*> blockTiles;
+	for (auto &house : houses){
+		bool add = true;
+		for (auto &tile : blockTiles){
+			if (&house.wall == tile){
+				add = false;
+				break;
+			}
+		}
+		if (add){
+			blockTiles.push_back(&house.wall);
+		}
+	}
+	blockTiles.push_back(&stoneHigh);
+	//road build overlay tiles
+	std::vector<Tile*> overlayTiles;
+	for (auto &house : houses){
+		bool add = true;
+		for (auto &tile : overlayTiles){
+			if (&house.floor == tile){
+				add = false;
+				break;
+			}
+		}
+		if (add){
+			overlayTiles.push_back(&house.floor);
+		}
+	}
+
+	AreaPath pathBuilder = AreaPath(path, *this, blockTiles, overlayTiles);
 	std::vector<int> randomIndexes;
 	while (randomIndexes.size() < houses.size()){
 		int randomIndex = engine::random.generator->getInt(0, houses.size() - 1);
@@ -83,40 +106,51 @@ void Village::generate(){
 		pathBuilder.build(getBounds().getCenterPoint(), houses.at(index).bounds.getCenterPoint());
 	}
 
-	//place trees in village
-	int trees = (int)(getBounds().getSize() * 0.05f);
-	int treesPerSpot = 10;
+	//place stones
+	int stones = (int)(getBounds().getSize() * 0.010);
+	for (int stoneNumber = stones; stoneNumber > 0; --stoneNumber){
+		Point2D location = engine::random.point(getBounds());
+		placeTile(stoneHigh, location, land);
+
+		Rectangle surrounding = Rectangle(location, location);
+		surrounding.expand(2);
+		for (int lowStone = engine::random.generator->getInt(1, 4); lowStone > 0; lowStone--){
+			Point2D location = engine::random.point(surrounding);
+			placeTile(stoneLow, location, land);
+		}
+	}
+
+	//village center
+	Rectangle center = villageBounds;
+	center.shrink(size / 4);
+	for (int centerSize = villageBounds.getSize() / 25; centerSize > 0; --centerSize){
+		Point2D placeLocation = engine::random.point(center);
+		placeTile(path, placeLocation, land);
+	}
+
+	//place trees
+	//use road build block tiles with additions
+	for (auto &house : houses){
+		bool add = true;
+		for (auto &tile : blockTiles){
+			if (&house.floor == tile){
+				add = false;
+				break;
+			}
+		}
+		if (add){
+			blockTiles.push_back(&house.floor);
+		}
+	}
+	blockTiles.push_back(&path);
+	int trees = (int)(getBounds().getSize() * 0.10f);
+	int treesPerSpot = 5;
 	int spots = trees / treesPerSpot;
 	for (int spot = spots; spot > 0; --spot){
-		Point2D landSpot = getNearestTile(engine::random.point(villageBounds), land);
-		AreaTreeSpot treeSpot = AreaTreeSpot(tree, treesPerSpot, 1, landSpot, {&houseFloor, &houseWall, &path});
+		Point2D landSpot = getNearestTile(engine::random.point(getBounds()), land);
+		AreaTreeSpot treeSpot = AreaTreeSpot(tree, treesPerSpot, 1, landSpot, blockTiles);
 		treeSpot.grow(*this);
-	}
-	
+	}	
 	//place trees on edges
-	generateEdge(tree, size / 6, 12);
+	generateEdge(tree, size / 5, 12);
 }
-
-/*
-
-//Villager
-Rectangle villagerArea = Rectangle(Point2D(plot.start.x + 1, plot.start.y + 1),
-Point2D(plot.end.x, plot.end.y));
-int villagers = Random::generator->getInt(1, 3, 1);
-for (int villager = villagers; villager > 0; villager--){
-Point2D location = Random::point(villagerArea);
-std::shared_ptr<Creature> man = ObjectLibrary::generateCreature(
-ObjectLibrary::MAN,
-RarityType::COMMON,
-ObjectLibrary::MAN_EQUIPMENT,
-ObjectLibrary::MAN_LOOT);
-man->ai.state = CreatureAi::FREE;
-placeCreature(man, location);
-}
-
-
-//Door
-Point2D doorPoint = points.at(Random::generator->getInt(0, points.size() - 1));
-setStaticObject(ObjectLibrary::WOOD_FLOOR, doorPoint);
-placeOperatable(ObjectLibrary::generateDoor(ObjectLibrary::WOOD_DOOR, ObjectLibrary::DOOR_LOOT), doorPoint);
-*/

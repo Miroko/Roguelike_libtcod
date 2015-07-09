@@ -13,14 +13,21 @@ public:
 		FLOOR,
 		WALL,
 		PORTAL,
+
 		CREATURE,
+		
 		DOOR,
+		BED,
+		FORGE,
+		ANVIL,
+
 		WEAPON_MELEE,
 		WEAPON_RANGED,
 		ARMOR_HEAD,
 		ARMOR_BODY,
 		ARMOR_HAND,
 		ARMOR_LEG,
+
 		CONSUMABLE
 	};
 	Type type;

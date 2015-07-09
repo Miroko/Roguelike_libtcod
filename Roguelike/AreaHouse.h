@@ -1,24 +1,29 @@
 #pragma once
 #include "Rectangle.h"
-#include "AreaDrop.h"
-#include "Door.h"
 #include <string>
 
+class AreaDrop;
+class Door;
 class Tile;
 class Area;
 class AreaHouse
 {
 public:
+	Point2D doorLocation;
 	Rectangle bounds;
 	Tile &wall;
 	Tile &floor;
+	std::string doorId;
+	AreaDrop &residentDrop;
+	std::vector<std::pair<std::string, float>> furnitureChances;
 
-	void build(std::shared_ptr<Door> door, AreaDrop &residents, Area &area);
+	void build(Rectangle &bounds, Area &area);
 
-	AreaHouse(Tile &wall, Tile &floor, Rectangle bounds) :
-		wall(wall),
-		floor(floor),
-		bounds(bounds)
-	{};
+	AreaHouse(
+		std::string wallId,
+		std::string floorId,
+		std::string doorId,
+		AreaDrop &residentDrop,
+		std::vector<std::pair<std::string, float>> furnitureChances);
 };
 

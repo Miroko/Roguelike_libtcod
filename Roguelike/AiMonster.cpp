@@ -7,7 +7,7 @@ void AiMonster::onTakeDamage(DynamicObject &attacker){
 }
 void AiMonster::onCreatureInFov(Creature &creature, int distance){
 	if (&creature == engine::playerHandler.getPlayerCreature().get()){
-		combat.target = &creature;
+		combatModule.target = &creature;
 	}
 }
 void AiMonster::onOperatableInFov(OperatableObject &operatable,int distance){
@@ -24,11 +24,11 @@ void AiMonster::onPathEnd(Point2D &location){
 }
 void AiMonster::initAi(Creature &owner, Area &area){
 	CreatureAi::initAi(owner, area);
-	combat.init(*this);
+	combatModule.init(*this);
 }
 void AiMonster::update(){
 	CreatureAi::update();
-	combat.run();
+	combatModule.run();
 }
 
 std::shared_ptr<CreatureAi> AiMonster::copy(){

@@ -8,7 +8,11 @@ void AreaPath::build(Point2D &from, Point2D &to){
 	Point2D pathLocation;
 	while (!pathMap->isEmpty()){
 		if (pathMap->walk(&pathLocation.x, &pathLocation.y, false)){
-			if (area.getTile(pathLocation) != &overlay){
+			bool place = true;
+			for (auto &tile : overlayTiles){
+				if (area.getTile(pathLocation) == tile) place = false;
+			}
+			if (place){
 				area.placeTile(pathTile, pathLocation);
 			}
 		}
@@ -19,8 +23,8 @@ float AreaPath::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int
 	AreaPath *thisObject = static_cast<AreaPath*>(userData);
 	for (Tile *blockingTile : thisObject->blockingTiles){
 		if (thisObject->area.tiles[xTo][yTo] == blockingTile) return 0;
-		else if (thisObject->area.tiles[xTo][yTo] == &thisObject->pathTile) return 0.1f; //prefer to use existing paths
 	}
+	if (thisObject->area.tiles[xTo][yTo] == &thisObject->pathTile) return 0.1f; //prefer to use existing paths
 	return 1;
 }
 void AreaPath::createPathMap(Area &area){

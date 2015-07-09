@@ -2,13 +2,16 @@
 #include "CreatureAi.h"
 #include "Creature.h"
 
+void AiModuleCombat::pursueAndAttack(DynamicObject &target){
+	if (owner->inFov(target.location)){
+		owner->calculatePath(target.location, false);
+		if (owner->moveOnPath() == 1){
+			owner->owner->attack(target);
+		}
+	}
+}
 void AiModuleCombat::run(){
 	if (target != nullptr){
-		if (owner->inFov(target->location)){
-			owner->calculatePath(target->location);
-			if (owner->moveOnPath()){
-				owner->owner->attack(*target);
-			}
-		}
+		pursueAndAttack(*target);
 	}
 }

@@ -71,22 +71,20 @@ void CreatureAi::calculatePath(Point2D &location, bool cheapPathing){
 	currentPathIndex = 0;
 	cheapPathCalculation = true;
 }
-bool CreatureAi::moveOnPath(){
-	if (currentPathIndex + 1 < pathMap->size()){
-		Point2D nextLocation;
-		pathMap->get(currentPathIndex, &nextLocation.x, &nextLocation.y);
-		if (!owner->move(nextLocation)){
-			onPathBlocked(nextLocation);
-		}
-		else{
-			++currentPathIndex;
-		}
+int CreatureAi::moveOnPath(){
+	if (pathMap->size() == 0) return 0;
+	if (currentPathIndex == pathMap->size()) return 0;
+
+	Point2D newLocation;
+	int distance = pathMap->size() - currentPathIndex;
+	pathMap->get(currentPathIndex, &newLocation.x, &newLocation.y);
+	if (!owner->move(newLocation)){
+		onPathBlocked(newLocation);
 	}
 	else{
-		onPathEnd(owner->location);
-		return true;
+		++currentPathIndex;
 	}
-	return false;
+	return distance;
 }
 void CreatureAi::onTakeDamage(DynamicObject &attacker){
 	

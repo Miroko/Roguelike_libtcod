@@ -30,8 +30,8 @@ public:
 
 	Creature *owner;
 	Area *area;
-	//Returns true if destination in next spot
-	bool moveOnPath();
+	//Returns distance to destination
+	int moveOnPath();
 	bool inFov(Point2D &location);
 	virtual void initAi(Creature &owner, Area &area);
 	virtual void update();

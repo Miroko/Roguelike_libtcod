@@ -1,14 +1,15 @@
 #pragma once
-#include "VisualEffect.h"
+#include "ParticleEffect.h"
+#include "EffectBloodSplatter.h"
 #include <vector>
 #include <memory>
 
 class VisualEffectHandler
 {
 public:
-	std::vector<VisualEffect> effects;
+	std::vector<std::shared_ptr<ParticleEffect>> runningEffects;
 
-	void playEffect(Point2D &location, Point2D &direction, const VisualEffect &effectTemplate);
+	void playEffect(std::shared_ptr<ParticleEffect> effects);
 
 	void render();
 

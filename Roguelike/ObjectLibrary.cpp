@@ -7,13 +7,18 @@
 #include "AiMonster.h"
 #include "AiNone.h"
 #include "AiVillager.h"
+#include "AiTrader.h"
+#include "Bed.h"
+#include "Forge.h"
+#include "Anvil.h"
+#include "AiBlacksmith.h"
 
 bool ObjectLibrary::addTile(std::string id, std::unique_ptr<Tile> tile){
 	auto& inserted = tiles.insert(std::pair<std::string, std::unique_ptr<Tile>>(id, std::move(tile)));
 	return inserted.second;
 }
-bool ObjectLibrary::addDoor(std::string id, Door door){
-	auto& inserted = doors.insert(std::pair<std::string, Door>(id, door));
+bool ObjectLibrary::addOperatable(std::string id, std::unique_ptr<OperatableObject> operatable){
+	auto& inserted = operatableObjects.insert(std::pair<std::string, std::unique_ptr<OperatableObject>>(id, std::move(operatable)));
 	return inserted.second;
 }
 bool ObjectLibrary::addWeaponTemplate(TemplateWeapon weaponTemplate){
@@ -28,7 +33,7 @@ void ObjectLibrary::addRarity(RarityType rarity){
 	rarityTypes.push_back(rarity);
 }
 bool ObjectLibrary::addCreatureAi(std::string id, std::unique_ptr<CreatureAi> ai){
-	auto& inserted = creatureAIs.insert(std::pair<std::string, std::unique_ptr<CreatureAi>>(id, std::move(ai)));
+	auto& inserted = creatureAis.insert(std::pair<std::string, std::unique_ptr<CreatureAi>>(id, std::move(ai)));
 	return inserted.second;
 }
 bool ObjectLibrary::addCreatureTemplate(TemplateCreature creatureTemplate){
@@ -43,9 +48,9 @@ Tile *ObjectLibrary::getTile(std::string id){
 	auto &retrieved = tiles.find(id);
 	return retrieved->second.get();
 }
-Door *ObjectLibrary::getDoor(std::string id){
-	auto &retrieved = doors.find(id);
-	return &retrieved->second;
+OperatableObject *ObjectLibrary::getOperatable(std::string id){
+	auto &retrieved = operatableObjects.find(id);
+	return retrieved->second.get();
 }
 TemplateWeapon *ObjectLibrary::getTemplateWeapon(std::string id){
 	auto &retrieved = weaponTemplates.find(id);
@@ -56,7 +61,7 @@ TemplateArmor *ObjectLibrary::getTemplateArmor(std::string id){
 	return &retrieved->second;
 }
 CreatureAi *ObjectLibrary::getAi(std::string id){
-	auto &retrieved = creatureAIs.find(id);
+	auto &retrieved = creatureAis.find(id);
 	return retrieved->second.get();
 }
 TemplateCreature *ObjectLibrary::getTemplateCreature(std::string id){
@@ -123,7 +128,6 @@ void ObjectLibrary::init(){
 	addCreatureTemplate(TemplateCreature(
 		"creature_human",
 		"Human",
-		Glyph('h', TCODColor::lighterAmber),
 		{
 			CreatureLimb("Head", 0.2f, Armor::ARMOR_HEAD),
 			CreatureLimb("Body", 0.5f, Armor::ARMOR_BODY),
@@ -133,7 +137,6 @@ void ObjectLibrary::init(){
 	addCreatureTemplate(TemplateCreature(
 		"creature_child",
 		"Child",
-		Glyph('c', TCODColor::lighterAmber),
 		{
 			CreatureLimb("Head", 0.2f, Armor::ARMOR_HEAD),
 			CreatureLimb("Body", 0.5f, Armor::ARMOR_BODY),
@@ -143,7 +146,6 @@ void ObjectLibrary::init(){
 	addCreatureTemplate(TemplateCreature(
 		"creature_goblin",
 		"Goblin",
-		Glyph('g', TCODColor::lighterChartreuse),
 		{
 			CreatureLimb("Head", 0.3f, Armor::ARMOR_HEAD),
 			CreatureLimb("Body", 0.5f, Armor::ARMOR_BODY),
@@ -161,6 +163,12 @@ void ObjectLibrary::init(){
 	addCreatureAi(
 		"ai_villager",
 		std::unique_ptr<CreatureAi>(new AiVillager()));
+	addCreatureAi(
+		"ai_trader",
+		std::unique_ptr<CreatureAi>(new AiTrader()));
+	addCreatureAi(
+		"ai_blacksmith",
+		std::unique_ptr<CreatureAi>(new AiBlacksmith()));
 
 	//Player
 	addCreaturePresetTemplate(TemplateCreaturePreset(
@@ -168,6 +176,7 @@ void ObjectLibrary::init(){
 		"creature_human",
 		"ai_none",
 		"Player",
+		Glyph('@', TCODColor::lighterAmber),
 		0.20f,
 		{ "weapon_sword" },
 		{ "armor_body_leather" }));
@@ -177,6 +186,7 @@ void ObjectLibrary::init(){
 		"creature_human",
 		"ai_villager",
 		"Man",
+		Glyph('h', TCODColor::lighterAmber),
 		0.10f,
 		{ "weapon_dagger" },
 		{ "armor_body_leather" }));
@@ -185,6 +195,7 @@ void ObjectLibrary::init(){
 		"creature_human",
 		"ai_villager",
 		"Woman",
+		Glyph('h', TCODColor::lighterAmber),
 		0.10f,
 		{ "weapon_dagger" },
 		{ "armor_body_leather" }));
@@ -193,37 +204,65 @@ void ObjectLibrary::init(){
 		"creature_child",
 		"ai_villager",
 		"Child",
+		Glyph('c', TCODColor::lighterAmber),
 		0.03f,
 		{ /*none*/ },
 		{ /*none*/ }));
+	addCreaturePresetTemplate(TemplateCreaturePreset(
+		"human_blacksmith",
+		"creature_human",
+		"ai_blacksmith",
+		"Blacksmith",
+		Glyph('b', TCODColor::lightGrey),
+		0.20f,
+		{ "weapon_sword" },
+		{ "armor_body_leather" }));
 	addCreaturePresetTemplate(TemplateCreaturePreset(
 		"goblin_dagger",
 		"creature_goblin",
 		"ai_monster",
 		"Goblin",
+		Glyph('g', TCODColor::lighterChartreuse),
 		0.05f,
 		{ "weapon_dagger" },
 		{ "armor_body_leather" }));
 
-	//Doors
-	addDoor(
-		"door_wooden",
-		Door("Wooden door",
-		Glyph(TCODColor::darkSepia, TCODColor::darkerSepia, 'D'),
-		Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'D')));
+	//Operatables
+	addOperatable(
+		"operatable_door_wooden", std::unique_ptr<OperatableObject>(new Door(
+		"Wooden door",
+		Glyph(TCODColor::darkestSepia, TCODColor::darkSepia, 'D'),
+		Glyph(TCODColor::darkSepia, TCODColor::darkerSepia, 'D'))));
+	addOperatable(
+		"operatable_bed_wooden", std::unique_ptr<OperatableObject>(new Bed(
+		"Wooden bed",
+		Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'B'))));
+	addOperatable(
+		"operatable_forge", std::unique_ptr<OperatableObject>(new Forge(
+		"Forge",
+		Glyph(TCODColor::darkerGrey, TCODColor::darkRed, 'F'))));
+	addOperatable(
+		"operatable_anvil", std::unique_ptr<OperatableObject>(new Anvil(
+		"Anvil",
+		Glyph(TCODColor::darkerGrey, TCODColor::darkGrey, 'A'))));
 
 	//tiles + portals
-	addTile("forest_wall", std::make_unique<Tile>(Tile("Tree", Tile::WALL, Glyph(TCODColor::darkerChartreuse, TCODColor(5, 20, 5), TCOD_CHAR_SPADE), false, 0.0f)));
-	addTile("forest_floor", std::make_unique<Tile>(Tile("Land", Tile::FLOOR, Glyph(TCODColor(5, 20, 5), TCODColor(5, 20, 5)), true, 10.0f)));
-	addTile("forest_portal", std::make_unique<Tile>(Tile("Exit", Tile::PORTAL, Glyph(TCODColor::darkChartreuse, TCODColor(5, 20, 5), '>'), true, 10.0f)));
+	//walk cost 0 == unwalkable
+	//Nature
+	addTile("tile_forest_tree", std::make_unique<Tile>(Tile("Tree", Tile::WALL, Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, TCOD_CHAR_SPADE), false, 0.0f)));
+	addTile("tile_forest_grass", std::make_unique<Tile>(Tile("Land", Tile::FLOOR, Glyph(TCODColor(5, 20, 5)), true, 10.0f)));
+	addTile("tile_forest_portal", std::make_unique<Tile>(Tile("Exit", Tile::PORTAL, Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, '>'), true, 10.0f)));
 
-	addTile("stone_wall", std::make_unique<Tile>(Tile("Stone", Tile::WALL, Glyph(TCODColor::darkerGrey, TCODColor::darkerGrey), false, 0.0f)));
-	addTile("stone_floor", std::make_unique<Tile>(Tile("Stone floor", Tile::FLOOR, Glyph(TCODColor::darkestGrey, TCODColor::darkestGrey), true, 10.0f)));
+	addTile("tile_nature_stone_wall", std::make_unique<Tile>(Tile("Stone", Tile::WALL, Glyph(TCODColor(53,53,53)), false, 0.0f)));
+	addTile("tile_nature_stone_floor", std::make_unique<Tile>(Tile("Stone floor", Tile::FLOOR, Glyph(TCODColor::darkestGrey), true, 10.0f)));
 
-	addTile("wood_wall", std::make_unique<Tile>(Tile("Wooden wall", Tile::WALL, Glyph(TCODColor::darkSepia, TCODColor::darkSepia), false, 0.0f)));
-	addTile("wood_floor", std::make_unique<Tile>(Tile("Wooden floor", Tile::FLOOR, Glyph(TCODColor::darkerSepia, TCODColor::darkerSepia), true, 10.0f)));
-
-	addTile("sand_path", std::make_unique<Tile>(Tile("Sand path", Tile::FLOOR, Glyph(TCODColor::darkestSepia, TCODColor::darkestSepia), true, 7.0f)));
+	//House
+	addTile("tile_house_wood_wall", std::make_unique<Tile>(Tile("Wooden house wall", Tile::WALL, Glyph(TCODColor::darkSepia), false, 0.0f)));
+	addTile("tile_house_stone_wall", std::make_unique<Tile>(Tile("Stone house wall", Tile::WALL, Glyph(TCODColor::darkerGrey), false, 0.0f)));
+	addTile("tile_house_wood_floor", std::make_unique<Tile>(Tile("Wooden house floor", Tile::FLOOR, Glyph(TCODColor::darkestSepia), true, 10.0f)));
+	
+	//Path
+	addTile("tile_path_sand", std::make_unique<Tile>(Tile("Sand path", Tile::FLOOR, Glyph(TCODColor(14, 11, 6)), true, 5.0f)));
 
 	//Rarity types
 	addRarity(RarityType(
