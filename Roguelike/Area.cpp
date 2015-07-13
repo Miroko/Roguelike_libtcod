@@ -20,10 +20,10 @@ Point2D Area::getNearestTile(Point2D &location, Tile &tile){
 	Point2D scanLocation = location;
 	int offset = 0;
 	while (
-		scanLocation.x + offset != bounds.end.x &&
-		scanLocation.y + offset != bounds.end.x &&
-		scanLocation.x - offset != bounds.start.x &&
-		scanLocation.y - offset != bounds.start.y){
+		scanLocation.x + offset <= bounds.end.x ||
+		scanLocation.y + offset <= bounds.end.y ||
+		scanLocation.x - offset >= bounds.start.x ||
+		scanLocation.y - offset >= bounds.start.y){
 		for (scanLocation.x = location.x - offset; scanLocation.x <= location.x + offset; scanLocation.x++){
 			for (scanLocation.y = location.y - offset; scanLocation.y <= location.y + offset; scanLocation.y++){
 				if (bounds.contains(scanLocation)){
@@ -42,9 +42,9 @@ void Area::placeTile(Tile &portal, Point2D &location, Tile &placeOnNearest){
 	Point2D placementLocation = location;
 	int offset = 0;
 	while (
-		placementLocation.x + offset <= bounds.end.x &&
-		placementLocation.y + offset <= bounds.end.x &&
-		placementLocation.x - offset >= bounds.start.x &&
+		placementLocation.x + offset <= bounds.end.x ||
+		placementLocation.y + offset <= bounds.end.y ||
+		placementLocation.x - offset >= bounds.start.x ||
 		placementLocation.y - offset >= bounds.start.y){
 		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
 			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
@@ -64,9 +64,9 @@ void Area::placeCreature(std::shared_ptr<Creature> creature, Point2D &location){
 	Point2D placementLocation = location;
 	int offset = 0;
 	while (
-		placementLocation.x + offset <= bounds.end.x &&
-		placementLocation.y + offset <= bounds.end.x &&
-		placementLocation.x - offset >= bounds.start.x &&
+		placementLocation.x + offset <= bounds.end.x ||
+		placementLocation.y + offset <= bounds.end.y ||
+		placementLocation.x - offset >= bounds.start.x ||
 		placementLocation.y - offset >= bounds.start.y){
 		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
 			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
@@ -105,9 +105,9 @@ void Area::placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D
 	Point2D placementLocation = location;
 	int offset = 0;
 	while (
-		placementLocation.x + offset <= bounds.end.x &&
-		placementLocation.y + offset <= bounds.end.x &&
-		placementLocation.x - offset >= bounds.start.x &&
+		placementLocation.x + offset <= bounds.end.x ||
+		placementLocation.y + offset <= bounds.end.y ||
+		placementLocation.x - offset >= bounds.start.x ||
 		placementLocation.y - offset >= bounds.start.y){
 		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
 			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
@@ -272,20 +272,20 @@ void Area::render(){
 			}
 		}
 	}
-	//Item
-	for (auto &item : items){
-		int renderX = item->location.x - camera.location.x;
-		int renderY = item->location.y - camera.location.y;
-		if (playerHandler.getPlayerCreature()->ai->inFov(item->location) || SEE_THROUGH){
-			item->render(renderX, renderY);
-		}
-	}
 	//Operatables
 	for (auto &operatable : operatableObjects){
 		int renderX = operatable->location.x - camera.location.x;
 		int renderY = operatable->location.y - camera.location.y;
 		if (playerHandler.getPlayerCreature()->ai->inFov(operatable->location) || SEE_THROUGH){
 			operatable->render(renderX, renderY);
+		}
+	}
+	//Item
+	for (auto &item : items){
+		int renderX = item->location.x - camera.location.x;
+		int renderY = item->location.y - camera.location.y;
+		if (playerHandler.getPlayerCreature()->ai->inFov(item->location) || SEE_THROUGH){
+			item->render(renderX, renderY);
 		}
 	}
 	//Creatures

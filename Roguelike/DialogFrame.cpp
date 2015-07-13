@@ -1,6 +1,7 @@
 #include "DialogFrame.h"
 #include "KeyMapping.h"
 #include "Direction.h"
+#include "Gui.h"
 
 
 void DialogFrame::setDialog(std::shared_ptr<Dialog> dialog){
@@ -27,7 +28,7 @@ bool DialogFrame::handleKey(TCOD_key_t key){
 				}
 				else if (direction == CENTER){
 					currentDialog = currentDialog->getNextDialog(currentDialog->dialogOptions.at(selectedOption));
-					if (currentDialog == Dialog::END) close();
+					if (currentDialog == Dialog::DIALOG_END) close();
 					else selectedOption = 0;
 					handled = true;
 				}
@@ -45,17 +46,17 @@ void DialogFrame::render(){
 	GuiFrame::render();
 	
 	//Text
-	printString(0, 0, getWidth(), getHeight(), FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, currentDialog->getText().c_str());
+	printString(0, 0, getWidth(), getHeight(), Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, currentDialog->getText().c_str());
 
 	//Options
 	int offsetY = 0;
 	for (auto &option : currentDialog->dialogOptions){
 		if (offsetY == selectedOption){
-			printString(0, getHeight() - offsetY, getWidth(), 1, selectionColor, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE,
+			printString(0, getHeight() - offsetY, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_LEFT, TCOD_BKGND_NONE,
 				currentDialog->dialogOptions.at(offsetY)->getOptionText(currentDialog->getSpeaker()).c_str());
 		}
 		else{
-			printString(0, getHeight() - offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE,
+			printString(0, getHeight() - offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE,
 				currentDialog->dialogOptions.at(offsetY)->getOptionText(currentDialog->getSpeaker()).c_str());
 		}
 		++offsetY;

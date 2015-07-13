@@ -1,7 +1,27 @@
 #include "Gui.h"
 #include "Engine.h"
 
+int Gui::FRAME_MARGIN;
+TCODColor Gui::FRAME_BG;
+TCODColor Gui::FRAME_FG;
+TCODColor Gui::SELECTABLE_BG;
+TCODColor Gui::SELECTABLE_OPERATION;
+TCODColor Gui::TRADE_SELECTED;
+float Gui::RARITY_COLOR_MULTIPLIER;
+
 void Gui::init(){
+	//colors
+	FRAME_BG = TCODColor(200, 190, 140);
+	FRAME_FG = TCODColor(35, 30, 25);
+	SELECTABLE_BG = FRAME_BG * 0.9f;
+	SELECTABLE_OPERATION = TCODColor(10,74,10);
+	TRADE_SELECTED = SELECTABLE_BG * 0.8f;
+
+	RARITY_COLOR_MULTIPLIER = 0.6f;
+
+	//frames
+	FRAME_MARGIN = 1;
+
 	log.init(Rectangle(
 		Point2D(0, TCODConsole::root->getHeight() - 12),
 		Point2D(TCODConsole::root->getWidth() - 1, TCODConsole::root->getHeight())));
@@ -23,8 +43,8 @@ void Gui::init(){
 		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
 
 	pickFrame.init(Rectangle(
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() / 5),
-		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - TCODConsole::root->getHeight() / 5)));
+		Point2D(TCODConsole::root->getWidth() / 4, 0),
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 1)));
 
 	statistics.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, 0),
@@ -36,7 +56,7 @@ void Gui::init(){
 
 	trade.init(Rectangle(
 		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
+		Point2D(TCODConsole::root->getWidth() - 1, TCODConsole::root->getHeight() - 1)));
 
 	attack.init(Rectangle(
 		Point2D(0, 0),

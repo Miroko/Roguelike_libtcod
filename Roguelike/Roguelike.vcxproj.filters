@@ -10,9 +10,6 @@
     <Filter Include="Engine\Area">
       <UniqueIdentifier>{1f338d4f-5130-4f57-ba72-22a0747047c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Dialog">
-      <UniqueIdentifier>{8a41f4ab-1477-4305-b20f-11cf05425bc5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Graphics">
       <UniqueIdentifier>{aefc922d-6759-4fdf-89b6-ee8c954769ee}</UniqueIdentifier>
     </Filter>
@@ -91,9 +88,6 @@
     <Filter Include="Engine\Area\Nature">
       <UniqueIdentifier>{be772b72-aa79-4bc4-ba07-6debcb8ee874}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Effect">
-      <UniqueIdentifier>{f76e6f26-6733-4379-b90c-b4e2357643f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Graphics\VisualEffect">
       <UniqueIdentifier>{bc35c2ac-151b-4a0a-8cfd-092bc4417cdb}</UniqueIdentifier>
     </Filter>
@@ -111,6 +105,15 @@
     </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Operatable\Operatables">
       <UniqueIdentifier>{81e38b99-306d-468e-8e30-4df6dfd51254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Ais">
+      <UniqueIdentifier>{c54bc774-b405-4942-8fa4-64408f247adb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Quest\Dialog">
+      <UniqueIdentifier>{8a41f4ab-1477-4305-b20f-11cf05425bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Quest\TradeContainer">
+      <UniqueIdentifier>{11f9379b-ce8d-4798-b6aa-ce22ecb8ba7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +136,6 @@
       <Filter>Engine\GameObject\Item</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>Engine\GameObject\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="TradeContainer.cpp">
       <Filter>Engine\GameObject\Item</Filter>
     </ClCompile>
     <ClCompile Include="AttackFrame.cpp">
@@ -211,10 +211,10 @@
       <Filter>Engine\Area</Filter>
     </ClCompile>
     <ClCompile Include="Dialog.cpp">
-      <Filter>Engine\Dialog</Filter>
+      <Filter>Engine\Quest\Dialog</Filter>
     </ClCompile>
     <ClCompile Include="DialogOption.cpp">
-      <Filter>Engine\Dialog</Filter>
+      <Filter>Engine\Quest\Dialog</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Engine\Graphics</Filter>
@@ -256,9 +256,6 @@
     <ClCompile Include="ObjectLibrary.cpp">
       <Filter>Engine\ObjectFactory</Filter>
     </ClCompile>
-    <ClCompile Include="LootMap.cpp">
-      <Filter>Engine\GameObject\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Engine\GameObject\Tile</Filter>
     </ClCompile>
@@ -268,20 +265,8 @@
     <ClCompile Include="CreatureInventory.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature</Filter>
     </ClCompile>
-    <ClCompile Include="AliveObject.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
-    </ClCompile>
-    <ClCompile Include="AliveObjectAiold.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
-    </ClCompile>
     <ClCompile Include="CreatureLimb.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature</Filter>
-    </ClCompile>
-    <ClCompile Include="AiMonster.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
-    </ClCompile>
-    <ClCompile Include="AiNone.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClCompile>
     <ClCompile Include="RarityModCreature.cpp">
       <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
@@ -340,17 +325,11 @@
     <ClCompile Include="EffectIncreasedDefence.cpp">
       <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="AiVillager.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
-    </ClCompile>
     <ClCompile Include="AiModule.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClCompile>
     <ClCompile Include="AiModuleCombat.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
-    </ClCompile>
-    <ClCompile Include="AreaPath.cpp">
-      <Filter>Engine\Area\Infrastructure</Filter>
     </ClCompile>
     <ClCompile Include="AreaHouse.cpp">
       <Filter>Engine\Area\Infrastructure</Filter>
@@ -369,9 +348,6 @@
     </ClCompile>
     <ClCompile Include="Forest.cpp">
       <Filter>Engine\Area\Nature</Filter>
-    </ClCompile>
-    <ClCompile Include="AiTrader.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClCompile>
     <ClCompile Include="VisualEffectHandler.cpp">
       <Filter>Engine\Graphics\VisualEffect</Filter>
@@ -394,9 +370,6 @@
     <ClCompile Include="ParticleEffect.cpp">
       <Filter>Engine\Graphics\VisualEffect\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="AiBlacksmith.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
-    </ClCompile>
     <ClCompile Include="AiModuleResident.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClCompile>
@@ -417,6 +390,30 @@
     </ClCompile>
     <ClCompile Include="Forge.cpp">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaPath.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
+    <ClCompile Include="AiBlacksmith.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClCompile>
+    <ClCompile Include="AiMonster.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClCompile>
+    <ClCompile Include="AiNone.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClCompile>
+    <ClCompile Include="AiTrader.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClCompile>
+    <ClCompile Include="AiVillager.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectWaterSplash.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeContainer.cpp">
+      <Filter>Engine\Quest\TradeContainer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -498,9 +495,6 @@
     <ClInclude Include="PointerContainer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="TradeContainer.h">
-      <Filter>Engine\GameObject\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Quest.h">
       <Filter>Engine\Quest</Filter>
     </ClInclude>
@@ -514,10 +508,10 @@
       <Filter>Engine\Area</Filter>
     </ClInclude>
     <ClInclude Include="Dialog.h">
-      <Filter>Engine\Dialog</Filter>
+      <Filter>Engine\Quest\Dialog</Filter>
     </ClInclude>
     <ClInclude Include="DialogOption.h">
-      <Filter>Engine\Dialog</Filter>
+      <Filter>Engine\Quest\Dialog</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Engine\Graphics</Filter>
@@ -558,9 +552,6 @@
     <ClInclude Include="ObjectLibrary.h">
       <Filter>Engine\ObjectFactory</Filter>
     </ClInclude>
-    <ClInclude Include="LootMap.h">
-      <Filter>Engine\GameObject\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Engine\GameObject\Tile</Filter>
     </ClInclude>
@@ -578,18 +569,6 @@
     </ClInclude>
     <ClInclude Include="CreatureLimb.h">
       <Filter>Engine\GameObject\Dynamic\Creature</Filter>
-    </ClInclude>
-    <ClInclude Include="AliveObject.h">
-      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
-    </ClInclude>
-    <ClInclude Include="AliveObjectAiold.h">
-      <Filter>Engine\GameObject\Dynamic\Creature</Filter>
-    </ClInclude>
-    <ClInclude Include="AiMonster.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
-    </ClInclude>
-    <ClInclude Include="AiNone.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClInclude>
     <ClInclude Include="RarityModCreature.h">
       <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
@@ -648,17 +627,11 @@
     <ClInclude Include="EffectIncreasedDefence.h">
       <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="AiVillager.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
-    </ClInclude>
     <ClInclude Include="AiModuleCombat.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClInclude>
     <ClInclude Include="AiModule.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
-    </ClInclude>
-    <ClInclude Include="AreaPath.h">
-      <Filter>Engine\Area\Infrastructure</Filter>
     </ClInclude>
     <ClInclude Include="AreaHouse.h">
       <Filter>Engine\Area\Infrastructure</Filter>
@@ -674,9 +647,6 @@
     </ClInclude>
     <ClInclude Include="Forest.h">
       <Filter>Engine\Area\Nature</Filter>
-    </ClInclude>
-    <ClInclude Include="AiTrader.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClInclude>
     <ClInclude Include="VisualEffectHandler.h">
       <Filter>Engine\Graphics\VisualEffect</Filter>
@@ -699,9 +669,6 @@
     <ClInclude Include="ParticleEffect.h">
       <Filter>Engine\Graphics\VisualEffect\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="AiBlacksmith.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
-    </ClInclude>
     <ClInclude Include="AiModuleResident.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClInclude>
@@ -722,6 +689,30 @@
     </ClInclude>
     <ClInclude Include="Door.h">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaPath.h">
+      <Filter>Engine\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="AiVillager.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClInclude>
+    <ClInclude Include="AiBlacksmith.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClInclude>
+    <ClInclude Include="AiMonster.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClInclude>
+    <ClInclude Include="AiNone.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClInclude>
+    <ClInclude Include="AiTrader.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectWaterSplash.h">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="TradeContainer.h">
+      <Filter>Engine\Quest\TradeContainer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

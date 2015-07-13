@@ -1,5 +1,6 @@
 #include "Random.h"
 #include "Direction.h"
+#include <math.h>
 
 Point2D Random::point(Rectangle &inBounds){
 	return Point2D(generator->getInt(inBounds.start.x, inBounds.end.x),
@@ -14,6 +15,12 @@ Point2D Random::direction(){
 void Random::useRandom(){
 	//Restore saved state
 	generator->restore(randomState.get());
+}
+
+bool Random::chance(float min){
+	if (min == 0.0f) return false;
+	else if (min == 1.0f) return true;
+	else return generator->getFloat(0.0f, 1.0f) < min;
 }
 
 void Random::useStatic(){

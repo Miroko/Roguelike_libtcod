@@ -18,13 +18,13 @@ void AiBlacksmith::onOperatableInFov(OperatableObject &operatable, int distance)
 	if (currentState == USE_FORGE){
 		if (operatable.type == OperatableObject::FORGE){
 			forgeUsing = static_cast<Forge*>(&operatable);
-			calculatePath(operatable.location, false);
+			calculatePath(operatable.location, true);
 		}
 	}
 	else if (currentState == USE_ANVIL){
 		if (operatable.type == OperatableObject::ANVIL){
 			anvilUsing = static_cast<Anvil*>(&operatable);
-			calculatePath(operatable.location, false);
+			calculatePath(operatable.location, true);
 		}
 	}
 }

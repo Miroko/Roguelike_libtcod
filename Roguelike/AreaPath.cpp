@@ -13,7 +13,20 @@ void AreaPath::build(Point2D &from, Point2D &to){
 				if (area.getTile(pathLocation) == tile) place = false;
 			}
 			if (place){
-				area.placeTile(pathTile, pathLocation);
+				Rectangle placeArea = Rectangle(pathLocation, pathLocation);
+				placeArea.expand(width / 2);
+				Point2D innerLocation;
+				for (innerLocation.x = placeArea.start.x; innerLocation.x <= placeArea.end.x; ++innerLocation.x){
+					for (innerLocation.y = placeArea.start.y; innerLocation.y <= placeArea.end.y; ++innerLocation.y){
+						bool place = true;
+						for (Tile *blockingTile : blockingTiles){
+							if (area.tiles[innerLocation.x][innerLocation.y] == blockingTile) place = false;
+						}
+						if (place){
+							area.placeTile(pathTile, innerLocation);
+						}
+					}
+				}				
 			}
 		}
 	}
@@ -24,7 +37,7 @@ float AreaPath::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int
 	for (Tile *blockingTile : thisObject->blockingTiles){
 		if (thisObject->area.tiles[xTo][yTo] == blockingTile) return 0;
 	}
-	if (thisObject->area.tiles[xTo][yTo] == &thisObject->pathTile) return 0.1f; //prefer to use existing paths
+	if (thisObject->area.tiles[xTo][yTo] == &thisObject->pathTile) return thisObject->weightToUseExistingPath; //prefer to use existing paths
 	return 1;
 }
 void AreaPath::createPathMap(Area &area){
@@ -32,6 +45,6 @@ void AreaPath::createPathMap(Area &area){
 		area.getBounds().getWidth(),
 		area.getBounds().getHeight(),
 		new PathCostCallback(),
-		this,
-		0));
+		this,	
+		diagonalCost));
 }

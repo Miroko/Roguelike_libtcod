@@ -4,6 +4,8 @@
 class TradeContainer
 {
 public:
+	static TradeContainer EMPTY;
+
 	int currency;
 	ItemContainer items;
 

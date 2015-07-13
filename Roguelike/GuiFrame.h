@@ -7,11 +7,6 @@
 class GuiFrame
 {
 protected:
-	const int MARGIN = 1;
-	const TCODColor FRAME_COLOR = TCODColor::white;
-	const TCODColor FG_COLOR = TCODColor::white;
-	const TCODColor BG_COLOR = TCODColor::black;
-
 	std::string title;
 
 	std::shared_ptr<TCODConsole> console;

@@ -14,6 +14,7 @@ public:
 
 	Point2D point(Rectangle &inBounds);
 	Point2D direction();
+	bool chance(float min);
 
 	void init();
 	void useStatic();

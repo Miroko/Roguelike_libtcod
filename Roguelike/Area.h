@@ -1,6 +1,5 @@
 #pragma once
 #include "StaticObject.h"
-#include "AliveObject.h"
 #include "OperatableObject.h"
 #include "Creature.h"
 #include "Item.h"

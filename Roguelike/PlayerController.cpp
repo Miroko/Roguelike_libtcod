@@ -129,14 +129,14 @@ bool PlayerController::talk(){
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
-		std::vector<DynamicObject*> dynamicObjects;
+		std::vector<Creature*> creatures;
 		Point2D talkDirection = engine::playerHandler.getPlayerCreature()->location + direction;
 		for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(talkDirection)){
-			dynamicObjects.push_back(creature->get());
+			creatures.push_back(creature->get());
 		}
-		if (dynamicObjects.empty()) return false;
+		if (creatures.empty()) return false;
 		else{
-			engine::gui.dialog.setDialog(engine::questHandler.getCurrentQuest()->getCurrentPhase()->getDialog(*dynamicObjects.front()));
+			engine::gui.dialog.setDialog(engine::questHandler.getCurrentQuest()->getCurrentPhase()->getDialog(*creatures.front()));
 			engine::gui.dialog.open();
 		}
 	}

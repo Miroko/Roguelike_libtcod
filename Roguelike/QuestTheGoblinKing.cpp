@@ -1,27 +1,42 @@
 #include "QuestTheGoblinKing.h"
 #include "Forest.h"
 #include "Engine.h"
+#include "Weapon.h"
 
 //Forest
-void QuestTheGoblinKing::ForestGoblin::onGatePlace(Point2D &location){
+void QuestTheGoblinKing::PhaseWayThroughForest::ForestGoblin::onGatePlace(Point2D &location){
 
 }
 
-void QuestTheGoblinKing::ForestGoblin::onStonePlaced(Point2D &location){
+void QuestTheGoblinKing::PhaseWayThroughForest::ForestGoblin::onStonePlaced(Point2D &location){
 
 }
 
 //Village phase
+std::string QuestTheGoblinKing::PhaseVillage::DialogBlacksmith::getText(){
+	return speaker->name + " said hello.\n\n" + Dialog::getText();
+}
 std::shared_ptr<Area> QuestTheGoblinKing::PhaseVillage::generateArea(){
 	std::shared_ptr<VillageMain> area = std::shared_ptr<VillageMain>(new VillageMain());
 	area->generate();
+
+	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_uncommon"))));
+	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_uncommon"))));
+	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_common"))));
 	return area;
 }
-std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseVillage::getDialog(DynamicObject &owner){
-	return QuestPhase::getDialog(owner);
+std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseVillage::getDialog(Creature &speaker){
+	if (speaker.presetId == "human_blacksmith"){
+		dialogBlacksmith->setSpeaker(speaker);
+		return dialogBlacksmith;
+	}
+	else return QuestPhase::getDialog(speaker);
 }
-std::shared_ptr<TradeContainer> const &QuestTheGoblinKing::PhaseVillage::getTradeContainer(DynamicObject &owner){
-	return nullptr;
+TradeContainer &QuestTheGoblinKing::PhaseVillage::getTradeContainer(Creature &trader){
+	if (trader.presetId == "human_blacksmith"){
+		return blacksmithTradeContainer;
+	} 
+	else return QuestPhase::getTradeContainer(trader);
 }
 
 //Forest phase
@@ -35,9 +50,23 @@ std::shared_ptr<Area> QuestTheGoblinKing::PhaseWayThroughForest::generateArea(){
 	}
 	return area;
 }
-std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseWayThroughForest::getDialog(DynamicObject &owner){
+std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseWayThroughForest::getDialog(Creature &owner){
 	return QuestPhase::getDialog(owner);
 }
-std::shared_ptr<TradeContainer> const &QuestTheGoblinKing::PhaseWayThroughForest::getTradeContainer(DynamicObject &owner){
-	return nullptr;
+TradeContainer &QuestTheGoblinKing::PhaseWayThroughForest::getTradeContainer(Creature &owner){
+	return QuestPhase::getTradeContainer(owner);
 }
+
+//Cave phase
+std::shared_ptr<Area> QuestTheGoblinKing::PhaseInCave::generateArea(){
+	std::shared_ptr<CaveGoblin> area = std::shared_ptr<CaveGoblin>(new CaveGoblin());
+	area->generate();
+	return area;
+}
+std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseInCave::getDialog(Creature &owner){
+	return QuestPhase::getDialog(owner);
+}
+TradeContainer &QuestTheGoblinKing::PhaseInCave::getTradeContainer(Creature &owner){
+	return QuestPhase::getTradeContainer(owner);
+}
+

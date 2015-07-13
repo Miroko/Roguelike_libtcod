@@ -44,26 +44,33 @@ std::vector<std::string> InventoryFrame::getOperationsForItem(std::shared_ptr<It
 void InventoryFrame::render(){
 	GuiFrame::render();
 
+	int offsetY = 0;
+	//separating line
+	console->printFrame(0, 0, console->getWidth(), 4, false, TCOD_BKGND_DEFAULT, title.c_str());
+	//currency
+	printString(0, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, engine::string.currency(engine::playerHandler.playerInventory.currency));
+	//weight
+	printString(0, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_RIGHT, TCOD_BKGND_NONE, engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight()));
+	offsetY += 3;
+
 	//No items
 	if (currentItemContainer->items.empty()){
 		console->printRectEx(console->getWidth() / 2, console->getHeight() / 2, console->getWidth(), 1, TCOD_BKGND_SET, TCOD_CENTER, "No items");
 	}
 	else{
 		//Items
-		int offsetY = 0;
 		for (auto &item : currentItemContainer->items){
 			//item
-			printString(0, offsetY, getWidth(), 1, item->rarity.color, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
+			printString(0, offsetY, getWidth(), 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 			//stats
-			printString(getWidth() / 2, offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
+			printString(3, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_CENTER, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
 			//operator
-			if (offsetY == selectedRow){
-				printString(0, offsetY, getWidth(), 1, OPERATION_COLOR, OPERATION_COLOR, TCOD_RIGHT, TCOD_BKGND_NONE, operations.at(selectedOperation));
-				paintRowBg(SELECTION_COLOR, selectedRow);
+			if (offsetY - 3 == selectedRow){
+				printString(0, offsetY, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, operations.at(selectedOperation));
+				paintRowBg(Gui::SELECTABLE_BG, offsetY);
 			}
 			else if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
-				printString(0, offsetY, getWidth(), 1, OPERATION_COLOR, OPERATION_COLOR, TCOD_RIGHT, TCOD_BKGND_NONE, "Equipped");
-				paintRowBg(EQUIPPED_COLOR, offsetY);
+				printString(0, offsetY, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, "Equipped");
 			}
 			++offsetY;
 		}

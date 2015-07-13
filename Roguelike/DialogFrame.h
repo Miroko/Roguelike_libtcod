@@ -5,7 +5,6 @@
 class DialogFrame : public GuiFrame
 {
 private:
-	TCODColor selectionColor = TCODColor::lightGreen;
 	std::shared_ptr<Dialog> currentDialog;
 	int selectedOption;
 public:

@@ -6,7 +6,6 @@ class Item;
 class InventoryFrame : public SelectableItemFrame
 {
 private:
-	const TCODColor EQUIPPED_COLOR = TCODColor::darkestBlue;
 	const std::string EQUIP = "Equip";
 	const std::string UNEQUIP = "Unequip";
 	const std::string CONSUME = "Consume";

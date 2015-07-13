@@ -42,7 +42,7 @@ void AttackFrame::render(){
 
 	std::shared_ptr<DynamicObject> selectedObject = attackableObjects.at(objectIndex);
 	
-	printString(0, 0, getWidth(), getHeight(), FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, selectedObject->name);
+	printString(0, 0, getWidth(), getHeight(), Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, selectedObject->name);
 
 	attackLocation = selectedObject->location;
 	TCODConsole::root->setCharBackground(attackLocation.x - engine::camera.location.x, attackLocation.y - engine::camera.location.y,

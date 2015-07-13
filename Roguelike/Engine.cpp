@@ -17,7 +17,7 @@ bool engine::requestUpdate = false;
 void engine::init(){
 	TCODConsole::initRoot(120, 60, "Roguelike", false, TCOD_RENDERER_SDL);
 	TCODSystem::setFps(10);
-	TCODConsole::setKeyboardRepeat(20, 20);
+	TCODConsole::setKeyboardRepeat(60, 20);
 
 	random.init();
 	objectLibrary.init();

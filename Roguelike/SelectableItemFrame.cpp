@@ -65,13 +65,13 @@ void SelectableItemFrame::render(){
 		int offsetY = 0;
 		for (auto &item : currentItemContainer->items){
 			//item
-			printString(0, offsetY, getWidth(), 1, item->rarity.color, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
+			printString(0, offsetY, getWidth(), 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 			//stats
-			printString(getWidth() / 2, offsetY, getWidth(), 1, FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
+			printString(getWidth() / 2, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
 			//operator
 			if (offsetY == selectedRow){
-				printString(0, offsetY, getWidth(), 1, OPERATION_COLOR, OPERATION_COLOR, TCOD_RIGHT, TCOD_BKGND_NONE, operations.at(selectedOperation));
-				paintRowBg(SELECTION_COLOR, selectedRow);
+				printString(0, offsetY, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, operations.at(selectedOperation));
+				paintRowBg(Gui::SELECTABLE_BG, selectedRow);
 			}
 			++offsetY;
 		}
@@ -83,7 +83,7 @@ void SelectableItemFrame::render(){
 void SelectableItemFrame::paintRowBg(const TCODColor &color, int row){
 	if (!currentItemContainer->items.empty()){
 		for (int x = 1; x <= console->getWidth() - 2; x++){
-			console->setCharBackground(x, row + MARGIN + 1, color);
+			console->setCharBackground(x, row + Gui::FRAME_MARGIN + 1, color);
 		}
 	}
 }
@@ -91,6 +91,7 @@ void SelectableItemFrame::paintRowBg(const TCODColor &color, int row){
 void SelectableItemFrame::updateSelection(){
 	if (currentItemContainer->items.size() == 0) close();
 	else {
+		currentItemContainer->sort();
 		if(selectedRow >= (int)currentItemContainer->items.size()) selectedRow = currentItemContainer->items.size() - 1;
 		operations = getOperationsForItem(currentItemContainer->getAt(selectedRow));
 		selectedOperation = 0;
@@ -99,6 +100,7 @@ void SelectableItemFrame::updateSelection(){
 
 void SelectableItemFrame::onOpen(){
 	GuiFrame::onOpen();
+	currentItemContainer->sort();
 	selectedRow = 0;
 	selectedOperation = 0;
 	if (!currentItemContainer->items.empty()) operations = getOperationsForItem(currentItemContainer->getAt(0));

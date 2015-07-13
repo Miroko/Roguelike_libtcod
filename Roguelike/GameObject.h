@@ -13,6 +13,7 @@ public:
 		FLOOR,
 		WALL,
 		PORTAL,
+		WATER,
 
 		CREATURE,
 		

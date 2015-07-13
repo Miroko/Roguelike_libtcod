@@ -1,16 +1,16 @@
 #include "GuiFrame.h"
 #include "KeyMapping.h"
+#include "Gui.h"
 
 void GuiFrame::render(){
-	console->setDefaultForeground(FRAME_COLOR);
-	console->setDefaultBackground(BG_COLOR);
+	console->setDefaultForeground(Gui::FRAME_FG);
+	console->setDefaultBackground(Gui::FRAME_BG);
 	if (title == ""){
 		console->printFrame(0, 0, console->getWidth(), console->getHeight(), true, TCOD_BKGND_SET);
 	}
 	else{
 		console->printFrame(0, 0, console->getWidth(), console->getHeight(), true, TCOD_BKGND_SET, title.c_str());
 	}
-	console->setDefaultForeground(FG_COLOR);
 }
 
 void GuiFrame::blit(int x, int y, int width, int height, int toX, int toY, float alphaFg, float alphaBg){
@@ -44,22 +44,22 @@ void GuiFrame::printString(int x, int y, int width, int height, const TCODColor 
 	std::string coloredString = "%c" + string + "%c ";
 
 	if (alignment == TCOD_LEFT){
-		x += MARGIN + 1;
-		y += MARGIN + 1;
-		width -= MARGIN - 2;
-		height -= MARGIN - 2;
+		x += Gui::FRAME_MARGIN + 1;
+		y += Gui::FRAME_MARGIN + 1;
+		width -= Gui::FRAME_MARGIN - 2;
+		height -= Gui::FRAME_MARGIN - 2;
 	}
 	else if (alignment == TCOD_CENTER){
 		x += width/2 + 2;
-		y += MARGIN + 1;
-		width -= MARGIN + 3;
-		height -= MARGIN - 2;
+		y += Gui::FRAME_MARGIN + 1;
+		width -= Gui::FRAME_MARGIN + 3;
+		height -= Gui::FRAME_MARGIN - 2;
 	}
 	else if (alignment == TCOD_RIGHT){
-		x -= MARGIN - width - 4;
-		y += MARGIN + 1;
-		width -= MARGIN - 2;
-		height -= MARGIN - 2;
+		x -= Gui::FRAME_MARGIN - width - 4;
+		y += Gui::FRAME_MARGIN + 1;
+		width -= Gui::FRAME_MARGIN - 2;
+		height -= Gui::FRAME_MARGIN - 2;
 	}
 	console->printRectEx(
 		x, y,
@@ -87,11 +87,11 @@ void GuiFrame::onClose(){
 }
 
 int GuiFrame::getWidth(){
-	return console->getWidth() - MARGIN - 4;
+	return console->getWidth() - Gui::FRAME_MARGIN - 4;
 }
 
 int GuiFrame::getHeight(){
-	return console->getHeight() - MARGIN - 4;
+	return console->getHeight() - Gui::FRAME_MARGIN - 4;
 }
 
 void GuiFrame::init(Rectangle bounds){

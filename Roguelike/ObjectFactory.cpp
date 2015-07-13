@@ -25,8 +25,6 @@ std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creatu
 	creature->ai->owner = creature.get();
 	//inventory
 	creature->inventory.owner = creature.get();
-	//change color
-	creature->glyph.fgColor = creature->glyph.fgColor * rarity.color;
 	for (auto &mod : creature->rarityMods){
 		mod->apply(*creature);
 	}

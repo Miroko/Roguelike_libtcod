@@ -8,8 +8,6 @@ private:
 	const std::string ERROR_NOT_ENOUGH_CURRENCY = "Not enough currency";
 	const std::string ERROR_TOO_MUCH_WEIGHT = "Can't carry that much";
 	const std::string ERROR_NONE = "";
-	const TCODColor cursorColor = TCODColor::lighterGreen;
-	const TCODColor selectedColor = TCODColor::yellow;
 
 	ItemContainer *currentPlayerItems;
 	TradeContainer *currentTraderContainer;

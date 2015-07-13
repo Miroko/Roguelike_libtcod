@@ -5,37 +5,28 @@
 
 class Dialog
 {
-private:
-	DynamicObject *speaker;
+protected:
+	Creature *speaker;
 
 public:
-	static const std::shared_ptr<Dialog> END;
+	static const std::shared_ptr<Dialog> DIALOG_END;
 	static const std::shared_ptr<Dialog> NO_RESPONSE;
 
-	std::string getText();
+	virtual std::string getText();
 	std::vector<std::shared_ptr<DialogOption>> dialogOptions;
 
-	void setSpeaker(DynamicObject &speaker);
-	DynamicObject &getSpeaker();
+	void setSpeaker(Creature &speaker);
+	Creature &getSpeaker();
 	std::shared_ptr<Dialog> const &getNextDialog(std::shared_ptr<DialogOption> &selectedOption);
 
 	Dialog(std::vector<std::shared_ptr<DialogOption>> &dialogOptions) : dialogOptions(dialogOptions){};
 };
 
 class DialogNoResponse : public Dialog{
-	class OptionNoResponse : public DialogOption{
-	private:
-		void DialogOption::onOptionSelect(DynamicObject &speaker);
-
-	public:
-		std::string DialogOption::getText(DynamicObject &speaker);
-		std::string DialogOption::getOptionText(DynamicObject &speaker);
-		std::shared_ptr<Dialog> const &DialogOption::getNextDialog(DynamicObject &speaker);
-
-		OptionNoResponse() : DialogOption(){};
-	};
 public:
+	std::string getText();
+
 	DialogNoResponse() : Dialog(std::vector<std::shared_ptr<DialogOption>>({
-		std::make_shared<OptionNoResponse>(OptionNoResponse())
+		std::shared_ptr<DialogOption>(new OptionEnd())
 	})){};
 };

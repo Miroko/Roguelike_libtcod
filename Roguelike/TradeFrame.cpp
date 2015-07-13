@@ -73,91 +73,92 @@ bool TradeFrame::handleKey(TCOD_key_t key){
 void TradeFrame::render(){
 	GuiFrame::render();
 
-	//Frames
-	console->printFrame(1, 1, console->getWidth() / 3 - 2, console->getHeight() - 2, true, TCOD_BKGND_DEFAULT, "Player");
-	console->printFrame(console->getWidth() + 1 - console->getWidth() / 3, 1, console->getWidth() / 3 - 2, console->getHeight() - 2, true, TCOD_BKGND_DEFAULT, "Trader");
+	int offsetY = 0;
 
-	//Player currency + weight
-	console->printFrame(1, 3, console->getWidth() / 3 - 2, 1, true);
-	console->printRectEx(2, 2, console->getWidth() / 3 , 1, TCOD_BKGND_NONE, TCOD_LEFT, engine::string.currency(engine::playerHandler.playerInventory.currency).c_str());
-	console->printRectEx(console->getWidth() / 3 - 3, 2, console->getWidth() / 3 - 2, 1, TCOD_BKGND_NONE, TCOD_RIGHT,
-		(engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight(), false) + "/" + engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight())).c_str());
+	//Player
+	console->printFrame(0, offsetY, console->getWidth() / 2 - 10, console->getHeight(), true);
+	console->printFrame(0, offsetY, console->getWidth() / 2 - 10, 4, true, TCOD_BKGND_DEFAULT, "Player");
+	//currency
+	printString(0, offsetY, console->getWidth() / 2 - 15, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, engine::string.currency(engine::playerHandler.playerInventory.currency));
+	//weight
+	printString(0, offsetY, console->getWidth() / 2 - 15, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_RIGHT, TCOD_BKGND_NONE, engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight()));
+	offsetY += 3;
 
-	//Trader currency
-	console->printFrame(console->getWidth() + 1 - console->getWidth() / 3, 3, console->getWidth() / 3 - 2, 1, true);
-	console->printRectEx(console->getWidth() + 2 - console->getWidth() / 3, 2, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_LEFT,
-		(std::to_string(currentTraderContainer->currency) + "c").c_str());
+	//Player items
+	for (auto &item : currentPlayerItems->items){
+		//item
+		printString(0, offsetY, console->getWidth() / 2 - 10, 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
+		//stats
+		printString(1, offsetY, console->getWidth() / 2 - 10, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_CENTER, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
+		//operator
+		if (offsetY - 3 == selectionRowPlayer && selectionCol == 0){
+			printString(0, offsetY, console->getWidth() / 2 - 15, 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, "Select");
+			for (int x = 1; x <= console->getWidth() / 2 - 10 - 2; x++){
+				console->setCharBackground(x, offsetY + Gui::FRAME_MARGIN + 1, Gui::SELECTABLE_BG);
+			}
+		}
+		else if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
+			printString(0, offsetY, console->getWidth() / 2 - 15, 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, "Equipped");
+		}
+		if (selectedPlayerItems.contains(item)){
+			for (int x = 1; x <= console->getWidth() / 2 - 10 - 2; x++){
+				console->setCharBackground(x, offsetY + Gui::FRAME_MARGIN + 1, Gui::TRADE_SELECTED);
+			}
+		}
+		++offsetY;
+	}
+
+	//Trader
+	offsetY = 0;
+	console->printFrame(console->getWidth() / 2 + 10, offsetY, console->getWidth() / 2 - 10, console->getHeight(), true);
+	console->printFrame(console->getWidth() / 2 + 10, offsetY, console->getWidth() / 2 - 10, 4, true, TCOD_BKGND_SET, "Trader");
+	//currency
+	printString(console->getWidth() / 2 + 10, offsetY, console->getWidth() / 2 - 15, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, engine::string.currency(currentTraderContainer->currency));
+	offsetY += 3;
+
+	//Trader items
+	for (auto &item : currentTraderContainer->items.items){
+		//item
+		printString(console->getWidth() / 2 + 10, offsetY, console->getWidth() / 2 - 10, 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
+		//stats
+		printString(console->getWidth() / 2 + 10 + 1, offsetY, console->getWidth() / 2 - 10, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_CENTER, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
+		//operator
+		if (offsetY - 3 == selectionRowTrader && selectionCol == 2){
+			printString(console->getWidth() / 2 + 10, offsetY, console->getWidth() / 2 - 15, 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, "Select");
+			for (int x = console->getWidth() / 2 + 10 + 1; x <= console->getWidth() / 2 + 10 + console->getWidth() / 2 - 10 - 2; x++){
+				console->setCharBackground(x, offsetY + Gui::FRAME_MARGIN + 1, Gui::SELECTABLE_BG);
+			}
+		}
+		if (selectedTraderItems.contains(item)){
+			for (int x = 1; x <= console->getWidth() / 2 - 10 - 2; x++){
+				console->setCharBackground(x + console->getWidth() / 2 + 10, offsetY + Gui::FRAME_MARGIN + 1, Gui::TRADE_SELECTED);
+			}
+		}
+		++offsetY;
+	}
 
 	//Currency from trade
 	if (currencyFromTrade > 0){
-		console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 2, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER,
-			"<-");
-		console->printRectEx(console->getWidth() / 2, console->getHeight() / 3, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER,
-			(std::to_string(currencyFromTrade) + "c").c_str());
+		console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 2, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER, "<-");
 	}
 	else{
-		console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 2, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER,
-			"->");
-		console->printRectEx(console->getWidth() / 2, console->getHeight() / 3, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER,
-			(std::to_string(abs(currencyFromTrade)) + "c").c_str());
+		console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 2, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER, "->");
 	}
+	console->printRectEx(console->getWidth() / 2, console->getHeight() / 3, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER, engine::string.currency(currencyFromTrade).c_str());
+
+	//Accept button
+	if (selectionCol == 1) console->setDefaultForeground(Gui::SELECTABLE_OPERATION);
+	else console->setDefaultForeground(Gui::FRAME_FG);
+	console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 4, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER, "ACCEPT");
+	blit(console->getWidth() / 3, console->getHeight() / 3 + 4, console->getWidth() / 3, 1, screenBounds.getWidth() / 3, screenBounds.getHeight() / 3 + 4, alphaFg, alphaBg);
+
 	//Error
 	if (errorMessage != ERROR_NONE){
+		console->setDefaultForeground(Gui::FRAME_FG);
 		console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 12, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER,
 			errorMessage.c_str());
 	}
 	blit();
-
-	//Player items
-	int y = 0;
-	for (auto &item : currentPlayerItems->items){
-		if (y == selectionRowPlayer && selectionCol == 0){
-			//cursor
-			console->setDefaultForeground(cursorColor);
-			item->print(2, 4 + y, console->getWidth() / 3, 1, *console);
-		}
-		else if (currentPlayerItems->contains(item)){
-			//selected for trade
-			console->setDefaultForeground(selectedColor);
-			item->print(2, 4 + y, console->getWidth() / 3, 1, *console);
-		}
-		else{
-			//normal
-			console->setDefaultForeground(FG_COLOR);
-			item->print(2, 4 + y, console->getWidth() / 3, 1, *console);
-		}
-		blit(2, 4 + y, console->getWidth()/3, 1, screenBounds.start.x + 2, screenBounds.start.y + 4 + y, alphaFg, alphaBg);
-		++y;
-	}
-
-	//Accept button
-	if (selectionCol == 1) console->setDefaultForeground(cursorColor);
-	else console->setDefaultForeground(FG_COLOR);
-	console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 4, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER,
-		"ACCEPT");
-	blit(console->getWidth() / 3, console->getHeight() / 3 + 4, console->getWidth() / 3, 1, screenBounds.getWidth() / 3, screenBounds.getHeight() / 3 + 4, alphaFg, alphaBg);
-
-	//Trader items
-	y = 0;
-	for (auto &item : currentTraderContainer->items.items){
-		if (y == selectionRowTrader && selectionCol == 2){
-			//cursor
-			console->setDefaultForeground(cursorColor);
-			item->printWithBg(console->getWidth() + 2 - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, *console);
-		}
-		else if (currentTraderContainer->items.contains(item)){
-			//selected for trade
-			console->setDefaultForeground(selectedColor);
-			item->print(console->getWidth() + 2 - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, *console);
-		}
-		else{
-			//normal
-			console->setDefaultForeground(FG_COLOR);
-			item->print(2 + console->getWidth() - console->getWidth() / 3, 4 + y, console->getWidth() / 3, 1, *console);
-		}
-		blit(2 + console->getWidth() - console->getWidth() / 3, 4 + y, console->getWidth() / 3 - 2, 1, screenBounds.end.x + 2 - console->getWidth() / 3, screenBounds.start.y + 4 + y, alphaFg, alphaBg);
-		++y;
-	}
 }
 
 void TradeFrame::setContainers(ItemContainer &playerItems, TradeContainer &tradeContainer){
@@ -181,8 +182,8 @@ void TradeFrame::onClose(){
 void TradeFrame::calculateCurrencyFromTrade(){
 	int currencyFromPlayerItems = 0;
 	int currencyFromTraderItems = 0;
-	for (auto &item : currentPlayerItems->items){ currencyFromPlayerItems += item->getValue(); }
-	for (auto &item : currentTraderContainer->items.items){ currencyFromTraderItems += item->getValue(); }
+	for (auto &item : selectedPlayerItems.items){ currencyFromPlayerItems += item->getValue(); }
+	for (auto &item : selectedTraderItems.items){ currencyFromTraderItems += item->getValue(); }
 	currencyFromTrade = currencyFromPlayerItems - currencyFromTraderItems;
 }
 
@@ -196,6 +197,9 @@ void TradeFrame::makeTrade(){
 		if (newWeight > engine::playerHandler.playerInventory.MAX_WEIGHT) errorMessage = ERROR_TOO_MUCH_WEIGHT;
 		else{
 			for (auto &item : selectedPlayerItems.items){
+				if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
+					engine::playerHandler.playerInventory.unequip(std::static_pointer_cast<Equipment>(item));
+				}
 				currentPlayerItems->remove(item);
 				currentTraderContainer->items.add(item);
 			}

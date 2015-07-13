@@ -1,43 +1,46 @@
 #pragma once
-#include "DynamicObject.h"
 #include "QuestPhase.h"
 #include <memory>
 #include <string>
 
+class Creature;
 class Dialog;
 class DialogOption
 {
 private:
-	virtual void onOptionSelect(DynamicObject &speaker) = 0;
+	virtual void onOptionSelect(Creature &speaker) = 0;
 
 public:
-	virtual std::string getText(DynamicObject &speaker) = 0;
-	virtual std::string getOptionText(DynamicObject &speaker) = 0;
-	virtual std::shared_ptr<Dialog> const &getNextDialog(DynamicObject &owner) = 0;
+	static const std::shared_ptr<DialogOption> END;
+	static const std::shared_ptr<DialogOption> TRADE;
+
+	virtual std::string getText(Creature &speaker) = 0;
+	virtual std::string getOptionText(Creature &speaker) = 0;
+	virtual std::shared_ptr<Dialog> const &getNextDialog(Creature &owner) = 0;
 
 	DialogOption(){};
 };
 
 class OptionEnd : public DialogOption{
 private:
-	void DialogOption::onOptionSelect(DynamicObject &speaker);
+	void DialogOption::onOptionSelect(Creature &speaker);
 
 public:
-	std::string DialogOption::getText(DynamicObject &speaker);
-	std::string DialogOption::getOptionText(DynamicObject &speaker);
-	std::shared_ptr<Dialog> const &DialogOption::getNextDialog(DynamicObject &speaker);
+	std::string DialogOption::getText(Creature &speaker);
+	std::string DialogOption::getOptionText(Creature &speaker);
+	std::shared_ptr<Dialog> const &DialogOption::getNextDialog(Creature &speaker);
 
 	OptionEnd() : DialogOption(){};
 };
 
 class OptionTrade : public DialogOption{
 private:
-	void DialogOption::onOptionSelect(DynamicObject &speaker);
+	void DialogOption::onOptionSelect(Creature &speaker);
 
 public:
-	std::string DialogOption::getText(DynamicObject &speaker);
-	std::string DialogOption::getOptionText(DynamicObject &speaker);
-	std::shared_ptr<Dialog> const &DialogOption::getNextDialog(DynamicObject &speaker);
+	std::string DialogOption::getText(Creature &speaker);
+	std::string DialogOption::getOptionText(Creature &speaker);
+	std::shared_ptr<Dialog> const &DialogOption::getNextDialog(Creature &speaker);
 
 	OptionTrade() : DialogOption(){};
 };

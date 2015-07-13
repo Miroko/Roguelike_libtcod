@@ -29,6 +29,8 @@ bool ItemContainer::contains(std::shared_ptr<Item> item){
 
 void ItemContainer::sort(){
 	items.sort([](const std::shared_ptr<Item> &a, const std::shared_ptr<Item> &b){
-		return a->name.compare(b->name);
+		int comparison = b->name.compare(a->name);
+		if(comparison <= 0) return false;
+		else return true;
 	});
 }

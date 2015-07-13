@@ -1,6 +1,5 @@
 #pragma once
 #include "ParticleEffect.h"
-#include "EffectBloodSplatter.h"
 #include <vector>
 #include <memory>
 

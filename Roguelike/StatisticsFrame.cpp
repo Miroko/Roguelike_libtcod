@@ -10,7 +10,7 @@ void StatisticsFrame::render(){
 	float percentage = ((float)healthCurrent / (float)healthMax);
 	TCODColor healthColor = TCODColor::lerp(HEALTH_MIN_COLOR, HEALTH_MAX_COLOR, percentage);
 
-	printString(0, 0, getWidth(), getHeight(), FG_COLOR, FG_COLOR, TCOD_LEFT, TCOD_BKGND_NONE, "Health");
+	printString(0, 0, getWidth(), getHeight(), Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, "Health");
 	printString(0, 0, getWidth(), getHeight(), healthColor, healthColor, TCOD_CENTER, TCOD_BKGND_NONE, engine::string.outOf(healthCurrent, healthMax));
 
 	blit();

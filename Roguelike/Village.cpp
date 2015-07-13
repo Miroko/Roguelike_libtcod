@@ -89,7 +89,7 @@ void Village::generate(){
 		}
 	}
 
-	AreaPath pathBuilder = AreaPath(path, *this, blockTiles, overlayTiles);
+	AreaPath pathBuilder = AreaPath(path, *this, blockTiles, overlayTiles, 0.1f, 1, 0);
 	std::vector<int> randomIndexes;
 	while (randomIndexes.size() < houses.size()){
 		int randomIndex = engine::random.generator->getInt(0, houses.size() - 1);

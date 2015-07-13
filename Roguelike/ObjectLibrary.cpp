@@ -176,7 +176,7 @@ void ObjectLibrary::init(){
 		"creature_human",
 		"ai_none",
 		"Player",
-		Glyph('@', TCODColor::lighterAmber),
+		Glyph('@', TCODColor::lightAmber),
 		0.20f,
 		{ "weapon_sword" },
 		{ "armor_body_leather" }));
@@ -186,7 +186,7 @@ void ObjectLibrary::init(){
 		"creature_human",
 		"ai_villager",
 		"Man",
-		Glyph('h', TCODColor::lighterAmber),
+		Glyph('h', TCODColor::lightAmber),
 		0.10f,
 		{ "weapon_dagger" },
 		{ "armor_body_leather" }));
@@ -195,7 +195,7 @@ void ObjectLibrary::init(){
 		"creature_human",
 		"ai_villager",
 		"Woman",
-		Glyph('h', TCODColor::lighterAmber),
+		Glyph('h', TCODColor::lightAmber),
 		0.10f,
 		{ "weapon_dagger" },
 		{ "armor_body_leather" }));
@@ -204,7 +204,7 @@ void ObjectLibrary::init(){
 		"creature_child",
 		"ai_villager",
 		"Child",
-		Glyph('c', TCODColor::lighterAmber),
+		Glyph('c', TCODColor::lightAmber),
 		0.03f,
 		{ /*none*/ },
 		{ /*none*/ }));
@@ -218,12 +218,21 @@ void ObjectLibrary::init(){
 		{ "weapon_sword" },
 		{ "armor_body_leather" }));
 	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"goblin_dagger",
+		"goblin_dagger_low",
 		"creature_goblin",
 		"ai_monster",
 		"Goblin",
-		Glyph('g', TCODColor::lighterChartreuse),
+		Glyph('g', TCODColor::lightChartreuse),
 		0.05f,
+		{ "weapon_dagger" },
+		{ "armor_body_leather" }));
+	addCreaturePresetTemplate(TemplateCreaturePreset(
+		"goblin_dagger_medium",
+		"creature_goblin",
+		"ai_monster",
+		"Goblin",
+		Glyph('g', TCODColor::chartreuse),
+		0.08f,
 		{ "weapon_dagger" },
 		{ "armor_body_leather" }));
 
@@ -231,8 +240,8 @@ void ObjectLibrary::init(){
 	addOperatable(
 		"operatable_door_wooden", std::unique_ptr<OperatableObject>(new Door(
 		"Wooden door",
-		Glyph(TCODColor::darkestSepia, TCODColor::darkSepia, 'D'),
-		Glyph(TCODColor::darkSepia, TCODColor::darkerSepia, 'D'))));
+		Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D'),
+		Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D'))));
 	addOperatable(
 		"operatable_bed_wooden", std::unique_ptr<OperatableObject>(new Bed(
 		"Wooden bed",
@@ -251,14 +260,23 @@ void ObjectLibrary::init(){
 	//Nature
 	addTile("tile_forest_tree", std::make_unique<Tile>(Tile("Tree", Tile::WALL, Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, TCOD_CHAR_SPADE), false, 0.0f)));
 	addTile("tile_forest_grass", std::make_unique<Tile>(Tile("Land", Tile::FLOOR, Glyph(TCODColor(5, 20, 5)), true, 10.0f)));
-	addTile("tile_forest_portal", std::make_unique<Tile>(Tile("Exit", Tile::PORTAL, Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, '>'), true, 10.0f)));
+	addTile("tile_forest_portal", std::make_unique<Tile>(Tile("Exit", Tile::PORTAL, Glyph(TCODColor(0, 10, 0), TCODColor::darkerChartreuse, '>'), true, 10.0f)));
 
-	addTile("tile_nature_stone_wall", std::make_unique<Tile>(Tile("Stone", Tile::WALL, Glyph(TCODColor(53,53,53)), false, 0.0f)));
-	addTile("tile_nature_stone_floor", std::make_unique<Tile>(Tile("Stone floor", Tile::FLOOR, Glyph(TCODColor::darkestGrey), true, 10.0f)));
+	addTile("tile_nature_stone_wall", std::make_unique<Tile>(Tile("Stone", Tile::WALL, Glyph(TCODColor(45,45,45)), false, 0.0f)));
+	addTile("tile_nature_stone_floor", std::make_unique<Tile>(Tile("Stone floor", Tile::FLOOR, Glyph(TCODColor(30,30,30)), true, 10.0f)));
+
+	//Cave
+	addTile("tile_cave_rotten_wall", std::make_unique<Tile>(Tile("Rotten wood", Tile::WALL, Glyph(TCODColor::darkerSepia), false, 0.0f)));
+	addTile("tile_cave_wall1", std::make_unique<Tile>(Tile("Cave wall", Tile::WALL, Glyph(TCODColor::grey), false, 0.0f)));
+	addTile("tile_cave_wall2", std::make_unique<Tile>(Tile("Cave wall", Tile::WALL, Glyph(TCODColor::darkGrey), false, 0.0f)));
+	addTile("tile_cave_floor1", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor::darkerGrey), true, 10.0f)));
+	addTile("tile_cave_floor2", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor::darkestGrey), true, 10.0f)));
+	addTile("tile_cave_portal", std::make_unique<Tile>(Tile("Tunnel", Tile::PORTAL, Glyph(TCODColor::darkestGrey, TCODColor::grey, '>'), true, 10.0f)));
+	addTile("tile_cave_water", std::make_unique<Tile>(Tile("Water", Tile::WATER, Glyph(TCODColor::darkestBlue), true, 10.0f)));
 
 	//House
-	addTile("tile_house_wood_wall", std::make_unique<Tile>(Tile("Wooden house wall", Tile::WALL, Glyph(TCODColor::darkSepia), false, 0.0f)));
-	addTile("tile_house_stone_wall", std::make_unique<Tile>(Tile("Stone house wall", Tile::WALL, Glyph(TCODColor::darkerGrey), false, 0.0f)));
+	addTile("tile_house_wood_wall", std::make_unique<Tile>(Tile("Wooden house wall", Tile::WALL, Glyph(TCODColor::darkerSepia), false, 0.0f)));
+	addTile("tile_house_stone_wall", std::make_unique<Tile>(Tile("Stone house wall", Tile::WALL, Glyph(TCODColor(50,50,50)), false, 0.0f)));
 	addTile("tile_house_wood_floor", std::make_unique<Tile>(Tile("Wooden house floor", Tile::FLOOR, Glyph(TCODColor::darkestSepia), true, 10.0f)));
 	
 	//Path
@@ -269,7 +287,7 @@ void ObjectLibrary::init(){
 		"rarity_common",
 		"Common",
 		1.00f, 0.30f, 1,
-		TCODColor::lightestCyan,
+		TCODColor::cyan,
 		{
 			RarityModCreature("Weak", { std::shared_ptr<CreatureEffect>(new EffectHealth(0.7f)) }),
 			RarityModCreature("Injured", { std::shared_ptr<CreatureEffect>(new EffectHealth(0.5f)) })
@@ -286,7 +304,7 @@ void ObjectLibrary::init(){
 		"rarity_uncommon",
 		"Uncommon",
 		0.40f, 0.10f, 2,
-		TCODColor::lighterBlue,
+		TCODColor::blue,
 		{
 			RarityModCreature("Tough", { std::shared_ptr<CreatureEffect>(new EffectHealth(1.5f)) }),
 			RarityModCreature("Angry", { std::shared_ptr<CreatureEffect>(new EffectHealth(1.2f)) })

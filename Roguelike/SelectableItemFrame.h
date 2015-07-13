@@ -8,9 +8,6 @@
 class SelectableItemFrame : public GuiFrame
 {
 protected:
-	const TCODColor SELECTION_COLOR = TCODColor::darkestGreen;
-	const TCODColor OPERATION_COLOR = TCODColor::lightRed;
-
 	ItemContainer *currentItemContainer = nullptr;
 	int selectedRow = 0;
 	int selectedOperation = 0;
