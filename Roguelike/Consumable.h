@@ -6,14 +6,8 @@
 class Consumable : public Item
 {
 public:
-	std::vector<std::shared_ptr<CreatureEffect>> effects;
+	virtual void onConsume(Creature &consumer) = 0;
 
-	std::string getStatistics();
-
-	int getValue();
-	int getPotency();
-
-	Consumable(std::string name, std::vector<std::shared_ptr<CreatureEffect>> effects, Glyph glyph, float weight, RarityType &rarity) :
-		Item(name, glyph, weight, CONSUMABLE, rarity),
-		effects(effects){};
+	Consumable(std::string name, Glyph glyph, float weight, Type type, RarityType &rarity) :
+		Item(name, glyph, weight, type, rarity){};
 };

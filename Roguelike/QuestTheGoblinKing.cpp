@@ -14,15 +14,27 @@ void QuestTheGoblinKing::PhaseWayThroughForest::ForestGoblin::onStonePlaced(Poin
 
 //Village phase
 std::string QuestTheGoblinKing::PhaseVillage::DialogBlacksmith::getText(){
-	return speaker->name + " said hello.\n\n" + Dialog::getText();
+	return speaker->name + " greets me.\n\n" + Dialog::getText();
+}
+std::string QuestTheGoblinKing::PhaseVillage::DialogAlchemist::getText(){
+	return speaker->name + " mumbles something to himself...\n\n" + Dialog::getText();
 }
 std::shared_ptr<Area> QuestTheGoblinKing::PhaseVillage::generateArea(){
 	std::shared_ptr<VillageMain> area = std::shared_ptr<VillageMain>(new VillageMain());
 	area->generate();
 
+	blacksmithTradeContainer.items.removeAll();
 	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_uncommon"))));
 	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_uncommon"))));
 	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_common"))));
+
+	alchemistTradeContainer.items.removeAll();
+	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
+	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
+	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
+	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
+	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
+
 	return area;
 }
 std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseVillage::getDialog(Creature &speaker){
@@ -30,12 +42,19 @@ std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseVillage::getDialog(Creat
 		dialogBlacksmith->setSpeaker(speaker);
 		return dialogBlacksmith;
 	}
+	else if (speaker.presetId == "human_alchemist"){
+		dialogAlchemist->setSpeaker(speaker);
+		return dialogAlchemist;
+	}
 	else return QuestPhase::getDialog(speaker);
 }
 TradeContainer &QuestTheGoblinKing::PhaseVillage::getTradeContainer(Creature &trader){
 	if (trader.presetId == "human_blacksmith"){
 		return blacksmithTradeContainer;
 	} 
+	else if (trader.presetId == "human_alchemist"){
+		return alchemistTradeContainer;
+	}
 	else return QuestPhase::getTradeContainer(trader);
 }
 

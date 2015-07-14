@@ -2,6 +2,7 @@
 #include "KeyMapping.h"
 #include "Engine.h"
 #include "Weapon.h"
+#include "Armor.h"
 
 bool InspectionFrame::handleKey(TCOD_key_t key){
 	bool handled = GuiFrame::handleKey(key);
@@ -26,6 +27,8 @@ bool InspectionFrame::handleKey(TCOD_key_t key){
 void InspectionFrame::render(){
 	engine::gui.guiCreature.close();
 	engine::gui.guiWeapon.close();
+	engine::gui.guiArmor.close();
+	engine::gui.guiPotion.close();
 	Point2D pointInMap = inspectorLocation + engine::camera.location;
 	if (engine::playerHandler.getPlayerCreature()->ai->inFov(pointInMap)){
 		std::vector<std::shared_ptr<Creature>*> creatures = engine::areaHandler.getCurrentArea()->getCreatures(pointInMap);	
@@ -41,6 +44,14 @@ void InspectionFrame::render(){
 					engine::gui.guiWeapon.open();
 					engine::gui.guiWeapon.setCurrentWeapon(static_cast<Weapon&>(*item));
 				}
+				else if (item->isArmor()){
+					engine::gui.guiArmor.open();
+					engine::gui.guiArmor.setCurrentArmor(static_cast<Armor&>(*item));
+				}
+				else if (item->type == Item::POTION){
+					engine::gui.guiPotion.open();
+					engine::gui.guiPotion.setCurrentPotion(static_cast<Potion&>(*item));
+				}
 			}
 		}
 	}
@@ -52,6 +63,8 @@ void InspectionFrame::render(){
 void InspectionFrame::onClose(){
 	engine::gui.guiCreature.close();
 	engine::gui.guiWeapon.close();
+	engine::gui.guiArmor.close();
+	engine::gui.guiPotion.close();
 }
 
 void InspectionFrame::onOpen(){

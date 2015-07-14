@@ -13,6 +13,8 @@
 #include "KeyMapping.h"
 #include "GuiCreature.h"
 #include "GuiWeapon.h"
+#include "GuiArmor.h"
+#include "GuiPotion.h"
 
 class Gui
 {
@@ -37,6 +39,8 @@ public:
 	AttackFrame attack = AttackFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
 	GuiCreature guiCreature = GuiCreature();
 	GuiWeapon guiWeapon = GuiWeapon();
+	GuiArmor guiArmor = GuiArmor();
+	GuiPotion guiPotion = GuiPotion();
 
 	void init();
 	

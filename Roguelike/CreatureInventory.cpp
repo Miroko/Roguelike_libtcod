@@ -30,12 +30,13 @@ void CreatureInventory::unequipArmor(std::shared_ptr<Armor> armor){
 }
 void CreatureInventory::consume(std::shared_ptr<Consumable> consumable){
 	items.remove(consumable);
-	for (auto &effect : consumable->effects){
-		/*
-		for (int duration = effect->duration; duration > 0; duration--){
-			owner->addEffect(effect);
+	if (consumable->type == Consumable::POTION){
+		auto &potion = std::static_pointer_cast<Potion>(consumable);
+		for (auto &effect : potion->effects){
+			for (int duration = potion->duration; duration > 0; duration--){
+				owner->addEffect(effect);
+			}
 		}
-		*/
 	}
 }
 void CreatureInventory::drop(std::shared_ptr<Item> item){

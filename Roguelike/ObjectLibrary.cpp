@@ -2,16 +2,19 @@
 #include "EffectHealth.h"
 #include "EffectIncreasedDamage.h"
 #include "EffectIncreasedDefence.h"
-#include "Armor.h"
-#include "Weapon.h"
+#include "EffectHealthRegeneration.h"
 #include "AiMonster.h"
 #include "AiNone.h"
 #include "AiVillager.h"
 #include "AiTrader.h"
+#include "AiBlacksmith.h"
+#include "AiAlchemist.h"
+#include "Armor.h"
+#include "Weapon.h"
 #include "Bed.h"
 #include "Forge.h"
 #include "Anvil.h"
-#include "AiBlacksmith.h"
+#include "AlchemyTable.h"
 
 bool ObjectLibrary::addTile(std::string id, std::unique_ptr<Tile> tile){
 	auto& inserted = tiles.insert(std::pair<std::string, std::unique_ptr<Tile>>(id, std::move(tile)));
@@ -19,6 +22,10 @@ bool ObjectLibrary::addTile(std::string id, std::unique_ptr<Tile> tile){
 }
 bool ObjectLibrary::addOperatable(std::string id, std::unique_ptr<OperatableObject> operatable){
 	auto& inserted = operatableObjects.insert(std::pair<std::string, std::unique_ptr<OperatableObject>>(id, std::move(operatable)));
+	return inserted.second;
+}
+bool ObjectLibrary::addPotionTemplate(TemplatePotion potionTemplate){
+	auto& inserted = potionTemplates.insert(std::pair<std::string, TemplatePotion>(potionTemplate.id, potionTemplate));
 	return inserted.second;
 }
 bool ObjectLibrary::addWeaponTemplate(TemplateWeapon weaponTemplate){
@@ -51,6 +58,10 @@ Tile *ObjectLibrary::getTile(std::string id){
 OperatableObject *ObjectLibrary::getOperatable(std::string id){
 	auto &retrieved = operatableObjects.find(id);
 	return retrieved->second.get();
+}
+TemplatePotion *ObjectLibrary::getTemplatePotion(std::string id){
+	auto &retrieved = potionTemplates.find(id);
+	return &retrieved->second;
 }
 TemplateWeapon *ObjectLibrary::getTemplateWeapon(std::string id){
 	auto &retrieved = weaponTemplates.find(id);
@@ -95,7 +106,7 @@ void ObjectLibrary::init(){
 	maxWeight = 50.0f;
 	maxHealth = 1000.0f;
 	maxDamage = maxHealth / 3.0f;
-	maxDefence = maxDamage / 2;
+	maxDefence = maxDamage / 1.5f;
 	headDefence = 0.3f;
 	bodyDefence = 0.4f;
 	handDefence = 0.1f;
@@ -107,7 +118,7 @@ void ObjectLibrary::init(){
 		"weapon_sword",
 		"Sword",
 		Glyph('s', TCODColor::lightGrey),
-		0.20f, 0.10f,
+		0.15f, 0.06f,
 		Weapon::WEAPON_MELEE));
 	addWeaponTemplate(TemplateWeapon(
 		"weapon_dagger",
@@ -115,14 +126,81 @@ void ObjectLibrary::init(){
 		Glyph('d', TCODColor::lightGrey),
 		0.05f, 0.02f,
 		Weapon::WEAPON_MELEE));
+	addWeaponTemplate(TemplateWeapon(
+		"weapon_staff",
+		"Staff",
+		Glyph('s', TCODColor::lightGrey),
+		0.05f, 0.04f,
+		Weapon::WEAPON_MELEE));
+	addWeaponTemplate(TemplateWeapon(
+		"weapon_mace",
+		"Mace",
+		Glyph('s', TCODColor::lightGrey),
+		0.17f, 0.07f,
+		Weapon::WEAPON_MELEE));
 
 	//Armors
 	addArmorTemplate(TemplateArmor(
 		"armor_body_leather",
 		"Leather body armor",
-		Glyph('B', TCODColor::lightGrey),
+		Glyph('B', TCODColor::lightSepia),
 		0.10f, 0.05f,
 		Armor::ARMOR_BODY));
+	addArmorTemplate(TemplateArmor(
+		"armor_head_leather",
+		"Leather cap",
+		Glyph('c', TCODColor::lightSepia),
+		0.02f, 0.02f,
+		Armor::ARMOR_HEAD));
+	addArmorTemplate(TemplateArmor(
+		"armor_hand_leather",
+		"Leather gloves",
+		Glyph('g', TCODColor::lightSepia),
+		0.02f, 0.01f,
+		Armor::ARMOR_HAND));
+	addArmorTemplate(TemplateArmor(
+		"armor_leg_leather",
+		"Leather boots",
+		Glyph('b', TCODColor::lightSepia),
+		0.03f, 0.01f,
+		Armor::ARMOR_LEG));
+
+	//Potions
+	addPotionTemplate(TemplatePotion(
+		"potion_health",
+		"Health potion",
+		Glyph('p', TCODColor::lightRed),
+		0.005f,
+		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(3)) },
+		5,
+		10));
+
+	//Operatables
+	addOperatable(
+		"operatable_door_wooden", std::unique_ptr<OperatableObject>(new Door(
+		"Wooden door",
+		Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D'),
+		Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D'))));
+	addOperatable(
+		"operatable_bed_wooden", std::unique_ptr<OperatableObject>(new Bed(
+		"Wooden bed",
+		Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'B'))));
+	addOperatable(
+		"operatable_forge", std::unique_ptr<OperatableObject>(new Forge(
+		"Forge",
+		Glyph(TCODColor::darkerGrey, TCODColor::darkRed, 'F'))));
+	addOperatable(
+		"operatable_anvil", std::unique_ptr<OperatableObject>(new Anvil(
+		"Anvil",
+		Glyph(TCODColor::darkerGrey, TCODColor::darkGrey, 'A'))));
+	addOperatable(
+		"operatable_alchemy_table1", std::unique_ptr<OperatableObject>(new AlchemyTable(
+		"Alchemy table",
+		Glyph(TCODColor::darkSepia, TCODColor::lightViolet, '%'))));
+	addOperatable(
+		"operatable_alchemy_table2", std::unique_ptr<OperatableObject>(new AlchemyTable(
+		"Alchemy table",
+		Glyph(TCODColor::darkSepia, TCODColor::lightSea, '%'))));
 
 	//Creatures
 	addCreatureTemplate(TemplateCreature(
@@ -169,6 +247,9 @@ void ObjectLibrary::init(){
 	addCreatureAi(
 		"ai_blacksmith",
 		std::unique_ptr<CreatureAi>(new AiBlacksmith()));
+	addCreatureAi(
+		"ai_alchemist",
+		std::unique_ptr<CreatureAi>(new AiAlchemist()));
 
 	//Player
 	addCreaturePresetTemplate(TemplateCreaturePreset(
@@ -178,8 +259,8 @@ void ObjectLibrary::init(){
 		"Player",
 		Glyph('@', TCODColor::lightAmber),
 		0.20f,
-		{ "weapon_sword" },
-		{ "armor_body_leather" }));
+		{ "weapon_staff" },
+		{ /*none*/ }));
 	//Creature presets
 	addCreaturePresetTemplate(TemplateCreaturePreset(
 		"human_man_villager",
@@ -218,6 +299,15 @@ void ObjectLibrary::init(){
 		{ "weapon_sword" },
 		{ "armor_body_leather" }));
 	addCreaturePresetTemplate(TemplateCreaturePreset(
+		"human_alchemist",
+		"creature_human",
+		"ai_alchemist",
+		"Alchemist",
+		Glyph('a', TCODColor::lightBlue),
+		0.05f,
+		{ "weapon_staff" },
+		{ /*none*/ }));
+	addCreaturePresetTemplate(TemplateCreaturePreset(
 		"goblin_dagger_low",
 		"creature_goblin",
 		"ai_monster",
@@ -231,29 +321,10 @@ void ObjectLibrary::init(){
 		"creature_goblin",
 		"ai_monster",
 		"Goblin",
-		Glyph('g', TCODColor::chartreuse),
+		Glyph('g', TCODColor::darkChartreuse),
 		0.08f,
 		{ "weapon_dagger" },
 		{ "armor_body_leather" }));
-
-	//Operatables
-	addOperatable(
-		"operatable_door_wooden", std::unique_ptr<OperatableObject>(new Door(
-		"Wooden door",
-		Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D'),
-		Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D'))));
-	addOperatable(
-		"operatable_bed_wooden", std::unique_ptr<OperatableObject>(new Bed(
-		"Wooden bed",
-		Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'B'))));
-	addOperatable(
-		"operatable_forge", std::unique_ptr<OperatableObject>(new Forge(
-		"Forge",
-		Glyph(TCODColor::darkerGrey, TCODColor::darkRed, 'F'))));
-	addOperatable(
-		"operatable_anvil", std::unique_ptr<OperatableObject>(new Anvil(
-		"Anvil",
-		Glyph(TCODColor::darkerGrey, TCODColor::darkGrey, 'A'))));
 
 	//tiles + portals
 	//walk cost 0 == unwalkable

@@ -9,6 +9,7 @@ public:
 
 	std::vector<RarityModArmor*> rarityMods;
 
+	std::string getDescription();
 	std::string getStatistics();
 	int getValue();
 

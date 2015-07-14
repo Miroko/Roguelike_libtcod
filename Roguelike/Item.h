@@ -19,7 +19,6 @@ public:
 	bool isArmor();
 
 	virtual int getValue();
-
 	virtual std::string getStatistics();
 	virtual std::string getDescription();
 
@@ -28,8 +27,8 @@ public:
 
 	bool operator==(const Item &item);
 
-	Item(std::string name, Glyph glyph, float weight, Type type, RarityType &rarity)
-		: GameObject(name, type, glyph),
+	Item(std::string name, Glyph glyph, float weight, Type type, RarityType &rarity) :
+		GameObject(name, type, glyph),
 		weight(weight),
 		rarity(rarity){};
 };

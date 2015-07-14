@@ -23,7 +23,7 @@ std::vector<std::string> InventoryFrame::getOperationsForItem(std::shared_ptr<It
 		case Item::ARMOR_BODY: return EQUIPMENT_UNEQUIP_OPERATIONS;
 		case Item::ARMOR_HAND: return EQUIPMENT_UNEQUIP_OPERATIONS;
 		case Item::ARMOR_LEG: return EQUIPMENT_UNEQUIP_OPERATIONS;
-		case Item::CONSUMABLE: return EQUIPMENT_UNEQUIP_OPERATIONS;
+		case Item::POTION: return CONSUMABLE_OPERATIONS;
 		default: return std::vector<std::string>({ "NONE" });
 		}
 	}
@@ -35,7 +35,7 @@ std::vector<std::string> InventoryFrame::getOperationsForItem(std::shared_ptr<It
 		case Item::ARMOR_BODY: return EQUIPMENT_EQUIP_OPERATIONS;
 		case Item::ARMOR_HAND: return EQUIPMENT_EQUIP_OPERATIONS;
 		case Item::ARMOR_LEG: return EQUIPMENT_EQUIP_OPERATIONS;
-		case Item::CONSUMABLE: return EQUIPMENT_EQUIP_OPERATIONS;
+		case Item::POTION: return CONSUMABLE_OPERATIONS;
 		default: return std::vector<std::string>({ "NONE" });
 		}		
 	}

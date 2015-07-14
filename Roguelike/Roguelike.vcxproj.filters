@@ -115,6 +115,12 @@
     <Filter Include="Engine\Quest\TradeContainer">
       <UniqueIdentifier>{11f9379b-ce8d-4798-b6aa-ce22ecb8ba7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\GameObject\Item\Consumable">
+      <UniqueIdentifier>{b84d1e55-86d1-4067-bcad-ad18f4be32c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Consumable\Potion">
+      <UniqueIdentifier>{331c7520-70fb-4f20-b8eb-6344df21ddc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creature.cpp">
@@ -131,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="PointerContainer.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Consumable.cpp">
-      <Filter>Engine\GameObject\Item</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Engine\GameObject\Item</Filter>
@@ -415,6 +418,33 @@
     <ClCompile Include="TradeContainer.cpp">
       <Filter>Engine\Quest\TradeContainer</Filter>
     </ClCompile>
+    <ClCompile Include="GuiArmor.cpp">
+      <Filter>Engine\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Consumable.cpp">
+      <Filter>Engine\GameObject\Item\Consumable</Filter>
+    </ClCompile>
+    <ClCompile Include="Potion.cpp">
+      <Filter>Engine\GameObject\Item\Consumable\Potion</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplatePotion.cpp">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectHealthRegeneration.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="AlchemyTable.cpp">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClCompile>
+    <ClCompile Include="AiAlchemist.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectAlchemySmoke.cpp">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiPotion.cpp">
+      <Filter>Engine\Gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -476,9 +506,6 @@
     </ClInclude>
     <ClInclude Include="Point2D.h">
       <Filter>Engine\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Consumable.h">
-      <Filter>Engine\GameObject\Item</Filter>
     </ClInclude>
     <ClInclude Include="DynamicObject.h">
       <Filter>Engine\GameObject\Dynamic</Filter>
@@ -713,6 +740,33 @@
     </ClInclude>
     <ClInclude Include="TradeContainer.h">
       <Filter>Engine\Quest\TradeContainer</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiArmor.h">
+      <Filter>Engine\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Consumable.h">
+      <Filter>Engine\GameObject\Item\Consumable</Filter>
+    </ClInclude>
+    <ClInclude Include="Potion.h">
+      <Filter>Engine\GameObject\Item\Consumable\Potion</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplatePotion.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectHealthRegeneration.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="AlchemyTable.h">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClInclude>
+    <ClInclude Include="AiAlchemist.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectAlchemySmoke.h">
+      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiPotion.h">
+      <Filter>Engine\Gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

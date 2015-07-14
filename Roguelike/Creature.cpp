@@ -27,13 +27,12 @@ void Creature::attack(DynamicObject &target){
 void Creature::onTakeDamage(DynamicObject &attacker, int amount){
 	int amountAfterDefence = amount;
 	for (auto &limb : limbs){
-		if (limb.currentArmor != nullptr){
-			if (engine::random.generator->getFloat(0.0, 1.0) < limb.hitChance){
+		if (engine::random.generator->getFloat(0.0, 1.0) < limb.hitChance){
+			if (limb.currentArmor != nullptr){
 				amountAfterDefence -= engine::random.generator->getInt(0, limb.currentArmor->defence, limb.currentArmor->defence);
-				engine::gui.log.addToMessage(limb.name + " is hit. ");
-				ai->onTakeDamage(attacker);
-				break;
 			}
+			engine::gui.log.addToMessage(limb.name + " is hit. ");
+			break;
 		}
 	}
 	if (amountAfterDefence < 0) amountAfterDefence = 0;

@@ -7,7 +7,7 @@ class PlayerInventory
 {
 public:
 	const float MAX_WEIGHT = 50;
-	int currency = 0;
+	int currency = 50;
 
 	ItemContainer temporary; //For gui
 

@@ -44,6 +44,21 @@ private:
 					std::make_pair("operatable_anvil", 0.6f),
 					std::make_pair("operatable_anvil", 0.3f) });
 
+			//alchemist
+			AreaDrop alchemistHouseResididents = AreaDrop({
+				std::make_pair("human_alchemist", std::make_pair("rarity_common", 1.0f)),
+				std::make_pair("human_alchemist", std::make_pair("rarity_common", 0.2f)) });
+			AreaHouse houseAlchemist = AreaHouse(
+				"tile_house_stone_wall",
+				"tile_house_wood_floor",
+				"operatable_door_wooden",
+				alchemistHouseResididents, {
+					std::make_pair("operatable_alchemy_table1", 1.0f),
+					std::make_pair("operatable_alchemy_table2", 1.0f),
+					std::make_pair("operatable_alchemy_table1", 0.6f),
+					std::make_pair("operatable_alchemy_table2", 0.6f),
+					std::make_pair("operatable_alchemy_table1", 0.3f) });
+
 			VillageMain() : Village(
 				"tile_forest_grass",
 				"tile_forest_tree",
@@ -51,10 +66,12 @@ private:
 				"tile_nature_stone_floor",
 				"tile_path_sand",
 				150, {
-					std::make_pair(&houseBlacksmith, 0.50f),
-					std::make_pair(&houseBasic, 0.70f) }){};
+					std::make_pair(&houseBlacksmith, 0.70f),
+					std::make_pair(&houseAlchemist, 0.70f),
+					std::make_pair(&houseBasic, 1.00f) }){};
 
 		};
+		//Dialogs
 		class DialogBlacksmith : public Dialog{
 		public:
 			std::string getText();
@@ -67,11 +84,26 @@ private:
 		std::shared_ptr<Dialog> dialogBlacksmith;
 		TradeContainer blacksmithTradeContainer;
 
+		class DialogAlchemist : public Dialog{
+		public:
+			std::string getText();
+
+			DialogAlchemist() : Dialog(std::vector<std::shared_ptr<DialogOption>>({
+				DialogOption::END,
+				DialogOption::TRADE
+			})){};
+		};
+		std::shared_ptr<Dialog> dialogAlchemist;
+		TradeContainer alchemistTradeContainer;
+
 		std::shared_ptr<Area> QuestPhase::generateArea();
 		std::shared_ptr<Dialog> const &getDialog(Creature &owner);
 		TradeContainer &getTradeContainer(Creature &speaker);
-		PhaseVillage() : QuestPhase(), blacksmithTradeContainer(TradeContainer(100, ItemContainer())){
+		PhaseVillage() : QuestPhase(),
+			blacksmithTradeContainer(TradeContainer(100, ItemContainer())),
+			alchemistTradeContainer(TradeContainer(100, ItemContainer())){
 			dialogBlacksmith = std::shared_ptr<Dialog>(new DialogBlacksmith());
+			dialogAlchemist = std::shared_ptr<Dialog>(new DialogAlchemist());
 		};
 	};
 	class PhaseWayThroughForest : public QuestPhase{

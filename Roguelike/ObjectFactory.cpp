@@ -1,6 +1,7 @@
 #include "ObjectFactory.h"
 #include "TemplateCreature.h"
 #include "TemplateCreaturePreset.h"
+#include "TemplatePotion.h"
 #include "AiMonster.h"
 #include "Engine.h"
 #include "Weapon.h"
@@ -90,6 +91,20 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, R
 	return armor;
 }
 
+std::shared_ptr<Potion> ObjectFactory::createPotion(std::string potionTemplateId){
+	TemplatePotion &templatePotion = *engine::objectLibrary.getTemplatePotion(potionTemplateId);
+	std::shared_ptr<Potion> potion = std::shared_ptr<Potion>(new Potion(
+		templatePotion.name,
+		templatePotion.glyph,
+		templatePotion.weight * engine::objectLibrary.maxWeight,
+		templatePotion.effects,
+		templatePotion.duration,
+		templatePotion.potency,
+		templatePotion.type,
+		*engine::objectLibrary.getRarity("rarity_common")));
+	return potion;
+}
+
 std::shared_ptr<OperatableObject> ObjectFactory::createOperatable(std::string operatableId){
 	return engine::objectLibrary.getOperatable(operatableId)->copy();
 }
@@ -109,31 +124,49 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, f
 	if (&rarity == nullptr) return nullptr;
 	else return createArmor(armorTemplateId, rarity);
 }
+std::shared_ptr<Potion> ObjectFactory::createPotion(std::string potionTemplateId, float rarityRoll){
+	RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
+	if (&rarity == nullptr) return nullptr;
+	else return createPotion(potionTemplateId);
+}
 
 void ObjectFactory::generateLootDrop(Creature &creature){
 	std::vector<std::shared_ptr<Item>> lootItems;
 	for (int dropNumber = lootDropRolls; dropNumber > 0; --dropNumber){
 		if (engine::random.generator->getFloat(0.0, 1.0) > lootRollMiss){
-			int type = engine::random.generator->getInt(0, 1);
+			int type = engine::random.generator->getInt(0, 2);
 			float rarityRoll = engine::random.generator->getFloat(0.0f, 1.0f) + (creature.rarity.prevalence * lootPrevalenceFromRarityRatio);
+			//armor
 			if (type == 0){
 				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.armorTemplates.size() - 1);
 				auto &hashmapIterator = engine::objectLibrary.armorTemplates.begin();
 				std::advance(hashmapIterator, randomIndex);
 				TemplateArmor &randomTemplate = hashmapIterator->second;
-				auto &armor = engine::objectFactory.createArmor(randomTemplate.id, rarityRoll);
+				auto &armor = createArmor(randomTemplate.id, rarityRoll);
 				if (armor != nullptr){
 					lootItems.push_back(armor);
 				}
 			}
+			//weapon
 			else if (type == 1){
 				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.weaponTemplates.size() - 1);
 				auto &hashmapIterator = engine::objectLibrary.weaponTemplates.begin();
 				std::advance(hashmapIterator, randomIndex);
 				TemplateWeapon &randomTemplate = hashmapIterator->second;
-				auto &weapon = engine::objectFactory.createWeapon(randomTemplate.id, rarityRoll);
+				auto &weapon = createWeapon(randomTemplate.id, rarityRoll);
 				if (weapon != nullptr){
 					lootItems.push_back(weapon);
+				}
+			}
+			//potion
+			else if (type == 2){
+				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.potionTemplates.size() - 1);
+				auto &hashmapIterator = engine::objectLibrary.potionTemplates.begin();
+				std::advance(hashmapIterator, randomIndex);
+				TemplatePotion &randomTemplate = hashmapIterator->second;
+				auto &potion = createPotion(randomTemplate.id);
+				if (potion != nullptr){
+					lootItems.push_back(potion);
 				}
 			}
 		}

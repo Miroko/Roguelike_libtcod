@@ -212,7 +212,11 @@ void TradeFrame::makeTrade(){
 
 			selectedPlayerItems.items.clear();
 			selectedTraderItems.items.clear();
+			errorMessage = ERROR_NONE;
 			currencyFromTrade = 0;
+			selectionCol = 0;
+			selectionRowPlayer = 0;
+			selectionRowTrader = 0;
 		}
 	}
 }

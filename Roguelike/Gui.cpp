@@ -69,6 +69,14 @@ void Gui::init(){
 	guiWeapon.init(Rectangle(
 		Point2D(0, 0),
 		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
+
+	guiArmor.init(Rectangle(
+		Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
+
+	guiPotion.init(Rectangle(
+		Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
 }
 
 bool Gui::handleKey(TCOD_key_t &key){
@@ -99,4 +107,6 @@ void Gui::render(){
 	if (trade.isOpen) trade.render();
 	if (guiCreature.isOpen) guiCreature.render();
 	if (guiWeapon.isOpen) guiWeapon.render();
+	if (guiArmor.isOpen) guiArmor.render();
+	if (guiPotion.isOpen) guiPotion.render();
 }

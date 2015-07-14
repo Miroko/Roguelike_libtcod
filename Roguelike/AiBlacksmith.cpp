@@ -84,7 +84,7 @@ void AiBlacksmith::update(){
 	else if (currentState == USE_ANVIL){
 		if (anvilUsing != nullptr){
 			if (moveOnPath() == 1){
-				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.50f){
+				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.30f){
 					anvilUsing->on();
 				}
 				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.05f){

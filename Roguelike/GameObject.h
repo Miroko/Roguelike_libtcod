@@ -21,6 +21,7 @@ public:
 		BED,
 		FORGE,
 		ANVIL,
+		ALCHEMY_TABLE,
 
 		WEAPON_MELEE,
 		WEAPON_RANGED,
@@ -29,7 +30,7 @@ public:
 		ARMOR_HAND,
 		ARMOR_LEG,
 
-		CONSUMABLE
+		POTION
 	};
 	Type type;
 	std::string name;

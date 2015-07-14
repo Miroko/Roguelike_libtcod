@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AiAlchemist.cpp" />
     <ClCompile Include="AiBlacksmith.cpp" />
     <ClCompile Include="AiModule.cpp" />
     <ClCompile Include="AiModuleCombat.cpp" />
@@ -18,6 +19,7 @@
     <ClCompile Include="AiNone.cpp" />
     <ClCompile Include="AiTrader.cpp" />
     <ClCompile Include="AiVillager.cpp" />
+    <ClCompile Include="AlchemyTable.cpp" />
     <ClCompile Include="Anvil.cpp" />
     <ClCompile Include="AreaHouse.cpp" />
     <ClCompile Include="AreaPath.cpp" />
@@ -39,15 +41,19 @@
     <ClCompile Include="DialogFrame.cpp" />
     <ClCompile Include="DialogOption.cpp" />
     <ClCompile Include="Door.cpp" />
+    <ClCompile Include="EffectAlchemySmoke.cpp" />
     <ClCompile Include="EffectBloodSplatter.cpp" />
     <ClCompile Include="EffectHealth.cpp" />
+    <ClCompile Include="EffectHealthRegeneration.cpp" />
     <ClCompile Include="EffectIncreasedDamage.cpp" />
     <ClCompile Include="EffectIncreasedDefence.cpp" />
     <ClCompile Include="EffectSmoke.cpp" />
     <ClCompile Include="EffectSparkles.cpp" />
     <ClCompile Include="EffectWaterSplash.cpp" />
     <ClCompile Include="Forge.cpp" />
+    <ClCompile Include="GuiArmor.cpp" />
     <ClCompile Include="GuiCreature.cpp" />
+    <ClCompile Include="GuiPotion.cpp" />
     <ClCompile Include="GuiWeapon.cpp" />
     <ClCompile Include="ItemContainer.cpp" />
     <ClCompile Include="AiMonster.cpp" />
@@ -63,6 +69,7 @@
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="ObjectLibrary.cpp" />
     <ClCompile Include="OperatableObject.cpp" />
+    <ClCompile Include="Potion.cpp" />
     <ClCompile Include="RarityModArmor.cpp" />
     <ClCompile Include="RarityModCreature.cpp" />
     <ClCompile Include="RarityModWeapon.cpp" />
@@ -103,6 +110,7 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="SelectableItemFrame.cpp" />
     <ClCompile Include="StaticObject.cpp" />
+    <ClCompile Include="TemplatePotion.cpp" />
     <ClCompile Include="TemplateWeapon.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TradeContainer.cpp" />
@@ -113,6 +121,7 @@
     <ClCompile Include="WeaponEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AiAlchemist.h" />
     <ClInclude Include="AiBlacksmith.h" />
     <ClInclude Include="AiModule.h" />
     <ClInclude Include="AiModuleCombat.h" />
@@ -120,6 +129,7 @@
     <ClInclude Include="AiNone.h" />
     <ClInclude Include="AiTrader.h" />
     <ClInclude Include="AiVillager.h" />
+    <ClInclude Include="AlchemyTable.h" />
     <ClInclude Include="Anvil.h" />
     <ClInclude Include="AreaHouse.h" />
     <ClInclude Include="AreaPath.h" />
@@ -141,15 +151,19 @@
     <ClInclude Include="DialogFrame.h" />
     <ClInclude Include="DialogOption.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="EffectAlchemySmoke.h" />
     <ClInclude Include="EffectBloodSplatter.h" />
     <ClInclude Include="EffectHealth.h" />
+    <ClInclude Include="EffectHealthRegeneration.h" />
     <ClInclude Include="EffectIncreasedDamage.h" />
     <ClInclude Include="EffectIncreasedDefence.h" />
     <ClInclude Include="EffectSmoke.h" />
     <ClInclude Include="EffectSparkles.h" />
     <ClInclude Include="EffectWaterSplash.h" />
     <ClInclude Include="Forge.h" />
+    <ClInclude Include="GuiArmor.h" />
     <ClInclude Include="GuiCreature.h" />
+    <ClInclude Include="GuiPotion.h" />
     <ClInclude Include="GuiWeapon.h" />
     <ClInclude Include="ItemContainer.h" />
     <ClInclude Include="AiMonster.h" />
@@ -165,6 +179,7 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="ObjectLibrary.h" />
     <ClInclude Include="OperatableObject.h" />
+    <ClInclude Include="Potion.h" />
     <ClInclude Include="RarityModArmor.h" />
     <ClInclude Include="RarityModCreature.h" />
     <ClInclude Include="RarityModWeapon.h" />
@@ -204,6 +219,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="SelectableItemFrame.h" />
     <ClInclude Include="StaticObject.h" />
+    <ClInclude Include="TemplatePotion.h" />
     <ClInclude Include="TemplateWeapon.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TradeContainer.h" />
