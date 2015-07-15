@@ -16,8 +16,10 @@ void AiAlchemist::onCreatureInFov(Creature &creature, int distance){
 void AiAlchemist::onOperatableInFov(OperatableObject &operatable, int distance){
 	if (currentState == USE_ALCHEMY_TABLE){
 		if (operatable.type == OperatableObject::ALCHEMY_TABLE){
-			alchemyTableUsing = static_cast<AlchemyTable*>(&operatable);
-			calculatePath(operatable.location, true);
+			if (alchemyTableUsing == nullptr){
+				alchemyTableUsing = static_cast<AlchemyTable*>(&operatable);
+				calculatePath(operatable.location, false);
+			}
 		}
 	}
 }

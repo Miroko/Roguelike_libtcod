@@ -17,14 +17,18 @@ void AiBlacksmith::onCreatureInFov(Creature &creature, int distance){
 void AiBlacksmith::onOperatableInFov(OperatableObject &operatable, int distance){
 	if (currentState == USE_FORGE){
 		if (operatable.type == OperatableObject::FORGE){
-			forgeUsing = static_cast<Forge*>(&operatable);
-			calculatePath(operatable.location, true);
+			if (forgeUsing == nullptr){
+				forgeUsing = static_cast<Forge*>(&operatable);
+				calculatePath(operatable.location, false);
+			}
 		}
 	}
 	else if (currentState == USE_ANVIL){
 		if (operatable.type == OperatableObject::ANVIL){
-			anvilUsing = static_cast<Anvil*>(&operatable);
-			calculatePath(operatable.location, true);
+			if (anvilUsing == nullptr){
+				anvilUsing = static_cast<Anvil*>(&operatable);
+				calculatePath(operatable.location, false);
+			}
 		}
 	}
 }

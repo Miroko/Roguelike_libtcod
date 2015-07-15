@@ -23,14 +23,7 @@ void engine::init(){
 	objectLibrary.init();
 	gui.init();
 
-	//Player
-	std::shared_ptr<Creature> playerCreature = objectFactory.createCreaturePreset("player", *engine::objectLibrary.getRarity("rarity_common"));
-	playerHandler.setPlayerCreature(playerCreature);
-
-	//Quest
-	std::shared_ptr<Quest> questDebug = std::shared_ptr<Quest>(new QuestTheGoblinKing());
-	questHandler.setCurrentQuest(questDebug);
-	questHandler.travelToVillage();
+	newGame();
 
 	//Main loop
 	while (!TCODConsole::isWindowClosed()){
@@ -53,4 +46,17 @@ void engine::init(){
 		gui.render();
 		TCODConsole::root->flush();
 	}
+}
+void engine::newGame(){
+	//reset saved data
+	engine::areaHandler.savedArea = nullptr;
+
+	//Player
+	std::shared_ptr<Creature> playerCreature = objectFactory.createCreaturePreset("player", *engine::objectLibrary.getRarity("rarity_common"));
+	playerHandler.setPlayerCreature(playerCreature);
+
+	//Quest
+	std::shared_ptr<Quest> quest = std::shared_ptr<Quest>(new QuestTheGoblinKing());
+	questHandler.setCurrentQuest(quest);
+	questHandler.travelToVillage();
 }

@@ -25,4 +25,5 @@ namespace engine{
 	extern bool requestUpdate;
 
 	extern void init();
+	extern void newGame();
 }

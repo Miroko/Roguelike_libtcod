@@ -445,6 +445,12 @@
     <ClCompile Include="GuiPotion.cpp">
       <Filter>Engine\Gui</Filter>
     </ClCompile>
+    <ClCompile Include="GuiTile.cpp">
+      <Filter>Engine\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiOperable.cpp">
+      <Filter>Engine\Gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -766,6 +772,12 @@
       <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClInclude>
     <ClInclude Include="GuiPotion.h">
+      <Filter>Engine\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiTile.h">
+      <Filter>Engine\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiOperable.h">
       <Filter>Engine\Gui</Filter>
     </ClInclude>
   </ItemGroup>

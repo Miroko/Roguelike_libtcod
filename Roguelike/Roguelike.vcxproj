@@ -53,7 +53,9 @@
     <ClCompile Include="Forge.cpp" />
     <ClCompile Include="GuiArmor.cpp" />
     <ClCompile Include="GuiCreature.cpp" />
+    <ClCompile Include="GuiOperable.cpp" />
     <ClCompile Include="GuiPotion.cpp" />
+    <ClCompile Include="GuiTile.cpp" />
     <ClCompile Include="GuiWeapon.cpp" />
     <ClCompile Include="ItemContainer.cpp" />
     <ClCompile Include="AiMonster.cpp" />
@@ -163,7 +165,9 @@
     <ClInclude Include="Forge.h" />
     <ClInclude Include="GuiArmor.h" />
     <ClInclude Include="GuiCreature.h" />
+    <ClInclude Include="GuiOperable.h" />
     <ClInclude Include="GuiPotion.h" />
+    <ClInclude Include="GuiTile.h" />
     <ClInclude Include="GuiWeapon.h" />
     <ClInclude Include="ItemContainer.h" />
     <ClInclude Include="AiMonster.h" />

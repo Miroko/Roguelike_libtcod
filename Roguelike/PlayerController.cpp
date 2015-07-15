@@ -151,6 +151,9 @@ bool PlayerController::enterArea(){
 	return false;
 }
 bool PlayerController::leaveArea(){
-	engine::questHandler.travelToVillage();
-	return true;
+	if (engine::areaHandler.getCurrentArea()->getTile(engine::playerHandler.getPlayerCreature()->location)->type == Item::PORTAL){
+		engine::questHandler.travelToVillage();
+		return true;
+	}
+	return false;
 }

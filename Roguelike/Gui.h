@@ -15,6 +15,8 @@
 #include "GuiWeapon.h"
 #include "GuiArmor.h"
 #include "GuiPotion.h"
+#include "GuiTile.h"
+#include "GuiOperable.h"
 
 class Gui
 {
@@ -25,6 +27,8 @@ public:
 	static TCODColor SELECTABLE_BG;
 	static TCODColor SELECTABLE_OPERATION;
 	static TCODColor TRADE_SELECTED;
+	static TCODColor INSPECTION_CURSOR;
+	static float INSPECTION_CURSOR_ALPHA;
 	static float RARITY_COLOR_MULTIPLIER;
 
 	LogFrame log = LogFrame(KEY_LOG, true, 1.0f, 1.0f);
@@ -41,6 +45,8 @@ public:
 	GuiWeapon guiWeapon = GuiWeapon();
 	GuiArmor guiArmor = GuiArmor();
 	GuiPotion guiPotion = GuiPotion();
+	GuiTile guiTile = GuiTile();
+	GuiOperable guiOperatable = GuiOperable();
 
 	void init();
 	

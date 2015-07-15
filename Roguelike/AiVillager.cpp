@@ -40,7 +40,7 @@ void AiVillager::initAi(Creature &owner, Area &area){
 	combatModule.init(*this);
 	residentModule.init(*this);
 	operatedLastTurn = false;
-
+	
 	Village *village = static_cast<Village*>(&area);
 	for (auto &house : village->houses){
 		if (house.bounds.contains(owner.location)){

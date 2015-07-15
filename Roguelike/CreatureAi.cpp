@@ -1,32 +1,32 @@
 #include "CreatureAi.h"
-#include "Engine.h"
+#include "Area.h"
 
 void CreatureAi::createFovMap(){
-	Rectangle fovBounds = engine::areaHandler.getCurrentArea()->getBounds();
+	Rectangle fovBounds = area->getBounds();
 	fovMap = std::shared_ptr<TCODMap>(new TCODMap(fovBounds.getWidth(), fovBounds.getHeight()));
 	for (int x = fovBounds.start.x; x < fovBounds.end.x; x++){
 		for (int y = fovBounds.start.y; y < fovBounds.end.y; y++){
 			fovMap->setProperties(x, y,
-				engine::areaHandler.getCurrentArea()->tiles[x][y]->transparent, false); // walkability from callback function
+				area->tiles[x][y]->transparent, false); // walkability from callback function
 		}
 	}
 }
 float CreatureAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
 	CreatureAi *thisObject = static_cast<CreatureAi*>(userData);
 	float walkCost = 0; // 0 == unwalkable
-	walkCost = engine::areaHandler.getCurrentArea()->tiles[xTo][yTo]->walkCost;
+	walkCost = thisObject->area->tiles[xTo][yTo]->walkCost;
 	if (walkCost != 0 && !thisObject->cheapPathCalculation){
 		Point2D destination;
 		thisObject->pathMap->getDestination(&destination.x, &destination.y);
 		if (xTo == destination.x &&	yTo == destination.y) return walkCost;
 		else{
-			for (auto &creature : engine::areaHandler.getCurrentArea()->creatures){
+			for (auto &creature : thisObject->area->creatures){
 				if (creature->isDead) continue;
 				if (creature->location.x == xTo && creature->location.y == yTo){
 					if (!creature->passable(*thisObject->owner)) return 0;
 				}
 			}
-			for (auto &operatable : engine::areaHandler.getCurrentArea()->operatableObjects){
+			for (auto &operatable : thisObject->area->operatableObjects){
 				if (operatable->isDead) continue;
 				if (operatable->location.x == xTo && operatable->location.y == yTo){
 					if (!operatable->passable(*thisObject->owner)) return 0;
@@ -38,29 +38,29 @@ float CreatureAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, i
 }
 void CreatureAi::createPathMap(){
 	pathMap = std::shared_ptr<TCODPath>(new TCODPath(
-		engine::areaHandler.getCurrentArea()->getBounds().getWidth(),
-		engine::areaHandler.getCurrentArea()->getBounds().getHeight(),
+		area->getBounds().getWidth(),
+		area->getBounds().getHeight(),
 		new PathCostCallback(),
 		this));
 }
 void CreatureAi::calculateFov(){
-	for (auto &o : engine::areaHandler.getCurrentArea()->creatures){
+	for (auto &o : area->creatures){
 		if (!o->isDead){
 			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable(*owner));
 		}
 		else{
 			//if dead use static object
 			fovMap->setProperties(o->location.x, o->location.y,
-				engine::areaHandler.getCurrentArea()->tiles[o->location.x][o->location.y]->transparent, false);
+				area->tiles[o->location.x][o->location.y]->transparent, false);
 		}
 	}
-	for (auto &o : engine::areaHandler.getCurrentArea()->operatableObjects){
+	for (auto &o : area->operatableObjects){
 		if (!o->isDead){
 			fovMap->setProperties(o->location.x, o->location.y, o->transparent, o->passable(*owner));
 		}
 		else{
 			fovMap->setProperties(o->location.x, o->location.y,
-				engine::areaHandler.getCurrentArea()->tiles[o->location.x][o->location.y]->transparent, false);
+				area->tiles[o->location.x][o->location.y]->transparent, false);
 		}
 	}
 	fovMap->computeFov(owner->location.x, owner->location.y, 0, true, FOV_RESTRICTIVE);
@@ -116,14 +116,14 @@ void CreatureAi::initAi(Creature &owner, Area &area){
 }
 void CreatureAi::update(){
 	calculateFov();
-	for (auto &creature : engine::areaHandler.getCurrentArea()->creatures){
+	for (auto &creature : area->creatures){
 		if (inFov(creature->location)){
 			if (creature.get() != owner){
 				onCreatureInFov(*creature, creature->location.distance(owner->location));
 			}
 		}
 	}
-	for (auto &operatable : engine::areaHandler.getCurrentArea()->operatableObjects){
+	for (auto &operatable : area->operatableObjects){
 		if (inFov(operatable->location)){
 			onOperatableInFov(*operatable, operatable->location.distance(owner->location));
 		}

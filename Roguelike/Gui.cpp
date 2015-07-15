@@ -2,26 +2,29 @@
 #include "Engine.h"
 
 int Gui::FRAME_MARGIN;
+float Gui::RARITY_COLOR_MULTIPLIER;
 TCODColor Gui::FRAME_BG;
 TCODColor Gui::FRAME_FG;
 TCODColor Gui::SELECTABLE_BG;
 TCODColor Gui::SELECTABLE_OPERATION;
 TCODColor Gui::TRADE_SELECTED;
-float Gui::RARITY_COLOR_MULTIPLIER;
+TCODColor Gui::INSPECTION_CURSOR;
+float Gui::INSPECTION_CURSOR_ALPHA;
 
 void Gui::init(){
-	//colors
+	//Definations
+	//parameters
 	FRAME_BG = TCODColor(200, 190, 140);
 	FRAME_FG = TCODColor(35, 30, 25);
 	SELECTABLE_BG = FRAME_BG * 0.9f;
 	SELECTABLE_OPERATION = TCODColor(10,74,10);
 	TRADE_SELECTED = SELECTABLE_BG * 0.8f;
-
+	INSPECTION_CURSOR = TCODColor::lightGreen;
+	INSPECTION_CURSOR_ALPHA = 0.5f;
 	RARITY_COLOR_MULTIPLIER = 0.6f;
-
-	//frames
 	FRAME_MARGIN = 1;
 
+	//frames
 	log.init(Rectangle(
 		Point2D(0, TCODConsole::root->getHeight() - 12),
 		Point2D(TCODConsole::root->getWidth() - 1, TCODConsole::root->getHeight())));
@@ -77,6 +80,14 @@ void Gui::init(){
 	guiPotion.init(Rectangle(
 		Point2D(0, 0),
 		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
+
+	guiTile.init(Rectangle(
+		Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
+
+	guiOperatable.init(Rectangle(
+		Point2D(0, 0),
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
 }
 
 bool Gui::handleKey(TCOD_key_t &key){
@@ -109,4 +120,6 @@ void Gui::render(){
 	if (guiWeapon.isOpen) guiWeapon.render();
 	if (guiArmor.isOpen) guiArmor.render();
 	if (guiPotion.isOpen) guiPotion.render();
+	if (guiTile.isOpen) guiTile.render();
+	if (guiOperatable.isOpen) guiOperatable.render();
 }
