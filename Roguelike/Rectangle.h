@@ -19,6 +19,7 @@ public:
 	std::vector<Point2D> getEdgePoints();
 
 	Rectangle(Point2D start, Point2D end);
+	Rectangle(Point2D center, int size);
 	Rectangle(int width, int height);
 	Rectangle(){};
 };

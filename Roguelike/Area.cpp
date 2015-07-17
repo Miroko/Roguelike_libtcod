@@ -8,14 +8,12 @@ void Area::placeTile(Tile &tile, Point2D &location){
 		tiles[location.x][location.y] = &tile;
 	}
 }
-
 Tile *Area::getTile(Point2D &location){
 	if (bounds.contains(location)){
 		return tiles[location.x][location.y];
 	}
 	else return nullptr;
 }
-
 Point2D Area::getNearestTile(Point2D &location, Tile &tile){
 	Point2D scanLocation = location;
 	int offset = 0;
@@ -37,7 +35,26 @@ Point2D Area::getNearestTile(Point2D &location, Tile &tile){
 	}
 	return Point2D();
 }
-
+Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
+	Point2D scanLocation = location;
+	int offset = 0;
+	while (
+		scanLocation.x + offset <= bounds.end.x ||
+		scanLocation.y + offset <= bounds.end.y ||
+		scanLocation.x - offset >= bounds.start.x ||
+		scanLocation.y - offset >= bounds.start.y){
+		for (scanLocation.x = location.x - offset; scanLocation.x <= location.x + offset; scanLocation.x++){
+			for (scanLocation.y = location.y - offset; scanLocation.y <= location.y + offset; scanLocation.y++){
+				if (bounds.contains(scanLocation)){
+					if (tiles[scanLocation.x][scanLocation.y]->type == type){
+						return scanLocation;
+					}
+				}
+			}
+		}
+		++offset;
+	}
+}
 void Area::placeTile(Tile &portal, Point2D &location, Tile &placeOnNearest){
 	Point2D placementLocation = location;
 	int offset = 0;
@@ -80,7 +97,6 @@ void Area::placeCreature(std::shared_ptr<Creature> creature, Point2D &location){
 		++offset;
 	}
 }
-
 std::vector<std::shared_ptr<Creature>*> Area::getCreatures(Point2D &location){
 	std::vector<std::shared_ptr<Creature>*> creaturesAtLocation;
 	for (auto &creature : creatures){
@@ -90,7 +106,6 @@ std::vector<std::shared_ptr<Creature>*> Area::getCreatures(Point2D &location){
 	}
 	return creaturesAtLocation;
 }
-
 std::vector<std::shared_ptr<Creature>*> Area::getCreatures(Rectangle &bounds){
 	std::vector<std::shared_ptr<Creature>*> creaturesInBounds;
 	for (auto &creature : creatures){
@@ -121,7 +136,6 @@ void Area::placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D
 		++offset;
 	}
 }
-
 std::vector<std::shared_ptr<OperatableObject>*> Area::getOperatables(Point2D &location){
 	std::vector<std::shared_ptr<OperatableObject>*> operatablesInLocation;
 	for (auto &operatable : operatableObjects){
@@ -131,7 +145,6 @@ std::vector<std::shared_ptr<OperatableObject>*> Area::getOperatables(Point2D &lo
 	}
 	return operatablesInLocation;
 }
-
 std::vector<std::shared_ptr<OperatableObject>*> Area::getOperatables(Rectangle &bounds){
 	std::vector<std::shared_ptr<OperatableObject>*> operatablesInBounds;
 	for (auto &operatable : operatableObjects){
@@ -146,7 +159,6 @@ void Area::placeItem(std::shared_ptr<Item> item, Point2D &toLocation){
 	item->location = toLocation;
 	items.push_back(item);
 }
-
 void Area::removeItem(std::shared_ptr<Item> &item){
 	auto currentItem = items.begin();
 	while (currentItem != items.end()){
@@ -157,7 +169,6 @@ void Area::removeItem(std::shared_ptr<Item> &item){
 		else ++currentItem;
 	}
 }
-
 std::vector<std::shared_ptr<Item>*> Area::getItemsAt(Point2D &location){
 	std::vector<std::shared_ptr<Item>*> itemsAtLocation;
 	for (auto &item : items){

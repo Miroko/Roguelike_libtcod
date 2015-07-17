@@ -11,6 +11,11 @@ Rectangle::Rectangle(int width, int height) {
 	this->end = Point2D(width, height);
 }
 
+Rectangle::Rectangle(Point2D center, int size) :
+Rectangle(center, center){ 
+	expand(size);
+}
+
 int Rectangle::getWidth(){
 	return (int)(end.x + 1 - start.x);
 }

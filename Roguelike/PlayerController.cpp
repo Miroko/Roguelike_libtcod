@@ -67,10 +67,6 @@ bool PlayerController::attack(){
 			for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(range)){
 				objectsInRange.push_back(*creature);
 			}
-			//and operatables
-			for (auto &operatable : engine::areaHandler.getCurrentArea()->getOperatables(range)){
-				objectsInRange.push_back(*operatable);
-			}
 			auto &o = objectsInRange.begin();
 			while (o != objectsInRange.end()){
 				if (o->get() == engine::playerHandler.getPlayerCreature().get() ||
@@ -146,14 +142,12 @@ bool PlayerController::enterArea(){
 	if (engine::areaHandler.getCurrentArea()->getTile(engine::playerHandler.getPlayerCreature()->location)->type == Item::PORTAL ||
 		engine::questHandler.getCurrentQuest()->getCurrentPhase() == engine::questHandler.getCurrentQuest()->getVillage()){
 		engine::questHandler.travelToNextPhase();
-		return true;
 	}
 	return false;
 }
 bool PlayerController::leaveArea(){
 	if (engine::areaHandler.getCurrentArea()->getTile(engine::playerHandler.getPlayerCreature()->location)->type == Item::PORTAL){
 		engine::questHandler.travelToVillage();
-		return true;
 	}
 	return false;
 }

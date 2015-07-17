@@ -116,7 +116,8 @@ private:
 			AreaDrop dropGoblin = AreaDrop({
 				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
 				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.1f)) });
+				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.1f)),
+				std::make_pair("goblin_bow_medium", std::make_pair("rarity_common", 0.3f))});
 			ForestGoblin() : Forest(
 				"tile_forest_grass",
 				"tile_forest_tree",
@@ -141,9 +142,10 @@ private:
 		public:
 			AreaDrop dropGoblin = AreaDrop({
 				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 0.8f)),
 				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.1f)),
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.1f)) });
+				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.1f)),
+				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 0.8f)),
+				std::make_pair("goblin_bow_medium", std::make_pair("rarity_uncommon", 0.6f)) });
 
 			CaveGoblin() : Cave(
 				"tile_cave_wall1",

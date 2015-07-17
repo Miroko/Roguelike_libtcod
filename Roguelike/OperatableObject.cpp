@@ -21,7 +21,6 @@ bool OperatableObject::passable(DynamicObject &dynamicObject){
 	return DynamicObject::passable(dynamicObject);
 }
 
-
 std::shared_ptr<OperatableObject> OperatableObject::copy(){
 	return std::shared_ptr<OperatableObject>(new OperatableObject(*this));
 }

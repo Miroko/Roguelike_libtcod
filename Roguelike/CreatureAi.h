@@ -30,7 +30,7 @@ public:
 
 	Creature *owner;
 	Area *area;
-	//Returns distance to destination
+	//Returns path distance to destination
 	int moveOnPath();
 	bool inFov(Point2D &location);
 	virtual void initAi(Creature &owner, Area &area);

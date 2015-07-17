@@ -24,6 +24,7 @@ public:
 	void placeTile(Tile &tile, Point2D &location, Tile &placeOnNearest);
 	Tile *getTile(Point2D &location);
 	Point2D getNearestTile(Point2D &location, Tile &tile);
+	Point2D getNearestTile(Point2D &location, Tile::Type type);
 
 	std::vector<std::shared_ptr<Creature>> creatures;
 	void placeCreature(std::shared_ptr<Creature> creature, Point2D &location);

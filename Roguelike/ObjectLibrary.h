@@ -21,11 +21,6 @@ public:
 	float maxDamage;
 	float maxDefence;
 	float maxWeight;
-	float headDefence;
-	float bodyDefence;
-	float handDefence;
-	float legDefence;
-	float rangedMultiplier;
 
 	std::list<RarityType> rarityTypes;
 	std::unordered_map<std::string, std::unique_ptr<Tile>> tiles;

@@ -107,13 +107,9 @@ void ObjectLibrary::init(){
 	maxHealth = 1000.0f;
 	maxDamage = maxHealth / 3.0f;
 	maxDefence = maxDamage / 1.5f;
-	headDefence = 0.3f;
-	bodyDefence = 0.4f;
-	handDefence = 0.1f;
-	legDefence = 0.2f;
-	rangedMultiplier = 0.3f;
 	
 	//Weapons
+	//melee
 	addWeaponTemplate(TemplateWeapon(
 		"weapon_sword",
 		"Sword",
@@ -138,6 +134,19 @@ void ObjectLibrary::init(){
 		Glyph('s', TCODColor::lightGrey),
 		0.17f, 0.07f,
 		Weapon::WEAPON_MELEE));
+	addWeaponTemplate(TemplateWeapon(
+		"weapon_axe",
+		"Axe",
+		Glyph('a', TCODColor::lightGrey),
+		0.19f, 0.08f,
+		Weapon::WEAPON_MELEE));
+	//ranged
+	addWeaponTemplate(TemplateWeapon(
+		"weapon_bow",
+		"Bow",
+		Glyph('b', TCODColor::lightGrey),
+		0.05f, 0.03f,
+		Weapon::WEAPON_RANGED));
 
 	//Armors
 	addArmorTemplate(TemplateArmor(
@@ -259,7 +268,7 @@ void ObjectLibrary::init(){
 		"Player",
 		Glyph('@', TCODColor::lightAmber),
 		0.20f,
-		{ "weapon_staff" },
+		{ "weapon_bow", "weapon_staff" },
 		{ /*none*/ }));
 	//Creature presets
 	addCreaturePresetTemplate(TemplateCreaturePreset(
@@ -324,6 +333,15 @@ void ObjectLibrary::init(){
 		Glyph('g', TCODColor::darkChartreuse),
 		0.08f,
 		{ "weapon_dagger" },
+		{ "armor_body_leather" }));
+	addCreaturePresetTemplate(TemplateCreaturePreset(
+		"goblin_bow_medium",
+		"creature_goblin",
+		"ai_monster",
+		"Goblin",
+		Glyph('g', TCODColor::darkChartreuse),
+		0.08f,
+		{ "weapon_bow" },
 		{ "armor_body_leather" }));
 
 	//tiles + portals
