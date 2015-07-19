@@ -19,7 +19,7 @@ private:
 				std::make_pair("human_man_villager", std::make_pair("rarity_common", 0.6f)),
 				std::make_pair("human_woman_villager", std::make_pair("rarity_common", 0.5f)),
 				std::make_pair("human_child_villager", std::make_pair("rarity_common", 0.3f)),
-				std::make_pair("human_child_villager", std::make_pair("rarity_common", 0.2f)) 
+				std::make_pair("human_child_villager", std::make_pair("rarity_common", 0.2f))
 			});
 			AreaHouse houseBasic = AreaHouse(
 				"tile_house_wood_wall",
@@ -102,12 +102,12 @@ private:
 		std::shared_ptr<Area> QuestPhase::generateArea();
 		std::shared_ptr<Dialog> const &getDialog(Creature &owner);
 		TradeContainer &getTradeContainer(Creature &speaker);
-		PhaseVillage() : QuestPhase(),
-			blacksmithTradeContainer(TradeContainer(100, ItemContainer())),
-			alchemistTradeContainer(TradeContainer(100, ItemContainer())){
-			dialogBlacksmith = std::shared_ptr<Dialog>(new DialogBlacksmith());
-			dialogAlchemist = std::shared_ptr<Dialog>(new DialogAlchemist());
-		};
+		PhaseVillage() :
+			QuestPhase(),
+			dialogBlacksmith(std::shared_ptr<Dialog>(new DialogBlacksmith())),
+			dialogAlchemist(std::shared_ptr<Dialog>(new DialogAlchemist())),
+			blacksmithTradeContainer(TradeContainer(200, 5, 8, 0)),
+			alchemistTradeContainer(TradeContainer(50, 0, 0, 10)){};
 	};
 	class PhaseWayThroughForest : public QuestPhase{
 	public:

@@ -7,9 +7,15 @@ public:
 	static TradeContainer EMPTY;
 
 	int currency;
+	int weaponRolls;
+	int armorRolls;
+	int potionRolls;
+
+	int currentCurrency;
 	ItemContainer items;
 
-	TradeContainer(int currency, ItemContainer items) : 
-		currency(currency),
-		items(items){};
+	void generateItems();
+
+	TradeContainer(int currency, int weaponRolls, int armorRolls, int potionRolls) :
+		currency(currency), weaponRolls(weaponRolls), armorRolls(armorRolls), potionRolls(potionRolls){};
 };

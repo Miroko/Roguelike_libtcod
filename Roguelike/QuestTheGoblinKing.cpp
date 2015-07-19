@@ -23,17 +23,8 @@ std::shared_ptr<Area> QuestTheGoblinKing::PhaseVillage::generateArea(){
 	std::shared_ptr<VillageMain> area = std::shared_ptr<VillageMain>(new VillageMain());
 	area->generate();
 
-	blacksmithTradeContainer.items.removeAll();
-	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_uncommon"))));
-	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_uncommon"))));
-	blacksmithTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createWeapon("weapon_sword", *engine::objectLibrary.getRarity("rarity_common"))));
-
-	alchemistTradeContainer.items.removeAll();
-	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
-	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
-	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
-	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
-	alchemistTradeContainer.items.add(std::static_pointer_cast<Item>(engine::objectFactory.createPotion("potion_health")));
+	blacksmithTradeContainer.generateItems();
+	alchemistTradeContainer.generateItems();
 
 	return area;
 }
