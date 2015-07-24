@@ -62,21 +62,33 @@ void SelectableItemFrame::render(){
 	}
 	else{
 		//Items
+		int startIndex = selectedRow;
+		if (startIndex > (int)(currentItemContainer->items.size() - getHeight() - 1)){
+			startIndex = currentItemContainer->items.size() - getHeight() - 1;
+			if (startIndex < 0) startIndex = 0;
+		}
+		int endIndex = startIndex + getHeight();
+		if (endIndex > (int)(currentItemContainer->items.size() - 1)){
+			endIndex = currentItemContainer->items.size() - 1;
+		}
+		auto &iterator = currentItemContainer->items.begin();
+		std::advance(iterator, startIndex);
 		int offsetY = 0;
-		for (auto &item : currentItemContainer->items){
+		for (int index = startIndex; index <= endIndex; ++index){
+			auto item = iterator->get();
 			//item
 			printString(0, offsetY, getWidth(), 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 			//stats
 			printString(getWidth() / 2, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
 			//operator
-			if (offsetY == selectedRow){
+			if (index == selectedRow){
 				printString(0, offsetY, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, operations.at(selectedOperation));
-				paintRowBg(Gui::SELECTABLE_BG, selectedRow);
+				paintRowBg(Gui::SELECTABLE_BG, offsetY);
 			}
 			++offsetY;
+			++iterator;
 		}
 	}
-
 	blit();
 }
 

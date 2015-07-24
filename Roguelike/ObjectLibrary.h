@@ -23,6 +23,9 @@ public:
 	float maxWeight;
 
 	std::list<RarityType> rarityTypes;
+	std::unordered_map<std::string, RarityModCreature> creatureRarityMods;
+	std::unordered_map<std::string, RarityModArmor> armorRarityMods;
+	std::unordered_map<std::string, RarityModWeapon> weaponRarityMods;
 	std::unordered_map<std::string, std::unique_ptr<Tile>> tiles;
 	std::unordered_map<std::string, std::unique_ptr<OperatableObject>> operatableObjects;
 	std::unordered_map<std::string, std::unique_ptr<CreatureAi>> creatureAis;
@@ -32,12 +35,15 @@ public:
 	std::unordered_map<std::string, TemplateCreature> creatureTemplates;
 	std::unordered_map<std::string, TemplateCreaturePreset> creaturePresetTemplates;
 
+	void addRarity(RarityType rarity);
+	bool addRarityModCreature(std::string id, RarityModCreature mod);
+	bool addRarityModArmor(std::string id, RarityModArmor mod);
+	bool addRarityModWeapon(std::string id, RarityModWeapon mod);
 	bool addTile(std::string id, std::unique_ptr<Tile> tile);
 	bool addOperatable(std::string id, std::unique_ptr<OperatableObject> operatable);
 	bool addPotionTemplate(TemplatePotion potionTemplate);
 	bool addWeaponTemplate(TemplateWeapon weaponTemplate);
 	bool addArmorTemplate(TemplateArmor armorTemplate);
-	void addRarity(RarityType rarity);
 	bool addCreatureAi(std::string id, std::unique_ptr<CreatureAi> ai);
 	bool addCreatureTemplate(TemplateCreature creatureTemplate);
 	bool addCreaturePresetTemplate(TemplateCreaturePreset creaturePresetTemplate);
@@ -51,6 +57,9 @@ public:
 	TemplateCreaturePreset *getTemplateCreaturePreset(std::string id);
 	RarityType *getRarity(std::string id);
 	RarityType *getRarity(float roll);
+	RarityModCreature *getRarityModCreature(std::string id);
+	RarityModArmor *getRarityModArmor(std::string id);
+	RarityModWeapon *getRarityModWeapon(std::string id);
 
 	void sortRarityTypes();
 	void init();

@@ -8,6 +8,6 @@ std::string EffectHealthRegeneration::getDescription(){
 }
 
 void EffectHealthRegeneration::apply(Creature &creature){
-	creature.health += amount;
+	creature.health += creature.healthMax * amount;
 	if (creature.health > creature.healthMax) creature.health = creature.healthMax;
 }

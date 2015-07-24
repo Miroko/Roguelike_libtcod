@@ -5,16 +5,18 @@ std::string String::outOf(int current, int max){
 }
 
 std::string String::weight(float weight, bool kg, int precision){
-	int rounded = (int)weight;
-	int decimals = (int)pow(10, precision);
-	int decimalPart = (int)(weight * decimals - rounded * decimals);
-	std::string value = std::to_string(rounded) + "." + std::to_string(decimalPart);
+	std::string value = std::to_string(weight);
+	value = value.substr(0, precision + value.size() - 6);
 	if (kg) value += "kg";
 	return value;
 }
 
 std::string String::currency(int currency){
 	return std::to_string(currency) + "c";
+}
+
+std::string String::multiplier(float multiplier){
+	return "x" + weight(multiplier, false);
 }
 
 std::string String::loremIpsum(){

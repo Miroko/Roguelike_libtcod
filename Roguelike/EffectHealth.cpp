@@ -1,9 +1,9 @@
 #include "EffectHealth.h"
 #include "Creature.h"
+#include "Engine.h"
 
 std::string EffectHealth::getDescription(){
-	if (multiplier > 1)	return "Increased health";
-	else return "Decreased health";
+	return "Health " + engine::string.multiplier(multiplier);
 }
 
 void EffectHealth::apply(Creature &creature){

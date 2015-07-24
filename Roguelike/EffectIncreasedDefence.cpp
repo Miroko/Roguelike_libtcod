@@ -1,9 +1,9 @@
 #include "EffectIncreasedDefence.h"
 #include "Armor.h"
+#include "Engine.h"
 
 std::string EffectIncreasedDefence::getDescription(){
-	if (multiplier > 1) return "Increased defence";
-	else return "Decreased defence";
+	return "Defence " + engine::string.multiplier(multiplier);
 }
 void EffectIncreasedDefence::apply(Armor &armor){
 	armor.defence = (int)(armor.defence * multiplier);

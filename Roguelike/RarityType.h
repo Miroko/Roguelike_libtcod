@@ -13,12 +13,13 @@ public:
 	std::string name;
 	const TCODColor &color;
 	float modRollChance;
-	int modsPerItemMax;
+	int modsPerItem;
 	float prevalence;
+	float improvementMultiplier;
 
-	std::vector<RarityModCreature> creatureMods;
-	std::vector<RarityModWeapon> weaponMods;
-	std::vector<RarityModArmor> armorMods;
+	std::vector<std::string> creatureMods;
+	std::vector<std::string> weaponMods;
+	std::vector<std::string> armorMods;
 	std::vector<RarityModCreature*> getRandomCreatureMods();
 	std::vector<RarityModWeapon*> getRandomWeaponMods();
 	std::vector<RarityModArmor*> getRandomArmorMods();
@@ -27,17 +28,19 @@ public:
 		std::string id,
 		std::string name,
 		float prevalence,
+		float improvementMultiplier,
 		float modRollChance,
-		int modsPerItemMax,
+		int modsPerItem,
 		const TCODColor &color,
-		std::vector<RarityModCreature> creatureMods,
-		std::vector<RarityModWeapon> weaponMods,
-		std::vector<RarityModArmor> armorMods) :
+		std::vector<std::string> creatureMods,
+		std::vector<std::string> armorMods,
+		std::vector<std::string> weaponMods) :
 		id(id),
 		name(name),
 		prevalence(prevalence),
+		improvementMultiplier(improvementMultiplier),
 		modRollChance(modRollChance),
-		modsPerItemMax(modsPerItemMax),
+		modsPerItem(modsPerItem),
 		color(color),
 		creatureMods(creatureMods),
 		weaponMods(weaponMods),

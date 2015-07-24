@@ -1,9 +1,9 @@
 #include "EffectIncreasedDamage.h"
 #include "Weapon.h"
+#include "Engine.h"
 
 std::string EffectIncreasedDamage::getDescription(){
-	if (multiplier > 1) return "Increased damage";
-	else return "Decreased damage";
+	return "Damage " + engine::string.multiplier(multiplier);
 }
 
 void EffectIncreasedDamage::apply(Weapon &weapon){

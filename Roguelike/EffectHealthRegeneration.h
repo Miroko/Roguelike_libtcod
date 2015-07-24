@@ -4,10 +4,12 @@
 class EffectHealthRegeneration : public CreatureEffect
 {
 public:
-	int amount;
+	float amount;
 	std::string getDescription();
 	void apply(Creature &creature);
 
-	EffectHealthRegeneration(int amount) : CreatureEffect(), amount(amount){}
+	EffectHealthRegeneration(float amount) : 
+		CreatureEffect(),
+		amount(amount){}
 };
 

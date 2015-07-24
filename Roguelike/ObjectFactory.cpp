@@ -16,8 +16,10 @@ std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creatu
 		creaturePresetTemplateId,
 		templateCreaturePreset.glyph,
 		Creature::CREATURE,
-		(int)((templateCreaturePreset.health / rarity.prevalence * engine::objectLibrary.maxHealth) *
-			 (1.00f - engine::random.generator->getFloat(0.0, valueVariation))),
+		(int)(engine::objectLibrary.maxHealth *
+			 templateCreaturePreset.health *
+			 rarity.improvementMultiplier *
+			 (1.0f - engine::random.generator->getFloat(0.0, valueVariation))),
 		rarity,
 		rarity.getRandomCreatureMods(),
 		engine::objectLibrary.getAi(templateCreaturePreset.AiId)->copy(),
@@ -52,8 +54,10 @@ std::shared_ptr<Weapon> ObjectFactory::createWeapon(std::string weaponTemplateId
 		templateWeapon.glyph,
 		templateWeapon.weight * engine::objectLibrary.maxWeight,
 		templateWeapon.type,
-		(int)((templateWeapon.damage / rarity.prevalence * engine::objectLibrary.maxDamage) *
-		     (1.00f - engine::random.generator->getFloat(0.0, valueVariation))),
+		(int)(engine::objectLibrary.maxDamage *
+			 templateWeapon.damage *
+			 rarity.improvementMultiplier *
+		     (1.0f - engine::random.generator->getFloat(0.0, valueVariation))),
 		rarity,
 		rarity.getRandomWeaponMods()
 		));
@@ -75,8 +79,10 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, R
 		templateArmor.glyph,
 		templateArmor.weight * engine::objectLibrary.maxWeight,
 		templateArmor.type,
-		(int)((templateArmor.defence / rarity.prevalence * engine::objectLibrary.maxDefence) * 
-			 (1.00f - engine::random.generator->getFloat(0.0, valueVariation))),
+		(int)(engine::objectLibrary.maxDefence *
+			 templateArmor.defence *
+		     rarity.improvementMultiplier * 
+			 (1.0f - engine::random.generator->getFloat(0.0, valueVariation))),
 		rarity,
 		rarity.getRandomArmorMods()
 		));
@@ -135,7 +141,7 @@ void ObjectFactory::generateLootDrop(Creature &creature){
 	for (int dropNumber = lootDropRolls; dropNumber > 0; --dropNumber){
 		if (engine::random.generator->getFloat(0.0, 1.0) > lootRollMiss){
 			int type = engine::random.generator->getInt(0, 2);
-			float rarityRoll = engine::random.generator->getFloat(0.0f, 1.0f) + (creature.rarity.prevalence * lootPrevalenceFromRarityRatio);
+			float rarityRoll = engine::random.generator->getFloat(0.0f, 1.0f - ((1.0f - creature.rarity.prevalence) * lootRarityFromCreatureRarityRatio));
 			//armor
 			if (type == 0){
 				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.armorTemplates.size() - 1);

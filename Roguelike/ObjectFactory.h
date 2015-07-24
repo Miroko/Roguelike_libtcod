@@ -11,8 +11,8 @@ class RarityType;
 class ObjectFactory
 {
 public:
-	float valueVariation = 0.50f;
-	float lootPrevalenceFromRarityRatio = 0.20f;
+	float valueVariation = 0.20f;
+	float lootRarityFromCreatureRarityRatio = 0.95f;
 	float lootRollMiss = 0.80f;
 	int lootDropRolls = 6;
 

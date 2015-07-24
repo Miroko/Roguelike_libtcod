@@ -74,7 +74,7 @@ private:
 					std::make_pair(&houseBasic, 1.00f) }){};
 
 		};
-		//Dialogs
+		//dialogs
 		class DialogBlacksmith : public Dialog{
 		public:
 			std::string getText();
@@ -85,7 +85,6 @@ private:
 			})){};
 		};
 		std::shared_ptr<Dialog> dialogBlacksmith;
-		TradeContainer blacksmithTradeContainer;
 
 		class DialogAlchemist : public Dialog{
 		public:
@@ -97,6 +96,9 @@ private:
 			})){};
 		};
 		std::shared_ptr<Dialog> dialogAlchemist;
+
+		//trade containers
+		TradeContainer blacksmithTradeContainer;
 		TradeContainer alchemistTradeContainer;
 
 		std::shared_ptr<Area> QuestPhase::generateArea();
@@ -106,8 +108,8 @@ private:
 			QuestPhase(),
 			dialogBlacksmith(std::shared_ptr<Dialog>(new DialogBlacksmith())),
 			dialogAlchemist(std::shared_ptr<Dialog>(new DialogAlchemist())),
-			blacksmithTradeContainer(TradeContainer(200, 5, 8, 0)),
-			alchemistTradeContainer(TradeContainer(50, 0, 0, 10)){};
+			blacksmithTradeContainer(TradeContainer(200, 6, 18, 0)),
+			alchemistTradeContainer(TradeContainer(50, 0, 0, 20)){};
 	};
 	class PhaseWayThroughForest : public QuestPhase{
 	public:
@@ -124,16 +126,10 @@ private:
 				"tile_nature_stone_wall",
 				"tile_nature_stone_floor",
 				"tile_forest_portal",
-				100, 0.6f, 0.02f, 8){};
-
-			void onGatePlace(Point2D &location);
-			void onStonePlaced(Point2D &location);
-
+				100, 0.6f, 0.02f, 12){};
 		};
 
 		std::shared_ptr<Area> QuestPhase::generateArea();
-		std::shared_ptr<Dialog> const &getDialog(Creature &owner);
-		TradeContainer &getTradeContainer(Creature &trader);
 		PhaseWayThroughForest() : QuestPhase(){};
 	};
 	class PhaseInCave : public QuestPhase{
@@ -160,9 +156,34 @@ private:
 		};
 
 		std::shared_ptr<Area> QuestPhase::generateArea();
-		std::shared_ptr<Dialog> const &getDialog(Creature &owner);
-		TradeContainer &getTradeContainer(Creature &trader);
 		PhaseInCave() : QuestPhase(){};
+	};
+	class PhaseKing : public QuestPhase{
+	public:
+		class CaveKing : public Cave{
+		public:
+			AreaDrop dropGoblin = AreaDrop({
+				std::make_pair("goblin_bow_medium", std::make_pair("rarity_uncommon", 0.8f)) });
+
+			AreaDrop dropKing = AreaDrop({
+				std::make_pair("goblin_bow_medium", std::make_pair("rarity_rare", 1.0f)),
+				std::make_pair("goblin_king", std::make_pair("rarity_epic", 1.0f))
+			});
+
+			CaveKing() : Cave(
+				"tile_cave_wall1",
+				"tile_cave_wall2",
+				"tile_cave_floor1",
+				"tile_cave_floor2",
+				"tile_cave_water",
+				"tile_cave_portal",
+				"tile_cave_rotten_wall",
+				dropGoblin,
+				150, 0.4f, 2, 0.02f, 0.02f, 3, 0.3f, 12){};
+		};
+
+		std::shared_ptr<Area> QuestPhase::generateArea();
+		PhaseKing() : QuestPhase(){};
 	};
 
 public:
@@ -170,7 +191,8 @@ public:
 	{
 		std::shared_ptr<QuestPhase>(new PhaseVillage()),
 		std::shared_ptr<QuestPhase>(new PhaseWayThroughForest()),
-		std::shared_ptr<QuestPhase>(new PhaseInCave())
+		std::shared_ptr<QuestPhase>(new PhaseInCave()),
+		std::shared_ptr<QuestPhase>(new PhaseKing())
 	}){};
 };
 

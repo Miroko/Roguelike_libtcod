@@ -54,6 +54,7 @@ Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
 		}
 		++offset;
 	}
+	return Point2D();
 }
 void Area::placeTile(Tile &portal, Point2D &location, Tile &placeOnNearest){
 	Point2D placementLocation = location;
