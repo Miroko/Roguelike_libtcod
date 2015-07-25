@@ -104,12 +104,11 @@ private:
 		std::shared_ptr<Area> QuestPhase::generateArea();
 		std::shared_ptr<Dialog> const &getDialog(Creature &owner);
 		TradeContainer &getTradeContainer(Creature &speaker);
-		PhaseVillage() :
-			QuestPhase(),
+		PhaseVillage() : QuestPhase(true),
 			dialogBlacksmith(std::shared_ptr<Dialog>(new DialogBlacksmith())),
 			dialogAlchemist(std::shared_ptr<Dialog>(new DialogAlchemist())),
-			blacksmithTradeContainer(TradeContainer(200, 6, 18, 0)),
-			alchemistTradeContainer(TradeContainer(50, 0, 0, 20)){};
+			blacksmithTradeContainer(TradeContainer(200, 26, 34, 0)),
+			alchemistTradeContainer(TradeContainer(50, 0, 0, 40)){};
 	};
 	class PhaseWayThroughForest : public QuestPhase{
 	public:
@@ -118,8 +117,9 @@ private:
 			AreaDrop dropGoblin = AreaDrop({
 				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
 				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.1f)),
-				std::make_pair("goblin_bow_medium", std::make_pair("rarity_common", 0.3f))});
+				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
+				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.8f)),
+				std::make_pair("goblin_bow_medium", std::make_pair("rarity_common", 0.8f))});
 			ForestGoblin() : Forest(
 				"tile_forest_grass",
 				"tile_forest_tree",
@@ -130,7 +130,7 @@ private:
 		};
 
 		std::shared_ptr<Area> QuestPhase::generateArea();
-		PhaseWayThroughForest() : QuestPhase(){};
+		PhaseWayThroughForest() : QuestPhase(false){};
 	};
 	class PhaseInCave : public QuestPhase{
 	public:
@@ -156,7 +156,7 @@ private:
 		};
 
 		std::shared_ptr<Area> QuestPhase::generateArea();
-		PhaseInCave() : QuestPhase(){};
+		PhaseInCave() : QuestPhase(false){};
 	};
 	class PhaseKing : public QuestPhase{
 	public:
@@ -183,7 +183,7 @@ private:
 		};
 
 		std::shared_ptr<Area> QuestPhase::generateArea();
-		PhaseKing() : QuestPhase(){};
+		PhaseKing() : QuestPhase(true){};
 	};
 
 public:

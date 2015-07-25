@@ -59,13 +59,25 @@ void InventoryFrame::render(){
 	}
 	else{
 		//Items
-		for (auto &item : currentItemContainer->items){
+		int startIndex = selectedRow;
+		if (startIndex > (int)(currentItemContainer->items.size() - getHeight() + offsetY - 1)){
+			startIndex = currentItemContainer->items.size() - getHeight() + offsetY - 1;
+			if (startIndex < 0) startIndex = 0;
+		}
+		int endIndex = startIndex + getHeight() - offsetY;
+		if (endIndex >(int)(currentItemContainer->items.size() - 1)){
+			endIndex = currentItemContainer->items.size() - 1;
+		}
+		auto &iterator = currentItemContainer->items.begin();
+		std::advance(iterator, startIndex);
+		for (int index = startIndex; index <= endIndex; ++index){
+			auto item = *iterator;
 			//item
 			printString(0, offsetY, getWidth(), 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 			//stats
-			printString(3, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_CENTER, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
+			printString(getWidth() / 2, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
 			//operator
-			if (offsetY - 3 == selectedRow){
+			if (index == selectedRow){
 				printString(0, offsetY, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, operations.at(selectedOperation));
 				paintRowBg(Gui::SELECTABLE_BG, offsetY);
 			}
@@ -73,6 +85,7 @@ void InventoryFrame::render(){
 				printString(0, offsetY, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, "Equipped");
 			}
 			++offsetY;
+			++iterator;
 		}
 	}
 

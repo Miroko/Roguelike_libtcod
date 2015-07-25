@@ -8,9 +8,10 @@ class TradeContainer;
 class QuestPhase
 {
 public:
+	bool persistent;
 	virtual std::shared_ptr<Area> generateArea() = 0;
 	virtual std::shared_ptr<Dialog> const &getDialog(Creature &speaker);
 	virtual TradeContainer &getTradeContainer(Creature &trader);
 
-	QuestPhase(){};
+	QuestPhase(bool persistent) : persistent(persistent){};
 };

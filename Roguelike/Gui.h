@@ -1,7 +1,6 @@
 #pragma once
 #include "LogFrame.h"
 #include "InventoryFrame.h"
-#include "EquipmentFrame.h"
 #include "HelpFrame.h"
 #include "QuestFrame.h"
 #include "ItemPickFrame.h"

@@ -75,7 +75,7 @@ void SelectableItemFrame::render(){
 		std::advance(iterator, startIndex);
 		int offsetY = 0;
 		for (int index = startIndex; index <= endIndex; ++index){
-			auto item = iterator->get();
+			auto item = *iterator;
 			//item
 			printString(0, offsetY, getWidth(), 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 			//stats

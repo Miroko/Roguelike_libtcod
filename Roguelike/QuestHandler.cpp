@@ -9,40 +9,46 @@ std::shared_ptr<Quest> const &QuestHandler::getCurrentQuest(){
 	return currentQuest;
 }
 void QuestHandler::travelToPhase(std::shared_ptr<QuestPhase> const &phase){
-	currentQuest->setCurrentPhase(phase);
-	engine::areaHandler.setCurrentArea(phase->generateArea());
+	//save area if persistent
+	if (currentQuest->currentPhase != nullptr){
+		if (currentQuest->currentPhase->persistent){
+			engine::areaHandler.saveCurrentArea();
+		}
+	}
 
+	//set next area, load if saved
+	currentQuest->setCurrentPhase(phase);
+	bool loaded = false;
+	if (phase->persistent){
+		loaded = engine::areaHandler.loadSavedArea(phase);
+	}
+	if (!loaded){
+		//if not persistent or saved generate new area
+		engine::areaHandler.setCurrentArea(phase->generateArea());
+	}
+
+	//place player
 	engine::areaHandler.getCurrentArea()->placeCreature(
 		engine::playerHandler.getPlayerCreature(),
 		engine::areaHandler.getCurrentArea()->getBounds().getCenterPoint());
-	engine::areaHandler.getCurrentArea()->initAi();
+
+	if (!loaded){
+		engine::areaHandler.getCurrentArea()->initAi();
+	}
+	else{
+		//ai already initialized
+		//only update player fov
+		engine::playerHandler.getPlayerCreature()->ai->initAi(
+			*engine::playerHandler.getPlayerCreature(),
+			*engine::areaHandler.getCurrentArea());
+	}
 
 	engine::camera.centerOn(engine::playerHandler.getPlayerCreature()->location);
 }
 void QuestHandler::travelToNextPhase(){
-	if (currentQuest->getCurrentPhase() == currentQuest->getVillage()){
-		engine::areaHandler.saveCurrentArea();
-	}
 	travelToPhase(currentQuest->getNextPhase());
 }
 void QuestHandler::travelToVillage(){
-	if (currentQuest->getCurrentPhase() != currentQuest->getVillage()){
-		if (engine::areaHandler.savedArea != nullptr){
-			engine::areaHandler.loadSavedArea();
-
-			engine::areaHandler.getCurrentArea()->placeCreature(
-				engine::playerHandler.getPlayerCreature(),
-				engine::areaHandler.getCurrentArea()->getBounds().getCenterPoint());
-
-			engine::playerHandler.getPlayerCreature()->ai->initAi(
-				*engine::playerHandler.getPlayerCreature(),
-				*engine::areaHandler.getCurrentArea());
-			engine::camera.centerOn(engine::playerHandler.getPlayerCreature()->location);
-		}
-		else{
-			travelToPhase(currentQuest->getVillage());
-		}
-		currentQuest->setCurrentPhase(currentQuest->getVillage());
-		currentQuest->currentPhaseIndex = 0;
-	}
+	travelToPhase(currentQuest->getVillage());
+	currentQuest->currentPhaseIndex = 0;
 }

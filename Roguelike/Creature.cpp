@@ -5,6 +5,16 @@
 #include "Weapon.h"
 #include "Armor.h"
 
+int Creature::getTotalDefence(){
+	int totalDefence = 0;
+	for (auto &limb : limbs){
+		if (limb.currentArmor != nullptr){
+			totalDefence += limb.currentArmor->defence;
+		}
+	}
+	return totalDefence;
+}
+
 void Creature::addEffect(std::shared_ptr<CreatureEffect> effect){
 	effects.push_back(effect);
 }
@@ -26,18 +36,20 @@ void Creature::attack(DynamicObject &target){
 }
 void Creature::onTakeDamage(DynamicObject &attacker, int amount){
 	int amountAfterDefence = amount;
-	for (auto &limb : limbs){
-		if (engine::random.generator->getFloat(0.0, 1.0) < limb.hitChance){
-			if (limb.currentArmor != nullptr){
-				amountAfterDefence -= engine::random.generator->getInt(0, limb.currentArmor->defence, limb.currentArmor->defence);
-			}
-			engine::gui.log.addToMessage(limb.name + " is hit. ");
-			break;
+	auto &creatureLimb = limbs.at(engine::random.generator->getInt(0, limbs.size() - 1));
+	if (engine::random.chance(creatureLimb.hitChance)){
+		amountAfterDefence -= getTotalDefence() / limbs.size();
+		if (creatureLimb.currentArmor != nullptr){
+			amountAfterDefence -= engine::random.generator->getInt(0, creatureLimb.currentArmor->defence, creatureLimb.currentArmor->defence);
+			if (amountAfterDefence < 0) amountAfterDefence = 0;
 		}
+		engine::gui.log.addToMessage(creatureLimb.name + " is hit. ");
+		DynamicObject::onTakeDamage(attacker, amountAfterDefence);
 	}
-	if (amountAfterDefence < 0) amountAfterDefence = 0;
+	else{
+		engine::gui.log.finishMessage(attacker.name + " missed.");
+	}
 	ai->onTakeDamage(attacker);
-	DynamicObject::onTakeDamage(attacker, amountAfterDefence);
 }
 void Creature::onDeath(){
 	DynamicObject::onDeath();

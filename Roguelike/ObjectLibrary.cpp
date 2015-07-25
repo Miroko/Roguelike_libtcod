@@ -129,8 +129,8 @@ void ObjectLibrary::sortRarityTypes(){
 void ObjectLibrary::init(){
 	maxWeight = 50;
 	maxHealth = 1000;
-	maxDamage = maxHealth / 20;
-	maxDefence = maxDamage / 1.2f;
+	maxDamage = maxHealth / 10;
+	maxDefence = maxHealth / 30;
 
 	//Weapons
 	//melee
@@ -169,7 +169,7 @@ void ObjectLibrary::init(){
 		"weapon_bow",
 		"Bow",
 		Glyph('b', TCODColor::lightGrey),
-		0.05f, 0.30f,
+		0.05f, 0.45f,
 		Weapon::WEAPON_RANGED));
 
 	//Armors
@@ -240,37 +240,37 @@ void ObjectLibrary::init(){
 		"creature_human",
 		"Human",
 		{
-			CreatureLimb("Head", 0.2f, Armor::ARMOR_HEAD),
-			CreatureLimb("Body", 0.5f, Armor::ARMOR_BODY),
-			CreatureLimb("Arm", 0.3f, Armor::ARMOR_HAND),
-			CreatureLimb("Leg", 0.3f, Armor::ARMOR_LEG)
+			CreatureLimb("Head", 0.3f, Armor::ARMOR_HEAD),
+			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
+			CreatureLimb("Arm", 0.7f, Armor::ARMOR_HAND),
+			CreatureLimb("Leg", 0.6f, Armor::ARMOR_LEG)
 		}));
 	addCreatureTemplate(TemplateCreature(
 		"creature_child",
 		"Child",
 		{
-			CreatureLimb("Head", 0.2f, Armor::ARMOR_HEAD),
-			CreatureLimb("Body", 0.5f, Armor::ARMOR_BODY),
-			CreatureLimb("Arm", 0.3f, Armor::ARMOR_HAND),
-			CreatureLimb("Leg", 0.3f, Armor::ARMOR_LEG)
+			CreatureLimb("Head", 0.3f, Armor::ARMOR_HEAD),
+			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
+			CreatureLimb("Arm", 0.7f, Armor::ARMOR_HAND),
+			CreatureLimb("Leg", 0.6f, Armor::ARMOR_LEG)
 		}));
 	addCreatureTemplate(TemplateCreature(
 		"creature_goblin",
 		"Goblin",
 		{
-			CreatureLimb("Head", 0.3f, Armor::ARMOR_HEAD),
-			CreatureLimb("Body", 0.5f, Armor::ARMOR_BODY),
-			CreatureLimb("Arm", 0.3f, Armor::ARMOR_HAND),
-			CreatureLimb("Leg", 0.2f, Armor::ARMOR_LEG)
+			CreatureLimb("Head", 0.6f, Armor::ARMOR_HEAD),
+			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
+			CreatureLimb("Arm", 0.8f, Armor::ARMOR_HAND),
+			CreatureLimb("Leg", 0.7f, Armor::ARMOR_LEG)
 		}));
 	addCreatureTemplate(TemplateCreature(
 		"creature_goblin_king",
 		"Goblin King",
 		{
-			CreatureLimb("Head", 0.1f, Armor::ARMOR_HEAD),
-			CreatureLimb("Body", 0.8f, Armor::ARMOR_BODY),
-			CreatureLimb("Arm", 0.2f, Armor::ARMOR_HAND),
-			CreatureLimb("Leg", 0.4f, Armor::ARMOR_LEG)
+			CreatureLimb("Head", 0.9f, Armor::ARMOR_HEAD),
+			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
+			CreatureLimb("Arm", 0.9f, Armor::ARMOR_HAND),
+			CreatureLimb("Leg", 1.0f, Armor::ARMOR_LEG)
 		}));
 
 	//AIs
@@ -400,7 +400,7 @@ void ObjectLibrary::init(){
 	addTile("tile_cave_rotten_wall", std::make_unique<Tile>(Tile("Rotten wood", Tile::WALL, Glyph(TCODColor::darkerSepia), false, 0.0f)));
 	addTile("tile_cave_wall1", std::make_unique<Tile>(Tile("Cave wall", Tile::WALL, Glyph(TCODColor::grey), false, 0.0f)));
 	addTile("tile_cave_wall2", std::make_unique<Tile>(Tile("Cave wall", Tile::WALL, Glyph(TCODColor::darkGrey), false, 0.0f)));
-	addTile("tile_cave_floor1", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor::darkerGrey), true, 10.0f)));
+	addTile("tile_cave_floor1", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor(75,75,75)), true, 10.0f)));
 	addTile("tile_cave_floor2", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor::darkestGrey), true, 10.0f)));
 	addTile("tile_cave_portal", std::make_unique<Tile>(Tile("Tunnel", Tile::PORTAL, Glyph(TCODColor::darkestGrey, TCODColor::grey, '>'), true, 10.0f)));
 	addTile("tile_cave_water", std::make_unique<Tile>(Tile("Water", Tile::WATER, Glyph(TCODColor::darkestBlue), true, 10.0f)));

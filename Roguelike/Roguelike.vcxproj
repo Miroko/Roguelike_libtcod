@@ -87,7 +87,6 @@
     <ClCompile Include="DynamicObject.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Equipment.cpp" />
-    <ClCompile Include="EquipmentFrame.cpp" />
     <ClCompile Include="Forest.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gui.cpp" />
@@ -199,7 +198,6 @@
     <ClInclude Include="DynamicObject.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Equipment.h" />
-    <ClInclude Include="EquipmentFrame.h" />
     <ClInclude Include="Forest.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Gui.h" />

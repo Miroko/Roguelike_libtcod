@@ -21,6 +21,7 @@ public:
 	RarityType &rarity;
 	std::vector<RarityModCreature*> rarityMods;
 
+	int getTotalDefence();
 	void addEffect(std::shared_ptr<CreatureEffect> effect);
 	void attack(DynamicObject &target);
 	void onTakeDamage(DynamicObject &attacker, int amount);

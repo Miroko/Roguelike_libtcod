@@ -49,12 +49,14 @@ bool TradeFrame::handleKey(TCOD_key_t key){
 					if (selectedPlayerItems.contains(item)) selectedPlayerItems.remove(item);
 					else selectedPlayerItems.add(item);
 					calculateCurrencyFromTrade();
+					currentPlayerItems->sort();
 				}
 				else if(selectionCol == 2){
 					auto item = currentTraderContainer->items.getAt(selectionRowTrader);
 					if (selectedTraderItems.contains(item)) selectedTraderItems.remove(item);
 					else selectedTraderItems.add(item);
 					calculateCurrencyFromTrade();
+					currentTraderContainer->items.sort();
 				}
 				else{
 					makeTrade();
@@ -83,15 +85,26 @@ void TradeFrame::render(){
 	//weight
 	printString(0, offsetY, console->getWidth() / 2 - 15, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_RIGHT, TCOD_BKGND_NONE, engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight()));
 	offsetY += 3;
-
-	//Player items
-	for (auto &item : currentPlayerItems->items){
+	//items
+	int startIndex = selectionRowPlayer;
+	if (startIndex > (int)(currentPlayerItems->items.size() - getHeight() + offsetY - 1)){
+		startIndex = currentPlayerItems->items.size() - getHeight() + offsetY - 1;
+		if (startIndex < 0) startIndex = 0;
+	}
+	int endIndex = startIndex + getHeight() - offsetY;
+	if (endIndex >(int)(currentPlayerItems->items.size() - 1)){
+		endIndex = currentPlayerItems->items.size() - 1;
+	}
+	auto &iterator = currentPlayerItems->items.begin();
+	std::advance(iterator, startIndex);
+	for (int index = startIndex; index <= endIndex; ++index){
+		auto item = *iterator;
 		//item
 		printString(0, offsetY, console->getWidth() / 2 - 10, 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 		//stats
 		printString(1, offsetY, console->getWidth() / 2 - 10, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_CENTER, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
 		//operator
-		if (offsetY - 3 == selectionRowPlayer && selectionCol == 0){
+		if (index == selectionRowPlayer && selectionCol== 0){
 			printString(0, offsetY, console->getWidth() / 2 - 15, 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, "Select");
 			for (int x = 1; x <= console->getWidth() / 2 - 10 - 2; x++){
 				console->setCharBackground(x, offsetY + Gui::FRAME_MARGIN + 1, Gui::SELECTABLE_BG);
@@ -106,6 +119,7 @@ void TradeFrame::render(){
 			}
 		}
 		++offsetY;
+		++iterator;
 	}
 
 	//Trader
@@ -115,15 +129,26 @@ void TradeFrame::render(){
 	//currency
 	printString(console->getWidth() / 2 + 10, offsetY, console->getWidth() / 2 - 15, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, engine::string.currency(currentTraderContainer->currency));
 	offsetY += 3;
-
-	//Trader items
-	for (auto &item : currentTraderContainer->items.items){
+	//items
+	startIndex = selectionRowTrader;
+	if (startIndex > (int)(currentTraderContainer->items.items.size() - getHeight() + offsetY - 1)){
+		startIndex = currentTraderContainer->items.items.size() - getHeight()  + offsetY - 1;
+		if (startIndex < 0) startIndex = 0;
+	}
+	endIndex = startIndex + getHeight() - offsetY;
+	if (endIndex >(int)(currentTraderContainer->items.items.size() - 1)){
+		endIndex = currentTraderContainer->items.items.size() - 1;
+	}
+	iterator = currentTraderContainer->items.items.begin();
+	std::advance(iterator, startIndex);
+	for (int index = startIndex; index <= endIndex; ++index){
+		auto item = *iterator;
 		//item
 		printString(console->getWidth() / 2 + 10, offsetY, console->getWidth() / 2 - 10, 1, item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, item->rarity.color, TCOD_LEFT, TCOD_BKGND_NONE, item->name);
 		//stats
 		printString(console->getWidth() / 2 + 10 + 1, offsetY, console->getWidth() / 2 - 10, 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_CENTER, TCOD_BKGND_NONE, item->getStatistics() + engine::string.currency(item->getValue()) + " " + engine::string.weight(item->weight));
 		//operator
-		if (offsetY - 3 == selectionRowTrader && selectionCol == 2){
+		if (index == selectionRowTrader && selectionCol == 2){
 			printString(console->getWidth() / 2 + 10, offsetY, console->getWidth() / 2 - 15, 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_RIGHT, TCOD_BKGND_NONE, "Select");
 			for (int x = console->getWidth() / 2 + 10 + 1; x <= console->getWidth() / 2 + 10 + console->getWidth() / 2 - 10 - 2; x++){
 				console->setCharBackground(x, offsetY + Gui::FRAME_MARGIN + 1, Gui::SELECTABLE_BG);
@@ -135,6 +160,7 @@ void TradeFrame::render(){
 			}
 		}
 		++offsetY;
+		++iterator;
 	}
 
 	//Currency from trade
@@ -172,6 +198,8 @@ void TradeFrame::onOpen(){
 	selectionCol = 0;
 	selectionRowPlayer = 0;
 	selectionRowTrader = 0;
+	currentPlayerItems->sort();
+	currentTraderContainer->items.sort();
 }
 
 void TradeFrame::onClose(){

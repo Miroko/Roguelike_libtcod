@@ -16,8 +16,8 @@ void Gui::init(){
 	//parameters
 	FRAME_BG = TCODColor(200, 190, 140);
 	FRAME_FG = TCODColor(35, 30, 25);
-	SELECTABLE_BG = FRAME_BG * 0.9f;
-	SELECTABLE_OPERATION = TCODColor(10,74,10);
+	SELECTABLE_BG = FRAME_BG * 0.8f;
+	SELECTABLE_OPERATION = TCODColor(10,94,10);
 	TRADE_SELECTED = SELECTABLE_BG * 0.8f;
 	INSPECTION_CURSOR = TCODColor::lightGreen;
 	INSPECTION_CURSOR_ALPHA = 0.5f;
@@ -30,8 +30,8 @@ void Gui::init(){
 		Point2D(TCODConsole::root->getWidth() - 1, TCODConsole::root->getHeight())));
 
 	inventory.init(Rectangle(
-		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 2 - 10, TCODConsole::root->getHeight() - 1)));
+		Point2D(TCODConsole::root->getWidth() / 4, 0),
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 1)));
 
 	quest.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() / 7, TCODConsole::root->getHeight() / 9),

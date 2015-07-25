@@ -1,4 +1,5 @@
 #include "AreaHandler.h"
+#include "Quest.h"
 #include "Engine.h"
 
 void AreaHandler::setCurrentArea(std::shared_ptr<Area> area){
@@ -8,10 +9,16 @@ std::shared_ptr<Area> &AreaHandler::getCurrentArea(){
 	return currentArea;
 }
 void AreaHandler::saveCurrentArea(){
-	savedArea = currentArea;
+	savedPhaseAreas.push_back(std::make_pair(engine::questHandler.getCurrentQuest().get()->currentPhase, currentArea));
 }
-void AreaHandler::loadSavedArea(){
-	currentArea = savedArea;
+bool AreaHandler::loadSavedArea(std::shared_ptr<QuestPhase> persistentPhase){
+	for (auto &savedPhaseArea : savedPhaseAreas){
+		if (savedPhaseArea.first == persistentPhase){
+			currentArea = savedPhaseArea.second;
+			return true;
+		}
+	}
+	return false;
 }
 
 void AreaHandler::updateArea(){

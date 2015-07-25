@@ -147,9 +147,6 @@
     <ClCompile Include="DialogFrame.cpp">
       <Filter>Engine\Gui</Filter>
     </ClCompile>
-    <ClCompile Include="EquipmentFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
     <ClCompile Include="Gui.cpp">
       <Filter>Engine\Gui</Filter>
     </ClCompile>
@@ -457,9 +454,6 @@
       <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="GuiFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="EquipmentFrame.h">
       <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="InventoryFrame.h">

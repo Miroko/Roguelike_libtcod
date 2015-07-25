@@ -49,11 +49,12 @@ void engine::init(){
 }
 void engine::newGame(){
 	//reset saved data
-	engine::areaHandler.savedArea = nullptr;
+	areaHandler.savedPhaseAreas.clear();
 
 	//Player
 	std::shared_ptr<Creature> playerCreature = objectFactory.createCreaturePreset("player", *engine::objectLibrary.getRarity("rarity_common"));
 	playerHandler.setPlayerCreature(playerCreature);
+	playerHandler.playerInventory.currency = 50;
 
 	//Quest
 	std::shared_ptr<Quest> quest = std::shared_ptr<Quest>(new QuestTheGoblinKing());
