@@ -1,5 +1,8 @@
 #pragma once
 #include "GuiFrame.h"
+#include "GuiBox.h"
+#include "GuiItemDisplay.h"
+#include "GuiSelectableItemList.h"
 #include "TradeContainer.h"
 
 class TradeFrame : public GuiFrame
@@ -9,10 +12,37 @@ private:
 	const std::string ERROR_TOO_MUCH_WEIGHT = "Can't carry that much";
 	const std::string ERROR_NONE = "";
 
-	ItemContainer *currentPlayerItems;
-	TradeContainer *currentTraderContainer;
+	//Player
+	Rectangle guiPlayerTopBoxBounds;
+	GuiBox guiPlayerTopBox;
+
+	Rectangle guiPlayerDisplayBoxBounds;
+	GuiBox guiPlayerDisplayBox;
+	Rectangle guiPlayerItemDisplayBounds;
+	GuiItemDisplay guiPlayerItemDisplay;
+
+	Rectangle guiPlayerSelectableListBoxBounds;
+	GuiBox guiPlayerSelectableListBox;
+	Rectangle guiPlayerSelectableItemListBounds;
+	GuiSelectableItemList guiPlayerSelectableItemList;
 
 	ItemContainer selectedPlayerItems;
+
+	//Trader
+	Rectangle guiTraderTopBoxBounds;
+	GuiBox guiTraderTopBox;
+
+	Rectangle guiTraderDisplayBoxBounds;
+	GuiBox guiTraderDisplayBox;
+	Rectangle guiTraderItemDisplayBounds;
+	GuiItemDisplay guiTraderItemDisplay;
+
+	Rectangle guiTraderSelectableListBoxBounds;
+	GuiBox guiTraderSelectableListBox;
+	Rectangle guiTraderSelectableItemListBounds;
+	GuiSelectableItemList guiTraderSelectableItemList;
+
+	TradeContainer *currentTraderContainer;
 	ItemContainer selectedTraderItems;
 
 	int selectionCol; // 0player 1accept 2trader
@@ -25,12 +55,12 @@ private:
 	void makeTrade();
 
 public:
-	void setContainers(ItemContainer &playerItems, TradeContainer &tradeContainer);
-
+	void setContainers(ItemContainer &playerItems, TradeContainer &traderContainer);
 	bool handleKey(TCOD_key_t key);
 	void GuiFrame::render();
 	void onOpen();
 	void onClose();
+	void init(Rectangle bounds);
 
 	TradeFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
 		GuiFrame(controlKey, open, alphaFg, alphaBg, "Trade"){};

@@ -1,11 +1,12 @@
 #pragma once
 #include "GuiFrame.h"
+#include "GuiCreature.h"
 
 class StatisticsFrame : public GuiFrame
 {
 private:
-	const TCODColor HEALTH_MAX_COLOR = TCODColor::darkGreen;
-	const TCODColor HEALTH_MIN_COLOR = TCODColor::lightRed;
+	GuiCreature guiCreature;
+
 public:
 	void GuiFrame::render();
 	bool handleKey(TCOD_key_t key);

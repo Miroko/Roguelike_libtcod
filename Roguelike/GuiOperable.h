@@ -1,16 +1,15 @@
 #pragma once
-#include "GuiFrame.h"
-#include "KeyMapping.h"
 
+class GuiFrame;
 class OperatableObject;
-class GuiOperable : public GuiFrame
+class GuiOperable
 {
 public:
 	OperatableObject *currentOperatable = nullptr;
 
-	void setCurrentOperatable(OperatableObject &operatable);
-	void GuiFrame::render();
+	void setCurrentOperatable(OperatableObject *operatable);
+	void renderTo(GuiFrame &frame);
 
-	GuiOperable() : GuiFrame(KEY_UNDEFINED, false){};
+	GuiOperable(){};
 };
 

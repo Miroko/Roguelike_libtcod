@@ -88,16 +88,14 @@ bool PlayerController::attack(){
 }
 bool PlayerController::take(){
 	std::vector<std::shared_ptr<Item>*> itemsToTake = engine::areaHandler.getCurrentArea()->getItemsAt(engine::playerHandler.getPlayerCreature()->location);
-	if (itemsToTake.empty()) return false;
-	else{
+	if(!itemsToTake.empty()){
 		while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 		for (auto &item : itemsToTake){
 			engine::playerHandler.playerInventory.temporary.add(*item);
 		}
-		engine::gui.pickFrame.setItemContainer(engine::playerHandler.playerInventory.temporary);
 		engine::gui.pickFrame.open();
-		return true;
 	}
+	return false;
 }
 bool PlayerController::operate(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};

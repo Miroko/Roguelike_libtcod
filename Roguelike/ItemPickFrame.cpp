@@ -8,19 +8,62 @@ bool ItemPickFrame::moveToInventory(std::shared_ptr<Item> &item){
 	else{
 		engine::areaHandler.getCurrentArea()->removeItem(item);
 		engine::playerHandler.getPlayerCreature()->inventory.items.add(item);
-		currentItemContainer->remove(item);
+		guiSelectableItemList.itemContainer->remove(item);
 	}
 	return true;
 }
 
-void ItemPickFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &operation){
-	moveToInventory(item);
+bool ItemPickFrame::handleKey(TCOD_key_t &key){
+	bool handled = false;
+	if (!isOpen){
+		handled = GuiFrame::handleKey(key);
+	}
+	else{
+		handled = guiSelectableItemList.handleKey(key);
+		if (!handled){
+			close();
+			handled = true;
+		}
+	}
+	return handled;
 }
 
-std::vector<std::string> ItemPickFrame::getOperationsForItem(std::shared_ptr<Item> &item){
-	return PICK_OPERATIONS;
+void ItemPickFrame::render(){
+	GuiFrame::render();
+	guiDisplayBox.renderTo(*this, guiDisplayBoxBounds);
+	guiItemDisplay.renderTo(*this, guiItemDisplayBounds);
+	guiSelectableItemList.renderTo(*this, guiSelectableItemListBounds);
+	blit();
+}
+
+void ItemPickFrame::init(Rectangle bounds){
+	GuiFrame::init(bounds);
+	guiDisplayBoxBounds = Rectangle(Point2D(0, 0), Point2D(bounds.getWidth(), 11));
+	guiItemDisplayBounds = Rectangle(Point2D(0, 0), Point2D(getWidth(), 11));
+	guiSelectableItemListBounds = Rectangle(Point2D(0, 11), Point2D(getWidth(), getHeight() - 11));
+	guiSelectableItemList.setGetOperationsFunction(
+		[this](std::shared_ptr<Item> item, bool selected) -> std::vector<std::string>{
+		if (selected){
+			//update item in display
+			guiItemDisplay.display(item.get());
+			return PICK_OPERATIONS;
+		}
+		else{
+			return { "" };
+		}
+	});
+	guiSelectableItemList.setOnOperationSelectedFunction(
+		[this](std::shared_ptr<Item> item, std::string operation){
+		moveToInventory(item);
+		//clear display
+		guiItemDisplay.clear();
+	});
+}
+
+void ItemPickFrame::onOpen(){
+	guiSelectableItemList.setItemContainer(engine::playerHandler.playerInventory.temporary);
 }
 
 void ItemPickFrame::onClose(){
-	currentItemContainer->removeAll();
+	engine::playerHandler.playerInventory.temporary.removeAll();
 }

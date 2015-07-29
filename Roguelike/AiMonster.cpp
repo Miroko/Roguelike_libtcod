@@ -6,18 +6,22 @@ void AiMonster::onTakeDamage(DynamicObject &attacker){
 
 }
 void AiMonster::onCreatureInFov(Creature &creature, int distance){
-	if (&creature == engine::playerHandler.getPlayerCreature().get()){
-		combatModule.target = &creature;
+	if (combatModule.state != combatModule.JAMMED && 
+		combatModule.state != combatModule.FLEE){
+		if (&creature == engine::playerHandler.getPlayerCreature().get()){
+			combatModule.target = &creature;
+			combatModule.state = combatModule.PURSUE_TARGET;
+		}
 	}
 }
-void AiMonster::onOperatableInFov(OperatableObject &operatable,int distance){
+void AiMonster::onOperatableInFov(OperatableObject &operatable, int distance){
 
 }
 void AiMonster::nextToDestination(Point2D &location){
 
 }
 void AiMonster::onPathBlocked(Point2D &location){
-
+	combatModule.state = combatModule.JAMMED;
 }
 void AiMonster::onPathEnd(Point2D &location){
 

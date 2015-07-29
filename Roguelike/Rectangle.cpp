@@ -67,16 +67,18 @@ std::vector<Point2D> Rectangle::getEdgePoints(){
 	return points;
 }
 
-void Rectangle::expand(int amount){
+Rectangle Rectangle::expand(int amount){
 	start.x -= amount;
 	start.y -= amount;
 	end.x += amount;
 	end.y += amount;
+	return *this;
 }
 
-void Rectangle::shrink(int amount){
+Rectangle Rectangle::shrink(int amount){
 	start.x += amount;
 	start.y += amount;
 	end.x -= amount;
 	end.y -= amount;
+	return *this;
 }

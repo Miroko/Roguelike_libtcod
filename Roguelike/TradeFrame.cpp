@@ -7,32 +7,33 @@
 bool TradeFrame::handleKey(TCOD_key_t key){
 	bool handled = false;
 	if (isOpen){
-		Point2D direction;		
-		direction = KeyMapping::direction(key.vk);
+		Point2D direction = KeyMapping::direction(key.vk);
 		if (!direction.undefined()){
+			//clear error message
 			errorMessage = ERROR_NONE;
-			if (direction == UP){				
+			//change item
+			if (direction == UP || direction == DOWN ){
 				if (selectionCol == 0){
-					if (selectionRowPlayer == 0) selectionRowPlayer = currentPlayerItems->items.size() - 1;
-					else selectionRowPlayer--;
+					handled = guiPlayerSelectableItemList.handleKey(key);
 				}
-				else{
-					if (selectionRowTrader == 0) selectionRowTrader = currentTraderContainer->items.items.size() - 1;
-					else selectionRowTrader--;
+				else if(selectionCol == 2){
+					handled = guiTraderSelectableItemList.handleKey(key);
 				}
-				handled = true;
 			}
-			else if (direction == DOWN){
+			//select item for trade or accept trade
+			else if (direction == CENTER){
 				if (selectionCol == 0){
-					if (selectionRowPlayer == currentPlayerItems->items.size() - 1) selectionRowPlayer = 0;
-					else selectionRowPlayer++;
+					handled = guiPlayerSelectableItemList.handleKey(key);
 				}
-				else{
-					if (selectionRowTrader == currentTraderContainer->items.items.size() - 1) selectionRowTrader = 0;
-					else selectionRowTrader++;
+				else if (selectionCol == 1){
+					makeTrade();
+					handled = true;
 				}
-				handled = true;
+				else if (selectionCol == 2){
+					handled = guiTraderSelectableItemList.handleKey(key);
+				}
 			}
+			//change column
 			else if (direction == LEFT){
 				if (selectionCol == 0) selectionCol = 2;
 				else selectionCol--;
@@ -43,40 +44,92 @@ bool TradeFrame::handleKey(TCOD_key_t key){
 				else selectionCol++;
 				handled = true;
 			}
-			else if (direction == CENTER){
-				if (selectionCol == 0){
-					auto item = currentPlayerItems->getAt(selectionRowPlayer);
-					if (selectedPlayerItems.contains(item)) selectedPlayerItems.remove(item);
-					else selectedPlayerItems.add(item);
-					calculateCurrencyFromTrade();
-					currentPlayerItems->sort();
-				}
-				else if(selectionCol == 2){
-					auto item = currentTraderContainer->items.getAt(selectionRowTrader);
-					if (selectedTraderItems.contains(item)) selectedTraderItems.remove(item);
-					else selectedTraderItems.add(item);
-					calculateCurrencyFromTrade();
-					currentTraderContainer->items.sort();
-				}
-				else{
-					makeTrade();
-				}
-				handled = true;
-			}
 		}
-	}
-	if (!handled && isOpen){
-		close();
-		handled = true;
+		if (!handled){
+			close();
+			handled = true;
+		}
 	}
 	return handled;
 }
 
 void TradeFrame::render(){
 	GuiFrame::render();
+	//Player
+	guiPlayerTopBox.renderTo(*this, guiPlayerTopBoxBounds);
+	//currency
+	printString(
+		guiPlayerTopBoxBounds.start.x, guiPlayerTopBoxBounds.start.y,
+		guiPlayerTopBoxBounds.getWidth(), 0,
+		Gui::FRAME_FG,
+		TCOD_LEFT,
+		engine::string.currency(engine::playerHandler.playerInventory.currency));
+	//weight
+	printString(
+		guiPlayerTopBoxBounds.start.x, guiPlayerTopBoxBounds.start.y,
+		guiPlayerTopBoxBounds.getWidth() - 6, 0,
+		Gui::FRAME_FG,
+		TCOD_RIGHT,
+		engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight()));
+	guiPlayerDisplayBox.renderTo(*this, guiPlayerDisplayBoxBounds);
+	guiPlayerItemDisplay.renderTo(*this, guiPlayerItemDisplayBounds);
+	guiPlayerSelectableListBox.renderTo(*this, guiPlayerSelectableListBoxBounds);
+	guiPlayerSelectableItemList.renderTo(*this, guiPlayerSelectableItemListBounds);
 
+	//currency for trade
+	printString(
+		0, getHeight() / 2,
+		getWidth(), getHeight(),
+		Gui::FRAME_FG,
+		TCOD_CENTER,
+		engine::string.currency(currencyFromTrade).c_str());
+	//arrow
+	std::string arrowDirection;
+	if (currencyFromTrade > 0) arrowDirection = "<-";
+	else arrowDirection = "->";
+	printString(
+		0, getHeight() / 2 + 2,
+		getWidth(), getHeight(),
+		Gui::FRAME_FG,
+		TCOD_CENTER,
+		arrowDirection);
+	//accept button
+	TCODColor acceptColor;
+	if (selectionCol == 1) acceptColor = Gui::SELECTABLE_OPERATION;
+	else acceptColor = Gui::FRAME_FG;
+	printString(
+		0, getHeight() / 2 + 4,
+		getWidth(), getHeight(),
+		acceptColor,
+		TCOD_CENTER,
+		"Accept");
+	//error
+	if (errorMessage != ERROR_NONE){
+		printString(
+			0, getHeight() / 2 + 6,
+			getWidth(), getHeight(),
+			Gui::FRAME_FG,
+			TCOD_CENTER,
+			errorMessage.c_str());
+	}
+
+	//Trader
+	guiTraderTopBox.renderTo(*this, guiTraderTopBoxBounds);
+	//currency
+	printString(
+		guiTraderTopBoxBounds.start.x, guiTraderTopBoxBounds.start.y,
+		guiTraderTopBoxBounds.getWidth(), 0,
+		Gui::FRAME_FG,
+		TCOD_LEFT,
+		engine::string.currency(currentTraderContainer->currentCurrency));
+	guiTraderDisplayBox.renderTo(*this, guiTraderDisplayBoxBounds);
+	guiTraderItemDisplay.renderTo(*this, guiTraderItemDisplayBounds);
+	guiTraderSelectableListBox.renderTo(*this, guiTraderSelectableListBoxBounds);
+	guiTraderSelectableItemList.renderTo(*this, guiTraderSelectableItemListBounds);
+	blit();
+
+	/*
 	int offsetY = 0;
-
 	//Player
 	console->printFrame(0, offsetY, console->getWidth() / 2 - 10, console->getHeight(), true);
 	console->printFrame(0, offsetY, console->getWidth() / 2 - 10, 4, true, TCOD_BKGND_DEFAULT, "Player");
@@ -184,12 +237,16 @@ void TradeFrame::render(){
 		console->printRectEx(console->getWidth() / 2, console->getHeight() / 3 + 12, console->getWidth() / 3, 1, TCOD_BKGND_NONE, TCOD_CENTER,
 			errorMessage.c_str());
 	}
+	
 	blit();
+	*/
 }
 
-void TradeFrame::setContainers(ItemContainer &playerItems, TradeContainer &tradeContainer){
-	currentPlayerItems = &playerItems;
-	currentTraderContainer = &tradeContainer;
+void TradeFrame::setContainers(ItemContainer &playerItems, TradeContainer &traderContainer){
+	guiPlayerSelectableItemList.setItemContainer(playerItems);
+
+	currentTraderContainer = &traderContainer;
+	guiTraderSelectableItemList.setItemContainer(currentTraderContainer->items);
 }
 
 void TradeFrame::onOpen(){
@@ -198,8 +255,6 @@ void TradeFrame::onOpen(){
 	selectionCol = 0;
 	selectionRowPlayer = 0;
 	selectionRowTrader = 0;
-	currentPlayerItems->sort();
-	currentTraderContainer->items.sort();
 }
 
 void TradeFrame::onClose(){
@@ -228,15 +283,15 @@ void TradeFrame::makeTrade(){
 				if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
 					engine::playerHandler.playerInventory.unequip(std::static_pointer_cast<Equipment>(item));
 				}
-				currentPlayerItems->remove(item);
+				guiPlayerSelectableItemList.itemContainer->remove(item);
 				currentTraderContainer->items.add(item);
 			}
 			for (auto &item : selectedTraderItems.items){
-				currentPlayerItems->add(item);
+				guiPlayerSelectableItemList.itemContainer->add(item);
 				currentTraderContainer->items.remove(item);
 			}
 			engine::playerHandler.playerInventory.currency += currencyFromTrade;
-			currentTraderContainer->currency -= currencyFromTrade;
+			currentTraderContainer->currentCurrency -= currencyFromTrade;
 
 			selectedPlayerItems.items.clear();
 			selectedTraderItems.items.clear();
@@ -245,6 +300,74 @@ void TradeFrame::makeTrade(){
 			selectionCol = 0;
 			selectionRowPlayer = 0;
 			selectionRowTrader = 0;
+
+			guiPlayerSelectableItemList.itemContainer->sort();
+			guiPlayerSelectableItemList.updateSelection();
+
+			guiTraderSelectableItemList.itemContainer->sort();
+			guiTraderSelectableItemList.updateSelection();
 		}
 	}
+}
+
+void TradeFrame::init(Rectangle bounds){
+	GuiFrame::init(bounds);
+	//Player
+	guiPlayerTopBoxBounds = Rectangle(Point2D(0, 0), Point2D(bounds.getWidth()/2 - 10, 3));
+	guiPlayerDisplayBoxBounds = Rectangle(Point2D(0, 3), Point2D(bounds.getWidth() / 2 - 10, 14));
+	guiPlayerItemDisplayBounds = Rectangle(Point2D(0, 3), Point2D(bounds.getWidth() / 2 - 12, 14));
+	guiPlayerSelectableListBoxBounds = Rectangle(Point2D(0, 14), Point2D(bounds.getWidth() / 2 - 10, bounds.getHeight() - 1));
+	guiPlayerSelectableItemListBounds = Rectangle(Point2D(0, 14), Point2D(getWidth() / 2 - 13, getHeight()));
+	guiPlayerSelectableItemList.setGetOperationsFunction(
+		[this](std::shared_ptr<Item> item, bool selected) -> std::vector<std::string>{
+		if (selected){
+			//update item in display
+			guiPlayerItemDisplay.display(item.get());
+			if(!selectedPlayerItems.contains(item)){
+				return{ "Add" };
+			}
+			else{
+				return{ "Remove" };
+			}
+		}
+		else if (selectedPlayerItems.contains(item)){
+			return{ "In trade" };
+		}
+		else return{ "" };
+	});
+	guiPlayerSelectableItemList.setOnOperationSelectedFunction(
+		[this](std::shared_ptr<Item> item, std::string operation){
+		if (selectedPlayerItems.contains(item)) selectedPlayerItems.remove(item);
+		else selectedPlayerItems.add(item);
+		calculateCurrencyFromTrade();
+	});
+	//Trader
+	guiTraderTopBoxBounds = Rectangle(Point2D(bounds.getWidth() / 2 + 9, 0), Point2D(bounds.getWidth(), 3));
+	guiTraderDisplayBoxBounds = Rectangle(Point2D(bounds.getWidth() / 2 + 9, 3), Point2D(bounds.getWidth(), 14));
+	guiTraderItemDisplayBounds = Rectangle(Point2D(bounds.getWidth() / 2 + 8, 3), Point2D(bounds.getWidth(), 14));
+	guiTraderSelectableListBoxBounds = Rectangle(Point2D(bounds.getWidth() / 2 + 9, 14), Point2D(bounds.getWidth(), bounds.getHeight() - 1));
+	guiTraderSelectableItemListBounds = Rectangle(Point2D(bounds.getWidth() / 2 + 9, 14), Point2D(getWidth(), getHeight()));
+	guiTraderSelectableItemList.setGetOperationsFunction(
+		[this](std::shared_ptr<Item> item, bool selected) -> std::vector<std::string>{
+		if (selected){
+			//update item in display
+			guiTraderItemDisplay.display(item.get());
+			if (!selectedTraderItems.contains(item)){
+				return{ "Add" };
+			}
+			else{
+				return{ "Remove" };
+			}
+		}
+		else if (selectedTraderItems.contains(item)){
+			return{ "In trade" };
+		}
+		else return{ "" };
+	});
+	guiTraderSelectableItemList.setOnOperationSelectedFunction(
+		[this](std::shared_ptr<Item> item, std::string operation){
+		if (selectedTraderItems.contains(item)) selectedTraderItems.remove(item);
+		else selectedTraderItems.add(item);
+		calculateCurrencyFromTrade();
+	});
 }

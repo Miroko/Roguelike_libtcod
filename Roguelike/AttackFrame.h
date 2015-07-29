@@ -1,6 +1,7 @@
 #pragma once
 #include "GuiFrame.h"
 #include "DynamicObject.h"
+#include "GuiCreature.h"
 #include <vector>
 #include <memory>
 
@@ -11,6 +12,9 @@ private:
 	std::vector<std::shared_ptr<DynamicObject>> attackableObjects;
 	std::shared_ptr<DynamicObject> previouslyAttacked;
 	int objectIndex;
+
+	GuiCreature guiCreature;
+
 public:
 	Point2D attackLocation;
 
@@ -19,7 +23,6 @@ public:
 	void GuiFrame::render();
 	bool handleKey(TCOD_key_t key);
 	void onOpen();
-	void onClose();
 
 	AttackFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
 		GuiFrame(controlKey, open, alphaFg, alphaBg){};

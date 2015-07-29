@@ -2,53 +2,59 @@
 #include "Creature.h"
 #include "Engine.h"
 #include "Weapon.h"
+#include "Armor.h"
+#include "GuiFrame.h"
 
-void GuiCreature::setCurrentCreature(Creature &creature){
-	currentCreature = &creature;
+void GuiCreature::setCurrentCreature(Creature *creature){
+	currentCreature = creature;
 }
-void GuiCreature::render(){
-	GuiFrame::render();
+void GuiCreature::renderTo(GuiFrame &frame){
 	if (currentCreature != nullptr){
-		//rarity + name
-		printString(0, 0, getWidth(), 1, currentCreature->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, Gui::FRAME_BG, TCOD_CENTER, TCOD_BKGND_NONE, currentCreature->rarity.name + " " + currentCreature->name);
-
+		int offsetY = 0;
+		//Creature
+		//rarity
+		frame.printString(0, offsetY, frame.getWidth(), 1, currentCreature->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, TCOD_CENTER, currentCreature->rarity.name);
+		offsetY += 1;
+		frame.printString(0, offsetY, frame.getWidth(), 1, currentCreature->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, TCOD_CENTER, currentCreature->name);
 		//health
+		offsetY += 2;
 		float percentage = ((float)currentCreature->health / (float)currentCreature->healthMax);
 		TCODColor healthColor = TCODColor::lerp(HEALTH_MIN_COLOR, HEALTH_MAX_COLOR, percentage);
-
-		printString(0, 2, getWidth(), getHeight(), Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE, "Health");
-		printString(0, 2, getWidth(), getHeight(), healthColor, healthColor, TCOD_CENTER, TCOD_BKGND_NONE, engine::string.outOf(currentCreature->health, currentCreature->healthMax));
-
+		frame.printString(0, offsetY, frame.getWidth(), frame.getHeight(), Gui::FRAME_FG, TCOD_LEFT, "Health");
+		frame.printString(0, offsetY, frame.getWidth(), frame.getHeight(), healthColor, TCOD_CENTER, engine::string.outOf(currentCreature->health, currentCreature->healthMax));
 		//mods
-		int offsetY = 4;
 		for (auto &mod : currentCreature->rarityMods){
-			printString(0, offsetY, getWidth(), 1, currentCreature->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, Gui::FRAME_BG, TCOD_LEFT, TCOD_BKGND_NONE, mod->name);
-			++offsetY;
-			//effects
-			for (auto &effect : mod->effects){
-				printString(1, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_BG, TCOD_LEFT, TCOD_BKGND_NONE, "-" + effect->getDescription());
-				++offsetY;
-			}
+			offsetY += 1;
+			frame.printString(1, offsetY, frame.getWidth(), 1, Gui::FRAME_FG, TCOD_LEFT, mod->effect->getDescription());
 		}
+
+		//Equipment
+		offsetY += 2;
+		frame.printString(0, offsetY, frame.getWidth(), 1, Gui::FRAME_FG, TCOD_LEFT, "Equipment ");
 		//weapon
 		if (currentCreature->inventory.currentWeapon != nullptr){
-			printString(0, offsetY + 2, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_BG, TCOD_LEFT, TCOD_BKGND_NONE,
-				"Wielding ");
-			printString(0, offsetY + 3, getWidth(), 1, currentCreature->inventory.currentWeapon->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, Gui::FRAME_BG, TCOD_LEFT, TCOD_BKGND_NONE,
-				currentCreature->inventory.currentWeapon->getDescription());
-			printString(0, offsetY + 3, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_BG, TCOD_RIGHT, TCOD_BKGND_NONE,
-				currentCreature->inventory.currentWeapon->getStatistics());
+			offsetY += 1;
+			frame.printString(0, offsetY, frame.getWidth(), 1, currentCreature->inventory.currentWeapon->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, TCOD_LEFT, currentCreature->inventory.currentWeapon->name);
+			frame.printString(0, offsetY, frame.getWidth(), 1, Gui::FRAME_FG, TCOD_RIGHT, engine::string.damage(currentCreature->inventory.currentWeapon->damage));
+			//mods
 			for (auto &mod : currentCreature->inventory.currentWeapon->rarityMods){
-				printString(0, offsetY + 4, getWidth(), 1, currentCreature->inventory.currentWeapon->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, Gui::FRAME_BG, TCOD_LEFT, TCOD_BKGND_NONE, mod->name);
-				++offsetY;
-				//effects
-				for (auto &effect : mod->effects){
-					printString(1, offsetY + 4, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_BG, TCOD_LEFT, TCOD_BKGND_NONE, "-" + effect->getDescription());
-					++offsetY;
+				offsetY += 1;
+				frame.printString(1, offsetY, frame.getWidth(), 1, Gui::FRAME_FG, TCOD_LEFT, mod->effect->getDescription());
+			}
+		}
+		//armors
+		for (auto &limb : currentCreature->limbs){
+			if (limb.currentArmor != nullptr){
+				offsetY += 1;
+				frame.printString(0, offsetY, frame.getWidth(), 1, limb.currentArmor->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, TCOD_LEFT, limb.currentArmor->name);
+				frame.printString(0, offsetY, frame.getWidth(), 1, Gui::FRAME_FG, TCOD_RIGHT, engine::string.defence(limb.currentArmor->defence));
+				//mods
+				for (auto &mod : limb.currentArmor->rarityMods){
+					offsetY += 1;
+					frame.printString(1, offsetY, frame.getWidth(), 1, Gui::FRAME_FG, TCOD_LEFT, mod->effect->getDescription());
 				}
 			}
 		}
 	}
-	blit();
 }
 

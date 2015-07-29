@@ -1,16 +1,16 @@
 #pragma once
-#include "GuiFrame.h"
-#include "KeyMapping.h"
+#include "GuiComponent.h"
 
+class GuiFrame;
 class Weapon;
-class GuiWeapon : public GuiFrame
+class GuiWeapon : public GuiComponent
 {
 public:
 	Weapon *currentWeapon = nullptr;
 
-	void setCurrentWeapon(Weapon &weapon);
-	void GuiFrame::render();
+	void setCurrentWeapon(Weapon *weapon);
+	void GuiComponent::renderTo(GuiFrame &frame, Rectangle &bounds);
 
-	GuiWeapon() : GuiFrame(KEY_UNDEFINED, false){};
+	GuiWeapon() : GuiComponent(){};
 };
 

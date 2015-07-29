@@ -18,7 +18,7 @@ void Gui::init(){
 	FRAME_FG = TCODColor(35, 30, 25);
 	SELECTABLE_BG = FRAME_BG * 0.8f;
 	SELECTABLE_OPERATION = TCODColor(10,94,10);
-	TRADE_SELECTED = SELECTABLE_BG * 0.8f;
+	TRADE_SELECTED = SELECTABLE_BG * 1.4f;
 	INSPECTION_CURSOR = TCODColor::lightGreen;
 	INSPECTION_CURSOR_ALPHA = 0.5f;
 	RARITY_COLOR_MULTIPLIER = 0.6f;
@@ -43,7 +43,7 @@ void Gui::init(){
 
 	inspection.init(Rectangle(
 		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 12)));
 
 	pickFrame.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() / 4, 0),
@@ -51,7 +51,7 @@ void Gui::init(){
 
 	statistics.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, 0),
-		Point2D(TCODConsole::root->getWidth() - 1, TCODConsole::root->getWidth() / 4)));
+		Point2D(TCODConsole::root->getWidth() - 1, TCODConsole::root->getHeight() - 12)));
 
 	dialog.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() / 2 - 30, 2),
@@ -64,30 +64,6 @@ void Gui::init(){
 	attack.init(Rectangle(
 		Point2D(0, 0),
 		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
-
-	guiCreature.init(Rectangle(
-		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
-
-	guiWeapon.init(Rectangle(
-		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
-
-	guiArmor.init(Rectangle(
-		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
-
-	guiPotion.init(Rectangle(
-		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
-
-	guiTile.init(Rectangle(
-		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
-
-	guiOperatable.init(Rectangle(
-		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 3)));
 }
 
 bool Gui::handleKey(TCOD_key_t &key){
@@ -106,9 +82,9 @@ bool Gui::handleKey(TCOD_key_t &key){
 }
 
 void Gui::render(){
+	if (log.isOpen) log.render();
 	if (inspection.isOpen) inspection.render();
 	if (attack.isOpen) attack.render();
-	if (log.isOpen) log.render();
 	if (statistics.isOpen) statistics.render();
 	if (inventory.isOpen) inventory.render();
 	if (pickFrame.isOpen) pickFrame.render();
@@ -116,10 +92,4 @@ void Gui::render(){
 	if (help.isOpen) help.render();
 	if (dialog.isOpen) dialog.render();
 	if (trade.isOpen) trade.render();
-	if (guiCreature.isOpen) guiCreature.render();
-	if (guiWeapon.isOpen) guiWeapon.render();
-	if (guiArmor.isOpen) guiArmor.render();
-	if (guiPotion.isOpen) guiPotion.render();
-	if (guiTile.isOpen) guiTile.render();
-	if (guiOperatable.isOpen) guiOperatable.render();
 }

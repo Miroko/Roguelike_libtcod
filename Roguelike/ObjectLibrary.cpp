@@ -6,7 +6,6 @@
 #include "AiMonster.h"
 #include "AiNone.h"
 #include "AiVillager.h"
-#include "AiTrader.h"
 #include "AiBlacksmith.h"
 #include "AiAlchemist.h"
 #include "Armor.h"
@@ -284,9 +283,6 @@ void ObjectLibrary::init(){
 		"ai_villager",
 		std::unique_ptr<CreatureAi>(new AiVillager()));
 	addCreatureAi(
-		"ai_trader",
-		std::unique_ptr<CreatureAi>(new AiTrader()));
-	addCreatureAi(
 		"ai_blacksmith",
 		std::unique_ptr<CreatureAi>(new AiBlacksmith()));
 	addCreatureAi(
@@ -302,7 +298,7 @@ void ObjectLibrary::init(){
 		Glyph('@', TCODColor::lightAmber),
 		0.90f,
 		{ "weapon_bow", "weapon_staff" },
-		{ /*none*/ }));
+		{ "armor_body_leather", "armor_leg_leather" }));
 	//Creature presets
 	addCreaturePresetTemplate(TemplateCreaturePreset(
 		"human_man_villager",
@@ -400,7 +396,7 @@ void ObjectLibrary::init(){
 	addTile("tile_cave_rotten_wall", std::make_unique<Tile>(Tile("Rotten wood", Tile::WALL, Glyph(TCODColor::darkerSepia), false, 0.0f)));
 	addTile("tile_cave_wall1", std::make_unique<Tile>(Tile("Cave wall", Tile::WALL, Glyph(TCODColor::grey), false, 0.0f)));
 	addTile("tile_cave_wall2", std::make_unique<Tile>(Tile("Cave wall", Tile::WALL, Glyph(TCODColor::darkGrey), false, 0.0f)));
-	addTile("tile_cave_floor1", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor(75,75,75)), true, 10.0f)));
+	addTile("tile_cave_floor1", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor(45,45,45)), true, 10.0f)));
 	addTile("tile_cave_floor2", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor::darkestGrey), true, 10.0f)));
 	addTile("tile_cave_portal", std::make_unique<Tile>(Tile("Tunnel", Tile::PORTAL, Glyph(TCODColor::darkestGrey, TCODColor::grey, '>'), true, 10.0f)));
 	addTile("tile_cave_water", std::make_unique<Tile>(Tile("Water", Tile::WATER, Glyph(TCODColor::darkestBlue), true, 10.0f)));
@@ -415,19 +411,19 @@ void ObjectLibrary::init(){
 
 	//Rarity mods
 	//creature
-	addRarityModCreature("mod_increased_health_small", RarityModCreature("Increased Health", { std::shared_ptr<CreatureEffect>(new EffectHealth(1.3f)) }));
-	addRarityModCreature("mod_increased_health_medium", RarityModCreature("Increased Health", { std::shared_ptr<CreatureEffect>(new EffectHealth(1.6f)) }));
-	addRarityModCreature("mod_increased_health_large", RarityModCreature("Increased Health", { std::shared_ptr<CreatureEffect>(new EffectHealth(2.0f)) }));
+	addRarityModCreature("mod_increased_health_small", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealth(1.3f)) ));
+	addRarityModCreature("mod_increased_health_medium", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealth(1.6f)) ));
+	addRarityModCreature("mod_increased_health_large", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealth(2.0f)) ));
 
 	//armor
-	addRarityModArmor("mod_increased_defence_small", RarityModArmor("Increased Defence", { std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(1.3f)) }));
-	addRarityModArmor("mod_increased_defence_medium", RarityModArmor("Increased Defence", { std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(1.6f)) }));
-	addRarityModArmor("mod_increased_defence_large", RarityModArmor("Increased Defence", { std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(2.0f)) }));
+	addRarityModArmor("mod_increased_defence_small", RarityModArmor(std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(1.3f)) ));
+	addRarityModArmor("mod_increased_defence_medium", RarityModArmor(std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(1.6f)) ));
+	addRarityModArmor("mod_increased_defence_large", RarityModArmor(std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(2.0f)) ));
 
 	//weapon
-	addRarityModWeapon("mod_increased_damage_small", RarityModWeapon("Increased Damage", { std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(1.3f)) }));
-	addRarityModWeapon("mod_increased_damage_medium", RarityModWeapon("Increased Damage", { std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(1.6f)) }));
-	addRarityModWeapon("mod_increased_damage_large", RarityModWeapon("Increased Damage", { std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(2.0f)) }));
+	addRarityModWeapon("mod_increased_damage_small", RarityModWeapon(std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(1.3f)) ));
+	addRarityModWeapon("mod_increased_damage_medium", RarityModWeapon(std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(1.6f)) ));
+	addRarityModWeapon("mod_increased_damage_large", RarityModWeapon(std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(2.0f)) ));
 
 	//Rarity types
 	addRarity(RarityType(
@@ -441,7 +437,7 @@ void ObjectLibrary::init(){
 	addRarity(RarityType(
 		"rarity_uncommon",
 		"Uncommon",
-		0.20f, 0.45f, 1.0f, 1,
+		0.20f, 0.45f, 0.4f, 1,
 		TCODColor::azure,
 		{
 			"mod_increased_health_small"
@@ -455,7 +451,7 @@ void ObjectLibrary::init(){
 	addRarity(RarityType(
 		"rarity_rare",
 		"Rare",
-		0.05f, 0.55f, 1.0f, 1,
+		0.05f, 0.55f, 0.3f, 2,
 		TCODColor::violet,
 		{
 			"mod_increased_health_medium"
@@ -469,7 +465,7 @@ void ObjectLibrary::init(){
 	addRarity(RarityType(
 		"rarity_epic",
 		"Epic",
-		0.01f, 0.80f, 1.0f, 1,
+		0.01f, 0.80f, 0.2f, 3,
 		TCODColor::green,
 		{
 			"mod_increased_health_large"
@@ -483,7 +479,7 @@ void ObjectLibrary::init(){
 	addRarity(RarityType(
 		"rarity_unique",
 		"Unique",
-		0.003f, 1.00f, 1.0f, 1,
+		0.003f, 1.00f, 0.1f, 4,
 		TCODColor::orange,
 		{
 			"mod_increased_health_large"

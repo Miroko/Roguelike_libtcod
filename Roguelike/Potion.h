@@ -10,7 +10,6 @@ public:
 
 	int getValue();
 	std::string getStatistics();
-	std::string getDescription();
 	void Consumable::onConsume(Creature &consumer);
 	std::shared_ptr<Consumable> newFromClone(RarityType &rarity);
 

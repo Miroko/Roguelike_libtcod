@@ -1,9 +1,9 @@
 #pragma once
-#include "GuiFrame.h"
-#include "KeyMapping.h"
+#include "libtcod.hpp"
 
+class GuiFrame;
 class Creature;
-class GuiCreature : public GuiFrame
+class GuiCreature
 {
 public:
 	const TCODColor HEALTH_MAX_COLOR = TCODColor::darkGreen;
@@ -11,9 +11,9 @@ public:
 
 	Creature *currentCreature = nullptr;
 
-	void setCurrentCreature(Creature &creature);
-	void GuiFrame::render();
+	void setCurrentCreature(Creature *creature);
+	void renderTo(GuiFrame &frame);
 
-	GuiCreature() : GuiFrame(KEY_UNDEFINED, false){};
+	GuiCreature(){};
 };
 

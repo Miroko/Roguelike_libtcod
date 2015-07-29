@@ -1,5 +1,6 @@
 #include "ParticleSpiralUp.h"
 #include "Engine.h"
+#include "Direction.h"
 
 void ParticleSpiralUp::onTick(){
 	float directionRoll = engine::random.generator->getFloat(0.0f, 1.0f);

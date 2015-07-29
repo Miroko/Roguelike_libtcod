@@ -7,11 +7,17 @@
 void AiVillager::onTakeDamage(DynamicObject &attacker){
 	if (attacker.type == Creature::CREATURE){
 		combatModule.target = &attacker;
+		combatModule.state = combatModule.PURSUE_TARGET;
 		currentState = COMBAT;
 	}
 }
 void AiVillager::onCreatureInFov(Creature &creature, int distance){
-
+	if (combatModule.state != combatModule.JAMMED &&
+		combatModule.state != combatModule.FLEE){
+		if (&creature == combatModule.target){
+			combatModule.state = combatModule.PURSUE_TARGET;
+		}
+	}
 }
 void AiVillager::onOperatableInFov(OperatableObject &operatable, int distance){
 	if (operatable.type == OperatableObject::BED){
@@ -25,7 +31,10 @@ void AiVillager::nextToDestination(Point2D &location){
 
 }
 void AiVillager::onPathBlocked(Point2D &location){
-	if (currentState == VISIT_HOUSE){
+	if (currentState == COMBAT){
+		combatModule.state = combatModule.JAMMED;
+	}
+	else if (currentState == VISIT_HOUSE){
 		currentState = WANDER;
 	}
 }

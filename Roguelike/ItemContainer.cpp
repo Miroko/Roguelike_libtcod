@@ -28,14 +28,26 @@ bool ItemContainer::contains(std::shared_ptr<Item> item){
 }
 
 void ItemContainer::sort(){
+	//by
+	//1. rarity
+	//2. name
+	//3. value
 	items.sort([](const std::shared_ptr<Item> &a, const std::shared_ptr<Item> &b){
 		if (a->rarity.prevalence >= b->rarity.prevalence){
 			if (a->rarity.prevalence == b->rarity.prevalence){
 				int comparisonName = b->name.compare(a->name);
-				if (comparisonName <= 0){
+				if (comparisonName < 0){
 					return false;
 				}
-				return true;
+				else if(comparisonName == 0){
+					if (a->getValue() <= b->getValue()){
+						return false;
+					}
+					return true;
+				}
+				else{
+					return true;
+				}
 			}
 			return false;
 		}

@@ -121,6 +121,24 @@
     <Filter Include="Engine\GameObject\Item\Consumable\Potion">
       <UniqueIdentifier>{331c7520-70fb-4f20-b8eb-6344df21ddc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Gui\Component">
+      <UniqueIdentifier>{64beb286-5040-4a75-8474-3e513dd12b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Gui\Frame">
+      <UniqueIdentifier>{092e02ae-f9b0-452a-a228-96347cea4e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Gui\Frame\Frames">
+      <UniqueIdentifier>{023d3ed4-8e3c-4a5a-9cd6-711023cfd6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Gui\Component\Components">
+      <UniqueIdentifier>{b36f6ad3-9a9d-453c-8a59-e512b1a1d5b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Gui\Component\Components\Minor">
+      <UniqueIdentifier>{70ba195c-b7bf-4850-9e06-7e5ecdcfccea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Gui\Component\Components\Major">
+      <UniqueIdentifier>{9b8fcc8f-5cc9-479d-be12-88c9cded2553}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creature.cpp">
@@ -141,43 +159,7 @@
     <ClCompile Include="Item.cpp">
       <Filter>Engine\GameObject\Item</Filter>
     </ClCompile>
-    <ClCompile Include="AttackFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="DialogFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
     <ClCompile Include="Gui.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="HelpFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="InspectionFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="InventoryFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemPickFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="LogFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectableItemFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="StatisticsFrame.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
-    <ClCompile Include="TradeFrame.cpp">
       <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Direction.cpp">
@@ -271,9 +253,6 @@
     <ClCompile Include="RarityModCreature.cpp">
       <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
     </ClCompile>
-    <ClCompile Include="GuiCreature.cpp">
-      <Filter>Engine\Gui</Filter>
-    </ClCompile>
     <ClCompile Include="RarityModWeapon.cpp">
       <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
     </ClCompile>
@@ -306,9 +285,6 @@
     </ClCompile>
     <ClCompile Include="TemplateArmor.cpp">
       <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiWeapon.cpp">
-      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="CreatureEffect.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
@@ -403,9 +379,6 @@
     <ClCompile Include="AiNone.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
     </ClCompile>
-    <ClCompile Include="AiTrader.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
-    </ClCompile>
     <ClCompile Include="AiVillager.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
     </ClCompile>
@@ -414,9 +387,6 @@
     </ClCompile>
     <ClCompile Include="TradeContainer.cpp">
       <Filter>Engine\Quest\TradeContainer</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiArmor.cpp">
-      <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Consumable.cpp">
       <Filter>Engine\GameObject\Item\Consumable</Filter>
@@ -439,54 +409,72 @@
     <ClCompile Include="EffectAlchemySmoke.cpp">
       <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="GuiPotion.cpp">
-      <Filter>Engine\Gui</Filter>
+    <ClCompile Include="GuiFrame.cpp">
+      <Filter>Engine\Gui\Frame</Filter>
     </ClCompile>
-    <ClCompile Include="GuiTile.cpp">
-      <Filter>Engine\Gui</Filter>
+    <ClCompile Include="AttackFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="HelpFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="InspectionFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemPickFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="LogFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="StatisticsFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="TradeFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiComponent.cpp">
+      <Filter>Engine\Gui\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiItemDisplay.cpp">
+      <Filter>Engine\Gui\Component\Components\Major</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiArmor.cpp">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiCreature.cpp">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClCompile>
     <ClCompile Include="GuiOperable.cpp">
-      <Filter>Engine\Gui</Filter>
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiPotion.cpp">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiTile.cpp">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiWeapon.cpp">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiSelectableItemList.cpp">
+      <Filter>Engine\Gui\Component\Components\Major</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiBox.cpp">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="InventoryFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="LogFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="QuestFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="HelpFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemPickFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectableItemFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="InspectionFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="StatisticsFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="TradeFrame.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackFrame.h">
       <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Random.h">
@@ -600,9 +588,6 @@
     <ClInclude Include="RarityModCreature.h">
       <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
     </ClInclude>
-    <ClInclude Include="GuiCreature.h">
-      <Filter>Engine\Gui</Filter>
-    </ClInclude>
     <ClInclude Include="RarityModWeapon.h">
       <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
     </ClInclude>
@@ -635,9 +620,6 @@
     </ClInclude>
     <ClInclude Include="TemplateArmor.h">
       <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiWeapon.h">
-      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="EffectHealth.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
@@ -732,17 +714,11 @@
     <ClInclude Include="AiNone.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
     </ClInclude>
-    <ClInclude Include="AiTrader.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
-    </ClInclude>
     <ClInclude Include="EffectWaterSplash.h">
       <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClInclude>
     <ClInclude Include="TradeContainer.h">
       <Filter>Engine\Quest\TradeContainer</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiArmor.h">
-      <Filter>Engine\Gui</Filter>
     </ClInclude>
     <ClInclude Include="Consumable.h">
       <Filter>Engine\GameObject\Item\Consumable</Filter>
@@ -765,14 +741,68 @@
     <ClInclude Include="EffectAlchemySmoke.h">
       <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="GuiPotion.h">
-      <Filter>Engine\Gui</Filter>
+    <ClInclude Include="GuiFrame.h">
+      <Filter>Engine\Gui\Frame</Filter>
     </ClInclude>
-    <ClInclude Include="GuiTile.h">
-      <Filter>Engine\Gui</Filter>
+    <ClInclude Include="TradeFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="InspectionFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemPickFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="LogFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="StatisticsFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiComponent.h">
+      <Filter>Engine\Gui\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiItemDisplay.h">
+      <Filter>Engine\Gui\Component\Components\Major</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiWeapon.h">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiArmor.h">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiCreature.h">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClInclude>
     <ClInclude Include="GuiOperable.h">
-      <Filter>Engine\Gui</Filter>
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiPotion.h">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiTile.h">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiSelectableItemList.h">
+      <Filter>Engine\Gui\Component\Components\Major</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiBox.h">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

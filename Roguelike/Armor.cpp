@@ -1,11 +1,8 @@
 #include "Armor.h"
-
-std::string Armor::getDescription(){
-	return rarity.name + " " + name;
-}
+#include "Engine.h"
 
 std::string Armor::getStatistics(){
-	return std::to_string(defence) + "a ";
+	return engine::string.defence(defence) + " " + Item::getStatistics();
 }
 
 int Armor::getValue(){

@@ -14,8 +14,8 @@ public:
 	Point2D getCenterPoint();
 	bool inside(Point2D &point);
 	bool contains(Point2D &point);
-	void expand(int amount);
-	void shrink(int amount);
+	Rectangle expand(int amount);
+	Rectangle shrink(int amount);
 	std::vector<Point2D> getEdgePoints();
 
 	Rectangle(Point2D start, Point2D end);

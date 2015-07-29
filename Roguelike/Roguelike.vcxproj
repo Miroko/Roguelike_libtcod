@@ -17,7 +17,6 @@
     <ClCompile Include="AiModuleCombat.cpp" />
     <ClCompile Include="AiModuleResident.cpp" />
     <ClCompile Include="AiNone.cpp" />
-    <ClCompile Include="AiTrader.cpp" />
     <ClCompile Include="AiVillager.cpp" />
     <ClCompile Include="AlchemyTable.cpp" />
     <ClCompile Include="Anvil.cpp" />
@@ -52,9 +51,13 @@
     <ClCompile Include="EffectWaterSplash.cpp" />
     <ClCompile Include="Forge.cpp" />
     <ClCompile Include="GuiArmor.cpp" />
+    <ClCompile Include="GuiBox.cpp" />
+    <ClCompile Include="GuiComponent.cpp" />
     <ClCompile Include="GuiCreature.cpp" />
+    <ClCompile Include="GuiItemDisplay.cpp" />
     <ClCompile Include="GuiOperable.cpp" />
     <ClCompile Include="GuiPotion.cpp" />
+    <ClCompile Include="GuiSelectableItemList.cpp" />
     <ClCompile Include="GuiTile.cpp" />
     <ClCompile Include="GuiWeapon.cpp" />
     <ClCompile Include="ItemContainer.cpp" />
@@ -109,7 +112,6 @@
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="RarityType.cpp" />
     <ClCompile Include="Rectangle.cpp" />
-    <ClCompile Include="SelectableItemFrame.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="TemplatePotion.cpp" />
     <ClCompile Include="TemplateWeapon.cpp" />
@@ -128,7 +130,6 @@
     <ClInclude Include="AiModuleCombat.h" />
     <ClInclude Include="AiModuleResident.h" />
     <ClInclude Include="AiNone.h" />
-    <ClInclude Include="AiTrader.h" />
     <ClInclude Include="AiVillager.h" />
     <ClInclude Include="AlchemyTable.h" />
     <ClInclude Include="Anvil.h" />
@@ -163,9 +164,13 @@
     <ClInclude Include="EffectWaterSplash.h" />
     <ClInclude Include="Forge.h" />
     <ClInclude Include="GuiArmor.h" />
+    <ClInclude Include="GuiBox.h" />
+    <ClInclude Include="GuiComponent.h" />
     <ClInclude Include="GuiCreature.h" />
+    <ClInclude Include="GuiItemDisplay.h" />
     <ClInclude Include="GuiOperable.h" />
     <ClInclude Include="GuiPotion.h" />
+    <ClInclude Include="GuiSelectableItemList.h" />
     <ClInclude Include="GuiTile.h" />
     <ClInclude Include="GuiWeapon.h" />
     <ClInclude Include="ItemContainer.h" />
@@ -219,7 +224,6 @@
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="RarityType.h" />
     <ClInclude Include="Rectangle.h" />
-    <ClInclude Include="SelectableItemFrame.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="TemplatePotion.h" />
     <ClInclude Include="TemplateWeapon.h" />

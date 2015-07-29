@@ -27,7 +27,8 @@ void Creature::damageRanged(Weapon &weapon, DynamicObject &target){
 	target.onTakeDamage(*this, weapon.damage);
 }
 void Creature::attack(DynamicObject &target){
-	if (inventory.currentWeapon != nullptr){
+	if (inventory.currentWeapon != nullptr &&
+		!target.isDead){
 		switch (inventory.currentWeapon->type){
 		case Weapon::WEAPON_MELEE: damageMelee(*inventory.currentWeapon, target); break;
 		case Weapon::WEAPON_RANGED: damageRanged(*inventory.currentWeapon, target); break;

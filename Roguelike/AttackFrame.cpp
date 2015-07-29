@@ -1,6 +1,7 @@
 #include "AttackFrame.h"
 #include "KeyMapping.h"
 #include "Engine.h"
+#include "Direction.h"
 
 bool AttackFrame::handleKey(TCOD_key_t key){
 	bool handled = GuiFrame::handleKey(key);
@@ -36,6 +37,7 @@ bool AttackFrame::handleKey(TCOD_key_t key){
 }
 
 void AttackFrame::render(){
+	guiCreature.renderTo(*this);
 	//cursor
 	TCODConsole::root->setCharBackground(
 		attackableObjects.at(objectIndex)->location.x - engine::camera.location.x,
@@ -49,11 +51,10 @@ void AttackFrame::setAttackableObjects(std::vector<std::shared_ptr<DynamicObject
 }
 
 void AttackFrame::updateTarget(){
-	engine::gui.guiCreature.close();
+	guiCreature.setCurrentCreature(nullptr);
 	if (attackableObjects.at(objectIndex)->type == Creature::CREATURE){
 		auto &creature = static_cast<Creature&>(*attackableObjects.at(objectIndex));
-		engine::gui.guiCreature.open();
-		engine::gui.guiCreature.setCurrentCreature(creature);
+		guiCreature.setCurrentCreature(&creature);
 	}
 }
 
@@ -72,8 +73,4 @@ void AttackFrame::onOpen(){
 		objectIndex = 0;
 	}
 	updateTarget();
-}
-
-void AttackFrame::onClose(){
-	engine::gui.guiCreature.close();
 }

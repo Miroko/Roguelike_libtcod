@@ -11,9 +11,10 @@ private:
 
 public:
 	enum State{
-		PURSUE,
+		PURSUE_TARGET,
 		FLEE,
 		WAIT,
+		JAMMED
 	};
 	State state = WAIT;
 

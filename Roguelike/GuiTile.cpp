@@ -1,15 +1,13 @@
 #include "GuiTile.h"
 #include "Tile.h"
 #include "Gui.h"
+#include "GuiFrame.h"
 
-void GuiTile::setCurrentTile(Tile &tile){
-	currentTile = &tile;
+void GuiTile::setCurrentTile(Tile *tile){
+	currentTile = tile;
 }
-void GuiTile::render(){
-	GuiFrame::render();
+void GuiTile::renderTo(GuiFrame &frame){
 	if (currentTile!= nullptr){
-		printString(0, 0, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE,
-			currentTile->getDescription());
+		frame.printString(0, 0, frame.getWidth(), 1, Gui::FRAME_FG, TCOD_CENTER, currentTile->getDescription());
 	}
-	blit();
 }

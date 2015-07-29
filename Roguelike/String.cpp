@@ -11,12 +11,20 @@ std::string String::weight(float weight, bool kg, int precision){
 	return value;
 }
 
-std::string String::currency(int currency){
-	return std::to_string(currency) + "c";
+std::string String::currency(int amount){
+	return std::to_string(amount) + "c";
 }
 
 std::string String::multiplier(float multiplier){
 	return "x" + weight(multiplier, false);
+}
+
+std::string String::damage(int amount){
+	return std::to_string(amount) + "d";
+}
+
+std::string String::defence(int amount){
+	return std::to_string(amount) + "a";
 }
 
 std::string String::loremIpsum(){

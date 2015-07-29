@@ -138,8 +138,8 @@ private:
 		public:
 			AreaDrop dropGoblin = AreaDrop({
 				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.1f)),
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.1f)),
+				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 0.2f)),
+				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 0.2f)),
 				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 0.8f)),
 				std::make_pair("goblin_bow_medium", std::make_pair("rarity_uncommon", 0.6f)) });
 
@@ -163,11 +163,15 @@ private:
 		class CaveKing : public Cave{
 		public:
 			AreaDrop dropGoblin = AreaDrop({
-				std::make_pair("goblin_bow_medium", std::make_pair("rarity_uncommon", 0.8f)) });
+				std::make_pair("goblin_bow_medium", std::make_pair("rarity_rare", 1.0f)),
+				std::make_pair("goblin_bow_medium", std::make_pair("rarity_rare", 0.8f)) });
 
 			AreaDrop dropKing = AreaDrop({
-				std::make_pair("goblin_bow_medium", std::make_pair("rarity_rare", 1.0f)),
-				std::make_pair("goblin_king", std::make_pair("rarity_epic", 1.0f))
+				std::make_pair("goblin_king", std::make_pair("rarity_epic", 1.0f)),
+				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 1.0f)),
+				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 1.0f)),
+				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 1.0f)),
+				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 1.0f)),
 			});
 
 			CaveKing() : Cave(

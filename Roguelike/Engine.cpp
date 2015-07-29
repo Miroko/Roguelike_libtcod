@@ -48,6 +48,9 @@ void engine::init(){
 	}
 }
 void engine::newGame(){
+	//reset visual effects
+	visualEffectHandler.runningEffects.clear();
+
 	//reset saved data
 	areaHandler.savedPhaseAreas.clear();
 

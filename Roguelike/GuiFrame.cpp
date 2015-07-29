@@ -41,7 +41,7 @@ bool GuiFrame::handleKey(TCOD_key_t &key){
 
 void GuiFrame::printString(int x, int y, int width, int height, const TCODColor &fg, const TCODColor &bg, TCOD_alignment_t alignment, TCOD_bkgnd_flag_t bgFlag, std::string string){
 	TCODConsole::setColorControl(TCOD_COLCTRL_1, fg, bg);
-	std::string coloredString = "%c" + string + "%c ";
+	std::string coloredString = "%c" + string + "%c";
 
 	if (alignment == TCOD_LEFT){
 		x += Gui::FRAME_MARGIN + 1;
@@ -56,7 +56,7 @@ void GuiFrame::printString(int x, int y, int width, int height, const TCODColor 
 		height -= Gui::FRAME_MARGIN - 2;
 	}
 	else if (alignment == TCOD_RIGHT){
-		x -= Gui::FRAME_MARGIN - width - 4;
+		x -= Gui::FRAME_MARGIN - width - 3;
 		y += Gui::FRAME_MARGIN + 1;
 		width -= Gui::FRAME_MARGIN - 2;
 		height -= Gui::FRAME_MARGIN - 2;
@@ -66,6 +66,22 @@ void GuiFrame::printString(int x, int y, int width, int height, const TCODColor 
 		width, height,
 		bgFlag, alignment, coloredString.c_str(),
 		TCOD_COLCTRL_1, TCOD_COLCTRL_STOP);
+}
+
+void GuiFrame::printString(int x, int y, int width, int height, const TCODColor &fg, TCOD_alignment_t alignment, std::string string){
+	printString(x, y, width, height, fg, fg, alignment, TCOD_BKGND_NONE, string);
+}
+
+void GuiFrame::paintBg(int x, int y, int width, int height, const TCODColor &color){
+	x += Gui::FRAME_MARGIN + 1;
+	y += Gui::FRAME_MARGIN + 1;
+	width -= Gui::FRAME_MARGIN - 2;
+	height -= Gui::FRAME_MARGIN - 2;
+	for (int consoleX = x; consoleX < x + width; ++consoleX){
+		for (int consoleY = y; consoleY < y + height; ++consoleY){
+			console->setCharBackground(consoleX, consoleY, color);
+		}
+	}
 }
 
 void GuiFrame::open(){
@@ -87,11 +103,11 @@ void GuiFrame::onClose(){
 }
 
 int GuiFrame::getWidth(){
-	return console->getWidth() - Gui::FRAME_MARGIN - 4;
+	return screenBounds.getWidth() - Gui::FRAME_MARGIN - 5;
 }
 
 int GuiFrame::getHeight(){
-	return console->getHeight() - Gui::FRAME_MARGIN - 4;
+	return screenBounds.getHeight() - Gui::FRAME_MARGIN - 5;
 }
 
 void GuiFrame::init(Rectangle bounds){

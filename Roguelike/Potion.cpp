@@ -12,9 +12,5 @@ int Potion::getValue(){
 }
 
 std::string Potion::getStatistics(){
-	return std::to_string(potency) + "p ";
-}
-
-std::string Potion::getDescription(){
-	return rarity.name + " " + name;
+	return std::to_string(potency) + "p " + Item::getStatistics();
 }

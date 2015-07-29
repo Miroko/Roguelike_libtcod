@@ -1,9 +1,11 @@
 #pragma once
 #include "libtcod.hpp"
-#include "SelectableItemFrame.h"
+#include "GuiFrame.h"
+#include "GuiSelectableItemList.h"
+#include "GuiBox.h"
+#include "GuiItemDisplay.h"
 
-class Item;
-class InventoryFrame : public SelectableItemFrame
+class InventoryFrame : public GuiFrame
 {
 private:
 	const std::string EQUIP = "Equip";
@@ -14,13 +16,25 @@ private:
 	const std::vector<std::string> EQUIPMENT_EQUIP_OPERATIONS = std::vector<std::string>({ EQUIP, DROP });
 	const std::vector<std::string> CONSUMABLE_OPERATIONS = std::vector<std::string>({ CONSUME, DROP });
 
+	Rectangle guiTopBoxBounds;
+	GuiBox guiTopBox;
+
+	Rectangle guiDisplayBoxBounds;
+	GuiBox guiDisplayBox;
+
+	Rectangle guiItemDisplayBounds;
+	GuiItemDisplay guiItemDisplay;
+
+	Rectangle guiSelectableItemListBounds;
+	GuiSelectableItemList guiSelectableItemList;
+
 public:
 	void onOpen();
 	void render();
-
-	void SelectableItemFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &operation);
-	std::vector<std::string> SelectableItemFrame::getOperationsForItem(std::shared_ptr<Item> &item);
+	bool handleKey(TCOD_key_t &key);
+	void init(Rectangle bounds);
 
 	InventoryFrame(char controlKey, bool open, float alphaFg, float alphaBg) : 
-		SelectableItemFrame(controlKey, open, alphaFg, alphaBg, "Inventory"){};
+		GuiFrame(controlKey, open, alphaFg, alphaBg, "Inventory"),
+		guiTopBox("Inventory"){};
 };

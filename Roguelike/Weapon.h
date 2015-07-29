@@ -11,7 +11,6 @@ public:
 
 	std::vector<RarityModWeapon*> rarityMods;
 
-	std::string getDescription();
 	std::string getStatistics();
 	int getValue();
 

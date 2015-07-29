@@ -1,25 +1,39 @@
 #include "GuiPotion.h"
 #include "Potion.h"
 #include "Gui.h"
+#include "GuiFrame.h"
 
-void GuiPotion::setCurrentPotion(Potion &potion){
-	currentPotion = &potion;
+void GuiPotion::setCurrentPotion(Potion *potion){
+	currentPotion = potion;
 }
-void GuiPotion::render(){
-	GuiFrame::render();
+void GuiPotion::renderTo(GuiFrame &frame, Rectangle &bounds){
 	if (currentPotion != nullptr){
+		//description
 		int offsetY = 0;
-		//description + stats
-		printString(0, offsetY, getWidth(), 1, currentPotion->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, Gui::FRAME_BG, TCOD_LEFT, TCOD_BKGND_NONE,
+		frame.printString(
+			bounds.start.x, bounds.start.y + offsetY,
+			bounds.getWidth(), 0, 
+			currentPotion->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, 
+			TCOD_CENTER, 
 			currentPotion->getDescription());
-		printString(0, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_BG, TCOD_RIGHT, TCOD_BKGND_NONE,
+		//stats
+		offsetY += 2;
+		frame.printString(
+			bounds.start.x, bounds.start.y + offsetY, 
+			bounds.getWidth(), 0, 
+			Gui::FRAME_FG, 
+			TCOD_CENTER, 
 			currentPotion->getStatistics());
-		offsetY += 1;
 		//effects
+		offsetY += 1;
 		for (auto &effect : currentPotion->effects){
-			printString(0, offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_BG, TCOD_LEFT, TCOD_BKGND_NONE, effect->getDescription());
-			++offsetY;
+			offsetY += 1;
+			frame.printString(
+				bounds.start.x, bounds.start.y + offsetY,
+				bounds.getWidth(), 0, 
+				Gui::FRAME_FG, 
+				TCOD_CENTER, 
+				effect->getDescription());
 		}
 	}
-	blit();
 }

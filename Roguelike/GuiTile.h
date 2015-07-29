@@ -1,15 +1,14 @@
 #pragma once
-#include "GuiFrame.h"
-#include "KeyMapping.h"
 
+class GuiFrame;
 class Tile;
-class GuiTile : public GuiFrame
+class GuiTile
 {
 public:
 	Tile *currentTile = nullptr;
 
-	void setCurrentTile(Tile &tile);
-	void GuiFrame::render();
+	void setCurrentTile(Tile *tile);
+	void renderTo(GuiFrame &frame);
 
-	GuiTile() : GuiFrame(KEY_UNDEFINED, false){};
+	GuiTile(){};
 };

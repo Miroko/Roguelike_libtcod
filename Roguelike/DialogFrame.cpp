@@ -52,11 +52,11 @@ void DialogFrame::render(){
 	int offsetY = 0;
 	for (auto &option : currentDialog->dialogOptions){
 		if (offsetY == selectedOption){
-			printString(0, getHeight() - offsetY, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_LEFT, TCOD_BKGND_NONE,
+			printString(0, getHeight() - offsetY + 1, getWidth(), 1, Gui::SELECTABLE_OPERATION, Gui::SELECTABLE_OPERATION, TCOD_LEFT, TCOD_BKGND_NONE,
 				currentDialog->dialogOptions.at(offsetY)->getOptionText(currentDialog->getSpeaker()).c_str());
 		}
 		else{
-			printString(0, getHeight() - offsetY, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE,
+			printString(0, getHeight() - offsetY + 1, getWidth(), 1, Gui::FRAME_FG, Gui::FRAME_FG, TCOD_LEFT, TCOD_BKGND_NONE,
 				currentDialog->dialogOptions.at(offsetY)->getOptionText(currentDialog->getSpeaker()).c_str());
 		}
 		++offsetY;

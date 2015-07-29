@@ -10,12 +10,6 @@
 #include "TradeFrame.h"
 #include "AttackFrame.h"
 #include "KeyMapping.h"
-#include "GuiCreature.h"
-#include "GuiWeapon.h"
-#include "GuiArmor.h"
-#include "GuiPotion.h"
-#include "GuiTile.h"
-#include "GuiOperable.h"
 
 class Gui
 {
@@ -40,12 +34,6 @@ public:
 	DialogFrame dialog = DialogFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
 	TradeFrame trade = TradeFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
 	AttackFrame attack = AttackFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
-	GuiCreature guiCreature = GuiCreature();
-	GuiWeapon guiWeapon = GuiWeapon();
-	GuiArmor guiArmor = GuiArmor();
-	GuiPotion guiPotion = GuiPotion();
-	GuiTile guiTile = GuiTile();
-	GuiOperable guiOperatable = GuiOperable();
 
 	void init();
 	

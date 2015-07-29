@@ -8,11 +8,17 @@
 void AiBlacksmith::onTakeDamage(DynamicObject &attacker){
 	if (attacker.type == Creature::CREATURE){
 		combatModule.target = &attacker;
+		combatModule.state = combatModule.PURSUE_TARGET;
 		currentState = COMBAT;
 	}
 }
 void AiBlacksmith::onCreatureInFov(Creature &creature, int distance){
-
+	if (combatModule.state != combatModule.JAMMED &&
+		combatModule.state != combatModule.FLEE){
+		if (&creature == combatModule.target){
+			combatModule.state = combatModule.PURSUE_TARGET;
+		}
+	}
 }
 void AiBlacksmith::onOperatableInFov(OperatableObject &operatable, int distance){
 	if (currentState == USE_FORGE){

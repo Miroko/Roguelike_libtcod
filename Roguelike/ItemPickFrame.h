@@ -1,19 +1,33 @@
 #pragma once
-#include "SelectableItemFrame.h"
+#include "GuiSelectableItemList.h"
+#include "GuiItemDisplay.h"
+#include "GuiBox.h"
+#include "GuiFrame.h"
 
-class ItemPickFrame : public SelectableItemFrame
+class ItemPickFrame : public GuiFrame
 {
 private:
 	const std::vector<std::string> PICK_OPERATIONS = std::vector<std::string>({ "Take" });
 
+	Rectangle guiDisplayBoxBounds;
+	GuiBox guiDisplayBox;
+
+	Rectangle guiItemDisplayBounds;
+	GuiItemDisplay guiItemDisplay;
+
+	Rectangle guiSelectableItemListBounds;
+	GuiSelectableItemList guiSelectableItemList;
+
 public:
 	bool moveToInventory(std::shared_ptr<Item> &item);
-
-	void SelectableItemFrame::onItemSelect(std::shared_ptr<Item> &item, std::string &operation);
-	std::vector<std::string> SelectableItemFrame::getOperationsForItem(std::shared_ptr<Item> &item);
+	bool handleKey(TCOD_key_t &key);
+	void init(Rectangle bounds);
+	void render();
+	void onOpen();
 	void onClose();
 
 	ItemPickFrame(char controlKey, bool open, float alphaFg, float alphaBg) : 
-		SelectableItemFrame(controlKey, open, alphaFg, alphaBg, "Items"){};
+		GuiFrame(controlKey, open, alphaFg, alphaBg, "Items"),
+		guiDisplayBox("Items"){};
 };
 

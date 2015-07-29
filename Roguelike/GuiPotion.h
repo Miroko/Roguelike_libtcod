@@ -1,16 +1,16 @@
 #pragma once
-#include "GuiFrame.h"
-#include "KeyMapping.h"
+#include "GuiComponent.h"
 
+class GuiFrame;
 class Potion;
-class GuiPotion : public GuiFrame
+class GuiPotion : GuiComponent
 {
 public:
 	Potion *currentPotion = nullptr;
 
-	void setCurrentPotion(Potion &potion);
-	void GuiFrame::render();
+	void setCurrentPotion(Potion *potion);
+	void GuiComponent::renderTo(GuiFrame &frame, Rectangle &bounds);
 
-	GuiPotion() : GuiFrame(KEY_UNDEFINED, false){};
+	GuiPotion(){};
 };
 

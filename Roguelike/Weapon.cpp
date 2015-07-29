@@ -1,11 +1,8 @@
 #include "Weapon.h"
-
-std::string Weapon::getDescription(){
-	return rarity.name + " " + name;
-}
+#include "Engine.h"
 
 std::string Weapon::getStatistics(){
-	return std::to_string(damage) + "d ";
+	return engine::string.damage(damage) + " " + Item::getStatistics();
 }
 
 int Weapon::getValue(){
