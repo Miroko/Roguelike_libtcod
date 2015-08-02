@@ -37,6 +37,7 @@ void engine::init(){
 			}
 			if (requestUpdate){
 				areaHandler.updateArea();
+				gui.update();
 				camera.centerOn(playerHandler.getPlayerCreature()->location);
 				requestUpdate = false;
 			}

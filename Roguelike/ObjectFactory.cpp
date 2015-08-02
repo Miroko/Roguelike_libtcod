@@ -58,6 +58,7 @@ std::shared_ptr<Weapon> ObjectFactory::createWeapon(std::string weaponTemplateId
 			 templateWeapon.damage *
 			 rarity.improvementMultiplier *
 		     (1.0f - engine::random.generator->getFloat(0.0, valueVariation))),
+		templateWeapon.range,
 		rarity,
 		rarity.getRandomWeaponMods()
 		));

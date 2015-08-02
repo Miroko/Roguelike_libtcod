@@ -7,8 +7,10 @@
 void AiVillager::onTakeDamage(DynamicObject &attacker){
 	if (attacker.type == Creature::CREATURE){
 		combatModule.target = &attacker;
-		combatModule.state = combatModule.PURSUE_TARGET;
-		currentState = COMBAT;
+		if (combatModule.state != combatModule.FLEE){
+			combatModule.state = combatModule.PURSUE_TARGET;
+			currentState = COMBAT;
+		}
 	}
 }
 void AiVillager::onCreatureInFov(Creature &creature, int distance){

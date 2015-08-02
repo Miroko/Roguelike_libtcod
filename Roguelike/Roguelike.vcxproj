@@ -54,7 +54,7 @@
     <ClCompile Include="GuiBox.cpp" />
     <ClCompile Include="GuiComponent.cpp" />
     <ClCompile Include="GuiCreature.cpp" />
-    <ClCompile Include="GuiItemDisplay.cpp" />
+    <ClCompile Include="GuiGameObjectDisplay.cpp" />
     <ClCompile Include="GuiOperable.cpp" />
     <ClCompile Include="GuiPotion.cpp" />
     <ClCompile Include="GuiSelectableItemList.cpp" />
@@ -167,7 +167,7 @@
     <ClInclude Include="GuiBox.h" />
     <ClInclude Include="GuiComponent.h" />
     <ClInclude Include="GuiCreature.h" />
-    <ClInclude Include="GuiItemDisplay.h" />
+    <ClInclude Include="GuiGameObjectDisplay.h" />
     <ClInclude Include="GuiOperable.h" />
     <ClInclude Include="GuiPotion.h" />
     <ClInclude Include="GuiSelectableItemList.h" />

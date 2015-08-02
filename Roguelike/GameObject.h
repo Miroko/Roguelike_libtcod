@@ -36,6 +36,11 @@ public:
 	std::string name;
 	Glyph glyph;
 
+	bool isWeapon();
+	bool isArmor();
+	bool isOperatable();
+	bool isTile();
+
 	Type getType();
 	virtual void render(int x, int y);
 	virtual std::string getDescription();

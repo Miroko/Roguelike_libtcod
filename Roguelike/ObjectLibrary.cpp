@@ -169,7 +169,8 @@ void ObjectLibrary::init(){
 		"Bow",
 		Glyph('b', TCODColor::lightGrey),
 		0.05f, 0.45f,
-		Weapon::WEAPON_RANGED));
+		Weapon::WEAPON_RANGED,
+		8));
 
 	//Armors
 	addArmorTemplate(TemplateArmor(

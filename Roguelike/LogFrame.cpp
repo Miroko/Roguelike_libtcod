@@ -15,7 +15,7 @@ void LogFrame::render(){
 		console->printRectEx(console->getWidth()/2, y, console->getWidth(), 1, TCOD_BKGND_NONE, TCOD_CENTER, message.c_str());
 		float fadeAlpha = alphaFg - alphaFg / maxY * y;
 		if (fadeAlpha < 0.1) fadeAlpha = 0.1f;
-		blit(1, y, console->getWidth() - 1, 1, screenBounds.start.x + 1, screenBounds.start.y + y, fadeAlpha, 0.0);
+		blit(1, y, console->getWidth() - 1, 1, frameBounds.start.x + 1, frameBounds.start.y + y, fadeAlpha, 0.0);
 		++y;
 	}
 }

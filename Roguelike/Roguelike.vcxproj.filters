@@ -445,9 +445,6 @@
     <ClCompile Include="GuiComponent.cpp">
       <Filter>Engine\Gui\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GuiItemDisplay.cpp">
-      <Filter>Engine\Gui\Component\Components\Major</Filter>
-    </ClCompile>
     <ClCompile Include="GuiArmor.cpp">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClCompile>
@@ -471,6 +468,9 @@
     </ClCompile>
     <ClCompile Include="GuiBox.cpp">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiGameObjectDisplay.cpp">
+      <Filter>Engine\Gui\Component\Components\Major</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -777,9 +777,6 @@
     <ClInclude Include="GuiComponent.h">
       <Filter>Engine\Gui\Component</Filter>
     </ClInclude>
-    <ClInclude Include="GuiItemDisplay.h">
-      <Filter>Engine\Gui\Component\Components\Major</Filter>
-    </ClInclude>
     <ClInclude Include="GuiWeapon.h">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClInclude>
@@ -803,6 +800,9 @@
     </ClInclude>
     <ClInclude Include="GuiBox.h">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiGameObjectDisplay.h">
+      <Filter>Engine\Gui\Component\Components\Major</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

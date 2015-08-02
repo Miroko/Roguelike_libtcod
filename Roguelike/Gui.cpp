@@ -63,7 +63,7 @@ void Gui::init(){
 
 	attack.init(Rectangle(
 		Point2D(0, 0),
-		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getWidth() / 4)));
+		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 12)));
 }
 
 bool Gui::handleKey(TCOD_key_t &key){
@@ -92,4 +92,8 @@ void Gui::render(){
 	if (help.isOpen) help.render();
 	if (dialog.isOpen) dialog.render();
 	if (trade.isOpen) trade.render();
+}
+
+void Gui::update(){
+	if (attack.isOpen) attack.update();
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "GuiSelectableItemList.h"
-#include "GuiItemDisplay.h"
+#include "GuiGameObjectDisplay.h"
 #include "GuiBox.h"
 #include "GuiFrame.h"
 
@@ -12,8 +12,8 @@ private:
 	Rectangle guiDisplayBoxBounds;
 	GuiBox guiDisplayBox;
 
-	Rectangle guiItemDisplayBounds;
-	GuiItemDisplay guiItemDisplay;
+	Rectangle guiGameObjectDisplayBounds;
+	GuiGameObjectDisplay guiGameObjectDisplay;
 
 	Rectangle guiSelectableItemListBounds;
 	GuiSelectableItemList guiSelectableItemList;

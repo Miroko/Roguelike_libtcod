@@ -27,10 +27,7 @@ bool InspectionFrame::handleKey(TCOD_key_t key){
 
 void InspectionFrame::render(){
 	GuiFrame::render();
-	guiItemDisplay.renderTo(*this, guiItemDisplayBounds);
-	guiCreature.renderTo(*this);
-	guiTile.renderTo(*this);
-	guiOperatable.renderTo(*this);
+	guiGameObjectDisplay.renderTo(*this, guiGameObjectDisplayBounds);
 	//Inspector cursor
 	TCODConsole::root->setCharBackground(inspectorLocation.x, inspectorLocation.y,
 		Gui::INSPECTION_CURSOR,
@@ -39,33 +36,31 @@ void InspectionFrame::render(){
 }
 
 void InspectionFrame::updateSelection(){
-	//clear old selection
-	guiItemDisplay.clear();
-	guiCreature.setCurrentCreature(nullptr);
-	guiTile.setCurrentTile(nullptr);
-	guiOperatable.setCurrentOperatable(nullptr);
-
 	//set new selection
 	Point2D cursorLocationInArea = inspectorLocation + engine::camera.location;
 	if (engine::playerHandler.getPlayerCreature()->ai->inFov(cursorLocationInArea)){
 		std::vector<std::shared_ptr<Creature>*> creatures = engine::areaHandler.getCurrentArea()->getCreatures(cursorLocationInArea);
 		if (!creatures.empty()){
-			guiCreature.setCurrentCreature(creatures.front()->get());
+			guiGameObjectDisplay.setDisplayedObject(creatures.front()->get());
 		}
 		else{
 			std::vector<std::shared_ptr<Item>*> items = engine::areaHandler.getCurrentArea()->getItemsAt(cursorLocationInArea);
 			if (!items.empty()){
-				guiItemDisplay.display(items.front()->get());
+				guiGameObjectDisplay.setDisplayedObject(items.front()->get());
 			}
 			else{
 				std::vector<std::shared_ptr<OperatableObject>*> operatables = engine::areaHandler.getCurrentArea()->getOperatables(cursorLocationInArea);
 				if (!operatables.empty()){
-					guiOperatable.setCurrentOperatable(operatables.front()->get());
+					guiGameObjectDisplay.setDisplayedObject(operatables.front()->get());
 				}
 				else{
 					Tile *tile = engine::areaHandler.getCurrentArea()->getTile(cursorLocationInArea);
 					if (tile != nullptr){
-						guiTile.setCurrentTile(tile);
+						guiGameObjectDisplay.setDisplayedObject(tile);
+					}
+					else{
+						//not in fov
+						guiGameObjectDisplay.clear();
 					}
 				}
 			}
@@ -81,5 +76,5 @@ void InspectionFrame::onOpen(){
 
 void InspectionFrame::init(Rectangle bounds){
 	GuiFrame::init(bounds);
-	guiItemDisplayBounds = Rectangle(getWidth(), getHeight());
+	guiGameObjectDisplayBounds = Rectangle(getWidth(), getHeight());
 }

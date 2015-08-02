@@ -31,7 +31,7 @@ bool ItemPickFrame::handleKey(TCOD_key_t &key){
 void ItemPickFrame::render(){
 	GuiFrame::render();
 	guiDisplayBox.renderTo(*this, guiDisplayBoxBounds);
-	guiItemDisplay.renderTo(*this, guiItemDisplayBounds);
+	guiGameObjectDisplay.renderTo(*this, guiGameObjectDisplayBounds);
 	guiSelectableItemList.renderTo(*this, guiSelectableItemListBounds);
 	blit();
 }
@@ -39,13 +39,13 @@ void ItemPickFrame::render(){
 void ItemPickFrame::init(Rectangle bounds){
 	GuiFrame::init(bounds);
 	guiDisplayBoxBounds = Rectangle(Point2D(0, 0), Point2D(bounds.getWidth(), 11));
-	guiItemDisplayBounds = Rectangle(Point2D(0, 0), Point2D(getWidth(), 11));
+	guiGameObjectDisplayBounds = Rectangle(Point2D(0, 0), Point2D(getWidth(), 11));
 	guiSelectableItemListBounds = Rectangle(Point2D(0, 11), Point2D(getWidth(), getHeight() - 11));
 	guiSelectableItemList.setGetOperationsFunction(
 		[this](std::shared_ptr<Item> item, bool selected) -> std::vector<std::string>{
 		if (selected){
 			//update item in display
-			guiItemDisplay.display(item.get());
+			guiGameObjectDisplay.setDisplayedObject(item.get());
 			return PICK_OPERATIONS;
 		}
 		else{
@@ -56,7 +56,7 @@ void ItemPickFrame::init(Rectangle bounds){
 		[this](std::shared_ptr<Item> item, std::string operation){
 		moveToInventory(item);
 		//clear display
-		guiItemDisplay.clear();
+		guiGameObjectDisplay.clear();
 	});
 }
 

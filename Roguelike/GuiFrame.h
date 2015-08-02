@@ -8,9 +8,7 @@ class GuiFrame
 {
 protected:
 	std::string title;
-
-	//Screen bounds
-	Rectangle screenBounds;
+	Rectangle frameBounds;
 
 	char controlKey;
 	float alphaFg;
@@ -42,6 +40,7 @@ public:
 
 	virtual bool handleKey(TCOD_key_t &key);
 	virtual void render() = 0;
+	virtual void update();
 
 	GuiFrame(char controlKey, bool open, float alphaFg = 1.0, float alphaBg = 1.0, std::string title = "") :
 		controlKey(controlKey),

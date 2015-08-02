@@ -3,16 +3,13 @@
 #include "GuiCreature.h"
 #include "GuiTile.h"
 #include "GuiOperable.h"
-#include "GuiItemDisplay.h"
+#include "GuiGameObjectDisplay.h"
 
 class InspectionFrame : public GuiFrame
 {
 private:
-	Rectangle guiItemDisplayBounds;
-	GuiItemDisplay guiItemDisplay;
-	GuiCreature guiCreature;
-	GuiTile guiTile;
-	GuiOperable guiOperatable;
+	Rectangle guiGameObjectDisplayBounds;
+	GuiGameObjectDisplay guiGameObjectDisplay;
 
 public:
 	Point2D inspectorLocation;

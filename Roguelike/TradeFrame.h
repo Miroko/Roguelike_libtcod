@@ -1,7 +1,7 @@
 #pragma once
 #include "GuiFrame.h"
 #include "GuiBox.h"
-#include "GuiItemDisplay.h"
+#include "GuiGameObjectDisplay.h"
 #include "GuiSelectableItemList.h"
 #include "TradeContainer.h"
 
@@ -19,7 +19,7 @@ private:
 	Rectangle guiPlayerDisplayBoxBounds;
 	GuiBox guiPlayerDisplayBox;
 	Rectangle guiPlayerItemDisplayBounds;
-	GuiItemDisplay guiPlayerItemDisplay;
+	GuiGameObjectDisplay guiPlayerItemDisplay;
 
 	Rectangle guiPlayerSelectableListBoxBounds;
 	GuiBox guiPlayerSelectableListBox;
@@ -35,7 +35,7 @@ private:
 	Rectangle guiTraderDisplayBoxBounds;
 	GuiBox guiTraderDisplayBox;
 	Rectangle guiTraderItemDisplayBounds;
-	GuiItemDisplay guiTraderItemDisplay;
+	GuiGameObjectDisplay guiTraderItemDisplay;
 
 	Rectangle guiTraderSelectableListBoxBounds;
 	GuiBox guiTraderSelectableListBox;
@@ -63,5 +63,7 @@ public:
 	void init(Rectangle bounds);
 
 	TradeFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
-		GuiFrame(controlKey, open, alphaFg, alphaBg, "Trade"){};
+		GuiFrame(controlKey, open, alphaFg, alphaBg, "Trade"),
+		guiPlayerTopBox("Player"),
+		guiTraderTopBox("Trader"){};
 };

@@ -3,7 +3,7 @@
 #include "GuiFrame.h"
 #include "GuiSelectableItemList.h"
 #include "GuiBox.h"
-#include "GuiItemDisplay.h"
+#include "GuiGameObjectDisplay.h"
 
 class InventoryFrame : public GuiFrame
 {
@@ -22,8 +22,8 @@ private:
 	Rectangle guiDisplayBoxBounds;
 	GuiBox guiDisplayBox;
 
-	Rectangle guiItemDisplayBounds;
-	GuiItemDisplay guiItemDisplay;
+	Rectangle guiGameObjectDisplayBounds;
+	GuiGameObjectDisplay guiGameObjectDisplay;
 
 	Rectangle guiSelectableItemListBounds;
 	GuiSelectableItemList guiSelectableItemList;

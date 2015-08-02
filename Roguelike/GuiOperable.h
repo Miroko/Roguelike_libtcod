@@ -1,14 +1,15 @@
 #pragma once
+#include "GuiComponent.h"
 
 class GuiFrame;
 class OperatableObject;
-class GuiOperable
+class GuiOperable : public GuiComponent
 {
 public:
 	OperatableObject *currentOperatable = nullptr;
 
 	void setCurrentOperatable(OperatableObject *operatable);
-	void renderTo(GuiFrame &frame);
+	void GuiComponent::renderTo(GuiFrame &frame, Rectangle &bounds);
 
 	GuiOperable(){};
 };

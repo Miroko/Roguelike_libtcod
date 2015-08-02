@@ -15,9 +15,6 @@ public:
 	Point2D location;
 	float weight; 	// Kg
 
-	bool isWeapon();
-	bool isArmor();
-
 	virtual int getValue();
 	virtual std::string getStatistics();
 	virtual std::string getDescription();

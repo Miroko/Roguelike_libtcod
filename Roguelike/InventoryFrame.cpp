@@ -39,7 +39,7 @@ void InventoryFrame::render(){
 		TCOD_RIGHT, 
 		engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight()));
 	guiDisplayBox.renderTo(*this, guiDisplayBoxBounds);
-	guiItemDisplay.renderTo(*this, guiItemDisplayBounds);
+	guiGameObjectDisplay.renderTo(*this, guiGameObjectDisplayBounds);
 	guiSelectableItemList.renderTo(*this, guiSelectableItemListBounds);
 	blit();
 }
@@ -48,13 +48,13 @@ void InventoryFrame::init(Rectangle bounds){
 	GuiFrame::init(bounds);
 	guiTopBoxBounds = Rectangle(Point2D(0, 0), Point2D(bounds.getWidth(), 3));
 	guiDisplayBoxBounds = Rectangle(Point2D(0, 3), Point2D(bounds.getWidth(), 14));
-	guiItemDisplayBounds = Rectangle(Point2D(0, 3), Point2D(getWidth(), 14));
+	guiGameObjectDisplayBounds = Rectangle(Point2D(0, 3), Point2D(getWidth(), 14));
 	guiSelectableItemListBounds = Rectangle(Point2D(0, 14), Point2D(getWidth(), getHeight() - 14));
 	guiSelectableItemList.setGetOperationsFunction(
 		[this](std::shared_ptr<Item> item, bool selected) -> std::vector<std::string>{
 		if (selected){
 			//update item in display
-			guiItemDisplay.display(item.get());
+			guiGameObjectDisplay.setDisplayedObject(item.get());
 		}
 		if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
 			if (selected){			
@@ -80,6 +80,6 @@ void InventoryFrame::init(Rectangle bounds){
 		else if (operation == CONSUME) engine::playerHandler.playerInventory.consume(std::static_pointer_cast<Consumable>(item));
 		else if (operation == DROP) engine::playerHandler.playerInventory.drop(item);
 		//clear display
-		guiItemDisplay.clear();
+		guiGameObjectDisplay.clear();
 	});
 }

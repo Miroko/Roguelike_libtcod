@@ -23,7 +23,7 @@ void GuiFrame::blit(int x, int y, int width, int height, int toX, int toY, float
 void GuiFrame::blit(){
 	blit(
 		0, 0, console->getWidth(), console->getHeight(),
-		screenBounds.start.x, screenBounds.start.y,
+		frameBounds.start.x, frameBounds.start.y,
 		alphaFg, alphaBg
 		);
 }
@@ -37,6 +37,10 @@ bool GuiFrame::handleKey(TCOD_key_t &key){
 		}
 	}
 	return false;	
+}
+
+void GuiFrame::update(){
+
 }
 
 void GuiFrame::printString(int x, int y, int width, int height, const TCODColor &fg, const TCODColor &bg, TCOD_alignment_t alignment, TCOD_bkgnd_flag_t bgFlag, std::string string){
@@ -103,14 +107,14 @@ void GuiFrame::onClose(){
 }
 
 int GuiFrame::getWidth(){
-	return screenBounds.getWidth() - Gui::FRAME_MARGIN - 5;
+	return frameBounds.getWidth() - Gui::FRAME_MARGIN - 5;
 }
 
 int GuiFrame::getHeight(){
-	return screenBounds.getHeight() - Gui::FRAME_MARGIN - 5;
+	return frameBounds.getHeight() - Gui::FRAME_MARGIN - 5;
 }
 
 void GuiFrame::init(Rectangle bounds){
-	screenBounds = bounds;
-	console = std::shared_ptr<TCODConsole>(new TCODConsole(screenBounds.getWidth(), screenBounds.getHeight()));
+	frameBounds = bounds;
+	console = std::shared_ptr<TCODConsole>(new TCODConsole(frameBounds.getWidth(), frameBounds.getHeight()));
 }

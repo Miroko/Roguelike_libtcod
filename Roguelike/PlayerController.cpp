@@ -35,55 +35,7 @@ bool PlayerController::wait(){
 }
 bool PlayerController::attack(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
-	if (engine::playerHandler.getPlayerCreature()->inventory.currentWeapon != nullptr){
-		switch (engine::playerHandler.getPlayerCreature()->inventory.currentWeapon->type){
-		case Weapon::WEAPON_MELEE:{
-			TCOD_key_t key = TCODConsole::waitForKeypress(false); // Wait for attack direction
-			Point2D attackDirection = KeyMapping::direction(key.vk);
-			if (attackDirection.undefined()) return false;
-			else if (attackDirection == CENTER) return false;
-			else{
-				std::vector<std::shared_ptr<DynamicObject>> objectsToAttack;
-				Point2D attackLocation = engine::playerHandler.getPlayerCreature()->location + attackDirection;
-				for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(attackLocation)){
-					objectsToAttack.push_back(*creature);
-				}
-				if (objectsToAttack.empty()){
-					//no creatures to attack
-					//check for operatables
-					for (auto &operatable : engine::areaHandler.getCurrentArea()->getOperatables(attackLocation)){
-						objectsToAttack.push_back(*operatable);
-					}
-				}
-				if (objectsToAttack.empty()) return false;
-				else engine::playerHandler.getPlayerCreature()->attack(*objectsToAttack.front()); return true; //Attack first at location
-			}
-		}break;
-		case Weapon::WEAPON_RANGED:{
-			Rectangle range = Rectangle(engine::playerHandler.getPlayerCreature()->location, engine::playerHandler.getPlayerCreature()->location);
-			range.expand(8);
-			std::vector<std::shared_ptr<DynamicObject>> objectsInRange;
-			//can target creatures
-			for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(range)){
-				objectsInRange.push_back(*creature);
-			}
-			auto &o = objectsInRange.begin();
-			while (o != objectsInRange.end()){
-				if (o->get() == engine::playerHandler.getPlayerCreature().get() ||
-					!engine::playerHandler.getPlayerCreature()->ai->inFov(o->get()->location)){
-					//Remove player and objects not in fov
-					o = objectsInRange.erase(o);
-				}
-				else ++o;
-			}
-			if (objectsInRange.empty()) engine::gui.log.addMessage("Nothing to shoot at.");
-			else {
-				engine::gui.attack.setAttackableObjects(objectsInRange);
-				engine::gui.attack.open();
-			}
-		}break;
-		}
-	}
+	engine::gui.attack.open();
 	return false;
 }
 bool PlayerController::take(){

@@ -39,6 +39,7 @@ public:
 	
 	void render();
 	bool handleKey(TCOD_key_t &key);
+	void update();
 
 	Gui(){};
 };

@@ -6,8 +6,13 @@
 void GuiTile::setCurrentTile(Tile *tile){
 	currentTile = tile;
 }
-void GuiTile::renderTo(GuiFrame &frame){
+void GuiTile::renderTo(GuiFrame &frame, Rectangle &bounds){
 	if (currentTile!= nullptr){
-		frame.printString(0, 0, frame.getWidth(), 1, Gui::FRAME_FG, TCOD_CENTER, currentTile->getDescription());
+		frame.printString(
+			bounds.start.x, bounds.start.y,
+			bounds.getWidth(), 0,
+			Gui::FRAME_FG,
+			TCOD_CENTER,
+			currentTile->getDescription());
 	}
 }

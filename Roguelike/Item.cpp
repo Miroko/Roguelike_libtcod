@@ -20,17 +20,3 @@ int Item::getValue(){
 	value += (int)(VALUE_WEIGHT_MULTIPLIER * weight);
 	return value;
 }
-
-bool Item::isWeapon(){
-	return(
-		type == WEAPON_MELEE ||
-		type == WEAPON_RANGED);
-}
-
-bool Item::isArmor(){
-	return(
-		type == ARMOR_BODY ||
-		type == ARMOR_HAND ||
-		type == ARMOR_HEAD ||
-		type == ARMOR_LEG);
-}
