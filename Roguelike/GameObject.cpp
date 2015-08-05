@@ -26,6 +26,12 @@ bool GameObject::isArmor(){
 		type == ARMOR_LEG);
 }
 
+bool GameObject::isConsumable(){
+	return(
+		type == POTION ||
+		type == SCROLL);
+}
+
 bool GameObject::isOperatable(){
 	return(
 		type == DOOR ||

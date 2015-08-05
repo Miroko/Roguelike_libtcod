@@ -11,8 +11,8 @@ public:
 	std::string getStatistics();
 	void Consumable::onConsume(Creature &consumer);
 
-	Potion(std::string name, Glyph glyph, float weight, std::vector<std::shared_ptr<CreatureEffect>> effects, int value, Type type, RarityType &rarity) :
-		Consumable(name, glyph, weight, type, rarity),
+	Potion(std::string name, Glyph glyph, float weight, std::vector<std::shared_ptr<CreatureEffect>> effects, int value, RarityType &rarity) :
+		Consumable(name, glyph, weight, GameObject::POTION, rarity),
 		effects(effects), 
 		value(value){};
 };

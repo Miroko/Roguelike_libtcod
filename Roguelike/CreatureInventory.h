@@ -19,6 +19,8 @@ public:
 	void consume(std::shared_ptr<Consumable> consumable);
 	void drop(std::shared_ptr<Item> item);
 	bool isEquipped(std::shared_ptr<Item> item);
+	int getTotalDefence();
+	float getTotalWeight();
 
 	void init(Creature &owner);
 

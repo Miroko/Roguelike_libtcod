@@ -30,7 +30,8 @@ public:
 		ARMOR_HAND,
 		ARMOR_LEG,
 
-		POTION
+		POTION,
+		SCROLL
 	};
 	Type type;
 	std::string name;
@@ -38,6 +39,7 @@ public:
 
 	bool isWeapon();
 	bool isArmor();
+	bool isConsumable();
 	bool isOperatable();
 	bool isTile();
 

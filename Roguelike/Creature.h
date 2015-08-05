@@ -4,16 +4,18 @@
 #include "CreatureAi.h"
 #include "CreatureLimb.h"
 #include "RarityType.h"
-#include <deque>
 
 class Creature : public DynamicObject
 {
 private:
+	bool waitedLastTurn = true;
 	void damageMelee(Weapon &weapon, DynamicObject &target);
 	void damageRanged(Weapon &weapon, DynamicObject &target);
 
 public:
 	std::string presetId;
+	int staminaCurrent;
+	int staminaMax;
 	CreatureInventory inventory;
 	std::shared_ptr<CreatureAi> ai;
 	std::vector<CreatureLimb> limbs;
@@ -21,15 +23,16 @@ public:
 	RarityType &rarity;
 	std::vector<RarityModCreature*> rarityMods;
 
-	int getTotalDefence();
 	void addEffect(std::shared_ptr<CreatureEffect> effect);
 	void attack(DynamicObject &target);
 	void onTakeDamage(DynamicObject &attacker, int amount);
 	void onDeath();
+	bool move(Point2D &location);
+	void onMove();
 	void initAi(Area &area);
 	void update();
 
-	Creature(std::string name, std::string presetId, Glyph glyph, Type type, int health, RarityType &rarity, std::vector<RarityModCreature*> mods, std::shared_ptr<CreatureAi> ai, std::vector<CreatureLimb> limbs) :
+	Creature(std::string name, std::string presetId, Glyph glyph, Type type, int health, int stamina, RarityType &rarity, std::vector<RarityModCreature*> mods, std::shared_ptr<CreatureAi> ai, std::vector<CreatureLimb> limbs) :
 		DynamicObject(
 		name,
 		type,
@@ -39,5 +42,7 @@ public:
 		limbs(limbs),
 		ai(ai),
 		rarity(rarity),
-		rarityMods(mods){};
+		rarityMods(mods), 
+		staminaCurrent(stamina),
+		staminaMax(stamina){};
 };

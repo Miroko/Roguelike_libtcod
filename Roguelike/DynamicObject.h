@@ -14,7 +14,8 @@ public:
 	int health;
 
 	void setHealth(int health);
-	bool move(Point2D &location);
+	virtual bool move(Point2D &location);
+	virtual void onMove();
 	void kill();
 	virtual bool passable(DynamicObject &dynamicObject);
 	virtual void onTakeDamage(DynamicObject &attacker, int amount);

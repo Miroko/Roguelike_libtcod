@@ -10,13 +10,16 @@ void DynamicObject::setHealth(int health){
 bool DynamicObject::move(Point2D &location){
 	if (engine::areaHandler.getCurrentArea()->passable(location, *this)){
 		this->location = location;
-		if (engine::areaHandler.getCurrentArea()->getTile(location)->type == Tile::WATER &&
-			engine::playerHandler.getPlayerCreature()->ai->inFov(location)){
-			engine::visualEffectHandler.playEffect(std::shared_ptr<ParticleEffect>(new EffectWaterSplash(location)));
-		}
+		onMove();
 		return true;
 	}
 	else return false;
+}
+void DynamicObject::onMove(){
+	if (engine::areaHandler.getCurrentArea()->getTile(location)->type == Tile::WATER &&
+		engine::playerHandler.getPlayerCreature()->ai->inFov(location)){
+		engine::visualEffectHandler.playEffect(std::shared_ptr<ParticleEffect>(new EffectWaterSplash(location)));
+	}
 }
 void DynamicObject::kill(){
 	isDead = true;

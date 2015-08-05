@@ -50,6 +50,25 @@ bool CreatureInventory::isEquipped(std::shared_ptr<Item> item){
 	}
 	return false;
 }
+int CreatureInventory::getTotalDefence(){
+	int totalDefence = 0;
+	for (auto &limb : owner->limbs){
+		if (limb.currentArmor != nullptr){
+			totalDefence += limb.currentArmor->defence;
+		}
+	}
+	return totalDefence;
+}
+float CreatureInventory::getTotalWeight(){
+	float totalWeight = 0;
+	if (currentWeapon != nullptr) totalWeight += currentWeapon->weight;
+	for (auto &limb : owner->limbs){
+		if (limb.currentArmor != nullptr){
+			totalWeight += limb.currentArmor->weight;
+		}
+	}
+	return totalWeight;
+}
 void CreatureInventory::init(Creature &owner){
 	this->owner = &owner;
 }

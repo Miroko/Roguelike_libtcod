@@ -126,6 +126,7 @@ void ObjectLibrary::sortRarityTypes(){
 
 void ObjectLibrary::init(){
 	maxWeight = 50;
+	staminaBaseCost = 20;
 	maxHealth = 1000;
 	maxDamage = maxHealth / 10;
 	maxDefence = maxHealth / 30;

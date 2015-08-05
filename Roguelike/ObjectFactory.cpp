@@ -12,15 +12,22 @@
 std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creaturePresetTemplateId, RarityType &rarity){
 	TemplateCreaturePreset &templateCreaturePreset = *engine::objectLibrary.getTemplateCreaturePreset(creaturePresetTemplateId);
 	TemplateCreature &templateCreature = *engine::objectLibrary.getTemplateCreature(templateCreaturePreset.creatureTemplateId);
+
+	int health =
+		(int)(engine::objectLibrary.maxHealth *
+		templateCreaturePreset.health *
+		rarity.improvementMultiplier *
+		engine::random.generator->getFloat(1.0f - valueVariation, 1.0f));
+
+	int stamina = (int)(health * 0.8f);
+
 	std::shared_ptr<Creature> creature = std::shared_ptr<Creature>(new Creature(
 		templateCreaturePreset.name,
 		creaturePresetTemplateId,
 		templateCreaturePreset.glyph,
 		Creature::CREATURE,
-		(int)(engine::objectLibrary.maxHealth *
-			 templateCreaturePreset.health *
-			 rarity.improvementMultiplier *
-			 (1.0f - engine::random.generator->getFloat(0.0, valueVariation))),
+		health,
+		stamina,
 		rarity,
 		rarity.getRandomCreatureMods(),
 		engine::objectLibrary.getAi(templateCreaturePreset.AiId)->copy(),
@@ -110,7 +117,6 @@ std::shared_ptr<Potion> ObjectFactory::createPotion(TemplatePotionRarityMap &rar
 		templatePotion->weight * engine::objectLibrary.maxWeight,
 		clonedEffects,
 		templatePotion->value,
-		templatePotion->type,
 		rarityType));
 		return newPotion;
 	}

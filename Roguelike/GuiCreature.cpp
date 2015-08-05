@@ -52,6 +52,22 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 			healthColor,
 			TCOD_RIGHT,
 			engine::string.outOf(currentCreature->health, currentCreature->healthMax));
+		//stamina
+		offsetY += 1;
+		percentage = ((float)currentCreature->staminaCurrent / (float)currentCreature->staminaMax);
+		TCODColor staminaColor = TCODColor::lerp(STAMINA_MIN_COLOR, STAMINA_MAX_COLOR, percentage);
+		frame.printString(
+			bounds.start.x, bounds.start.y + offsetY,
+			bounds.getWidth(), 0,
+			Gui::FRAME_FG,
+			TCOD_LEFT,
+			"Stamina");
+		frame.printString(
+			bounds.start.x, bounds.start.y + offsetY,
+			bounds.getWidth(), 0,
+			staminaColor,
+			TCOD_RIGHT,
+			engine::string.outOf(currentCreature->staminaCurrent, currentCreature->staminaMax));
 		//Equipment
 		offsetY += 2;
 		frame.printString(

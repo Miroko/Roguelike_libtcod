@@ -139,6 +139,9 @@
     <Filter Include="Engine\Gui\Component\Components\Major">
       <UniqueIdentifier>{9b8fcc8f-5cc9-479d-be12-88c9cded2553}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\GameObject\Item\Consumable\Scroll">
+      <UniqueIdentifier>{5a1a0af8-a112-4d7c-bc49-69bccb63d59e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creature.cpp">
@@ -475,6 +478,9 @@
     <ClCompile Include="TemplatePotionRarityMap.cpp">
       <Filter>Engine\ObjectFactory\Templates</Filter>
     </ClCompile>
+    <ClCompile Include="Scroll.cpp">
+      <Filter>Engine\GameObject\Item\Consumable\Scroll</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -809,6 +815,9 @@
     </ClInclude>
     <ClInclude Include="TemplatePotionRarityMap.h">
       <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Scroll.h">
+      <Filter>Engine\GameObject\Item\Consumable\Scroll</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

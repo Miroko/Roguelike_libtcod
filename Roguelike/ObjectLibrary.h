@@ -21,6 +21,7 @@ public:
 	float maxDamage;
 	float maxDefence;
 	float maxWeight;
+	int staminaBaseCost;
 
 	std::list<RarityType> rarityTypes;
 	std::unordered_map<std::string, RarityModCreature> creatureRarityMods;

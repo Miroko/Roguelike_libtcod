@@ -2,7 +2,7 @@
 #include "Engine.h"
 
 bool ItemPickFrame::moveToInventory(std::shared_ptr<Item> &item){
-	if (engine::playerHandler.playerInventory.getCurrentWeight() + item->weight > engine::playerHandler.playerInventory.MAX_WEIGHT){
+	if (engine::playerHandler.playerInventory.getCurrentWeight() + item->weight > engine::objectLibrary.maxWeight){
 		engine::gui.log.addMessage("I need to drop something first.");
 	}
 	else{

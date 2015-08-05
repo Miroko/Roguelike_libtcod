@@ -78,6 +78,7 @@
     <ClCompile Include="RarityModArmor.cpp" />
     <ClCompile Include="RarityModCreature.cpp" />
     <ClCompile Include="RarityModWeapon.cpp" />
+    <ClCompile Include="Scroll.cpp" />
     <ClCompile Include="StatisticsFrame.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="TemplateArmor.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="RarityModArmor.h" />
     <ClInclude Include="RarityModCreature.h" />
     <ClInclude Include="RarityModWeapon.h" />
+    <ClInclude Include="Scroll.h" />
     <ClInclude Include="StatisticsFrame.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="TemplateArmor.h" />
