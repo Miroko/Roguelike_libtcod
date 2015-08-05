@@ -3,9 +3,13 @@
 #include "Engine.h"
 
 std::string EffectHealth::getDescription(){
-	return "Health " + engine::string.multiplier(multiplier);
+	return "Increases health by " + engine::string.multiplier(multiplier);
 }
 
 void EffectHealth::apply(Creature &creature){
-	creature.setHealth((int)(creature.health * multiplier));
+	creature.healthMax = (int)(creature.healthMax * multiplier);
+}
+
+std::shared_ptr<CreatureEffect> EffectHealth::clone(){
+	return std::shared_ptr<CreatureEffect>(new EffectHealth(*this));
 }

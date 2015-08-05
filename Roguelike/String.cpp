@@ -19,12 +19,24 @@ std::string String::multiplier(float multiplier){
 	return "x" + weight(multiplier, false);
 }
 
-std::string String::damage(int amount){
-	return std::to_string(amount) + "d";
+std::string String::damage(int damage){
+	return std::to_string(damage) + "d";
 }
 
-std::string String::defence(int amount){
-	return std::to_string(amount) + "a";
+std::string String::range(int range){
+	return std::to_string(range) + "r";
+}
+
+std::string String::defence(int defence){
+	return std::to_string(defence) + "a";
+}
+
+std::string String::duration(int duration){
+	return std::to_string(duration) + "t";
+}
+
+std::string String::percentage(float percentage){
+	return weight(percentage, false) + "%%";
 }
 
 std::string String::loremIpsum(){

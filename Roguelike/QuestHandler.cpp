@@ -4,6 +4,7 @@
 
 void QuestHandler::setCurrentQuest(std::shared_ptr<Quest> quest){
 	currentQuest = quest;
+	engine::gui.log.addMessage("New quest: " + currentQuest->name);
 }
 std::shared_ptr<Quest> const &QuestHandler::getCurrentQuest(){
 	return currentQuest;

@@ -6,16 +6,14 @@
 class TemplatePotion
 {
 public:
-	std::string id;
 	std::string name;
 	Glyph glyph;
 	float weight;
-	std::vector<std::shared_ptr<CreatureEffect>> effects;
-	int duration;
-	int potency;
 	Item::Type type;
+	std::vector<std::shared_ptr<CreatureEffect>> effects;
+	int value;
 
-	TemplatePotion(std::string id, std::string name, Glyph glyph, float weight, std::vector<std::shared_ptr<CreatureEffect>> effects, int duration, int potency) :
-		id(id), name(name), glyph(glyph), weight(weight), type(GameObject::POTION), effects(effects), duration(duration), potency(potency){};
+	TemplatePotion(std::string name, Glyph glyph, float weight, std::vector<std::shared_ptr<CreatureEffect>> effects, int value) :
+		name(name), glyph(glyph), weight(weight), type(GameObject::POTION), effects(effects), value(value){};
 };
 

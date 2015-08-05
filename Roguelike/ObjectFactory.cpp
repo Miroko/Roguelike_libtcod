@@ -2,6 +2,7 @@
 #include "TemplateCreature.h"
 #include "TemplateCreaturePreset.h"
 #include "TemplatePotion.h"
+#include "TemplatePotionRarityMap.h"
 #include "AiMonster.h"
 #include "Engine.h"
 #include "Weapon.h"
@@ -62,10 +63,8 @@ std::shared_ptr<Weapon> ObjectFactory::createWeapon(std::string weaponTemplateId
 		rarity,
 		rarity.getRandomWeaponMods()
 		));
-
 	//rarity color
 	weapon->glyph.fgColor = weapon->glyph.fgColor * rarity.color;
-
 	//apply mods
 	for (auto &mod : weapon->rarityMods){
 		mod->apply(*weapon);
@@ -87,10 +86,8 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, R
 		rarity,
 		rarity.getRandomArmorMods()
 		));
-
 	//rarity color
 	armor->glyph.fgColor = armor->glyph.fgColor * rarity.color;
-
 	//apply mods
 	for (auto &mod : armor->rarityMods){
 		mod->apply(*armor);
@@ -98,18 +95,26 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, R
 	return armor;
 }
 
-std::shared_ptr<Potion> ObjectFactory::createPotion(std::string potionTemplateId){
-	TemplatePotion &templatePotion = *engine::objectLibrary.getTemplatePotion(potionTemplateId);
-	std::shared_ptr<Potion> potion = std::shared_ptr<Potion>(new Potion(
-		templatePotion.name,
-		templatePotion.glyph,
-		templatePotion.weight * engine::objectLibrary.maxWeight,
-		templatePotion.effects,
-		templatePotion.duration,
-		templatePotion.potency,
-		templatePotion.type,
-		*engine::objectLibrary.getRarity("rarity_common")));
-	return potion;
+std::shared_ptr<Potion> ObjectFactory::createPotion(TemplatePotionRarityMap &rarityMap, RarityType &rarityType){
+	TemplatePotion *templatePotion = rarityMap.getPotionTemplate(rarityType.id);
+	if (templatePotion != nullptr){
+		//clone effects in template
+		std::vector<std::shared_ptr<CreatureEffect>> clonedEffects;
+		for (auto &effect : templatePotion->effects){
+			clonedEffects.push_back(effect->clone());
+		}
+
+		std::shared_ptr<Potion> newPotion = std::shared_ptr<Potion>(new Potion(
+		templatePotion->name,
+		templatePotion->glyph,
+		templatePotion->weight * engine::objectLibrary.maxWeight,
+		clonedEffects,
+		templatePotion->value,
+		templatePotion->type,
+		rarityType));
+		return newPotion;
+	}
+	else return nullptr;
 }
 
 std::shared_ptr<OperatableObject> ObjectFactory::createOperatable(std::string operatableId){
@@ -131,10 +136,11 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, f
 	if (&rarity == nullptr) return nullptr;
 	else return createArmor(armorTemplateId, rarity);
 }
-std::shared_ptr<Potion> ObjectFactory::createPotion(std::string potionTemplateId, float rarityRoll){
+std::shared_ptr<Potion> ObjectFactory::createPotion(std::string rarityMapId, float rarityRoll){
+	TemplatePotionRarityMap &rarityMap = *engine::objectLibrary.getPotionRarityMap(rarityMapId);
 	RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
 	if (&rarity == nullptr) return nullptr;
-	else return createPotion(potionTemplateId);
+	else return createPotion(rarityMap, rarity);
 }
 
 void ObjectFactory::generateLootDrop(Creature &creature){
@@ -143,6 +149,7 @@ void ObjectFactory::generateLootDrop(Creature &creature){
 		if (engine::random.generator->getFloat(0.0, 1.0) > lootRollMiss){
 			int type = engine::random.generator->getInt(0, 2);
 			float rarityRoll = engine::random.generator->getFloat(0.0f, 1.0f - ((1.0f - creature.rarity.prevalence) * lootRarityFromCreatureRarityRatio));
+			RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
 			//armor
 			if (type == 0){
 				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.armorTemplates.size() - 1);
@@ -167,11 +174,11 @@ void ObjectFactory::generateLootDrop(Creature &creature){
 			}
 			//potion
 			else if (type == 2){
-				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.potionTemplates.size() - 1);
-				auto &hashmapIterator = engine::objectLibrary.potionTemplates.begin();
+				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.potionRarityMaps.size() - 1);
+				auto &hashmapIterator = engine::objectLibrary.potionRarityMaps.begin();
 				std::advance(hashmapIterator, randomIndex);
-				TemplatePotion &randomTemplate = hashmapIterator->second;
-				auto &potion = createPotion(randomTemplate.id);
+				TemplatePotionRarityMap &randomRarityMap = hashmapIterator->second;
+				auto &potion = createPotion(randomRarityMap, rarity);
 				if (potion != nullptr){
 					lootItems.push_back(potion);
 				}

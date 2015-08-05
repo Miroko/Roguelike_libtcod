@@ -56,17 +56,21 @@ void Creature::onDeath(){
 	DynamicObject::onDeath();
 	engine::objectFactory.generateLootDrop(*this);
 }
-void Creature::changeAi(std::shared_ptr<CreatureAi> newAi){
-	ai = newAi;
-}
 void Creature::initAi(Area &area){
 	ai->initAi(*this, area);
 }
 void Creature::update(){
 	ai->update();
-	if (!effects.empty()){
-		effects.front()->apply(*this);
-		effects.pop_front();
+	//apply and decrease effect duration
+	auto &effectIterator = effects.begin();
+	while (effectIterator != effects.end()){
+		CreatureEffect *effect = effectIterator->get();
+		effect->apply(*this);
+		effect->duration--;
+		if (effect->duration <= 0){
+			effectIterator = effects.erase(effectIterator);
+		}
+		else ++effectIterator;
 	}
 }
 

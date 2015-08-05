@@ -26,6 +26,16 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 			currentCreature->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, 
 			TCOD_CENTER, 
 			currentCreature->name);
+		//mods
+		for (auto &mod : currentCreature->rarityMods){
+			offsetY += 1;
+			frame.printString(
+				bounds.start.x, bounds.start.y + offsetY,
+				bounds.getWidth(), 0,
+				Gui::FRAME_FG,
+				TCOD_CENTER,
+				mod->effect->getDescription());
+		}
 		//health
 		offsetY += 2;
 		float percentage = ((float)currentCreature->health / (float)currentCreature->healthMax);
@@ -42,16 +52,6 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 			healthColor,
 			TCOD_RIGHT,
 			engine::string.outOf(currentCreature->health, currentCreature->healthMax));
-		//mods
-		for (auto &mod : currentCreature->rarityMods){
-			offsetY += 1;
-			frame.printString(
-				bounds.start.x, bounds.start.y + offsetY, 
-				bounds.getWidth(), 0,
-				Gui::FRAME_FG, 
-				TCOD_LEFT, 
-				mod->effect->getDescription());
-		}
 		//Equipment
 		offsetY += 2;
 		frame.printString(
@@ -69,17 +69,19 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 				currentCreature->inventory.currentWeapon->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, 
 				TCOD_LEFT, 
 				currentCreature->inventory.currentWeapon->name);
+			std::string statistics = engine::string.damage(currentCreature->inventory.currentWeapon->damage);
+			if (currentCreature->inventory.currentWeapon->type == GameObject::WEAPON_RANGED) statistics += " " + engine::string.range(currentCreature->inventory.currentWeapon->range);
 			frame.printString(
 				bounds.start.x, bounds.start.y + offsetY, 
 				bounds.getWidth(), 0,
 				Gui::FRAME_FG, 
 				TCOD_RIGHT, 
-				engine::string.damage(currentCreature->inventory.currentWeapon->damage));
+				statistics);
 			//mods
 			for (auto &mod : currentCreature->inventory.currentWeapon->rarityMods){
 				offsetY += 1;
 				frame.printString(
-					bounds.start.x, bounds.start.y + offsetY,
+					bounds.start.x + 1, bounds.start.y + offsetY,
 					bounds.getWidth(), 0,
 					Gui::FRAME_FG, 
 					TCOD_LEFT, 
@@ -106,12 +108,34 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 				for (auto &mod : limb.currentArmor->rarityMods){
 					offsetY += 1;
 					frame.printString(
-						bounds.start.x, bounds.start.y + offsetY, 
+						bounds.start.x + 1, bounds.start.y + offsetY, 
 						bounds.getWidth(), 0,
 						Gui::FRAME_FG, TCOD_LEFT, 
 						mod->effect->getDescription());
 				}
 			}
+		}
+		//Effects
+		offsetY += 2;
+		frame.printString(
+			bounds.start.x, bounds.start.y + offsetY,
+			bounds.getWidth(), 0,
+			Gui::FRAME_FG,
+			TCOD_LEFT,
+			"Effects");
+		for (auto &effect : currentCreature->effects){
+			offsetY += 1;
+			std::string effectString = effect->getDescription();
+			int rowsNeededForString = frame.console->getHeightRect(
+				bounds.start.x, bounds.start.y + offsetY,
+				bounds.getWidth(), 2,
+				effectString.c_str());
+			frame.printString(
+				bounds.start.x, bounds.start.y + offsetY,
+				bounds.getWidth(), rowsNeededForString,
+				Gui::FRAME_FG, TCOD_LEFT,
+				effectString);
+			offsetY += rowsNeededForString - 1;
 		}
 	}
 }

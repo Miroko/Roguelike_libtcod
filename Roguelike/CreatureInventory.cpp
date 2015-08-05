@@ -33,9 +33,7 @@ void CreatureInventory::consume(std::shared_ptr<Consumable> consumable){
 	if (consumable->type == Consumable::POTION){
 		auto &potion = std::static_pointer_cast<Potion>(consumable);
 		for (auto &effect : potion->effects){
-			for (int duration = potion->duration; duration > 0; duration--){
-				owner->addEffect(effect);
-			}
+			owner->addEffect(effect);
 		}
 	}
 }

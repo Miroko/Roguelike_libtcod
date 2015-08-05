@@ -7,9 +7,10 @@ public:
 	float amount;
 	std::string getDescription();
 	void apply(Creature &creature);
+	std::shared_ptr<CreatureEffect> clone();
 
-	EffectHealthRegeneration(float amount) : 
-		CreatureEffect(),
+	EffectHealthRegeneration(int duration, float amount) : 
+		CreatureEffect(duration),
 		amount(amount){}
 };
 

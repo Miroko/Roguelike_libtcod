@@ -7,8 +7,10 @@ public:
 	float multiplier;
 	std::string getDescription();
 	void apply(Creature &creature);
+	std::shared_ptr<CreatureEffect> clone();
 
 	EffectHealth(float multiplier) :
-		CreatureEffect(), multiplier(multiplier){};
+		CreatureEffect(1),
+		multiplier(multiplier){};
 };
 

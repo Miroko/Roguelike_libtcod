@@ -17,7 +17,7 @@ public:
 	CreatureInventory inventory;
 	std::shared_ptr<CreatureAi> ai;
 	std::vector<CreatureLimb> limbs;
-	std::deque<std::shared_ptr<CreatureEffect>> effects;
+	std::vector<std::shared_ptr<CreatureEffect>> effects;
 	RarityType &rarity;
 	std::vector<RarityModCreature*> rarityMods;
 
@@ -26,7 +26,6 @@ public:
 	void attack(DynamicObject &target);
 	void onTakeDamage(DynamicObject &attacker, int amount);
 	void onDeath();
-	void changeAi(std::shared_ptr<CreatureAi> newAi);
 	void initAi(Area &area);
 	void update();
 

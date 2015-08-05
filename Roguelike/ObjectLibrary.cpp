@@ -38,8 +38,8 @@ bool ObjectLibrary::addOperatable(std::string id, std::unique_ptr<OperatableObje
 	auto& inserted = operatableObjects.insert(std::pair<std::string, std::unique_ptr<OperatableObject>>(id, std::move(operatable)));
 	return inserted.second;
 }
-bool ObjectLibrary::addPotionTemplate(TemplatePotion potionTemplate){
-	auto& inserted = potionTemplates.insert(std::pair<std::string, TemplatePotion>(potionTemplate.id, potionTemplate));
+bool ObjectLibrary::addPotionRarityMap(std::string id, TemplatePotionRarityMap rarityMap){
+	auto& inserted = potionRarityMaps.insert(std::pair<std::string, TemplatePotionRarityMap>(id, rarityMap));
 	return inserted.second;
 }
 bool ObjectLibrary::addWeaponTemplate(TemplateWeapon weaponTemplate){
@@ -70,9 +70,8 @@ OperatableObject *ObjectLibrary::getOperatable(std::string id){
 	auto &retrieved = operatableObjects.find(id);
 	return retrieved->second.get();
 }
-TemplatePotion *ObjectLibrary::getTemplatePotion(std::string id){
-	auto &retrieved = potionTemplates.find(id);
-	return &retrieved->second;
+TemplatePotionRarityMap *ObjectLibrary::getPotionRarityMap(std::string id){
+	return &potionRarityMaps.find(id)->second;
 }
 TemplateWeapon *ObjectLibrary::getTemplateWeapon(std::string id){
 	auto &retrieved = weaponTemplates.find(id);
@@ -199,14 +198,42 @@ void ObjectLibrary::init(){
 		Armor::ARMOR_LEG));
 
 	//Potions
-	addPotionTemplate(TemplatePotion(
+	addPotionRarityMap(
 		"potion_health",
-		"Health potion",
+		TemplatePotionRarityMap({
+		std::make_pair(	"rarity_common", TemplatePotion(
+		"Small health potion",
 		Glyph('p', TCODColor::lightRed),
 		0.005f,
-		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(0.02f)) },
-		10,
-		10));
+		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(4, 0.03f)) },
+		16)),
+		std::make_pair("rarity_uncommon", TemplatePotion(
+		"Medium health potion",
+		Glyph('p', TCODColor::lightRed),
+		0.010f,
+		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(8, 0.04f)) },
+		32)),
+		std::make_pair("rarity_rare", TemplatePotion(
+		"Large health potion",
+		Glyph('P', TCODColor::red),
+		0.020f,
+		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(16, 0.05f)) },
+		64)),
+		std::make_pair("rarity_epic", TemplatePotion(
+		"Bubbling health potion",
+		Glyph('P', TCODColor::lightCrimson),
+		0.010f,
+		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(32, 0.06f)),
+		  std::shared_ptr<CreatureEffect>(new EffectHealth(1.05f)) },
+		264)),
+		std::make_pair("rarity_unique", TemplatePotion(
+		"Mystical health potion",
+		Glyph('p', TCODColor::crimson),
+		0.005f,
+		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(64, 0.10f)),
+		  std::shared_ptr<CreatureEffect>(new EffectHealth(1.20f)) },
+		428))
+	}));
 
 	//Operatables
 	addOperatable(

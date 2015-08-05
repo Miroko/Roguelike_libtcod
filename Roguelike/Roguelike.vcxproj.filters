@@ -472,6 +472,9 @@
     <ClCompile Include="GuiGameObjectDisplay.cpp">
       <Filter>Engine\Gui\Component\Components\Major</Filter>
     </ClCompile>
+    <ClCompile Include="TemplatePotionRarityMap.cpp">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -803,6 +806,9 @@
     </ClInclude>
     <ClInclude Include="GuiGameObjectDisplay.h">
       <Filter>Engine\Gui\Component\Components\Major</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplatePotionRarityMap.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

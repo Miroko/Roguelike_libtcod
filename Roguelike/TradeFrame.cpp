@@ -220,6 +220,9 @@ void TradeFrame::init(Rectangle bounds){
 		else if (selectedPlayerItems.contains(item)){
 			return{ "In trade" };
 		}
+		else if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
+			return{ "Equipped" };
+		}
 		else return{ "" };
 	});
 	guiPlayerSelectableItemList.setOnOperationSelectedFunction(

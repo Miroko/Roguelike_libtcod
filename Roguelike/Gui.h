@@ -30,7 +30,7 @@ public:
 	HelpFrame help = HelpFrame(KEY_HELP, false, 1.0f, 1.0f);
 	InspectionFrame inspection = InspectionFrame(KEY_INSPECT, false, 1.0f, 1.0f);
 	ItemPickFrame pickFrame = ItemPickFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
-	StatisticsFrame statistics = StatisticsFrame(KEY_STATISTICS, false, 1.0f, 1.0f);
+	StatisticsFrame statistics = StatisticsFrame(KEY_STATISTICS, true, 1.0f, 1.0f);
 	DialogFrame dialog = DialogFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
 	TradeFrame trade = TradeFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
 	AttackFrame attack = AttackFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);

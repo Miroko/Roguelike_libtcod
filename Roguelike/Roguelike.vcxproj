@@ -114,6 +114,7 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="TemplatePotion.cpp" />
+    <ClCompile Include="TemplatePotionRarityMap.cpp" />
     <ClCompile Include="TemplateWeapon.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TradeContainer.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="TemplatePotion.h" />
+    <ClInclude Include="TemplatePotionRarityMap.h" />
     <ClInclude Include="TemplateWeapon.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TradeContainer.h" />

@@ -12,7 +12,7 @@ class GuiSelectableItemList : public GuiComponent
 {
 public:
 	ItemContainer *itemContainer = nullptr;
-	int selectedRow = 0;
+	int selectedItemIndex = 0;
 	int selectedOperation = 0;
 	std::vector<std::string> operationsForSelectedItem;
 	std::function<std::vector<std::string>(std::shared_ptr<Item>, bool selected)> getOperationsFunction;

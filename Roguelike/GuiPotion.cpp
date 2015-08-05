@@ -8,8 +8,16 @@ void GuiPotion::setCurrentPotion(Potion *potion){
 }
 void GuiPotion::renderTo(GuiFrame &frame, Rectangle &bounds){
 	if (currentPotion != nullptr){
-		//description
+		//rarity
 		int offsetY = 0;
+		frame.printString(
+			bounds.start.x, bounds.start.y + offsetY,
+			bounds.getWidth(), 0,
+			currentPotion->rarity.color * Gui::RARITY_COLOR_MULTIPLIER,
+			TCOD_CENTER,
+			currentPotion->rarity.name);
+		//description
+		offsetY += 1;
 		frame.printString(
 			bounds.start.x, bounds.start.y + offsetY,
 			bounds.getWidth(), 0, 

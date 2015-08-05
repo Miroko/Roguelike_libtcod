@@ -37,11 +37,14 @@ void TradeContainer::generateItems(){
 		}
 	}
 	for (int potionRoll = potionRolls; potionRoll > 0; --potionRoll){
-		int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.potionTemplates.size() - 1);
-		auto &hashmapIterator = engine::objectLibrary.potionTemplates.begin();
+		int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.potionRarityMaps.size() - 1);
+		auto &hashmapIterator = engine::objectLibrary.potionRarityMaps.begin();
 		std::advance(hashmapIterator, randomIndex);
-		TemplatePotion &randomTemplate = hashmapIterator->second;
-		auto &potion = engine::objectFactory.createPotion(randomTemplate.id);
-		items.add(std::static_pointer_cast<Item>(potion));
+		TemplatePotionRarityMap &randomRarityMap = hashmapIterator->second;
+		float rarityRoll = engine::random.generator->getFloat(0.0f, 1.0f);
+		auto &potion = engine::objectFactory.createPotion(randomRarityMap, *engine::objectLibrary.getRarity(rarityRoll));
+		if (potion != nullptr){
+			items.add(std::static_pointer_cast<Item>(potion));
+		}
 	}
 }

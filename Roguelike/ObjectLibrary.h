@@ -5,7 +5,7 @@
 #include "CreatureAi.h"
 #include "TemplateWeapon.h"
 #include "TemplateArmor.h"
-#include "TemplatePotion.h"
+#include "TemplatePotionRarityMap.h"
 #include "Door.h"
 #include "Item.h"
 #include "Potion.h"
@@ -29,7 +29,7 @@ public:
 	std::unordered_map<std::string, std::unique_ptr<Tile>> tiles;
 	std::unordered_map<std::string, std::unique_ptr<OperatableObject>> operatableObjects;
 	std::unordered_map<std::string, std::unique_ptr<CreatureAi>> creatureAis;
-	std::unordered_map<std::string, TemplatePotion> potionTemplates;
+	std::unordered_map<std::string, TemplatePotionRarityMap> potionRarityMaps;
 	std::unordered_map<std::string, TemplateWeapon> weaponTemplates;
 	std::unordered_map<std::string, TemplateArmor> armorTemplates;
 	std::unordered_map<std::string, TemplateCreature> creatureTemplates;
@@ -41,7 +41,7 @@ public:
 	bool addRarityModWeapon(std::string id, RarityModWeapon mod);
 	bool addTile(std::string id, std::unique_ptr<Tile> tile);
 	bool addOperatable(std::string id, std::unique_ptr<OperatableObject> operatable);
-	bool addPotionTemplate(TemplatePotion potionTemplate);
+	bool addPotionRarityMap(std::string id, TemplatePotionRarityMap potionRarityMap);
 	bool addWeaponTemplate(TemplateWeapon weaponTemplate);
 	bool addArmorTemplate(TemplateArmor armorTemplate);
 	bool addCreatureAi(std::string id, std::unique_ptr<CreatureAi> ai);
@@ -50,7 +50,7 @@ public:
 	Tile *getTile(std::string id);
 	OperatableObject *getOperatable(std::string id);
 	CreatureAi *getAi(std::string id);
-	TemplatePotion *getTemplatePotion(std::string id);
+	TemplatePotionRarityMap *getPotionRarityMap(std::string id);
 	TemplateWeapon *getTemplateWeapon(std::string id);
 	TemplateArmor *getTemplateArmor(std::string id);
 	TemplateCreature *getTemplateCreature(std::string id);

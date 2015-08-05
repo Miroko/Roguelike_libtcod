@@ -1,5 +1,6 @@
 #include "Potion.h"
 #include "Creature.h"
+#include "Engine.h"
 
 void Potion::onConsume(Creature &consumer){
 	for (auto &effect : effects){
@@ -8,9 +9,9 @@ void Potion::onConsume(Creature &consumer){
 }
 
 int Potion::getValue(){
-	return Item::getValue() + potency;
+	return value;
 }
 
 std::string Potion::getStatistics(){
-	return std::to_string(potency) + "p " + Item::getStatistics();
+	return Item::getStatistics();
 }

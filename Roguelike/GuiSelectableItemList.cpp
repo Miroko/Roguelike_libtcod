@@ -7,7 +7,7 @@
 void GuiSelectableItemList::setItemContainer(ItemContainer &container){
 	itemContainer = &container;
 	itemContainer->sort();
-	selectedRow = 0;
+	selectedItemIndex = 0;
 	selectedOperation = 0;
 	updateSelection();
 }
@@ -27,15 +27,15 @@ bool GuiSelectableItemList::handleKey(TCOD_key_t &key){
 		direction = KeyMapping::direction(key.vk);
 		if (!direction.undefined()){
 			if (direction == UP){
-				if (selectedRow == 0) selectedRow = itemContainer->items.size() - 1;
-				else selectedRow--;
+				if (selectedItemIndex == 0) selectedItemIndex = itemContainer->items.size() - 1;
+				else selectedItemIndex--;
 				updateSelection();
 				selectedOperation = 0;
 				handled = true;
 			}
 			else if (direction == DOWN){
-				if (selectedRow == itemContainer->items.size() - 1) selectedRow = 0;
-				else selectedRow++;
+				if (selectedItemIndex == itemContainer->items.size() - 1) selectedItemIndex = 0;
+				else selectedItemIndex++;
 				updateSelection();
 				selectedOperation = 0;
 				handled = true;
@@ -51,7 +51,7 @@ bool GuiSelectableItemList::handleKey(TCOD_key_t &key){
 				handled = true;
 			}
 			else if (direction == CENTER){
-				onOperationSelectedFunction(itemContainer->getAt(selectedRow), operationsForSelectedItem[selectedOperation]);
+				onOperationSelectedFunction(itemContainer->getAt(selectedItemIndex), operationsForSelectedItem[selectedOperation]);
 				updateSelection();
 				handled = true;
 			}
@@ -62,10 +62,10 @@ bool GuiSelectableItemList::handleKey(TCOD_key_t &key){
 
 void GuiSelectableItemList::updateSelection(){
 	if (!itemContainer->items.empty()){
-		if (selectedRow > (int)(itemContainer->items.size() - 1)){
-			--selectedRow;
+		if (selectedItemIndex > (int)(itemContainer->items.size() - 1)){
+			selectedItemIndex = itemContainer->items.size() - 1;
 		}
-		operationsForSelectedItem = getOperationsFunction(itemContainer->getAt(selectedRow), true);
+		operationsForSelectedItem = getOperationsFunction(itemContainer->getAt(selectedItemIndex), true);
 		if (selectedOperation > (int)(operationsForSelectedItem.size() - 1)) selectedOperation = 0;
 	}
 }
@@ -82,13 +82,13 @@ void GuiSelectableItemList::renderTo(GuiFrame &frame, Rectangle &bounds){
 	}
 	else{
 		//Items
-		int startIndex = selectedRow;
+		int startIndex = selectedItemIndex;
 		if (startIndex > (int)(itemContainer->items.size() - bounds.getHeight() - 1)){
 			startIndex = itemContainer->items.size() - bounds.getHeight() - 1;
 			if (startIndex < 0) startIndex = 0;
 		}
 		int endIndex = startIndex + bounds.getHeight();
-		if (endIndex >(int)(itemContainer->items.size() - 1)){
+		if (endIndex > (int)(itemContainer->items.size() - 1)){
 			endIndex = itemContainer->items.size() - 1;
 		}
 		auto &iterator = itemContainer->items.begin();
@@ -111,7 +111,7 @@ void GuiSelectableItemList::renderTo(GuiFrame &frame, Rectangle &bounds){
 				TCOD_LEFT, 
 				item->getStatistics());
 			//operator
-			if (index == selectedRow){
+			if (index == selectedItemIndex){
 				frame.printString(
 					bounds.start.x, bounds.start.y + offsetY,
 					bounds.getWidth(), 0,
