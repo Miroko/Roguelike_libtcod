@@ -16,7 +16,6 @@ void QuestHandler::travelToPhase(std::shared_ptr<QuestPhase> const &phase){
 			engine::areaHandler.saveCurrentArea();
 		}
 	}
-
 	//set next area, load if saved
 	currentQuest->setCurrentPhase(phase);
 	bool loaded = false;
@@ -27,8 +26,17 @@ void QuestHandler::travelToPhase(std::shared_ptr<QuestPhase> const &phase){
 		//if not persistent or saved generate new area
 		engine::areaHandler.setCurrentArea(phase->generateArea());
 	}
-
-	//place player
+	//remove player from current area
+	auto &areaCreatures = engine::areaHandler.getCurrentArea()->creatures;
+	auto &creatureIterator = areaCreatures.begin();
+	while (creatureIterator != areaCreatures.end()){
+		if (creatureIterator->get() == engine::playerHandler.getPlayerCreature().get()){
+			areaCreatures.erase(creatureIterator);
+			break;
+		}
+		++creatureIterator;
+	}
+	//place player to new area
 	engine::areaHandler.getCurrentArea()->placeCreature(
 		engine::playerHandler.getPlayerCreature(),
 		engine::areaHandler.getCurrentArea()->getBounds().getCenterPoint());
