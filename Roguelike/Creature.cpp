@@ -10,7 +10,7 @@ void Creature::addEffect(std::shared_ptr<CreatureEffect> effect){
 }
 void Creature::damageMelee(Weapon &weapon, DynamicObject &target){
 	//stamina cost
-	int staminaCost = (int)(engine::objectLibrary.staminaBaseCost * (inventory.getTotalWeight() * 2 / engine::objectLibrary.maxWeight));
+	int staminaCost = (int)(engine::staminaCostPerKgFromAttack * inventory.getTotalEquippedWeight());
 	if (staminaCurrent - staminaCost >= 0){
 		staminaCurrent -= staminaCost;
 		engine::gui.log.addToMessage(name + " attacks " + target.name + " with " + weapon.name + ". ");
@@ -24,7 +24,7 @@ void Creature::damageMelee(Weapon &weapon, DynamicObject &target){
 }
 void Creature::damageRanged(Weapon &weapon, DynamicObject &target){
 	//stamina cost
-	int staminaCost = (int)(engine::objectLibrary.staminaBaseCost * (inventory.getTotalWeight() * 2 / engine::objectLibrary.maxWeight));
+	int staminaCost = (int)(engine::staminaCostPerKgFromAttack * inventory.getTotalEquippedWeight());
 	if (staminaCurrent - staminaCost >= 0){
 		staminaCurrent -= staminaCost;
 		engine::gui.log.addToMessage(name + " shoots " + target.name + " with " + weapon.name + ". ");
@@ -56,7 +56,7 @@ void Creature::onTakeDamage(DynamicObject &attacker, int amount){
 		}
 		engine::gui.log.addToMessage(creatureLimb.name + " is hit. ");
 		//stamina cost
-		staminaCurrent -= amountAfterDefence / 4;
+		staminaCurrent -= (int)(amountAfterDefence * engine::staminaCostFromDamageRation);
 		if (staminaCurrent <= 0) staminaCurrent = 0;
 		DynamicObject::onTakeDamage(attacker, amountAfterDefence);
 	}
@@ -70,7 +70,8 @@ void Creature::onDeath(){
 	engine::objectFactory.generateLootDrop(*this);
 }
 bool Creature::move(Point2D &location){
-	int staminaCost = (int)(engine::objectLibrary.staminaBaseCost * (inventory.getTotalWeight() / engine::objectLibrary.maxWeight) / 5);
+	int staminaCost = (int)(engine::staminaCostPerKgFromMove * inventory.getTotalWeight());
+	staminaCost = (int)(staminaCost * engine::areaHandler.getCurrentArea()->getTile(location)->staminaCostMultiplierForMove);
 	if (staminaCurrent - staminaCost >= 0){
 		//enough stamina to move
 		return DynamicObject::move(location);
@@ -87,7 +88,8 @@ bool Creature::move(Point2D &location){
 void Creature::onMove(){
 	DynamicObject::onMove();
 	//on successfull move decrease stamina
-	int staminaCost = (int)(engine::objectLibrary.staminaBaseCost * (inventory.getTotalWeight() / engine::objectLibrary.maxWeight) / 5);
+	int staminaCost = (int)(engine::staminaCostPerKgFromMove * inventory.getTotalWeight());
+	staminaCost = (int)(staminaCost * engine::areaHandler.getCurrentArea()->getTile(location)->staminaCostMultiplierForMove);
 	staminaCurrent -= staminaCost;
 	waitedLastTurn = false;
 }
@@ -97,9 +99,10 @@ void Creature::initAi(Area &area){
 void Creature::update(){
 	//ai
 	ai->update();
-	//regenerate stamina if waited
-	if (waitedLastTurn) staminaCurrent += (int)(staminaMax * 0.05f);
-	if (staminaCurrent >= staminaMax) staminaCurrent = staminaMax;
+	//regenerate stamina
+	if (waitedLastTurn) staminaCurrent += engine::staminaBaseWaitRegen;
+	else staminaCurrent += engine::staminaBaseRegen;
+	if (staminaCurrent > staminaMax) staminaCurrent = staminaMax;
 	//apply effects and decrease duration
 	auto &effectIterator = effects.begin();
 	while (effectIterator != effects.end()){

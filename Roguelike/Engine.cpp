@@ -13,11 +13,38 @@ QuestHandler engine::questHandler;
 VisualEffectHandler engine::visualEffectHandler;
 Gui engine::gui;
 bool engine::requestUpdate = false;
+int engine::healthMax;
+int engine::damageMax;
+int engine::defenceMax;
+float engine::carryWeightMax;
+int engine::staminaBaseRegen;
+int engine::staminaBaseWaitRegen;
+float engine::staminaCostPerKgFromMove;
+float engine::staminaCostPerKgFromAttack;
+float engine::staminaCostFromDamageRation;
+float engine::valueVariation;
+float engine::lootRarityFromCreatureRarityRatio;
+float engine::lootRollMissChance;
+int engine::lootDropRolls;
 
 void engine::init(){
 	TCODConsole::initRoot(120, 60, "Roguelike", false, TCOD_RENDERER_SDL);
 	TCODSystem::setFps(10);
 	TCODConsole::setKeyboardRepeat(60, 20);
+
+	healthMax = 1000;
+	damageMax = healthMax / 10;
+	defenceMax = healthMax / 30;
+	carryWeightMax = 50.0f;
+	staminaBaseRegen = 5;
+	staminaBaseWaitRegen = staminaBaseRegen * 2;
+	staminaCostPerKgFromMove = 0.2f;
+	staminaCostPerKgFromAttack = 1.5f;
+	staminaCostFromDamageRation = 0.7f;
+	valueVariation = 0.20f;
+	lootRarityFromCreatureRarityRatio = 0.95f;
+	lootRollMissChance = 0.80f;
+	lootDropRolls = 6;
 
 	random.init();
 	objectLibrary.init();

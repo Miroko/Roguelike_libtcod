@@ -17,12 +17,6 @@
 class ObjectLibrary
 {
 public:
-	float maxHealth;
-	float maxDamage;
-	float maxDefence;
-	float maxWeight;
-	int staminaBaseCost;
-
 	std::list<RarityType> rarityTypes;
 	std::unordered_map<std::string, RarityModCreature> creatureRarityMods;
 	std::unordered_map<std::string, RarityModArmor> armorRarityMods;

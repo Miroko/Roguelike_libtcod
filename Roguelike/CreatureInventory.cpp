@@ -59,13 +59,20 @@ int CreatureInventory::getTotalDefence(){
 	}
 	return totalDefence;
 }
-float CreatureInventory::getTotalWeight(){
+float CreatureInventory::getTotalEquippedWeight(){
 	float totalWeight = 0;
 	if (currentWeapon != nullptr) totalWeight += currentWeapon->weight;
 	for (auto &limb : owner->limbs){
 		if (limb.currentArmor != nullptr){
 			totalWeight += limb.currentArmor->weight;
 		}
+	}
+	return totalWeight;
+}
+float CreatureInventory::getTotalWeight(){
+	float totalWeight = 0;
+	for (auto &item : items.items){
+		totalWeight += item->weight;
 	}
 	return totalWeight;
 }

@@ -10,8 +10,6 @@ public:
 
 	ItemContainer temporary; //For gui
 
-	float getCurrentWeight();
-
 	void equip(std::shared_ptr<Equipment> item);
 	void unequip(std::shared_ptr<Equipment> item);
 	void consume(std::shared_ptr<Consumable> item);

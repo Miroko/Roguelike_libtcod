@@ -37,7 +37,7 @@ void InventoryFrame::render(){
 		guiTopBoxBounds.getWidth() - 6, 0,
 		Gui::FRAME_FG, 
 		TCOD_RIGHT, 
-		engine::string.weight(engine::playerHandler.playerInventory.getCurrentWeight()));
+		engine::string.weight(engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight()));
 	guiDisplayBox.renderTo(*this, guiDisplayBoxBounds);
 	guiGameObjectDisplay.renderTo(*this, guiGameObjectDisplayBounds);
 	guiSelectableItemList.renderTo(*this, guiSelectableItemListBounds);

@@ -24,6 +24,20 @@ namespace engine{
 
 	extern bool requestUpdate;
 
+	extern int healthMax;
+	extern int damageMax;
+	extern int defenceMax;
+	extern float carryWeightMax;
+	extern int staminaBaseRegen;
+	extern int staminaBaseWaitRegen;
+	extern float staminaCostPerKgFromMove;
+	extern float staminaCostPerKgFromAttack;
+	extern float staminaCostFromDamageRation;
+	extern float valueVariation;
+	extern float lootRarityFromCreatureRarityRatio;
+	extern float lootRollMissChance;
+	extern int lootDropRolls;
+
 	extern void init();
 	extern void newGame();
 }

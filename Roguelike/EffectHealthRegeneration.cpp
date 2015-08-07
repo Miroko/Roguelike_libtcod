@@ -3,11 +3,11 @@
 #include "Engine.h"
 
 std::string EffectHealthRegeneration::getDescription(){
-	return "Regenerates " + engine::string.percentage(amount) + " health for " + std::to_string(duration) + " turns";
+	return "Regenerates " + engine::string.percentage(percentage) + " health for " + std::to_string(duration) + " turns";
 }
 
 void EffectHealthRegeneration::apply(Creature &creature){
-	creature.health += (int)(creature.healthMax * amount);
+	creature.health += (int)(creature.healthMax * percentage);
 	if (creature.health > creature.healthMax) creature.health = creature.healthMax;
 }
 

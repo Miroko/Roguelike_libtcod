@@ -3,14 +3,6 @@
 #include "Weapon.h"
 #include "Armor.h"
 
-float PlayerInventory::getCurrentWeight(){
-	float currentWeight = 0;
-	for (auto &item : engine::playerHandler.getPlayerCreature()->inventory.items.items){
-		currentWeight += item->weight;
-	}
-	return currentWeight;
-}
-
 void PlayerInventory::equip(std::shared_ptr<Equipment> item){
 	if (item->isArmor()){
 		engine::playerHandler.getPlayerCreature()->inventory.equipArmor(std::static_pointer_cast<Armor>(item));

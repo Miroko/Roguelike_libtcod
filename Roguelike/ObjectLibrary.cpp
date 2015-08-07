@@ -1,8 +1,10 @@
 #include "ObjectLibrary.h"
-#include "EffectHealth.h"
+#include "EffectHealthIncrease.h"
 #include "EffectIncreasedDamage.h"
 #include "EffectIncreasedDefence.h"
 #include "EffectHealthRegeneration.h"
+#include "EffectStaminaIncrease.h"
+#include "EffectStaminaRegeneration.h"
 #include "AiMonster.h"
 #include "AiNone.h"
 #include "AiVillager.h"
@@ -125,12 +127,6 @@ void ObjectLibrary::sortRarityTypes(){
 }
 
 void ObjectLibrary::init(){
-	maxWeight = 50;
-	staminaBaseCost = 20;
-	maxHealth = 1000;
-	maxDamage = maxHealth / 10;
-	maxDefence = maxHealth / 30;
-
 	//Weapons
 	//melee
 	addWeaponTemplate(TemplateWeapon(
@@ -199,6 +195,7 @@ void ObjectLibrary::init(){
 		Armor::ARMOR_LEG));
 
 	//Potions
+	//health
 	addPotionRarityMap(
 		"potion_health",
 		TemplatePotionRarityMap({
@@ -225,43 +222,55 @@ void ObjectLibrary::init(){
 		Glyph('P', TCODColor::lightCrimson),
 		0.010f,
 		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(32, 0.06f)),
-		  std::shared_ptr<CreatureEffect>(new EffectHealth(1.05f)) },
+		  std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(0.05f)) },
 		264)),
 		std::make_pair("rarity_unique", TemplatePotion(
 		"Mystical health potion",
 		Glyph('p', TCODColor::crimson),
 		0.005f,
 		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(64, 0.10f)),
-		  std::shared_ptr<CreatureEffect>(new EffectHealth(1.20f)) },
+		  std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(0.15f)) },
 		428))
 	}));
+	//stamina
+	addPotionRarityMap(
+		"potion_stamina",
+		TemplatePotionRarityMap({
+		std::make_pair("rarity_common", TemplatePotion(
+		"Small stamina potion",
+		Glyph('p', TCODColor::lightTurquoise),
+		0.005f,
+		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(4, 0.03f)) },
+		8)),
+		std::make_pair("rarity_uncommon", TemplatePotion(
+		"Medium stamina potion",
+		Glyph('p', TCODColor::lightTurquoise),
+		0.010f,
+		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(8, 0.04f)) },
+		16)),
+		std::make_pair("rarity_rare", TemplatePotion(
+		"Large stamina potion",
+		Glyph('P', TCODColor::turquoise),
+		0.020f,
+		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(16, 0.05f)) },
+		24)),
+		std::make_pair("rarity_epic", TemplatePotion(
+		"Bubbling stamina potion",
+		Glyph('P', TCODColor::lightSea),
+		0.010f,
+		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(32, 0.06f)),
+		std::shared_ptr<CreatureEffect>(new EffectStaminaIncrease(0.03f)) },
+		148)),
+		std::make_pair("rarity_unique", TemplatePotion(
+		"Mystical stamina potion",
+		Glyph('p', TCODColor::sea),
+		0.005f,
+		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(64, 0.10f)),
+		std::shared_ptr<CreatureEffect>(new EffectStaminaIncrease(0.10f)) },
+		296))
+	}));
 
-	//Operatables
-	addOperatable(
-		"operatable_door_wooden", std::unique_ptr<OperatableObject>(new Door(
-		"Wooden door",
-		Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D'),
-		Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D'))));
-	addOperatable(
-		"operatable_bed_wooden", std::unique_ptr<OperatableObject>(new Bed(
-		"Wooden bed",
-		Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'B'))));
-	addOperatable(
-		"operatable_forge", std::unique_ptr<OperatableObject>(new Forge(
-		"Forge",
-		Glyph(TCODColor::darkerGrey, TCODColor::darkRed, 'F'))));
-	addOperatable(
-		"operatable_anvil", std::unique_ptr<OperatableObject>(new Anvil(
-		"Anvil",
-		Glyph(TCODColor::darkerGrey, TCODColor::darkGrey, 'A'))));
-	addOperatable(
-		"operatable_alchemy_table1", std::unique_ptr<OperatableObject>(new AlchemyTable(
-		"Alchemy table",
-		Glyph(TCODColor::darkSepia, TCODColor::lightViolet, '%'))));
-	addOperatable(
-		"operatable_alchemy_table2", std::unique_ptr<OperatableObject>(new AlchemyTable(
-		"Alchemy table",
-		Glyph(TCODColor::darkSepia, TCODColor::lightSea, '%'))));
+
 
 	//Creatures
 	addCreatureTemplate(TemplateCreature(
@@ -318,7 +327,7 @@ void ObjectLibrary::init(){
 		"ai_alchemist",
 		std::unique_ptr<CreatureAi>(new AiAlchemist()));
 
-	//Player
+	//Creature presets
 	addCreaturePresetTemplate(TemplateCreaturePreset(
 		"player",
 		"creature_human",
@@ -328,7 +337,6 @@ void ObjectLibrary::init(){
 		0.90f,
 		{ "weapon_bow", "weapon_staff" },
 		{ "armor_body_leather", "armor_leg_leather" }));
-	//Creature presets
 	addCreaturePresetTemplate(TemplateCreaturePreset(
 		"human_man_villager",
 		"creature_human",
@@ -411,6 +419,33 @@ void ObjectLibrary::init(){
 		{ "weapon_mace" },
 		{ }));
 
+	//Operatables
+	addOperatable(
+		"operatable_door_wooden", std::unique_ptr<OperatableObject>(new Door(
+		"Wooden door",
+		Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D'),
+		Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D'))));
+	addOperatable(
+		"operatable_bed_wooden", std::unique_ptr<OperatableObject>(new Bed(
+		"Wooden bed",
+		Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'B'))));
+	addOperatable(
+		"operatable_forge", std::unique_ptr<OperatableObject>(new Forge(
+		"Forge",
+		Glyph(TCODColor::darkerGrey, TCODColor::darkRed, 'F'))));
+	addOperatable(
+		"operatable_anvil", std::unique_ptr<OperatableObject>(new Anvil(
+		"Anvil",
+		Glyph(TCODColor::darkerGrey, TCODColor::darkGrey, 'A'))));
+	addOperatable(
+		"operatable_alchemy_table1", std::unique_ptr<OperatableObject>(new AlchemyTable(
+		"Alchemy table",
+		Glyph(TCODColor::darkSepia, TCODColor::lightViolet, '%'))));
+	addOperatable(
+		"operatable_alchemy_table2", std::unique_ptr<OperatableObject>(new AlchemyTable(
+		"Alchemy table",
+		Glyph(TCODColor::darkSepia, TCODColor::lightSea, '%'))));
+
 	//Tiles + Portals
 	//walk cost 0 == unwalkable
 	//nature
@@ -428,7 +463,7 @@ void ObjectLibrary::init(){
 	addTile("tile_cave_floor1", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor(45,45,45)), true, 10.0f)));
 	addTile("tile_cave_floor2", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor::darkestGrey), true, 10.0f)));
 	addTile("tile_cave_portal", std::make_unique<Tile>(Tile("Tunnel", Tile::PORTAL, Glyph(TCODColor::darkestGrey, TCODColor::grey, '>'), true, 10.0f)));
-	addTile("tile_cave_water", std::make_unique<Tile>(Tile("Water", Tile::WATER, Glyph(TCODColor::darkestBlue), true, 10.0f)));
+	addTile("tile_cave_water", std::make_unique<Tile>(Tile("Water", Tile::WATER, Glyph(TCODColor::darkestBlue), true, 20.0f, 4.0f)));
 
 	//house
 	addTile("tile_house_wood_wall", std::make_unique<Tile>(Tile("Wooden house wall", Tile::WALL, Glyph(TCODColor::darkerSepia), false, 0.0f)));
@@ -436,13 +471,13 @@ void ObjectLibrary::init(){
 	addTile("tile_house_wood_floor", std::make_unique<Tile>(Tile("Wooden house floor", Tile::FLOOR, Glyph(TCODColor::darkestSepia), true, 10.0f)));
 
 	//path
-	addTile("tile_path_sand", std::make_unique<Tile>(Tile("Sand path", Tile::FLOOR, Glyph(TCODColor(14, 11, 6)), true, 5.0f)));
+	addTile("tile_path_sand", std::make_unique<Tile>(Tile("Sand path", Tile::FLOOR, Glyph(TCODColor(14, 11, 6)), true, 5.0f, 0.5f)));
 
 	//Rarity mods
 	//creature
-	addRarityModCreature("mod_increased_health_small", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealth(1.3f)) ));
-	addRarityModCreature("mod_increased_health_medium", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealth(1.6f)) ));
-	addRarityModCreature("mod_increased_health_large", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealth(2.0f)) ));
+	addRarityModCreature("mod_increased_health_small", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(1.3f)) ));
+	addRarityModCreature("mod_increased_health_medium", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(1.6f)) ));
+	addRarityModCreature("mod_increased_health_large", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(2.0f)) ));
 
 	//armor
 	addRarityModArmor("mod_increased_defence_small", RarityModArmor(std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(1.3f)) ));

@@ -14,10 +14,10 @@ std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creatu
 	TemplateCreature &templateCreature = *engine::objectLibrary.getTemplateCreature(templateCreaturePreset.creatureTemplateId);
 
 	int health =
-		(int)(engine::objectLibrary.maxHealth *
+		(int)(engine::healthMax *
 		templateCreaturePreset.health *
 		rarity.improvementMultiplier *
-		engine::random.generator->getFloat(1.0f - valueVariation, 1.0f));
+		engine::random.generator->getFloat(1.0f - engine::valueVariation, 1.0f));
 
 	int stamina = (int)(health * 0.8f);
 
@@ -60,12 +60,12 @@ std::shared_ptr<Weapon> ObjectFactory::createWeapon(std::string weaponTemplateId
 	std::shared_ptr<Weapon> weapon = std::shared_ptr<Weapon>(new Weapon(
 		templateWeapon.name,
 		templateWeapon.glyph,
-		templateWeapon.weight * engine::objectLibrary.maxWeight,
+		templateWeapon.weight * engine::carryWeightMax,
 		templateWeapon.type,
-		(int)(engine::objectLibrary.maxDamage *
+		(int)(engine::damageMax *
 			 templateWeapon.damage *
 			 rarity.improvementMultiplier *
-		     (1.0f - engine::random.generator->getFloat(0.0, valueVariation))),
+			 engine::random.generator->getFloat(1.0f - engine::valueVariation, 1.0f)),
 		templateWeapon.range,
 		rarity,
 		rarity.getRandomWeaponMods()
@@ -84,12 +84,12 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, R
 	std::shared_ptr<Armor> armor = std::shared_ptr<Armor>(new Armor(
 		templateArmor.name,
 		templateArmor.glyph,
-		templateArmor.weight * engine::objectLibrary.maxWeight,
+		templateArmor.weight * engine::carryWeightMax,
 		templateArmor.type,
-		(int)(engine::objectLibrary.maxDefence *
+		(int)(engine::defenceMax *
 			 templateArmor.defence *
 		     rarity.improvementMultiplier * 
-			 (1.0f - engine::random.generator->getFloat(0.0, valueVariation))),
+			 engine::random.generator->getFloat(1.0f - engine::valueVariation, 1.0f)),
 		rarity,
 		rarity.getRandomArmorMods()
 		));
@@ -114,7 +114,7 @@ std::shared_ptr<Potion> ObjectFactory::createPotion(TemplatePotionRarityMap &rar
 		std::shared_ptr<Potion> newPotion = std::shared_ptr<Potion>(new Potion(
 		templatePotion->name,
 		templatePotion->glyph,
-		templatePotion->weight * engine::objectLibrary.maxWeight,
+		templatePotion->weight * engine::carryWeightMax,
 		clonedEffects,
 		templatePotion->value,
 		rarityType));
@@ -151,10 +151,10 @@ std::shared_ptr<Potion> ObjectFactory::createPotion(std::string rarityMapId, flo
 
 void ObjectFactory::generateLootDrop(Creature &creature){
 	std::vector<std::shared_ptr<Item>> lootItems;
-	for (int dropNumber = lootDropRolls; dropNumber > 0; --dropNumber){
-		if (engine::random.generator->getFloat(0.0, 1.0) > lootRollMiss){
+	for (int dropNumber = engine::lootDropRolls; dropNumber > 0; --dropNumber){
+		if (engine::random.generator->getFloat(0.0, 1.0) > engine::lootRollMissChance){
 			int type = engine::random.generator->getInt(0, 2);
-			float rarityRoll = engine::random.generator->getFloat(0.0f, 1.0f - ((1.0f - creature.rarity.prevalence) * lootRarityFromCreatureRarityRatio));
+			float rarityRoll = engine::random.generator->getFloat(0.0f, 1.0f - ((1.0f - creature.rarity.prevalence) * engine::lootRarityFromCreatureRarityRatio));
 			RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
 			//armor
 			if (type == 0){

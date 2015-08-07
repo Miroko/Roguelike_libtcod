@@ -20,6 +20,7 @@ public:
 	void drop(std::shared_ptr<Item> item);
 	bool isEquipped(std::shared_ptr<Item> item);
 	int getTotalDefence();
+	float getTotalEquippedWeight();
 	float getTotalWeight();
 
 	void init(Creature &owner);
