@@ -5,22 +5,12 @@
 
 void AiModuleCombat::pursueAndAttack(DynamicObject &target){
 	if (owner->inFov(target.location)){
-		owner->calculatePath(target.location);		
-		if (owner->owner->inventory.currentWeapon->type == Weapon::WEAPON_MELEE){
-			if (target.location.distance(owner->owner->location) == 1){
-				owner->owner->attack(target);
-			}
-			else{
-				owner->moveOnPath();
-			}
+		owner->calculatePath(target.location);	
+		if (target.location.distance(owner->owner->location) <= owner->owner->inventory.getWeapons().at(0)->range){
+			owner->owner->attack(target);
 		}
-		else if (owner->owner->inventory.currentWeapon->type == Weapon::WEAPON_RANGED){
-			if (target.location.distance(owner->owner->location) <= 6){
-				owner->owner->attack(target);
-			}
-			else{
-				owner->moveOnPath();
-			}
+		else{
+			owner->moveOnPath();
 		}
 	}	
 	else{
@@ -50,7 +40,7 @@ void AiModuleCombat::run(){
 	}
 	else if (state == PURSUE_TARGET){
 		if (target != nullptr){
-			if (owner->owner->inventory.currentWeapon != nullptr){
+			if (!owner->owner->inventory.getWeapons().empty()){
 				pursueAndAttack(*target);
 			}
 			else{

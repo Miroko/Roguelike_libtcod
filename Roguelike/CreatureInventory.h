@@ -8,17 +8,22 @@ class Armor;
 class CreatureInventory
 {
 public:
+	int currency = 0;
 	Creature *owner;
 	ItemContainer items;
-	std::shared_ptr<Weapon> currentWeapon;
 
-	void equipWeapon(std::shared_ptr<Weapon> weapon);
-	void unequipWeapon(std::shared_ptr<Weapon> weapon);
-	void equipArmor(std::shared_ptr<Armor> armor);
+	bool equip(std::shared_ptr<Item> item);
+	void unequip(std::shared_ptr<Item> item);
+	bool holdItem(std::shared_ptr<Item> item);
+	void unholdItem(std::shared_ptr<Item> item);
+	bool equipArmor(std::shared_ptr<Armor> armor);
 	void unequipArmor(std::shared_ptr<Armor> armor);
 	void consume(std::shared_ptr<Consumable> consumable);
 	void drop(std::shared_ptr<Item> item);
 	bool isEquipped(std::shared_ptr<Item> item);
+	std::vector<Item*> getHoldingItems();
+	std::vector<Weapon*> getWeapons();
+	std::vector<Armor*> getArmors();
 	int getTotalDefence();
 	float getTotalEquippedWeight();
 	float getTotalWeight();

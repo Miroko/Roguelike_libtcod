@@ -164,8 +164,8 @@ void ObjectLibrary::init(){
 		"weapon_bow",
 		"Bow",
 		Glyph('b', TCODColor::lightGrey),
-		0.05f, 0.45f,
-		Weapon::WEAPON_RANGED,
+		0.05f, 0.65f,
+		Weapon::WEAPON_RANGED, 2,
 		8));
 
 	//Armors
@@ -186,13 +186,13 @@ void ObjectLibrary::init(){
 		"Leather gloves",
 		Glyph('g', TCODColor::lightSepia),
 		0.02f, 0.50f,
-		Armor::ARMOR_HAND));
+		Armor::ARMOR_HAND, 1, 2));
 	addArmorTemplate(TemplateArmor(
 		"armor_leg_leather",
 		"Leather boots",
 		Glyph('b', TCODColor::lightSepia),
 		0.03f, 0.60f,
-		Armor::ARMOR_LEG));
+		Armor::ARMOR_LEG, 1, 2));
 
 	//Potions
 	//health
@@ -270,8 +270,6 @@ void ObjectLibrary::init(){
 		296))
 	}));
 
-
-
 	//Creatures
 	addCreatureTemplate(TemplateCreature(
 		"creature_human",
@@ -279,8 +277,10 @@ void ObjectLibrary::init(){
 		{
 			CreatureLimb("Head", 0.3f, Armor::ARMOR_HEAD),
 			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
-			CreatureLimb("Arm", 0.7f, Armor::ARMOR_HAND),
-			CreatureLimb("Leg", 0.6f, Armor::ARMOR_LEG)
+			CreatureLimb("Left arm", 0.7f, Armor::ARMOR_HAND, true),
+			CreatureLimb("Right arm", 0.7f, Armor::ARMOR_HAND, true),
+			CreatureLimb("Left leg", 0.6f, Armor::ARMOR_LEG),
+			CreatureLimb("Right leg", 0.6f, Armor::ARMOR_LEG)
 		}));
 	addCreatureTemplate(TemplateCreature(
 		"creature_child",
@@ -288,8 +288,10 @@ void ObjectLibrary::init(){
 		{
 			CreatureLimb("Head", 0.3f, Armor::ARMOR_HEAD),
 			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
-			CreatureLimb("Arm", 0.7f, Armor::ARMOR_HAND),
-			CreatureLimb("Leg", 0.6f, Armor::ARMOR_LEG)
+			CreatureLimb("Left arm", 0.7f, Armor::ARMOR_HAND, true),
+			CreatureLimb("Right arm", 0.7f, Armor::ARMOR_HAND, true),
+			CreatureLimb("Left leg", 0.6f, Armor::ARMOR_LEG),
+			CreatureLimb("Right leg", 0.6f, Armor::ARMOR_LEG)
 		}));
 	addCreatureTemplate(TemplateCreature(
 		"creature_goblin",
@@ -297,8 +299,10 @@ void ObjectLibrary::init(){
 		{
 			CreatureLimb("Head", 0.6f, Armor::ARMOR_HEAD),
 			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
-			CreatureLimb("Arm", 0.8f, Armor::ARMOR_HAND),
-			CreatureLimb("Leg", 0.7f, Armor::ARMOR_LEG)
+			CreatureLimb("Left arm", 0.7f, Armor::ARMOR_HAND, true),
+			CreatureLimb("Right arm", 0.7f, Armor::ARMOR_HAND, true),
+			CreatureLimb("Left leg", 0.6f, Armor::ARMOR_LEG),
+			CreatureLimb("Right leg", 0.6f, Armor::ARMOR_LEG)
 		}));
 	addCreatureTemplate(TemplateCreature(
 		"creature_goblin_king",
@@ -306,8 +310,10 @@ void ObjectLibrary::init(){
 		{
 			CreatureLimb("Head", 0.9f, Armor::ARMOR_HEAD),
 			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
-			CreatureLimb("Arm", 0.9f, Armor::ARMOR_HAND),
-			CreatureLimb("Leg", 1.0f, Armor::ARMOR_LEG)
+			CreatureLimb("Left arm", 0.9f, Armor::ARMOR_HAND, true),
+			CreatureLimb("Right arm", 0.9f, Armor::ARMOR_HAND, true),
+			CreatureLimb("Left leg", 1.0f, Armor::ARMOR_LEG),
+			CreatureLimb("Right leg", 1.0f, Armor::ARMOR_LEG)
 		}));
 
 	//AIs

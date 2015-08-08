@@ -3,7 +3,7 @@
 
 bool ItemPickFrame::moveToInventory(std::shared_ptr<Item> &item){
 	if (engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight() + item->weight > engine::carryWeightMax){
-		engine::gui.log.addMessage("I need to drop something first.");
+		engine::gui.log.addMessage("I am carrying too much.");
 	}
 	else{
 		engine::areaHandler.getCurrentArea()->removeItem(item);
@@ -61,9 +61,9 @@ void ItemPickFrame::init(Rectangle bounds){
 }
 
 void ItemPickFrame::onOpen(){
-	guiSelectableItemList.setItemContainer(engine::playerHandler.playerInventory.temporary);
+	guiSelectableItemList.setItemContainer(pickableItems);
 }
 
 void ItemPickFrame::onClose(){
-	engine::playerHandler.playerInventory.temporary.removeAll();
+	pickableItems.removeAll();
 }

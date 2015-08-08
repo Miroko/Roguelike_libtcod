@@ -71,7 +71,6 @@
     <ClCompile Include="ParticleSpiralUp.cpp" />
     <ClCompile Include="ParticleSplash.cpp" />
     <ClCompile Include="PlayerHandler.cpp" />
-    <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="InspectionFrame.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="ObjectLibrary.cpp" />
@@ -115,7 +114,6 @@
     <ClCompile Include="Point2D.cpp" />
     <ClCompile Include="RarityType.cpp" />
     <ClCompile Include="Rectangle.cpp" />
-    <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="TemplatePotion.cpp" />
     <ClCompile Include="TemplatePotionRarityMap.cpp" />
     <ClCompile Include="TemplateWeapon.cpp" />
@@ -188,7 +186,6 @@
     <ClInclude Include="ParticleSpiralUp.h" />
     <ClInclude Include="ParticleSplash.h" />
     <ClInclude Include="PlayerHandler.h" />
-    <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="InspectionFrame.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="ObjectLibrary.h" />
@@ -231,7 +228,6 @@
     <ClInclude Include="Point2D.h" />
     <ClInclude Include="RarityType.h" />
     <ClInclude Include="Rectangle.h" />
-    <ClInclude Include="StaticObject.h" />
     <ClInclude Include="TemplatePotion.h" />
     <ClInclude Include="TemplatePotionRarityMap.h" />
     <ClInclude Include="TemplateWeapon.h" />

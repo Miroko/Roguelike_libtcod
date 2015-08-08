@@ -31,7 +31,7 @@ void Gui::init(){
 
 	inventory.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() / 4, 0),
-		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 1)));
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 12)));
 
 	quest.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() / 7, TCODConsole::root->getHeight() / 9),
@@ -47,7 +47,7 @@ void Gui::init(){
 
 	pickFrame.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() / 4, 0),
-		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 1)));
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 12)));
 
 	statistics.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, 0),
@@ -95,5 +95,6 @@ void Gui::render(){
 }
 
 void Gui::update(){
+	if (log.isOpen) log.update();
 	if (attack.isOpen) attack.update();
 }

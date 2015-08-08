@@ -43,7 +43,7 @@ bool PlayerController::take(){
 	if(!itemsToTake.empty()){
 		while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 		for (auto &item : itemsToTake){
-			engine::playerHandler.playerInventory.temporary.add(*item);
+			engine::gui.pickFrame.pickableItems.add(*item);
 		}
 		engine::gui.pickFrame.open();
 	}

@@ -15,13 +15,14 @@ public:
 	std::string getStatistics();
 	int getValue();
 
-	Weapon(std::string name, Glyph glyph, float weight, Type type, int damage, int range, RarityType &rarity, std::vector<RarityModWeapon*> rarityMods) :
+	Weapon(std::string name, Glyph glyph, float weight, Type type, int limbsRequiredToHold, int damage, int range, RarityType &rarity, std::vector<RarityModWeapon*> rarityMods) :
 		Equipment(
 		name,
 		glyph,
 		weight,
 		type,
-		rarity),
+		rarity,
+		limbsRequiredToHold),
 		damage(damage),
 		range(range),
 		rarityMods(rarityMods){};

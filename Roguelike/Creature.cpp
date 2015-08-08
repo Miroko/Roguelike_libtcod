@@ -5,43 +5,44 @@
 #include "Weapon.h"
 #include "Armor.h"
 
-void Creature::addEffect(std::shared_ptr<CreatureEffect> effect){
-	effects.push_back(effect);
-}
-void Creature::damageMelee(Weapon &weapon, DynamicObject &target){
-	//stamina cost
-	int staminaCost = (int)(engine::staminaCostPerKgFromAttack * inventory.getTotalEquippedWeight());
-	if (staminaCurrent - staminaCost >= 0){
-		staminaCurrent -= staminaCost;
-		engine::gui.log.addToMessage(name + " attacks " + target.name + " with " + weapon.name + ". ");
-		target.onTakeDamage(*this, weapon.damage);
-		waitedLastTurn = false;
-	}
-	else{
-		engine::gui.log.finishMessage(name + " is too exhausted to attack.");
-		waitedLastTurn = true;
-	}
-}
-void Creature::damageRanged(Weapon &weapon, DynamicObject &target){
-	//stamina cost
-	int staminaCost = (int)(engine::staminaCostPerKgFromAttack * inventory.getTotalEquippedWeight());
-	if (staminaCurrent - staminaCost >= 0){
-		staminaCurrent -= staminaCost;
-		engine::gui.log.addToMessage(name + " shoots " + target.name + " with " + weapon.name + ". ");
-		target.onTakeDamage(*this, weapon.damage);
-		waitedLastTurn = false;
-	}
-	else{
-		engine::gui.log.finishMessage(name + " is too exhausted to shoot.");
-		waitedLastTurn = true;
-	}
-}
 void Creature::attack(DynamicObject &target){
-	if (inventory.currentWeapon != nullptr && !target.isDead){
-		switch (inventory.currentWeapon->type)
-		{
-		case Weapon::WEAPON_MELEE: damageMelee(*inventory.currentWeapon, target); break;
-		case Weapon::WEAPON_RANGED: damageRanged(*inventory.currentWeapon, target); break;
+	if (!target.isDead){
+		auto &weapons = inventory.getWeapons();
+
+		float weaponsWeight = 0;
+		for (auto &weapon : weapons){
+			weaponsWeight += weapon->weight;
+		}
+
+		int staminaCost = 
+			(int)(engine::staminaCostPerKgFromAttack * 
+			(inventory.getTotalEquippedWeight() + weaponsWeight));
+
+		if (staminaCurrent - staminaCost >= 0){
+			staminaCurrent -= staminaCost;
+			for (auto &weapon : weapons){
+				if (weapon->type == GameObject::WEAPON_MELEE){
+					engine::gui.log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
+				}
+				else if (weapon->type == GameObject::WEAPON_RANGED){
+					engine::gui.log.addToMessage(name + " shoots " + target.name + " with " + weapon->name + ". ");
+				}
+				float accuracy =
+					1.0f -
+					((inventory.getTotalEquippedWeight() + weapon->weight) / engine::carryWeightMax) /
+					weapons.size();
+				if (engine::random.chance(accuracy)){
+					target.onTakeDamage(*this, weapon->damage);
+				}
+				else{
+					engine::gui.log.finishMessage(name + " missed.");
+				}
+			}
+			waitedLastTurn = false;
+		}
+		else{
+			engine::gui.log.finishMessage(name + " is too exhausted to attack.");
+			waitedLastTurn = true;
 		}
 	}
 }
@@ -55,7 +56,7 @@ void Creature::onTakeDamage(DynamicObject &attacker, int amount){
 			if (amountAfterDefence < 0) amountAfterDefence = 0;
 		}
 		engine::gui.log.addToMessage(creatureLimb.name + " is hit. ");
-		//stamina cost
+		//stamina cost from damage
 		staminaCurrent -= (int)(amountAfterDefence * engine::staminaCostFromDamageRation);
 		if (staminaCurrent <= 0) staminaCurrent = 0;
 		DynamicObject::onTakeDamage(attacker, amountAfterDefence);
@@ -64,6 +65,9 @@ void Creature::onTakeDamage(DynamicObject &attacker, int amount){
 		engine::gui.log.finishMessage(attacker.name + " missed.");
 	}
 	ai->onTakeDamage(attacker);
+}
+void Creature::addEffect(std::shared_ptr<CreatureEffect> effect){
+	effects.push_back(effect);
 }
 void Creature::onDeath(){
 	DynamicObject::onDeath();

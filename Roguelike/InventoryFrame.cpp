@@ -30,7 +30,7 @@ void InventoryFrame::render(){
 		guiTopBoxBounds.getWidth(), 0,
 		Gui::FRAME_FG, 
 		TCOD_LEFT, 
-		engine::string.currency(engine::playerHandler.playerInventory.currency));
+		engine::string.currency(engine::playerHandler.getPlayerCreature()->inventory.currency));
 	//weight
 	printString(
 		guiTopBoxBounds.start.x, guiTopBoxBounds.start.y,
@@ -75,10 +75,19 @@ void InventoryFrame::init(Rectangle bounds){
 	});
 	guiSelectableItemList.setOnOperationSelectedFunction(
 		[this](std::shared_ptr<Item> item, std::string operation){
-		if (operation == EQUIP) engine::playerHandler.playerInventory.equip(std::static_pointer_cast<Equipment>(item));
-		else if (operation == UNEQUIP) engine::playerHandler.playerInventory.unequip(std::static_pointer_cast<Equipment>(item));
-		else if (operation == CONSUME) engine::playerHandler.playerInventory.consume(std::static_pointer_cast<Consumable>(item));
-		else if (operation == DROP) engine::playerHandler.playerInventory.drop(item);
+		if (operation == EQUIP){
+			if (!engine::playerHandler.getPlayerCreature()->inventory.equip(item)){
+				if (item->isWeapon()){
+					engine::gui.log.addMessage("I am holding too much.");
+				}
+				else if (item->isArmor()){
+					engine::gui.log.addMessage("I am wearing too much.");
+				}
+			}
+		}
+		else if (operation == UNEQUIP) engine::playerHandler.getPlayerCreature()->inventory.unequip(item);
+		else if (operation == CONSUME) engine::playerHandler.getPlayerCreature()->inventory.consume(std::static_pointer_cast<Consumable>(item));
+		else if (operation == DROP) engine::playerHandler.getPlayerCreature()->inventory.drop(item);
 		//clear display
 		guiGameObjectDisplay.clear();
 	});

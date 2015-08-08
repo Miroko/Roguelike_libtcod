@@ -80,7 +80,7 @@ void AttackFrame::updateTarget(){
 
 void AttackFrame::updateAttackableObjects(){
 	attackableObjects.clear();
-	Weapon *weapon = engine::playerHandler.getPlayerCreature()->inventory.currentWeapon.get();
+	Weapon *weapon = engine::playerHandler.getPlayerCreature()->inventory.getWeapons().at(0);
 	//attack range
 	Rectangle range = Rectangle(
 		engine::playerHandler.getPlayerCreature()->location,
@@ -106,14 +106,14 @@ void AttackFrame::updateAttackableObjects(){
 }
 
 void AttackFrame::onOpen(){
-	Weapon *weapon = engine::playerHandler.getPlayerCreature()->inventory.currentWeapon.get();
-	if (weapon != nullptr){
+	auto &weapons = engine::playerHandler.getPlayerCreature()->inventory.getWeapons();
+	if (!weapons.empty()){
 		update();
 		if (attackableObjects.empty()){
-			if (weapon->type == GameObject::WEAPON_MELEE){
+			if (weapons.at(0)->type == GameObject::WEAPON_MELEE){
 				engine::gui.log.addMessage("Nothing to attack.");
 			}
-			else if (weapon->type == GameObject::WEAPON_RANGED){
+			else if (weapons.at(0)->type == GameObject::WEAPON_RANGED){
 				engine::gui.log.addMessage("Nothing to shoot at.");
 			}
 		}

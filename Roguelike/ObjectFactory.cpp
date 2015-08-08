@@ -43,7 +43,7 @@ std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creatu
 	for (auto &weaponId : templateCreaturePreset.weaponIds){
 		auto &weapon = createWeapon(weaponId, rarity);
 		creature->inventory.items.add(weapon);
-		creature->inventory.equipWeapon(weapon);
+		creature->inventory.holdItem(weapon);
 	}
 	//equip armor
 	for (auto &armorId : templateCreaturePreset.armorIds){
@@ -62,6 +62,7 @@ std::shared_ptr<Weapon> ObjectFactory::createWeapon(std::string weaponTemplateId
 		templateWeapon.glyph,
 		templateWeapon.weight * engine::carryWeightMax,
 		templateWeapon.type,
+		templateWeapon.limbsRequiredToHold,
 		(int)(engine::damageMax *
 			 templateWeapon.damage *
 			 rarity.improvementMultiplier *
@@ -86,6 +87,8 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, R
 		templateArmor.glyph,
 		templateArmor.weight * engine::carryWeightMax,
 		templateArmor.type,
+		templateArmor.limbsRequiredToHold,
+		templateArmor.limbsRequiredToEquip,
 		(int)(engine::defenceMax *
 			 templateArmor.defence *
 		     rarity.improvementMultiplier * 

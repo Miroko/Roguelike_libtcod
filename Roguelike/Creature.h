@@ -9,8 +9,6 @@ class Creature : public DynamicObject
 {
 private:
 	bool waitedLastTurn = true;
-	void damageMelee(Weapon &weapon, DynamicObject &target);
-	void damageRanged(Weapon &weapon, DynamicObject &target);
 
 public:
 	std::string presetId;
@@ -23,10 +21,10 @@ public:
 	RarityType &rarity;
 	std::vector<RarityModCreature*> rarityMods;
 
-	void addEffect(std::shared_ptr<CreatureEffect> effect);
 	void attack(DynamicObject &target);
 	void onTakeDamage(DynamicObject &attacker, int amount);
 	void onDeath();
+	void addEffect(std::shared_ptr<CreatureEffect> effect);
 	bool move(Point2D &location);
 	void onMove();
 	void initAi(Area &area);

@@ -13,6 +13,7 @@ QuestHandler engine::questHandler;
 VisualEffectHandler engine::visualEffectHandler;
 Gui engine::gui;
 bool engine::requestUpdate = false;
+
 int engine::healthMax;
 int engine::damageMax;
 int engine::defenceMax;
@@ -85,7 +86,7 @@ void engine::newGame(){
 	//Player
 	std::shared_ptr<Creature> playerCreature = objectFactory.createCreaturePreset("player", *engine::objectLibrary.getRarity("rarity_common"));
 	playerHandler.setPlayerCreature(playerCreature);
-	playerHandler.playerInventory.currency = 50;
+	playerHandler.getPlayerCreature()->inventory.currency = 50;
 
 	//Quest
 	std::shared_ptr<Quest> quest = std::shared_ptr<Quest>(new QuestTheGoblinKing());

@@ -14,6 +14,7 @@ public:
 
 	Point2D location;
 	float weight; 	// Kg
+	int limbsRequiredToHold;
 
 	virtual int getValue();
 	virtual std::string getStatistics();
@@ -21,9 +22,10 @@ public:
 
 	bool operator==(const Item &item);
 
-	Item(std::string name, Glyph glyph, float weight, Type type, RarityType &rarity) :
+	Item(std::string name, Glyph glyph, float weight, Type type, RarityType &rarity, int limbsRequiredToHold = 1) :
 		GameObject(name, type, glyph),
 		weight(weight),
-		rarity(rarity){};
+		rarity(rarity),
+		limbsRequiredToHold(limbsRequiredToHold){};
 };
 

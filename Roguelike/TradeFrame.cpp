@@ -63,7 +63,7 @@ void TradeFrame::render(){
 		guiPlayerTopBoxBounds.getWidth(), 0,
 		Gui::FRAME_FG,
 		TCOD_LEFT,
-		engine::string.currency(engine::playerHandler.playerInventory.currency));
+		engine::string.currency(engine::playerHandler.getPlayerCreature()->inventory.currency));
 	//weight
 	printString(
 		guiPlayerTopBoxBounds.start.x, guiPlayerTopBoxBounds.start.y,
@@ -158,7 +158,7 @@ void TradeFrame::calculateCurrencyFromTrade(){
 }
 
 void TradeFrame::makeTrade(){
-	if (engine::playerHandler.playerInventory.currency + currencyFromTrade < 0 ||
+	if (engine::playerHandler.getPlayerCreature()->inventory.currency + currencyFromTrade < 0 ||
 		currentTraderContainer->currency - currencyFromTrade < 0) errorMessage = ERROR_NOT_ENOUGH_CURRENCY;
 	else{
 		float newWeight = engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight();
@@ -168,7 +168,7 @@ void TradeFrame::makeTrade(){
 		else{
 			for (auto &item : selectedPlayerItems.items){
 				if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
-					engine::playerHandler.playerInventory.unequip(std::static_pointer_cast<Equipment>(item));
+					engine::playerHandler.getPlayerCreature()->inventory.unequip(item);
 				}
 				guiPlayerSelectableItemList.itemContainer->remove(item);
 				currentTraderContainer->items.add(item);
@@ -177,7 +177,7 @@ void TradeFrame::makeTrade(){
 				guiPlayerSelectableItemList.itemContainer->add(item);
 				currentTraderContainer->items.remove(item);
 			}
-			engine::playerHandler.playerInventory.currency += currencyFromTrade;
+			engine::playerHandler.getPlayerCreature()->inventory.currency += currencyFromTrade;
 			currentTraderContainer->currentCurrency -= currencyFromTrade;
 
 			selectedPlayerItems.items.clear();

@@ -34,9 +34,6 @@
     <Filter Include="Engine\Quest\Quests">
       <UniqueIdentifier>{955f5c54-59dd-488d-b4c1-f74ec4f10f2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject\Static">
-      <UniqueIdentifier>{8c618f36-a98e-407f-a056-c9383f675729}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\ObjectFactory">
       <UniqueIdentifier>{036e4e42-3716-467a-87cf-d0ae3949ad4c}</UniqueIdentifier>
     </Filter>
@@ -229,17 +226,11 @@
     <ClCompile Include="PlayerHandler.cpp">
       <Filter>Engine\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerInventory.cpp">
-      <Filter>Engine\Player</Filter>
-    </ClCompile>
     <ClCompile Include="RarityType.cpp">
       <Filter>Engine\ObjectFactory\Rarity</Filter>
     </ClCompile>
     <ClCompile Include="OperatableObject.cpp">
       <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticObject.cpp">
-      <Filter>Engine\GameObject\Static</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFactory.cpp">
       <Filter>Engine\ObjectFactory</Filter>
@@ -570,17 +561,11 @@
     <ClInclude Include="PlayerHandler.h">
       <Filter>Engine\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerInventory.h">
-      <Filter>Engine\Player</Filter>
-    </ClInclude>
     <ClInclude Include="RarityType.h">
       <Filter>Engine\ObjectFactory\Rarity</Filter>
     </ClInclude>
     <ClInclude Include="OperatableObject.h">
       <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticObject.h">
-      <Filter>Engine\GameObject\Static</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFactory.h">
       <Filter>Engine\ObjectFactory</Filter>

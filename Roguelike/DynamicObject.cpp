@@ -31,12 +31,10 @@ bool DynamicObject::passable(DynamicObject &dynamicObject){
 }
 void DynamicObject::onTakeDamage(DynamicObject &attacker, int amount){
 	engine::gui.log.addToMessage(name + " takes " + std::to_string(amount) + " damage. ");
-
 	if (amount > 0){
 		health -= amount;
 		onTakeDamageEffect();
 	}
-
 	if (health <= 0) kill();
 	else engine::gui.log.finishMessage("");
 }
