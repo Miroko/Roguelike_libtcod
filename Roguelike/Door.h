@@ -15,8 +15,14 @@ public:
 
 	std::shared_ptr<OperatableObject> copy();
 	
-	Door(std::string name, Glyph openGlyph, Glyph closedGlyph) :
-		OperatableObject(name, GameObject::DOOR, 100, openGlyph, false),
-		onGlyph(openGlyph), offGlyph(closedGlyph){};
+	Door(std::string name, Glyph open, Glyph closed, int health) :
+		OperatableObject(DynamicObject(GameObject(
+		name,
+		GameObject::DOOR,
+		open),
+		health,
+		false)),
+		onGlyph(open),
+		offGlyph(closed){};
 };
 

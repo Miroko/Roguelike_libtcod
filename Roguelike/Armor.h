@@ -1,27 +1,20 @@
 #pragma once
-#include "Equipment.h"
-#include "TemplateArmor.h"
+#include "Item.h"
 
-class Armor : public Equipment
+class Armor : public Item
 {
-public:
+private:
 	int defence;
-	int limbsRequiredToEquip;
 
-	std::vector<RarityModArmor*> rarityMods;
+public:
+	int limbsRequiredToEquip;
 
 	std::string getStatistics();
 	int getValue();
+	int getDefence();
 
-	Armor(std::string name, Glyph glyph, float weight, Type type, int limbsRequiredToHold, int limbsRequiredToEquip, int defence, RarityType &rarity, std::vector<RarityModArmor*> rarityMods) :
-		Equipment(
-		name,
-		glyph,
-		weight,
-		type,
-		rarity,
-		limbsRequiredToHold),
+	Armor(Item item, int limbsRequiredToEquip, int defence) :
+		Item(item),
 		defence(defence),
-		limbsRequiredToEquip(limbsRequiredToEquip),
-		rarityMods(rarityMods){};
+		limbsRequiredToEquip(limbsRequiredToEquip){};
 };

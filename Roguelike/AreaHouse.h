@@ -15,7 +15,7 @@ public:
 	Tile &floor;
 	std::string doorId;
 	AreaDrop &residentDrop;
-	std::vector<std::pair<std::string, float>> furnitureChances;
+	std::vector<std::pair<std::string, double>> furnitureChances;
 
 	void build(Rectangle &bounds, Area &area);
 
@@ -24,6 +24,6 @@ public:
 		std::string floorId,
 		std::string doorId,
 		AreaDrop &residentDrop,
-		std::vector<std::pair<std::string, float>> furnitureChances);
+		std::vector<std::pair<std::string, double>> furnitureChances);
 };
 

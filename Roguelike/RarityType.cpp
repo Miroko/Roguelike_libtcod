@@ -3,10 +3,11 @@
 #include <vector>
 #include <memory>
 
+/*
 std::vector<RarityModCreature*> RarityType::getRandomCreatureMods(){
 	std::vector<RarityModCreature*> rarityMods;
 	for (int modNumber = modsPerItem; modNumber > 0; --modNumber){
-		float roll = engine::random.generator->getFloat(0.0, 1.0);
+		double roll = engine::random.generator->getFloat(0.0, 1.0);
 		if (roll < modRollChance){
 			int randomIndex = engine::random.generator->getInt(0, creatureMods.size() - 1);
 			rarityMods.push_back(engine::objectLibrary.getRarityModCreature(creatureMods.at(randomIndex)));
@@ -18,7 +19,7 @@ std::vector<RarityModCreature*> RarityType::getRandomCreatureMods(){
 std::vector<RarityModWeapon*> RarityType::getRandomWeaponMods(){
 	std::vector<RarityModWeapon*> rarityMods;
 	for (int modNumber = modsPerItem; modNumber > 0; --modNumber){
-		float roll = engine::random.generator->getFloat(0.0, 1.0);
+		double roll = engine::random.generator->getFloat(0.0, 1.0);
 		if (roll < modRollChance){
 			int randomIndex = engine::random.generator->getInt(0, weaponMods.size() - 1);
 			rarityMods.push_back(engine::objectLibrary.getRarityModWeapon(weaponMods.at(randomIndex)));
@@ -30,7 +31,7 @@ std::vector<RarityModWeapon*> RarityType::getRandomWeaponMods(){
 std::vector<RarityModArmor*> RarityType::getRandomArmorMods(){
 	std::vector<RarityModArmor*> rarityMods;
 	for (int modNumber = modsPerItem; modNumber > 0; --modNumber){
-		float roll = engine::random.generator->getFloat(0.0, 1.0);
+		double roll = engine::random.generator->getFloat(0.0, 1.0);
 		if (roll < modRollChance){
 			int randomIndex = engine::random.generator->getInt(0, armorMods.size() - 1);
 			rarityMods.push_back(engine::objectLibrary.getRarityModArmor(armorMods.at(randomIndex)));
@@ -38,3 +39,4 @@ std::vector<RarityModArmor*> RarityType::getRandomArmorMods(){
 	}
 	return rarityMods;
 }
+*/

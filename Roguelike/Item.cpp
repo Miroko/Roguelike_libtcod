@@ -1,5 +1,4 @@
 #include "Item.h"
-#include "RarityType.h"
 #include "Engine.h"
 
 bool Item::operator==(const Item &item){
@@ -8,15 +7,23 @@ bool Item::operator==(const Item &item){
 }
 
 std::string Item::getDescription(){
-	return name;
+	std::string description = name;
+	RarityAffix* affixPre = getAffixPre();
+	if (affixPre != nullptr) description.insert(0, affixPre->name + " ");
+	RarityAffix* affixPost = getAffixPost();
+	if (affixPost != nullptr) description.append(" of " + affixPost->name);
+	return description;
 }
 
 std::string Item::getStatistics(){
-	return engine::string.currency(getValue()) + " " + engine::string.weight(weight);
+	return engine::string.currency(getValue()) + " " + engine::string.weightKg(weightKg);
 }
 
 int Item::getValue(){
-	int value = 0;
-	value += (int)(VALUE_WEIGHT_MULTIPLIER * weight);
+	int value = (int)(getWeight() * engine::valuePerKg);
 	return value;
+}
+
+double Item::getWeight(){
+	return weightKg;
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include "StaticObject.h"
 #include "OperatableObject.h"
 #include "Creature.h"
 #include "Item.h"

@@ -5,9 +5,9 @@ class Forest : public Area
 {
 private:
 	int size;
-	float treePercentage;
-	float stonePercentage;
-	float treeDistribution;
+	double treePercentage;
+	double stonePercentage;
+	double treeDistribution;
 	int treeThickness;
 	int portals;
 	Tile &land;
@@ -23,6 +23,6 @@ public:
 	virtual void onStonePlaced(Point2D &location);
 
 	Forest(std::string landId, std::string treeId, std::string stoneHighId, std::string stoneLowId, std::string portalId,
-		int size, float treePercentage, float stonePercentage, int portals = -1, float treeDistribution = 0.07f, int treeThickness = 2);
+		int size, double treePercentage, double stonePercentage, int portals = -1, double treeDistribution = 0.07f, int treeThickness = 2);
 };
 

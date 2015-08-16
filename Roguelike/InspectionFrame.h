@@ -21,7 +21,7 @@ public:
 
 	void onOpen();
 
-	InspectionFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
+	InspectionFrame(char controlKey, bool open, double alphaFg, double alphaBg) :
 		GuiFrame(controlKey, open, alphaFg, alphaBg, "Inspection"){};
 };
 

@@ -2,7 +2,7 @@
 #include "Engine.h"
 
 void Particle::render(){
-	float density = (float)currentAge / (float)ageMax;
+	double density = (double)currentAge / (double)ageMax;
 	TCODConsole::root->setCharBackground(
 		location.x - engine::camera.location.x,
 		location.y - engine::camera.location.y,

@@ -28,6 +28,6 @@ void GuiOperable::renderTo(GuiFrame &frame, Rectangle &bounds){
 			bounds.getWidth(), 0,
 			Gui::FRAME_FG,
 			TCOD_RIGHT,
-			engine::string.outOf(currentOperatable->health, currentOperatable->healthMax));
+			engine::string.outOf(currentOperatable->healthCurrent, currentOperatable->healthMax));
 	}
 }

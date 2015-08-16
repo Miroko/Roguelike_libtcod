@@ -25,8 +25,8 @@ public:
 	std::vector<Weapon*> getWeapons();
 	std::vector<Armor*> getArmors();
 	int getTotalDefence();
-	float getTotalEquippedWeight();
-	float getTotalWeight();
+	double getTotalEquippedWeight();
+	double getTotalWeight();
 
 	void init(Creature &owner);
 

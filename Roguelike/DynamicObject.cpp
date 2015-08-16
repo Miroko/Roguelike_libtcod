@@ -3,9 +3,9 @@
 #include "EffectBloodSplatter.h"
 #include "Engine.h"
 
-void DynamicObject::setHealth(int health){
-	this->healthMax = health;
-	this->health = health;
+void DynamicObject::setHealth(int healthCurrent){
+	this->healthMax = healthCurrent;
+	this->healthCurrent = healthCurrent;
 }
 bool DynamicObject::move(Point2D &location){
 	if (engine::areaHandler.getCurrentArea()->passable(location, *this)){
@@ -32,10 +32,10 @@ bool DynamicObject::passable(DynamicObject &dynamicObject){
 void DynamicObject::onTakeDamage(DynamicObject &attacker, int amount){
 	engine::gui.log.addToMessage(name + " takes " + std::to_string(amount) + " damage. ");
 	if (amount > 0){
-		health -= amount;
+		healthCurrent -= amount;
 		onTakeDamageEffect();
 	}
-	if (health <= 0) kill();
+	if (healthCurrent <= 0) kill();
 	else engine::gui.log.finishMessage("");
 }
 void DynamicObject::onTakeDamageEffect(){

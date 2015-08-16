@@ -29,7 +29,7 @@ public:
 	void onOpen();
 	void onClose();
 
-	ItemPickFrame(char controlKey, bool open, float alphaFg, float alphaBg) : 
+	ItemPickFrame(char controlKey, bool open, double alphaFg, double alphaBg) : 
 		GuiFrame(controlKey, open, alphaFg, alphaBg, "Items"),
 		guiDisplayBox("Items"){};
 };

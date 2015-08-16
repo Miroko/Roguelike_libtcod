@@ -33,8 +33,8 @@ void ItemContainer::sort(){
 	//2. name
 	//3. value
 	items.sort([](const std::shared_ptr<Item> &a, const std::shared_ptr<Item> &b){
-		if (a->rarity.prevalence >= b->rarity.prevalence){
-			if (a->rarity.prevalence == b->rarity.prevalence){
+		if (a->rarityType->prevalence >= b->rarityType->prevalence){
+			if (a->rarityType->prevalence == b->rarityType->prevalence){
 				int comparisonName = b->name.compare(a->name);
 				if (comparisonName < 0){
 					return false;

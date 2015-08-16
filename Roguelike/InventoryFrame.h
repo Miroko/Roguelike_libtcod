@@ -34,7 +34,7 @@ public:
 	bool handleKey(TCOD_key_t &key);
 	void init(Rectangle bounds);
 
-	InventoryFrame(char controlKey, bool open, float alphaFg, float alphaBg) : 
+	InventoryFrame(char controlKey, bool open, double alphaFg, double alphaBg) : 
 		GuiFrame(controlKey, open, alphaFg, alphaBg, "Inventory"),
 		guiTopBox("Inventory"){};
 };

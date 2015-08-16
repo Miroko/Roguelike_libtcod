@@ -13,7 +13,7 @@ void GuiFrame::render(){
 	}
 }
 
-void GuiFrame::blit(int x, int y, int width, int height, int toX, int toY, float alphaFg, float alphaBg){
+void GuiFrame::blit(int x, int y, int width, int height, int toX, int toY, double alphaFg, double alphaBg){
 	TCODConsole::blit(
 		console.get(), x, y, width, height,
 		TCODConsole::root, toX, toY, alphaFg, alphaBg

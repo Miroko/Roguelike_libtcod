@@ -1,17 +1,16 @@
 #pragma once
 #include "GameObject.h"
+#include "RarityMod.h"
 
 class Tile : public GameObject
 {
 public:
 	bool transparent;
-	float walkCost;
-	float staminaCostMultiplierForMove;
+	double walkCost; // walkcost <= 0 == unwalkable else lower better
 
-	Tile(std::string name, Type type, Glyph glyph, bool transparent = true, float walkCost = 10.0f, float staminaCostMultiplierForMove = 1.0f) :
-		GameObject(name, type, glyph),
+	Tile(GameObject gameObject, bool transparent, double walkCost) :
+		GameObject(gameObject),
 		transparent(transparent),
-		walkCost(walkCost),
-		staminaCostMultiplierForMove(staminaCostMultiplierForMove){};
+		walkCost(walkCost){};
 };
 

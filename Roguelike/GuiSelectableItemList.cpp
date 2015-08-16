@@ -100,7 +100,7 @@ void GuiSelectableItemList::renderTo(GuiFrame &frame, Rectangle &bounds){
 			frame.printString(
 				bounds.start.x, bounds.start.y + offsetY,
 				bounds.getWidth(), 0,
-				item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, 
+				item->rarityType->color * Gui::RARITY_COLOR_MULTIPLIER, 
 				TCOD_LEFT,
 				item->getDescription());
 			//stats

@@ -1,565 +1,234 @@
 #include "ObjectLibrary.h"
-#include "EffectHealthIncrease.h"
-#include "EffectIncreasedDamage.h"
-#include "EffectIncreasedDefence.h"
-#include "EffectHealthRegeneration.h"
-#include "EffectStaminaIncrease.h"
-#include "EffectStaminaRegeneration.h"
+#include "AiVillager.h"
+#include "AiAlchemist.h"
+#include "AiBlacksmith.h"
 #include "AiMonster.h"
 #include "AiNone.h"
-#include "AiVillager.h"
-#include "AiBlacksmith.h"
-#include "AiAlchemist.h"
-#include "Armor.h"
-#include "Weapon.h"
+#include "Door.h"
 #include "Bed.h"
 #include "Forge.h"
 #include "Anvil.h"
 #include "AlchemyTable.h"
-
-void ObjectLibrary::addRarity(RarityType rarity){
-	rarityTypes.push_back(rarity);
-}
-bool ObjectLibrary::addRarityModCreature(std::string id, RarityModCreature mod){
-	auto& inserted = creatureRarityMods.insert(std::pair<std::string, RarityModCreature>(id, mod));
-	return inserted.second;
-}
-bool ObjectLibrary::addRarityModArmor(std::string id, RarityModArmor mod){
-	auto& inserted = armorRarityMods.insert(std::pair<std::string, RarityModArmor>(id, mod));
-	return inserted.second;
-}
-bool ObjectLibrary::addRarityModWeapon(std::string id, RarityModWeapon mod){
-	auto& inserted = weaponRarityMods.insert(std::pair<std::string, RarityModWeapon>(id, mod));
-	return inserted.second;
-}
-bool ObjectLibrary::addTile(std::string id, std::unique_ptr<Tile> tile){
-	auto& inserted = tiles.insert(std::pair<std::string, std::unique_ptr<Tile>>(id, std::move(tile)));
-	return inserted.second;
-}
-bool ObjectLibrary::addOperatable(std::string id, std::unique_ptr<OperatableObject> operatable){
-	auto& inserted = operatableObjects.insert(std::pair<std::string, std::unique_ptr<OperatableObject>>(id, std::move(operatable)));
-	return inserted.second;
-}
-bool ObjectLibrary::addPotionRarityMap(std::string id, TemplatePotionRarityMap rarityMap){
-	auto& inserted = potionRarityMaps.insert(std::pair<std::string, TemplatePotionRarityMap>(id, rarityMap));
-	return inserted.second;
-}
-bool ObjectLibrary::addWeaponTemplate(TemplateWeapon weaponTemplate){
-	auto& inserted = weaponTemplates.insert(std::pair<std::string, TemplateWeapon>(weaponTemplate.id, weaponTemplate));
-	return inserted.second;
-}
-bool ObjectLibrary::addArmorTemplate(TemplateArmor armorTemplate){
-	auto& inserted = armorTemplates.insert(std::pair<std::string, TemplateArmor>(armorTemplate.id, armorTemplate));
-	return inserted.second;
-}
-bool ObjectLibrary::addCreatureAi(std::string id, std::unique_ptr<CreatureAi> ai){
-	auto& inserted = creatureAis.insert(std::pair<std::string, std::unique_ptr<CreatureAi>>(id, std::move(ai)));
-	return inserted.second;
-}
-bool ObjectLibrary::addCreatureTemplate(TemplateCreature creatureTemplate){
-	auto& inserted = creatureTemplates.insert(std::pair<std::string, TemplateCreature>(creatureTemplate.id, creatureTemplate));
-	return inserted.second;
-}
-bool ObjectLibrary::addCreaturePresetTemplate(TemplateCreaturePreset creaturePresetTemplate){
-	auto& inserted = creaturePresetTemplates.insert(std::pair<std::string, TemplateCreaturePreset>(creaturePresetTemplate.id, creaturePresetTemplate));
-	return inserted.second;
-}
-Tile *ObjectLibrary::getTile(std::string id){
-	auto &retrieved = tiles.find(id);
-	return retrieved->second.get();
-}
-OperatableObject *ObjectLibrary::getOperatable(std::string id){
-	auto &retrieved = operatableObjects.find(id);
-	return retrieved->second.get();
-}
-TemplatePotionRarityMap *ObjectLibrary::getPotionRarityMap(std::string id){
-	return &potionRarityMaps.find(id)->second;
-}
-TemplateWeapon *ObjectLibrary::getTemplateWeapon(std::string id){
-	auto &retrieved = weaponTemplates.find(id);
-	return &retrieved->second;
-}
-TemplateArmor *ObjectLibrary::getTemplateArmor(std::string id){
-	auto &retrieved = armorTemplates.find(id);
-	return &retrieved->second;
-}
-CreatureAi *ObjectLibrary::getAi(std::string id){
-	auto &retrieved = creatureAis.find(id);
-	return retrieved->second.get();
-}
-TemplateCreature *ObjectLibrary::getTemplateCreature(std::string id){
-	auto &retrieved = creatureTemplates.find(id);
-	return &retrieved->second;
-}
-TemplateCreaturePreset *ObjectLibrary::getTemplateCreaturePreset(std::string id){
-	auto &retrieved = creaturePresetTemplates.find(id);
-	return &retrieved->second;
-}
-RarityType *ObjectLibrary::getRarity(std::string id){
-	for (RarityType &rarity : rarityTypes){
-		if (rarity.id == id) return &rarity;
-	}
-	return nullptr;
-}
-RarityType *ObjectLibrary::getRarity(float roll){
-	for (RarityType &rarity : rarityTypes){
-		if (roll < rarity.prevalence) return &rarity;
-	}
-	return nullptr;
-}
-RarityModCreature *ObjectLibrary::getRarityModCreature(std::string id){
-	auto &retrieved = creatureRarityMods.find(id);
-	return &retrieved->second;
-}
-RarityModArmor *ObjectLibrary::getRarityModArmor(std::string id){
-	auto &retrieved = armorRarityMods.find(id);
-	return &retrieved->second;
-}
-RarityModWeapon *ObjectLibrary::getRarityModWeapon(std::string id){
-	auto &retrieved = weaponRarityMods.find(id);
-	return &retrieved->second;
-}
-
-void ObjectLibrary::sortRarityTypes(){
-	rarityTypes.sort([](const RarityType &a, const RarityType &b){
-		return a.prevalence < b.prevalence;
-	});
-}
+#include "Wall.h"
+#include "Floor.h"
+#include "Water.h"
+#include "Portal.h"
 
 void ObjectLibrary::init(){
-	//Weapons
-	//melee
-	addWeaponTemplate(TemplateWeapon(
-		"weapon_sword",
-		"Sword",
-		Glyph('s', TCODColor::lightGrey),
-		0.15f, 0.85f,
-		Weapon::WEAPON_MELEE));
-	addWeaponTemplate(TemplateWeapon(
-		"weapon_dagger",
-		"Dagger",
-		Glyph('d', TCODColor::lightGrey),
-		0.05f, 0.60f,
-		Weapon::WEAPON_MELEE));
-	addWeaponTemplate(TemplateWeapon(
-		"weapon_staff",
-		"Staff",
-		Glyph('s', TCODColor::lightGrey),
-		0.10f, 0.80f,
-		Weapon::WEAPON_MELEE));
-	addWeaponTemplate(TemplateWeapon(
-		"weapon_mace",
-		"Mace",
-		Glyph('s', TCODColor::lightGrey),
-		0.19f, 0.90f,
-		Weapon::WEAPON_MELEE));
-	addWeaponTemplate(TemplateWeapon(
-		"weapon_axe",
-		"Axe",
-		Glyph('a', TCODColor::lightGrey),
-		0.24f, 0.95f,
-		Weapon::WEAPON_MELEE));
-	//ranged
-	addWeaponTemplate(TemplateWeapon(
-		"weapon_bow",
-		"Bow",
-		Glyph('b', TCODColor::lightGrey),
-		0.05f, 0.65f,
-		Weapon::WEAPON_RANGED, 2,
-		8));
-
-	//Armors
-	addArmorTemplate(TemplateArmor(
-		"armor_body_leather",
-		"Leather body armor",
-		Glyph('B', TCODColor::lightSepia),
-		0.10f, 0.80f,
-		Armor::ARMOR_BODY));
-	addArmorTemplate(TemplateArmor(
-		"armor_head_leather",
-		"Leather cap",
-		Glyph('c', TCODColor::lightSepia),
-		0.02f, 0.60f,
-		Armor::ARMOR_HEAD));
-	addArmorTemplate(TemplateArmor(
-		"armor_hand_leather",
-		"Leather gloves",
-		Glyph('g', TCODColor::lightSepia),
-		0.02f, 0.50f,
-		Armor::ARMOR_HAND, 1, 2));
-	addArmorTemplate(TemplateArmor(
-		"armor_leg_leather",
-		"Leather boots",
-		Glyph('b', TCODColor::lightSepia),
-		0.03f, 0.60f,
-		Armor::ARMOR_LEG, 1, 2));
-
-	//Potions
-	//health
-	addPotionRarityMap(
-		"potion_health",
-		TemplatePotionRarityMap({
-		std::make_pair(	"rarity_common", TemplatePotion(
-		"Small health potion",
-		Glyph('p', TCODColor::lightRed),
-		0.005f,
-		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(4, 0.03f)) },
-		16)),
-		std::make_pair("rarity_uncommon", TemplatePotion(
-		"Medium health potion",
-		Glyph('p', TCODColor::lightRed),
-		0.010f,
-		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(8, 0.04f)) },
-		32)),
-		std::make_pair("rarity_rare", TemplatePotion(
-		"Large health potion",
-		Glyph('P', TCODColor::red),
-		0.020f,
-		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(16, 0.05f)) },
-		64)),
-		std::make_pair("rarity_epic", TemplatePotion(
-		"Bubbling health potion",
-		Glyph('P', TCODColor::lightCrimson),
-		0.010f,
-		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(32, 0.06f)),
-		  std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(0.05f)) },
-		264)),
-		std::make_pair("rarity_unique", TemplatePotion(
-		"Mystical health potion",
-		Glyph('p', TCODColor::crimson),
-		0.005f,
-		{ std::shared_ptr<CreatureEffect>(new EffectHealthRegeneration(64, 0.10f)),
-		  std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(0.15f)) },
-		428))
-	}));
-	//stamina
-	addPotionRarityMap(
-		"potion_stamina",
-		TemplatePotionRarityMap({
-		std::make_pair("rarity_common", TemplatePotion(
-		"Small stamina potion",
-		Glyph('p', TCODColor::lightTurquoise),
-		0.005f,
-		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(4, 0.03f)) },
-		8)),
-		std::make_pair("rarity_uncommon", TemplatePotion(
-		"Medium stamina potion",
-		Glyph('p', TCODColor::lightTurquoise),
-		0.010f,
-		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(8, 0.04f)) },
-		16)),
-		std::make_pair("rarity_rare", TemplatePotion(
-		"Large stamina potion",
-		Glyph('P', TCODColor::turquoise),
-		0.020f,
-		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(16, 0.05f)) },
-		24)),
-		std::make_pair("rarity_epic", TemplatePotion(
-		"Bubbling stamina potion",
-		Glyph('P', TCODColor::lightSea),
-		0.010f,
-		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(32, 0.06f)),
-		std::shared_ptr<CreatureEffect>(new EffectStaminaIncrease(0.03f)) },
-		148)),
-		std::make_pair("rarity_unique", TemplatePotion(
-		"Mystical stamina potion",
-		Glyph('p', TCODColor::sea),
-		0.005f,
-		{ std::shared_ptr<CreatureEffect>(new EffectStaminaRegeneration(64, 0.10f)),
-		std::shared_ptr<CreatureEffect>(new EffectStaminaIncrease(0.10f)) },
-		296))
-	}));
-
-	//Creatures
-	addCreatureTemplate(TemplateCreature(
-		"creature_human",
-		"Human",
-		{
-			CreatureLimb("Head", 0.3f, Armor::ARMOR_HEAD),
-			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
-			CreatureLimb("Left arm", 0.7f, Armor::ARMOR_HAND, true),
-			CreatureLimb("Right arm", 0.7f, Armor::ARMOR_HAND, true),
-			CreatureLimb("Left leg", 0.6f, Armor::ARMOR_LEG),
-			CreatureLimb("Right leg", 0.6f, Armor::ARMOR_LEG)
-		}));
-	addCreatureTemplate(TemplateCreature(
-		"creature_child",
-		"Child",
-		{
-			CreatureLimb("Head", 0.3f, Armor::ARMOR_HEAD),
-			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
-			CreatureLimb("Left arm", 0.7f, Armor::ARMOR_HAND, true),
-			CreatureLimb("Right arm", 0.7f, Armor::ARMOR_HAND, true),
-			CreatureLimb("Left leg", 0.6f, Armor::ARMOR_LEG),
-			CreatureLimb("Right leg", 0.6f, Armor::ARMOR_LEG)
-		}));
-	addCreatureTemplate(TemplateCreature(
-		"creature_goblin",
-		"Goblin",
-		{
-			CreatureLimb("Head", 0.6f, Armor::ARMOR_HEAD),
-			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
-			CreatureLimb("Left arm", 0.7f, Armor::ARMOR_HAND, true),
-			CreatureLimb("Right arm", 0.7f, Armor::ARMOR_HAND, true),
-			CreatureLimb("Left leg", 0.6f, Armor::ARMOR_LEG),
-			CreatureLimb("Right leg", 0.6f, Armor::ARMOR_LEG)
-		}));
-	addCreatureTemplate(TemplateCreature(
-		"creature_goblin_king",
-		"Goblin King",
-		{
-			CreatureLimb("Head", 0.9f, Armor::ARMOR_HEAD),
-			CreatureLimb("Body", 0.9f, Armor::ARMOR_BODY),
-			CreatureLimb("Left arm", 0.9f, Armor::ARMOR_HAND, true),
-			CreatureLimb("Right arm", 0.9f, Armor::ARMOR_HAND, true),
-			CreatureLimb("Left leg", 1.0f, Armor::ARMOR_LEG),
-			CreatureLimb("Right leg", 1.0f, Armor::ARMOR_LEG)
-		}));
-
-	//AIs
-	addCreatureAi(
-		"ai_none",
-		std::unique_ptr<CreatureAi>(new AiNone()));
-	addCreatureAi(
-		"ai_monster",
-		std::unique_ptr<CreatureAi>(new AiMonster()));
-	addCreatureAi(
-		"ai_villager",
-		std::unique_ptr<CreatureAi>(new AiVillager()));
-	addCreatureAi(
-		"ai_blacksmith",
-		std::unique_ptr<CreatureAi>(new AiBlacksmith()));
-	addCreatureAi(
-		"ai_alchemist",
-		std::unique_ptr<CreatureAi>(new AiAlchemist()));
-
-	//Creature presets
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"player",
-		"creature_human",
-		"ai_none",
-		"Player",
-		Glyph('@', TCODColor::lightAmber),
-		0.90f,
-		{ "weapon_bow", "weapon_staff" },
-		{ "armor_body_leather", "armor_leg_leather" }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"human_man_villager",
-		"creature_human",
-		"ai_villager",
-		"Man",
-		Glyph('h', TCODColor::lightAmber),
-		0.80f,
-		{ "weapon_dagger" },
-		{ "armor_body_leather" }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"human_woman_villager",
-		"creature_human",
-		"ai_villager",
-		"Woman",
-		Glyph('h', TCODColor::lightAmber),
-		0.75f,
-		{ "weapon_dagger" },
-		{ "armor_body_leather" }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"human_child_villager",
-		"creature_child",
-		"ai_villager",
-		"Child",
-		Glyph('c', TCODColor::lightAmber),
-		0.40f,
-		{ /*none*/ },
-		{ /*none*/ }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"human_blacksmith",
-		"creature_human",
-		"ai_blacksmith",
-		"Blacksmith",
-		Glyph('b', TCODColor::lightGrey),
-		0.90f,
-		{ "weapon_sword" },
-		{ "armor_body_leather" }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"human_alchemist",
-		"creature_human",
-		"ai_alchemist",
-		"Alchemist",
-		Glyph('a', TCODColor::lightBlue),
-		0.60f,
-		{ "weapon_staff" },
-		{ /*none*/ }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"goblin_dagger_low",
-		"creature_goblin",
-		"ai_monster",
-		"Goblin",
-		Glyph('g', TCODColor::lightChartreuse),
-		0.20f,
-		{ "weapon_dagger" },
-		{ "armor_body_leather" }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"goblin_dagger_medium",
-		"creature_goblin",
-		"ai_monster",
-		"Goblin",
-		Glyph('g', TCODColor::darkChartreuse),
-		0.30f,
-		{ "weapon_dagger" },
-		{ "armor_body_leather" }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"goblin_bow_medium",
-		"creature_goblin",
-		"ai_monster",
-		"Goblin",
-		Glyph('g', TCODColor::darkChartreuse),
-		0.20f,
-		{ "weapon_bow" },
-		{ "armor_body_leather" }));
-	addCreaturePresetTemplate(TemplateCreaturePreset(
-		"goblin_king",
-		"creature_goblin_king",
-		"ai_monster",
-		"The Goblin King",
-		Glyph('G', TCODColor::darkerLime),
-		0.90f,
-		{ "weapon_mace" },
-		{ }));
-
-	//Operatables
-	addOperatable(
-		"operatable_door_wooden", std::unique_ptr<OperatableObject>(new Door(
-		"Wooden door",
-		Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D'),
-		Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D'))));
-	addOperatable(
-		"operatable_bed_wooden", std::unique_ptr<OperatableObject>(new Bed(
-		"Wooden bed",
-		Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'B'))));
-	addOperatable(
-		"operatable_forge", std::unique_ptr<OperatableObject>(new Forge(
-		"Forge",
-		Glyph(TCODColor::darkerGrey, TCODColor::darkRed, 'F'))));
-	addOperatable(
-		"operatable_anvil", std::unique_ptr<OperatableObject>(new Anvil(
-		"Anvil",
-		Glyph(TCODColor::darkerGrey, TCODColor::darkGrey, 'A'))));
-	addOperatable(
-		"operatable_alchemy_table1", std::unique_ptr<OperatableObject>(new AlchemyTable(
-		"Alchemy table",
-		Glyph(TCODColor::darkSepia, TCODColor::lightViolet, '%'))));
-	addOperatable(
-		"operatable_alchemy_table2", std::unique_ptr<OperatableObject>(new AlchemyTable(
-		"Alchemy table",
-		Glyph(TCODColor::darkSepia, TCODColor::lightSea, '%'))));
-
-	//Tiles + Portals
-	//walk cost 0 == unwalkable
-	//nature
-	addTile("tile_forest_tree", std::make_unique<Tile>(Tile("Tree", Tile::WALL, Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, TCOD_CHAR_SPADE), false, 0.0f)));
-	addTile("tile_forest_grass", std::make_unique<Tile>(Tile("Land", Tile::FLOOR, Glyph(TCODColor(5, 20, 5)), true, 10.0f)));
-	addTile("tile_forest_portal", std::make_unique<Tile>(Tile("Exit", Tile::PORTAL, Glyph(TCODColor(0, 10, 0), TCODColor::darkerChartreuse, '>'), true, 10.0f)));
-
-	addTile("tile_nature_stone_wall", std::make_unique<Tile>(Tile("Stone", Tile::WALL, Glyph(TCODColor(45, 45, 45)), false, 0.0f)));
-	addTile("tile_nature_stone_floor", std::make_unique<Tile>(Tile("Stone floor", Tile::FLOOR, Glyph(TCODColor(30, 30, 30)), true, 10.0f)));
-
-	//cave
-	addTile("tile_cave_rotten_wall", std::make_unique<Tile>(Tile("Rotten wood", Tile::WALL, Glyph(TCODColor::darkerSepia), false, 0.0f)));
-	addTile("tile_cave_wall1", std::make_unique<Tile>(Tile("Cave wall", Tile::WALL, Glyph(TCODColor::grey), false, 0.0f)));
-	addTile("tile_cave_wall2", std::make_unique<Tile>(Tile("Cave wall", Tile::WALL, Glyph(TCODColor::darkGrey), false, 0.0f)));
-	addTile("tile_cave_floor1", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor(45,45,45)), true, 10.0f)));
-	addTile("tile_cave_floor2", std::make_unique<Tile>(Tile("Cave floor", Tile::FLOOR, Glyph(TCODColor::darkestGrey), true, 10.0f)));
-	addTile("tile_cave_portal", std::make_unique<Tile>(Tile("Tunnel", Tile::PORTAL, Glyph(TCODColor::darkestGrey, TCODColor::grey, '>'), true, 10.0f)));
-	addTile("tile_cave_water", std::make_unique<Tile>(Tile("Water", Tile::WATER, Glyph(TCODColor::darkestBlue), true, 20.0f, 4.0f)));
-
-	//house
-	addTile("tile_house_wood_wall", std::make_unique<Tile>(Tile("Wooden house wall", Tile::WALL, Glyph(TCODColor::darkerSepia), false, 0.0f)));
-	addTile("tile_house_stone_wall", std::make_unique<Tile>(Tile("Stone house wall", Tile::WALL, Glyph(TCODColor(50, 50, 50)), false, 0.0f)));
-	addTile("tile_house_wood_floor", std::make_unique<Tile>(Tile("Wooden house floor", Tile::FLOOR, Glyph(TCODColor::darkestSepia), true, 10.0f)));
-
-	//path
-	addTile("tile_path_sand", std::make_unique<Tile>(Tile("Sand path", Tile::FLOOR, Glyph(TCODColor(14, 11, 6)), true, 5.0f, 0.5f)));
-
-	//Rarity mods
-	//creature
-	addRarityModCreature("mod_increased_health_small", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(1.3f)) ));
-	addRarityModCreature("mod_increased_health_medium", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(1.6f)) ));
-	addRarityModCreature("mod_increased_health_large", RarityModCreature(std::shared_ptr<CreatureEffect>(new EffectHealthIncrease(2.0f)) ));
-
-	//armor
-	addRarityModArmor("mod_increased_defence_small", RarityModArmor(std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(1.3f)) ));
-	addRarityModArmor("mod_increased_defence_medium", RarityModArmor(std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(1.6f)) ));
-	addRarityModArmor("mod_increased_defence_large", RarityModArmor(std::shared_ptr<ArmorEffect>(new EffectIncreasedDefence(2.0f)) ));
-
-	//weapon
-	addRarityModWeapon("mod_increased_damage_small", RarityModWeapon(std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(1.3f)) ));
-	addRarityModWeapon("mod_increased_damage_medium", RarityModWeapon(std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(1.6f)) ));
-	addRarityModWeapon("mod_increased_damage_large", RarityModWeapon(std::shared_ptr<WeaponEffect>(new EffectIncreasedDamage(2.0f)) ));
-
-	//Rarity types
-	addRarity(RarityType(
-		"rarity_common",
-		"Common",
-		1.00f, 0.35f, 0.00f, 0,
-		TCODColor::grey,
-		{ /*none*/ },
-		{ /*none*/ },
-		{ /*none*/ }));
-	addRarity(RarityType(
-		"rarity_uncommon",
-		"Uncommon",
-		0.20f, 0.45f, 0.4f, 1,
-		TCODColor::azure,
-		{
-			"mod_increased_health_small"
-		},
-		{
-			"mod_increased_defence_small"
-		},
-		{
-			"mod_increased_damage_small"
-		}));
-	addRarity(RarityType(
-		"rarity_rare",
-		"Rare",
-		0.05f, 0.55f, 0.3f, 2,
-		TCODColor::violet,
-		{
-			"mod_increased_health_medium"
-		},
-		{
-			"mod_increased_defence_medium"
-		},
-		{
-			"mod_increased_damage_medium"
-		}));
-	addRarity(RarityType(
-		"rarity_epic",
-		"Epic",
-		0.01f, 0.80f, 0.2f, 3,
-		TCODColor::green,
-		{
-			"mod_increased_health_large"
-		},
-		{
-			"mod_increased_defence_large"
-		},
-		{
-			"mod_increased_damage_large"
-		}));
-	addRarity(RarityType(
-		"rarity_unique",
-		"Unique",
-		0.003f, 1.00f, 0.1f, 4,
-		TCODColor::orange,
-		{
-			"mod_increased_health_large"
-		},
-		{
-			"mod_increased_defence_large"
-		},
-		{
-			"mod_increased_damage_large"
-		}));
-
-	sortRarityTypes();
+	tiles = std::unordered_map<std::string, std::shared_ptr<Tile>>{
+		{ "house_wall_wood", std::shared_ptr<Tile>(new Wall("Wooden house wall", Glyph(TCODColor::darkerSepia))) },
+		{ "house_wall_stone", std::shared_ptr<Tile>(new Wall("Stone house wall", Glyph(TCODColor(50, 50, 50)))) },
+		{ "house_floor_wood", std::shared_ptr<Tile>(new Floor("Wooden house floor", Glyph(TCODColor::darkestSepia))) },
+		{ "path_sand", std::shared_ptr<Tile>(new Floor("Sand path", Glyph(TCODColor(14, 11, 6)), 5.0f)) },
+		{ "forest_wall_tree", std::shared_ptr<Tile>(new Wall("Tree", Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, TCOD_CHAR_SPADE))) },
+		{ "forest_floor_grass", std::shared_ptr<Tile>(new Floor("Land", Glyph(TCODColor(5, 20, 5)))) },
+		{ "forest_floor_stone", std::shared_ptr<Tile>(new Floor("Stone floor", Glyph(TCODColor(30, 30, 30)))) },
+		{ "forest_wall_stone", std::shared_ptr<Tile>(new Wall("Stone", Glyph(TCODColor(45, 45, 45)))) },
+		{ "forest_portal", std::shared_ptr<Tile>(new Portal("Exit", Glyph(TCODColor(0, 10, 0), TCODColor::darkerChartreuse, '>'))) },
+		{ "cave_wall_wood", std::shared_ptr<Tile>(new Wall("Wooden column", Glyph(TCODColor::darkerSepia))) },
+		{ "cave_wall_stone1", std::shared_ptr<Tile>(new Wall("Cave wall", Glyph(TCODColor::grey))) },
+		{ "cave_wall_stone2", std::shared_ptr<Tile>(new Wall("Cave wall", Glyph(TCODColor::darkGrey))) },
+		{ "cave_floor_stone1", std::shared_ptr<Tile>(new Floor("Cave floor", Glyph(TCODColor(45, 45, 45)))) },
+		{ "cave_floor_stone2", std::shared_ptr<Tile>(new Floor("Cave floor", Glyph(TCODColor::darkestGrey))) },
+		{ "cave_portal", std::shared_ptr<Tile>(new Portal("Tunnel", Glyph(TCODColor::darkestGrey, TCODColor(55, 55, 55), '>'))) },
+		{ "cave_water", std::shared_ptr<Tile>(new Water("Water", Glyph(TCODColor::darkestBlue))) }
+	};
+	operatables = std::unordered_map<std::string, std::shared_ptr<OperatableObject>>{
+		{ "door_wood", std::shared_ptr<OperatableObject>(new Door(
+			"Wooden door",
+			Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D'),
+			Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D'),
+			100)) },
+		{ "bed_wood", std::shared_ptr<OperatableObject>(new Bed(
+			"Wooden bed",
+			Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'B'),
+			100)) },
+		{ "forge", std::shared_ptr<OperatableObject>(new Forge()) },
+		{ "anvil", std::shared_ptr<OperatableObject>(new Anvil()) },
+		{ "alchemy_table1", std::shared_ptr<OperatableObject>(new AlchemyTable(
+			"Alchemy table",
+			Glyph(TCODColor::darkSepia, TCODColor::lightViolet, '%'))) },
+		{ "alchemy_table2", std::shared_ptr<OperatableObject>(new AlchemyTable(
+			"Alchemy table",
+			Glyph(TCODColor::darkSepia, TCODColor::lightSea, '%'))) }
+	};
+	ais = std::unordered_map<std::string, std::shared_ptr<CreatureAi>>{
+		{ "ai_villager", std::shared_ptr<CreatureAi>(new AiVillager()) },
+		{ "ai_alchemist", std::shared_ptr<CreatureAi>(new AiAlchemist()) },
+		{ "ai_blacksmith", std::shared_ptr<CreatureAi>(new AiBlacksmith()) },
+		{ "ai_monster", std::shared_ptr<CreatureAi>(new AiMonster()) },
+		{ "ai_none", std::shared_ptr<CreatureAi>(new AiNone()) }
+	};
+	creatureBaseTemplates = std::unordered_map<std::string, TemplateCreatureBase>{
+		{ "humanoid", TemplateCreatureBase({
+			CreatureLimb("Head", 0.4f, GameObject::ARMOR_HEAD),
+			CreatureLimb("Body", 0.8f, GameObject::ARMOR_BODY),
+			CreatureLimb("Left arm", 0.7f, GameObject::ARMOR_HAND, true),
+			CreatureLimb("Right arm", 0.7f, GameObject::ARMOR_HAND, true),
+			CreatureLimb("Left leg", 0.6f, GameObject::ARMOR_LEG),
+			CreatureLimb("Right leg", 0.6f, GameObject::ARMOR_LEG)
+		}) },
+		{ "giant", TemplateCreatureBase({
+			CreatureLimb("Head", 0.9f, GameObject::ARMOR_HEAD),
+			CreatureLimb("Body", 1.0f, GameObject::ARMOR_BODY),
+			CreatureLimb("Left arm", 0.9f, GameObject::ARMOR_HAND, true),
+			CreatureLimb("Right arm", 0.9f, GameObject::ARMOR_HAND, true),
+			CreatureLimb("Left leg", 1.0f, GameObject::ARMOR_LEG),
+			CreatureLimb("Right leg", 1.0f, GameObject::ARMOR_LEG)
+		}) }
+	};
+	creaturePresetTemplates = std::unordered_map<std::string, TemplateCreaturePreset>{
+		{ "player", TemplateCreaturePreset(
+			"player",
+			"Player",
+			Glyph('@', TCODColor::lightAmber),
+			0.8f,
+			"humanoid",
+			"ai_none",
+			{ "sword", "bow" },
+			{ "body_leather" }) },
+		{ "villager_man", TemplateCreaturePreset(
+			"villager_man",
+			"Man",
+			Glyph('h', TCODColor::lightAmber),
+			0.8f,
+			"humanoid",
+			"ai_villager",
+			{ "dagger" },
+			{}) },
+		{ "villager_woman", TemplateCreaturePreset(
+			"villager_woman",
+			"Woman",
+			Glyph('h', TCODColor::lightAmber),
+			0.7f,
+			"humanoid",
+			"ai_villager",
+			{ "dagger" },
+			{}) },
+		{ "villager_child", TemplateCreaturePreset(
+			"villager_child",
+			"Child",
+			Glyph('c', TCODColor::lightAmber),
+			0.2f,
+			"humanoid",
+			"ai_villager",
+			{},
+			{}) },
+		{ "villager_blacksmith", TemplateCreaturePreset(
+			"villager_blacksmith",
+			"Blacksmith",
+			Glyph('b', TCODColor::lightGrey),
+			0.8f,
+			"humanoid",
+			"ai_blacksmith",
+			{ "sword" },
+			{ "body_leather" }) },
+		{ "villager_alchemist", TemplateCreaturePreset(
+			"villager_alchemist",
+			"Alchemist",
+			Glyph('a', TCODColor::lightBlue),
+			0.6f,
+			"humanoid",
+			"ai_alchemist",
+			{ "staff" },
+			{}) },
+		{ "goblin_melee", TemplateCreaturePreset(
+			"goblin_melee",
+			"Goblin",
+			Glyph('g', TCODColor::chartreuse),
+			0.2f,
+			"humanoid",
+			"ai_monster",
+			{ "dagger" },
+			{ "body_leather", "head_leather" }) },
+		{ "goblin_ranged", TemplateCreaturePreset(
+			"goblin_ranged",
+			"Goblin",
+			Glyph('g', TCODColor::darkChartreuse),
+			0.2f,
+			"humanoid",
+			"ai_monster",
+			{ "bow" },
+			{ "body_leather", "head_leather" }) },
+		{ "goblin_king", TemplateCreaturePreset(
+			"goblin_king",
+			"The Goblin King",
+			Glyph('G', TCODColor::darkLime),
+			0.6f,
+			"giant",
+			"ai_monster",
+			{ "mace" },
+			{ "head_leather" }) }
+	};
+	armorTemplates = std::unordered_map<std::string, TemplateArmor>{
+		{ "head_leather", TemplateArmor(
+			GameObject::ARMOR_HEAD,
+			"Leather cap",
+			Glyph('c', TCODColor::lighterSepia),
+			0.5f,
+			0.3f) },
+		{ "body_leather", TemplateArmor(
+			GameObject::ARMOR_BODY,
+			"Leather body",
+			Glyph('B', TCODColor::lighterSepia),
+			5.0f,
+			0.4f) },
+		{ "hand_leather", TemplateArmor(
+			GameObject::ARMOR_HAND,
+			"Leather gloves",
+			Glyph('g', TCODColor::lighterSepia),
+			0.5f,
+			0.3f,
+			2) },
+		{ "leg_leather", TemplateArmor(
+			GameObject::ARMOR_LEG,
+			"Leather boots",
+			Glyph('b', TCODColor::lighterSepia),
+			1.0f,
+			0.3f,
+			2) },
+	};
+	weaponTemplates = std::unordered_map<std::string, TemplateWeapon>{
+		{ "sword", TemplateWeapon(
+			GameObject::WEAPON_MELEE,
+			"Sword",
+			Glyph('s', TCODColor::lighterGrey),
+			7.0f,
+			0.6f) },
+		{ "dagger", TemplateWeapon(
+			GameObject::WEAPON_MELEE,
+			"Dagger",
+			Glyph('d', TCODColor::lighterGrey),
+			0.5f,
+			0.2f) },
+		{ "staff", TemplateWeapon(
+			GameObject::WEAPON_MELEE,
+			"Staff",
+			Glyph('S', TCODColor::lighterSepia),
+			4.0f,
+			0.5f,
+			1,
+			2) },
+		{ "mace", TemplateWeapon(
+			GameObject::WEAPON_MELEE,
+			"Mace",
+			Glyph('m', TCODColor::lighterGrey),
+			9.0f,
+			0.6f) },
+		{ "bow", TemplateWeapon(
+			GameObject::WEAPON_RANGED,
+			"Bow",
+			Glyph('B', TCODColor::lighterSepia),
+			4.0f,
+			0.3f,
+			6,
+			2) }
+	};
+	consumableTemplates = std::unordered_map<std::string, TemplateConsumable>{
+		{ "potion", TemplateConsumable(
+			GameObject::CONSUMABLE,
+			"Potion",
+			Glyph('p', TCODColor::lighterViolet),
+			0.3f) }
+	};
 }

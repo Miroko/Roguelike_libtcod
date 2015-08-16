@@ -1,13 +1,13 @@
 #pragma once
 #include "Item.h"
-#include "CreatureEffect.h"
-#include <vector>
 
+class Creature;
 class Consumable : public Item
 {
 public:
-	virtual void onConsume(Creature &consumer) = 0;
+	void onConsume(Creature &consumer);
+	int getValue();
 
-	Consumable(std::string name, Glyph glyph, float weight, Type type, RarityType &rarity) :
-		Item(name, glyph, weight, type, rarity){};
+	Consumable(Item item) :
+		Item(item){};
 };

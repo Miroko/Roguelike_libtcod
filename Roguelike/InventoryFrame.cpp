@@ -31,13 +31,13 @@ void InventoryFrame::render(){
 		Gui::FRAME_FG, 
 		TCOD_LEFT, 
 		engine::string.currency(engine::playerHandler.getPlayerCreature()->inventory.currency));
-	//weight
+	//weightKg
 	printString(
 		guiTopBoxBounds.start.x, guiTopBoxBounds.start.y,
 		guiTopBoxBounds.getWidth() - 6, 0,
 		Gui::FRAME_FG, 
 		TCOD_RIGHT, 
-		engine::string.weight(engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight()));
+		engine::string.weightKg(engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight()));
 	guiDisplayBox.renderTo(*this, guiDisplayBoxBounds);
 	guiGameObjectDisplay.renderTo(*this, guiGameObjectDisplayBounds);
 	guiSelectableItemList.renderTo(*this, guiSelectableItemListBounds);
@@ -59,7 +59,7 @@ void InventoryFrame::init(Rectangle bounds){
 		if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
 			if (selected){			
 				if (item->isWeapon() || item->isArmor()) return EQUIPMENT_UNEQUIP_OPERATIONS;
-				else if (item->type == Item::POTION) return CONSUMABLE_OPERATIONS;
+				else if (item->isConsumable()) return CONSUMABLE_OPERATIONS;
 				else return{ "Error" };
 			}
 			else return {"Equipped"};
@@ -67,7 +67,7 @@ void InventoryFrame::init(Rectangle bounds){
 		else{
 			if (selected){
 				if (item->isWeapon() || item->isArmor()) return EQUIPMENT_EQUIP_OPERATIONS;
-				else if (item->type == Item::POTION) return CONSUMABLE_OPERATIONS;
+				else if (item->isConsumable()) return CONSUMABLE_OPERATIONS;
 				else return { "Error" };
 			}
 			else return { "" };

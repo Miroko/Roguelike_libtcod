@@ -17,7 +17,7 @@ void Random::useRandom(){
 	generator->restore(randomState.get());
 }
 
-bool Random::chance(float min){
+bool Random::chance(double min){
 	if (min == 0.0f) return false;
 	else if (min == 1.0f) return true;
 	else return generator->getFloat(0.0f, 1.0f) < min;

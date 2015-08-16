@@ -2,12 +2,12 @@
 #include "Engine.h"
 
 Forest::Forest(std::string landId, std::string treeId, std::string stoneHighId, std::string stoneLowId, std::string portalId,
-	int size, float treePercentage, float stonePercentage, int portals, float treeDistribution, int treeThickness) :
-	land(*engine::objectLibrary.getTile(landId)),
-	tree(*engine::objectLibrary.getTile(treeId)),
-	stoneLow(*engine::objectLibrary.getTile(stoneLowId)),
-	stoneHigh(*engine::objectLibrary.getTile(stoneHighId)),
-	portal(*engine::objectLibrary.getTile(portalId)),
+	int size, double treePercentage, double stonePercentage, int portals, double treeDistribution, int treeThickness) :
+	land(*engine::objectLibrary.tiles[landId]),
+	tree(*engine::objectLibrary.tiles[treeId]),
+	stoneLow(*engine::objectLibrary.tiles[stoneLowId]),
+	stoneHigh(*engine::objectLibrary.tiles[stoneHighId]),
+	portal(*engine::objectLibrary.tiles[portalId]),
 	size(size),
 	treePercentage(treePercentage),
 	stonePercentage(stonePercentage),

@@ -14,7 +14,7 @@ public:
 
 	void init(Rectangle &bounds);
 
-	StatisticsFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
+	StatisticsFrame(char controlKey, bool open, double alphaFg, double alphaBg) :
 		GuiFrame(controlKey, open, alphaFg, alphaBg, "Statistics"){};
 };
 

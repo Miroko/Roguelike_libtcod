@@ -62,7 +62,7 @@ public:
 	void onClose();
 	void init(Rectangle bounds);
 
-	TradeFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
+	TradeFrame(char controlKey, bool open, double alphaFg, double alphaBg) :
 		GuiFrame(controlKey, open, alphaFg, alphaBg, "Trade"),
 		guiPlayerTopBox("Player"),
 		guiTraderTopBox("Trader"){};

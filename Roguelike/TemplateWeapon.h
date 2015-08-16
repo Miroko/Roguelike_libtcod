@@ -1,28 +1,27 @@
 #pragma once
 #include "Glyph.h"
-#include "Item.h"
+#include "GameObject.h"
 #include <string>
 
 class TemplateWeapon
 {
 public:
-	std::string id;
+	GameObject::Type type;
 	std::string name;
 	Glyph glyph;
-	float weight;
-	Item::Type type;
-	float damage;
+	double weightKg;
+	double damageFromMax;
 	int range; // 1 for melee
 	int limbsRequiredToHold;
 
-	TemplateWeapon(std::string id, std::string name, Glyph glyph, float weight, float damage, Item::Type type, int limbsRequiredToHold = 1, int range = 1) :
-		id(id),
+	TemplateWeapon(GameObject::Type type, std::string name, Glyph glyph, double weightKg, double damageFromMax, int range = 1, int limbsRequiredToHold = 1) :
 		name(name),
 		glyph(glyph),
-		weight(weight), 
+		weightKg(weightKg), 
 		type(type),
-		damage(damage),
+		damageFromMax(damageFromMax),
 		range(range),
 		limbsRequiredToHold(limbsRequiredToHold){};
+	TemplateWeapon(){}
 };
 

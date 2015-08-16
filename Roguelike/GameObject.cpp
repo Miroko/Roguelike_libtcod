@@ -28,8 +28,7 @@ bool GameObject::isArmor(){
 
 bool GameObject::isConsumable(){
 	return(
-		type == POTION ||
-		type == SCROLL);
+		type == CONSUMABLE);
 }
 
 bool GameObject::isOperatable(){

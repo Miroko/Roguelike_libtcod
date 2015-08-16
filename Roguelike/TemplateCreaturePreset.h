@@ -7,22 +7,23 @@ class TemplateCreaturePreset
 {
 public:
 	std::string id;
-	std::string creatureTemplateId;
-	std::string AiId;
 	std::string name;
 	Glyph glyph;
+	double healthFromMax;
+	std::string creatureBaseId;
+	std::string aiId;
 	std::vector<std::string> weaponIds;
 	std::vector<std::string> armorIds;
-	float health;
 
-	TemplateCreaturePreset(std::string id, std::string creatureTemplateId, std::string AiId, std::string name, Glyph glyph, float health, std::vector<std::string> weaponIds, std::vector<std::string> armorIds) :
+	TemplateCreaturePreset(std::string id, std::string name, Glyph glyph, double healthFromMax, std::string creatureBaseId, std::string aiId, std::vector<std::string> weaponIds, std::vector<std::string> armorIds) :
 		id(id),
-		creatureTemplateId(creatureTemplateId),
-		AiId(AiId),
 		name(name),
 		glyph(glyph),
+		healthFromMax(healthFromMax),
+		creatureBaseId(creatureBaseId),
+		aiId(aiId),
 		weaponIds(weaponIds),
-		armorIds(armorIds),
-		health(health){};
+		armorIds(armorIds){};
+	TemplateCreaturePreset(){}
 };
 

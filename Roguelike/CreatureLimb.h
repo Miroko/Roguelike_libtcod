@@ -11,10 +11,10 @@ public:
 	std::shared_ptr<Armor> currentArmor = nullptr;
 	GameObject::Type armorType;
 	std::string name;
-	float hitChance;
+	double hitChance;
 	bool canHold;
 
-	CreatureLimb(std::string name, float hitChance, GameObject::Type armorType, bool canHold = false) :
+	CreatureLimb(std::string name, double hitChance, GameObject::Type armorType, bool canHold = false) :
 		name(name), 
 		hitChance(hitChance),
 		armorType(armorType), 

@@ -4,6 +4,7 @@
 
 String engine::string;
 Random engine::random;
+RaritySystem engine::raritySystem;
 ObjectLibrary engine::objectLibrary;
 ObjectFactory engine::objectFactory;
 Camera engine::camera;
@@ -14,41 +15,82 @@ VisualEffectHandler engine::visualEffectHandler;
 Gui engine::gui;
 bool engine::requestUpdate = false;
 
-int engine::healthMax;
-int engine::damageMax;
-int engine::defenceMax;
-float engine::carryWeightMax;
-int engine::staminaBaseRegen;
-int engine::staminaBaseWaitRegen;
-float engine::staminaCostPerKgFromMove;
-float engine::staminaCostPerKgFromAttack;
-float engine::staminaCostFromDamageRation;
-float engine::valueVariation;
-float engine::lootRarityFromCreatureRarityRatio;
-float engine::lootRollMissChance;
+//health
+double engine::healthMax;
+
+//damage
+double engine::damageMax;
+
+//defence
+double engine::defenceMax;
+
+//weight
+double engine::carryWeightMax;
+
+//stamina
+double engine::staminaMax;
+double engine::staminaBaseRegen;
+double engine::staminaBaseWaitRegen;
+double engine::staminaCostPerKgFromMove;
+double engine::staminaCostPerKgFromAttack;
+double engine::staminaCostFromDamageRation;
+
+//value
+double engine::valueBase;
+double engine::valuePerKg;
+double engine::valuePerStamina;
+double engine::valuePerHealth;
+double engine::valuePerDamage;
+double engine::valuePerDefence;
+
+//loot
+double engine::statisticVariation;
+double engine::lootRarityFromCreatureRarityRatio;
+double engine::lootRollDropChance;
 int engine::lootDropRolls;
 
 void engine::init(){
-	TCODConsole::initRoot(120, 60, "Roguelike", false, TCOD_RENDERER_SDL);
+	TCODConsole::initRoot(160, 80, "Roguelike", false, TCOD_RENDERER_OPENGL);
 	TCODSystem::setFps(10);
 	TCODConsole::setKeyboardRepeat(60, 20);
 
-	healthMax = 1000;
-	damageMax = healthMax / 10;
-	defenceMax = healthMax / 30;
-	carryWeightMax = 50.0f;
-	staminaBaseRegen = 5;
-	staminaBaseWaitRegen = staminaBaseRegen * 2;
-	staminaCostPerKgFromMove = 0.2f;
-	staminaCostPerKgFromAttack = 1.5f;
+	//health
+	healthMax = 1000; // 1000
+
+	//damage
+	damageMax = healthMax / 25; // 40
+
+	//defence
+	defenceMax = healthMax / 25; // 40
+
+	//weight
+	carryWeightMax = 50.0f; // 50
+
+	//stamina
+	staminaMax = 1000; // 1000
+	staminaBaseRegen = staminaMax / carryWeightMax; // 20
+	staminaBaseWaitRegen = staminaBaseRegen * 2; // 40
+	staminaCostPerKgFromMove = (staminaBaseRegen * 2) / carryWeightMax; //stamina regen per turn == | -20 when carrying 50kg | +20 when carrying 0kg |
+	staminaCostPerKgFromAttack = staminaMax / carryWeightMax / 2; // 10 per kg == cost 500 when weapon weight == 50kg
 	staminaCostFromDamageRation = 0.7f;
-	valueVariation = 0.20f;
-	lootRarityFromCreatureRarityRatio = 0.95f;
-	lootRollMissChance = 0.80f;
+
+	//value
+	valueBase = 300;
+	valuePerKg = valueBase / carryWeightMax;
+	valuePerStamina = valueBase / staminaMax / 2.5f;
+	valuePerHealth = valueBase / healthMax;
+	valuePerDamage = valueBase / damageMax / 2.0f;
+	valuePerDefence = valueBase / defenceMax / 1.5f;
+
+	//loot
+	statisticVariation = 0.20f;
+	lootRarityFromCreatureRarityRatio = 0.80f;
+	lootRollDropChance = 0.30f;
 	lootDropRolls = 6;
 
-	random.init();
 	objectLibrary.init();
+	raritySystem.init();
+	random.init();
 	gui.init();
 
 	newGame();
@@ -84,9 +126,8 @@ void engine::newGame(){
 	areaHandler.savedPhaseAreas.clear();
 
 	//Player
-	std::shared_ptr<Creature> playerCreature = objectFactory.createCreaturePreset("player", *engine::objectLibrary.getRarity("rarity_common"));
-	playerHandler.setPlayerCreature(playerCreature);
-	playerHandler.getPlayerCreature()->inventory.currency = 50;
+	playerHandler.setPlayerCreature(objectFactory.createCreature("player", "common"));
+	playerHandler.getPlayerCreature()->inventory.currency = valueBase;
 
 	//Quest
 	std::shared_ptr<Quest> quest = std::shared_ptr<Quest>(new QuestTheGoblinKing());

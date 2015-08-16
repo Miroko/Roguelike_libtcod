@@ -52,29 +52,8 @@
     <Filter Include="Engine\ObjectFactory\Templates">
       <UniqueIdentifier>{b8850659-05eb-4fa8-9af0-a7497152e674}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment">
-      <UniqueIdentifier>{7e899205-98bd-4969-af1e-9a5f266f7c7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment\Weapon">
-      <UniqueIdentifier>{c830f1d0-dce0-4f94-b8cb-3c9f3943c3a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment\Armor">
-      <UniqueIdentifier>{386503d9-9dda-43e8-aa82-aed40eb5ac79}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Creature\Effect">
       <UniqueIdentifier>{f47ef8df-23e7-48e3-bf8c-d2cabe187f32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment\Weapon\Effect">
-      <UniqueIdentifier>{de4e219f-8b85-4ccf-a338-a3687806a5d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment\Armor\Effect">
-      <UniqueIdentifier>{bc08dc3f-1617-4ae3-80fe-7f7c641533e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ObjectFactory\Rarity">
-      <UniqueIdentifier>{16a16cf3-5ce6-446a-b2c3-bab03caced29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ObjectFactory\Rarity\RarityMod">
-      <UniqueIdentifier>{002d39a9-f0bd-482a-8cf7-0fe7dc45bdb0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module">
       <UniqueIdentifier>{056e93e4-4e2b-4d0d-830c-27884fa0d64f}</UniqueIdentifier>
@@ -115,9 +94,6 @@
     <Filter Include="Engine\GameObject\Item\Consumable">
       <UniqueIdentifier>{b84d1e55-86d1-4067-bcad-ad18f4be32c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject\Item\Consumable\Potion">
-      <UniqueIdentifier>{331c7520-70fb-4f20-b8eb-6344df21ddc8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Gui\Component">
       <UniqueIdentifier>{64beb286-5040-4a75-8474-3e513dd12b81}</UniqueIdentifier>
     </Filter>
@@ -136,14 +112,44 @@
     <Filter Include="Engine\Gui\Component\Components\Major">
       <UniqueIdentifier>{9b8fcc8f-5cc9-479d-be12-88c9cded2553}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject\Item\Consumable\Scroll">
-      <UniqueIdentifier>{5a1a0af8-a112-4d7c-bc49-69bccb63d59e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Creature\Effect\Health">
       <UniqueIdentifier>{4c41eb50-16d9-4aab-b540-86c7851ab8aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Creature\Effect\Stamina">
       <UniqueIdentifier>{3e1c6c3b-47bf-4683-b4e0-02d17de610e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity">
+      <UniqueIdentifier>{16a16cf3-5ce6-446a-b2c3-bab03caced29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod">
+      <UniqueIdentifier>{002d39a9-f0bd-482a-8cf7-0fe7dc45bdb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix">
+      <UniqueIdentifier>{92749db5-7c78-4ead-8515-4a55e0ed3e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Consumable">
+      <UniqueIdentifier>{6940a571-cd07-42e1-9973-67e698a02181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Armor">
+      <UniqueIdentifier>{104d9389-9a5c-45a9-8ae4-e6207cfaa023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Weapon">
+      <UniqueIdentifier>{71a29122-9937-4b50-891a-561a13246b0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Armor">
+      <UniqueIdentifier>{386503d9-9dda-43e8-aa82-aed40eb5ac79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Weapon">
+      <UniqueIdentifier>{c830f1d0-dce0-4f94-b8cb-3c9f3943c3a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Creature">
+      <UniqueIdentifier>{a37de0ee-5f4e-40a7-aec8-8bb5871ab504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Tile\Tiles">
+      <UniqueIdentifier>{1e788331-1496-4e76-88c4-590020d2cab9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module\Modules">
+      <UniqueIdentifier>{4974e4bf-e603-421b-88cb-af406be832f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,9 +163,6 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="KeyMapping.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="PointerContainer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
@@ -227,7 +230,7 @@
       <Filter>Engine\Player</Filter>
     </ClCompile>
     <ClCompile Include="RarityType.cpp">
-      <Filter>Engine\ObjectFactory\Rarity</Filter>
+      <Filter>Engine\Rarity</Filter>
     </ClCompile>
     <ClCompile Include="OperatableObject.cpp">
       <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
@@ -250,23 +253,8 @@
     <ClCompile Include="CreatureLimb.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature</Filter>
     </ClCompile>
-    <ClCompile Include="RarityModCreature.cpp">
-      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
-    </ClCompile>
-    <ClCompile Include="RarityModWeapon.cpp">
-      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
-    </ClCompile>
     <ClCompile Include="Weapon.cpp">
-      <Filter>Engine\GameObject\Item\Equipment\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponEffect.cpp">
-      <Filter>Engine\GameObject\Item\Equipment\Weapon\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectIncreasedDamage.cpp">
-      <Filter>Engine\GameObject\Item\Equipment\Weapon\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateCreature.cpp">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
+      <Filter>Engine\GameObject\Item\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="TemplateCreaturePreset.cpp">
       <Filter>Engine\ObjectFactory\Templates</Filter>
@@ -278,27 +266,12 @@
       <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClCompile>
     <ClCompile Include="Armor.cpp">
-      <Filter>Engine\GameObject\Item\Equipment\Armor</Filter>
-    </ClCompile>
-    <ClCompile Include="Equipment.cpp">
-      <Filter>Engine\GameObject\Item\Equipment</Filter>
+      <Filter>Engine\GameObject\Item\Armor</Filter>
     </ClCompile>
     <ClCompile Include="TemplateArmor.cpp">
       <Filter>Engine\ObjectFactory\Templates</Filter>
     </ClCompile>
-    <ClCompile Include="RarityModArmor.cpp">
-      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
-    </ClCompile>
-    <ClCompile Include="ArmorEffect.cpp">
-      <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectIncreasedDefence.cpp">
-      <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="AiModule.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
-    </ClCompile>
-    <ClCompile Include="AiModuleCombat.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClCompile>
     <ClCompile Include="AreaHouse.cpp">
@@ -339,9 +312,6 @@
     </ClCompile>
     <ClCompile Include="ParticleEffect.cpp">
       <Filter>Engine\Graphics\VisualEffect\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="AiModuleResident.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSpark.cpp">
       <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
@@ -384,12 +354,6 @@
     </ClCompile>
     <ClCompile Include="Consumable.cpp">
       <Filter>Engine\GameObject\Item\Consumable</Filter>
-    </ClCompile>
-    <ClCompile Include="Potion.cpp">
-      <Filter>Engine\GameObject\Item\Consumable\Potion</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplatePotion.cpp">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
     </ClCompile>
     <ClCompile Include="AlchemyTable.cpp">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
@@ -445,9 +409,6 @@
     <ClCompile Include="GuiOperable.cpp">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClCompile>
-    <ClCompile Include="GuiPotion.cpp">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClCompile>
     <ClCompile Include="GuiTile.cpp">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClCompile>
@@ -463,26 +424,74 @@
     <ClCompile Include="GuiGameObjectDisplay.cpp">
       <Filter>Engine\Gui\Component\Components\Major</Filter>
     </ClCompile>
-    <ClCompile Include="TemplatePotionRarityMap.cpp">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClCompile>
-    <ClCompile Include="Scroll.cpp">
-      <Filter>Engine\GameObject\Item\Consumable\Scroll</Filter>
-    </ClCompile>
     <ClCompile Include="CreatureEffect.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectHealthIncrease.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Health</Filter>
     </ClCompile>
     <ClCompile Include="EffectHealthRegeneration.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect\Health</Filter>
     </ClCompile>
-    <ClCompile Include="EffectStaminaIncrease.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Stamina</Filter>
-    </ClCompile>
     <ClCompile Include="EffectStaminaRegeneration.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect\Stamina</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityMod.cpp">
+      <Filter>Engine\Rarity\Mod</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffix.cpp">
+      <Filter>Engine\Rarity\Mod\Affix</Filter>
+    </ClCompile>
+    <ClCompile Include="RaritySystem.cpp">
+      <Filter>Engine\Rarity</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffixConsumable.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsumableAffixHealthRegenerate.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffixArmor.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffixWeapon.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmorAffixDefenceIncrease.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponAffixDamageIncrease.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffixCreature.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateCreatureBase.cpp">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateConsumable.cpp">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Engine\GameObject\Tile\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Portal.cpp">
+      <Filter>Engine\GameObject\Tile\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Engine\GameObject\Tile\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="AiModuleCombat.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="AiModuleResident.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>Engine\GameObject\Tile\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiConsumable.cpp">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsumableAffixStaminaRegenerate.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -517,9 +526,6 @@
       <Filter>Engine\GameObject\Item</Filter>
     </ClInclude>
     <ClInclude Include="KeyMapping.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="PointerContainer.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Quest.h">
@@ -562,7 +568,7 @@
       <Filter>Engine\Player</Filter>
     </ClInclude>
     <ClInclude Include="RarityType.h">
-      <Filter>Engine\ObjectFactory\Rarity</Filter>
+      <Filter>Engine\Rarity</Filter>
     </ClInclude>
     <ClInclude Include="OperatableObject.h">
       <Filter>Engine\GameObject\Dynamic\Operatable</Filter>
@@ -591,25 +597,10 @@
     <ClInclude Include="CreatureLimb.h">
       <Filter>Engine\GameObject\Dynamic\Creature</Filter>
     </ClInclude>
-    <ClInclude Include="RarityModCreature.h">
-      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
-    </ClInclude>
-    <ClInclude Include="RarityModWeapon.h">
-      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
-    </ClInclude>
     <ClInclude Include="Weapon.h">
-      <Filter>Engine\GameObject\Item\Equipment\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponEffect.h">
-      <Filter>Engine\GameObject\Item\Equipment\Weapon\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectIncreasedDamage.h">
-      <Filter>Engine\GameObject\Item\Equipment\Weapon\Effect</Filter>
+      <Filter>Engine\GameObject\Item\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="TemplateWeapon.h">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClInclude>
-    <ClInclude Include="TemplateCreature.h">
       <Filter>Engine\ObjectFactory\Templates</Filter>
     </ClInclude>
     <ClInclude Include="TemplateCreaturePreset.h">
@@ -619,28 +610,13 @@
       <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClInclude>
     <ClInclude Include="Armor.h">
-      <Filter>Engine\GameObject\Item\Equipment\Armor</Filter>
-    </ClInclude>
-    <ClInclude Include="Equipment.h">
-      <Filter>Engine\GameObject\Item\Equipment</Filter>
+      <Filter>Engine\GameObject\Item\Armor</Filter>
     </ClInclude>
     <ClInclude Include="TemplateArmor.h">
       <Filter>Engine\ObjectFactory\Templates</Filter>
     </ClInclude>
     <ClInclude Include="CreatureEffect.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="RarityModArmor.h">
-      <Filter>Engine\ObjectFactory\Rarity\RarityMod</Filter>
-    </ClInclude>
-    <ClInclude Include="ArmorEffect.h">
-      <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectIncreasedDefence.h">
-      <Filter>Engine\GameObject\Item\Equipment\Armor\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="AiModuleCombat.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClInclude>
     <ClInclude Include="AiModule.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
@@ -680,9 +656,6 @@
     </ClInclude>
     <ClInclude Include="ParticleEffect.h">
       <Filter>Engine\Graphics\VisualEffect\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="AiModuleResident.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSpark.h">
       <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
@@ -725,12 +698,6 @@
     </ClInclude>
     <ClInclude Include="Consumable.h">
       <Filter>Engine\GameObject\Item\Consumable</Filter>
-    </ClInclude>
-    <ClInclude Include="Potion.h">
-      <Filter>Engine\GameObject\Item\Consumable\Potion</Filter>
-    </ClInclude>
-    <ClInclude Include="TemplatePotion.h">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
     </ClInclude>
     <ClInclude Include="AlchemyTable.h">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
@@ -789,9 +756,6 @@
     <ClInclude Include="GuiOperable.h">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClInclude>
-    <ClInclude Include="GuiPotion.h">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClInclude>
     <ClInclude Include="GuiTile.h">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClInclude>
@@ -804,23 +768,71 @@
     <ClInclude Include="GuiGameObjectDisplay.h">
       <Filter>Engine\Gui\Component\Components\Major</Filter>
     </ClInclude>
-    <ClInclude Include="TemplatePotionRarityMap.h">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClInclude>
-    <ClInclude Include="Scroll.h">
-      <Filter>Engine\GameObject\Item\Consumable\Scroll</Filter>
-    </ClInclude>
     <ClInclude Include="EffectHealthRegeneration.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Health</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectHealthIncrease.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect\Health</Filter>
     </ClInclude>
     <ClInclude Include="EffectStaminaRegeneration.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect\Stamina</Filter>
     </ClInclude>
-    <ClInclude Include="EffectStaminaIncrease.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Stamina</Filter>
+    <ClInclude Include="RarityMod.h">
+      <Filter>Engine\Rarity\Mod</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffix.h">
+      <Filter>Engine\Rarity\Mod\Affix</Filter>
+    </ClInclude>
+    <ClInclude Include="RaritySystem.h">
+      <Filter>Engine\Rarity</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffixConsumable.h">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumableAffixHealthRegenerate.h">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffixArmor.h">
+      <Filter>Engine\Rarity\Mod\Affix\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffixWeapon.h">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmorAffixDefenceIncrease.h">
+      <Filter>Engine\Rarity\Mod\Affix\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponAffixDamageIncrease.h">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffixCreature.h">
+      <Filter>Engine\Rarity\Mod\Affix\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateCreatureBase.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateConsumable.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>Engine\GameObject\Tile\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Portal.h">
+      <Filter>Engine\GameObject\Tile\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Engine\GameObject\Tile\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="AiModuleCombat.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="AiModuleResident.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>Engine\GameObject\Tile\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiConsumable.h">
+      <Filter>Engine\Gui\Component\Components\Minor</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumableAffixStaminaRegenerate.h">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

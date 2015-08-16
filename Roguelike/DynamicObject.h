@@ -11,9 +11,9 @@ public:
 	Point2D location;
 	bool transparent;
 	int healthMax;
-	int health;
+	int healthCurrent;
 
-	void setHealth(int health);
+	void setHealth(int healthCurrent);
 	virtual bool move(Point2D &location);
 	virtual void onMove();
 	void kill();
@@ -24,9 +24,9 @@ public:
 	virtual void messageDeath();
 	virtual void update(){};
 
-	DynamicObject(std::string name, Type type, Glyph glyph, int health, bool transparent = true) :
-		GameObject(name, type, glyph),
+	DynamicObject(GameObject gameObject, int healthCurrent, bool transparent = true) :
+		GameObject(gameObject),
 		transparent(transparent){
-		setHealth(health);
+		setHealth(healthCurrent);
 	};
 };

@@ -2,14 +2,14 @@
 #include "Engine.h"
 
 int Gui::FRAME_MARGIN;
-float Gui::RARITY_COLOR_MULTIPLIER;
+double Gui::RARITY_COLOR_MULTIPLIER;
 TCODColor Gui::FRAME_BG;
 TCODColor Gui::FRAME_FG;
 TCODColor Gui::SELECTABLE_BG;
 TCODColor Gui::SELECTABLE_OPERATION;
 TCODColor Gui::TRADE_SELECTED;
 TCODColor Gui::INSPECTION_CURSOR;
-float Gui::INSPECTION_CURSOR_ALPHA;
+double Gui::INSPECTION_CURSOR_ALPHA;
 
 void Gui::init(){
 	//Definations

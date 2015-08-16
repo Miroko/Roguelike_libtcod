@@ -7,11 +7,11 @@ public:
 	void on();
 	std::shared_ptr<OperatableObject> copy();
 
-	Anvil(std::string name, Glyph glyph) : OperatableObject(
-		name,
-		OperatableObject::ANVIL,
-		9999,
-		glyph,
-		true){}
+	Anvil() :
+		OperatableObject(DynamicObject(GameObject(
+		"Anvil",
+		GameObject::ANVIL, 
+		Glyph(TCODColor::darkerGrey, TCODColor::darkGrey, 'A')),
+		9999)){}
 };
 

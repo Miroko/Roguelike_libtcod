@@ -13,7 +13,7 @@ public:
 	bool handleKey(TCOD_key_t key);
 	void GuiFrame::render();
 
-	DialogFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
+	DialogFrame(char controlKey, bool open, double alphaFg, double alphaBg) :
 		GuiFrame(controlKey, open, alphaFg, alphaBg, "Dialog"){};
 };
 

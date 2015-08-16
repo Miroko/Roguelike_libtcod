@@ -30,8 +30,7 @@ public:
 		ARMOR_HAND,
 		ARMOR_LEG,
 
-		POTION,
-		SCROLL
+		CONSUMABLE
 	};
 	Type type;
 	std::string name;
@@ -48,6 +47,8 @@ public:
 	virtual std::string getDescription();
 
 	GameObject(std::string name, Type type, Glyph glyph) :
-		name(name), type(type), glyph(glyph){};
+		name(name),
+		type(type), 
+		glyph(glyph){};
 };
 

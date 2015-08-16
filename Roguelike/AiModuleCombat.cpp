@@ -2,6 +2,7 @@
 #include "CreatureAi.h"
 #include "Creature.h"
 #include "Weapon.h"
+#include "Engine.h"
 
 void AiModuleCombat::pursueAndAttack(DynamicObject &target){
 	if (owner->inFov(target.location)){

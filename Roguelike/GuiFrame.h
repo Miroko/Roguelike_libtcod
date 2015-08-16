@@ -11,11 +11,11 @@ protected:
 	Rectangle frameBounds;
 
 	char controlKey;
-	float alphaFg;
-	float alphaBg;
+	double alphaFg;
+	double alphaBg;
 
 	//True if key handled
-	void blit(int fromX, int fromY, int width, int height, int toX, int toY, float alphaFg, float alphaBg);
+	void blit(int fromX, int fromY, int width, int height, int toX, int toY, double alphaFg, double alphaBg);
 	void blit();
 
 	virtual void onOpen();
@@ -42,7 +42,7 @@ public:
 	virtual void render() = 0;
 	virtual void update();
 
-	GuiFrame(char controlKey, bool open, float alphaFg = 1.0, float alphaBg = 1.0, std::string title = "") :
+	GuiFrame(char controlKey, bool open, double alphaFg = 1.0, double alphaBg = 1.0, std::string title = "") :
 		controlKey(controlKey),
 		isOpen(open),
 		alphaFg(alphaFg),

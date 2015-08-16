@@ -4,14 +4,14 @@
 #include "Engine.h"
 
 Cave::Cave(std::string wall1Id, std::string wall2Id, std::string floor1Id, std::string floor2Id, std::string waterId, std::string portalId, std::string roomWallId, AreaDrop &roomDrop,
-	int size, float corridorsPerTile, int corridorSize, float roomChance, float roomDropChance, int roomSize, float riverPercentage, int portals) :
-	wall1(*engine::objectLibrary.getTile(wall1Id)),
-	wall2(*engine::objectLibrary.getTile(wall2Id)),
-	floor1(*engine::objectLibrary.getTile(floor1Id)),
-	floor2(*engine::objectLibrary.getTile(floor2Id)),
-	roomWall(*engine::objectLibrary.getTile(roomWallId)),
-	water(*engine::objectLibrary.getTile(waterId)),
-	portal(*engine::objectLibrary.getTile(portalId)),
+	int size, double corridorsPerTile, int corridorSize, double roomChance, double roomDropChance, int roomSize, double riverPercentage, int portals) :
+	wall1(*engine::objectLibrary.tiles[wall1Id]),
+	wall2(*engine::objectLibrary.tiles[wall2Id]),
+	floor1(*engine::objectLibrary.tiles[floor1Id]),
+	floor2(*engine::objectLibrary.tiles[floor2Id]),
+	roomWall(*engine::objectLibrary.tiles[roomWallId]),
+	water(*engine::objectLibrary.tiles[waterId]),
+	portal(*engine::objectLibrary.tiles[portalId]),
 	size(size),
 	corridorsPerTile(corridorsPerTile),
 	corridorSize(corridorSize),

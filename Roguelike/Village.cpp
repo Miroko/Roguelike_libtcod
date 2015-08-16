@@ -13,14 +13,14 @@ Village::Village(
 	std::string stoneLowId,
 	std::string pathId,
 	int size,
-	std::vector<std::pair<AreaHouse*, float>> houseChances) :
+	std::vector<std::pair<AreaHouse*, double>> houseChances) :
 	Area(),
 	size(size),
-	land(*engine::objectLibrary.getTile(landId)),
-	tree(*engine::objectLibrary.getTile(treeId)),
-	stoneHigh(*engine::objectLibrary.getTile(stoneHighId)),
-	stoneLow(*engine::objectLibrary.getTile(stoneLowId)),
-	path(*engine::objectLibrary.getTile(pathId)),
+	land(*engine::objectLibrary.tiles[landId]),
+	tree(*engine::objectLibrary.tiles[treeId]),
+	stoneHigh(*engine::objectLibrary.tiles[stoneHighId]),
+	stoneLow(*engine::objectLibrary.tiles[stoneLowId]),
+	path(*engine::objectLibrary.tiles[pathId]),
 	houseChances(houseChances){
 }
 

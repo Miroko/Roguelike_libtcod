@@ -1,11 +1,12 @@
 #pragma once
 #include "DynamicObject.h"
 #include "CreatureInventory.h"
+#include "CreatureEffect.h"
 #include "CreatureAi.h"
 #include "CreatureLimb.h"
-#include "RarityType.h"
+#include "RarityMod.h"
 
-class Creature : public DynamicObject
+class Creature : public DynamicObject, public RarityMod
 {
 private:
 	bool waitedLastTurn = true;
@@ -18,8 +19,6 @@ public:
 	std::shared_ptr<CreatureAi> ai;
 	std::vector<CreatureLimb> limbs;
 	std::vector<std::shared_ptr<CreatureEffect>> effects;
-	RarityType &rarity;
-	std::vector<RarityModCreature*> rarityMods;
 
 	void attack(DynamicObject &target);
 	void onTakeDamage(DynamicObject &attacker, int amount);
@@ -30,17 +29,15 @@ public:
 	void initAi(Area &area);
 	void update();
 
-	Creature(std::string name, std::string presetId, Glyph glyph, Type type, int health, int stamina, RarityType &rarity, std::vector<RarityModCreature*> mods, std::shared_ptr<CreatureAi> ai, std::vector<CreatureLimb> limbs) :
-		DynamicObject(
-		name,
-		type,
-		glyph,
-		health),
+	Creature(std::string presetId, RarityMod rarityMod, DynamicObject dynamicObject, int stamina, std::shared_ptr<CreatureAi> ai, std::vector<CreatureLimb> limbs) :
 		presetId(presetId),
+		RarityMod(rarityMod),
+		DynamicObject(dynamicObject),
 		limbs(limbs),
 		ai(ai),
-		rarity(rarity),
-		rarityMods(mods), 
 		staminaCurrent(stamina),
-		staminaMax(stamina){};
+		staminaMax(stamina){
+		inventory.owner = this;
+		ai->owner = this;
+	};
 };

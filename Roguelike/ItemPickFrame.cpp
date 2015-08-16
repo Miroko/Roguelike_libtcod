@@ -2,7 +2,7 @@
 #include "Engine.h"
 
 bool ItemPickFrame::moveToInventory(std::shared_ptr<Item> &item){
-	if (engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight() + item->weight > engine::carryWeightMax){
+	if (engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight() + item->getWeight() > engine::carryWeightMax){
 		engine::gui.log.addMessage("I am carrying too much.");
 	}
 	else{

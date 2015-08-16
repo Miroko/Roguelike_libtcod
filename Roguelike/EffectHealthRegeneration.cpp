@@ -3,12 +3,16 @@
 #include "Engine.h"
 
 std::string EffectHealthRegeneration::getDescription(){
-	return "Regenerates " + engine::string.percentage(percentage) + " health for " + std::to_string(duration) + " turns";
+	return "Regenerate " + engine::string.percentage(percentage) + " health for " + std::to_string(duration) + " turns";
 }
 
 void EffectHealthRegeneration::apply(Creature &creature){
-	creature.health += (int)(creature.healthMax * percentage);
-	if (creature.health > creature.healthMax) creature.health = creature.healthMax;
+	creature.healthCurrent += (int)(creature.healthMax * percentage);
+	if (creature.healthCurrent > creature.healthMax) creature.healthCurrent = creature.healthMax;
+}
+
+int EffectHealthRegeneration::getValue(){
+	return (int)((engine::healthMax * percentage) * engine::valuePerHealth * duration);
 }
 
 std::shared_ptr<CreatureEffect> EffectHealthRegeneration::clone(){

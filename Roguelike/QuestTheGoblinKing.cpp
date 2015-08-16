@@ -20,21 +20,21 @@ std::shared_ptr<Area> QuestTheGoblinKing::PhaseVillage::generateArea(){
 	return area;
 }
 std::shared_ptr<Dialog> const &QuestTheGoblinKing::PhaseVillage::getDialog(Creature &speaker){
-	if (speaker.presetId == "human_blacksmith"){
+	if (speaker.presetId == "villager_blacksmith"){
 		dialogBlacksmith->setSpeaker(speaker);
 		return dialogBlacksmith;
 	}
-	else if (speaker.presetId == "human_alchemist"){
+	else if (speaker.presetId == "villager_alchemist"){
 		dialogAlchemist->setSpeaker(speaker);
 		return dialogAlchemist;
 	}
 	else return QuestPhase::getDialog(speaker);
 }
 TradeContainer &QuestTheGoblinKing::PhaseVillage::getTradeContainer(Creature &trader){
-	if (trader.presetId == "human_blacksmith"){
+	if (trader.presetId == "villager_blacksmith"){
 		return blacksmithTradeContainer;
 	} 
-	else if (trader.presetId == "human_alchemist"){
+	else if (trader.presetId == "villager_alchemist"){
 		return alchemistTradeContainer;
 	}
 	else return QuestPhase::getTradeContainer(trader);

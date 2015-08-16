@@ -7,7 +7,7 @@ public:
 	void GuiFrame::render();
 	bool handleKey(TCOD_key_t key);
 
-	QuestFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
+	QuestFrame(char controlKey, bool open, double alphaFg, double alphaBg) :
 		GuiFrame(controlKey, open, alphaFg, alphaBg, "Quest"){};
 };
 

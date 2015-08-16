@@ -1,31 +1,30 @@
 #pragma once
 #include "GameObject.h"
-#include "RarityType.h"
+#include "RarityMod.h"
 #include <memory>
 #include <string>
 
-class Item : public GameObject
+class Item : public GameObject, public RarityMod
 {
 private:
-	const float VALUE_WEIGHT_MULTIPLIER = 1.2f;
+	double weightKg;
 
 public:
-	RarityType &rarity;
-
 	Point2D location;
-	float weight; 	// Kg
 	int limbsRequiredToHold;
 
 	virtual int getValue();
+	double getWeight();
+
 	virtual std::string getStatistics();
 	virtual std::string getDescription();
 
 	bool operator==(const Item &item);
 
-	Item(std::string name, Glyph glyph, float weight, Type type, RarityType &rarity, int limbsRequiredToHold = 1) :
-		GameObject(name, type, glyph),
-		weight(weight),
-		rarity(rarity),
+	Item(RarityMod rarityMod, GameObject gameObject, double weightKg, int limbsRequiredToHold = 1) :
+		RarityMod(rarityMod),
+		GameObject(gameObject),
+		weightKg(weightKg),
 		limbsRequiredToHold(limbsRequiredToHold){};
 };
 

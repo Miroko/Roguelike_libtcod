@@ -25,7 +25,7 @@ public:
 	void onOpen();
 	void init(Rectangle &bounds);
 
-	AttackFrame(char controlKey, bool open, float alphaFg, float alphaBg) :
+	AttackFrame(char controlKey, bool open, double alphaFg, double alphaBg) :
 		GuiFrame(controlKey, open, alphaFg, alphaBg){};
 };
 

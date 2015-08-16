@@ -13,15 +13,15 @@ void GuiArmor::renderTo(GuiFrame &frame, Rectangle &bounds){
 		frame.printString(
 			bounds.start.x, bounds.start.y + offsetY,
 			bounds.getWidth(), 0,
-			currentArmor->rarity.color * Gui::RARITY_COLOR_MULTIPLIER,
+			currentArmor->rarityType->color * Gui::RARITY_COLOR_MULTIPLIER,
 			TCOD_CENTER,
-			currentArmor->rarity.name);
+			currentArmor->rarityType->name);
 		//description
 		offsetY += 1;
 		frame.printString(
 			bounds.start.x, bounds.start.y + offsetY, 
 			bounds.getWidth(), 0, 
-			currentArmor->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, 
+			currentArmor->rarityType->color * Gui::RARITY_COLOR_MULTIPLIER, 
 			TCOD_CENTER,
 			currentArmor->getDescription());
 		//stats
@@ -32,16 +32,16 @@ void GuiArmor::renderTo(GuiFrame &frame, Rectangle &bounds){
 			Gui::FRAME_FG, 
 			TCOD_CENTER,
 			currentArmor->getStatistics());
-		//mods
+		//affix
 		offsetY += 1;
-		for (auto &mod : currentArmor->rarityMods){
+		for (auto &affix : currentArmor->rarityAffixes){
 			offsetY += 1;
 			frame.printString(
 				bounds.start.x + 1, bounds.start.y + offsetY, 
 				bounds.getWidth(), 0,
 				Gui::FRAME_FG, 
 				TCOD_CENTER, 
-				mod->effect->getDescription());
+				affix->getDescription());
 		}
 	}
 }

@@ -1,48 +1,37 @@
 #pragma once
 #include "libtcod.hpp"
-#include "RarityModCreature.h"
-#include "RarityModWeapon.h"
-#include "RarityModArmor.h"
+#include "RarityAffixCreature.h"
+#include "RarityAffixArmor.h"
+#include "RarityAffixWeapon.h"
+#include "RarityAffixConsumable.h"
 #include <string>
 #include <vector>
+#include <memory>
 
 class RarityType
 {
 public:
 	std::string id;
 	std::string name;
-	const TCODColor &color;
-	float modRollChance;
-	int modsPerItem;
-	float prevalence;
-	float improvementMultiplier;
+	TCODColor color;
+	double prevalence;
+	double improvementMultiplier;
 
-	std::vector<std::string> creatureMods;
-	std::vector<std::string> weaponMods;
-	std::vector<std::string> armorMods;
-	std::vector<RarityModCreature*> getRandomCreatureMods();
-	std::vector<RarityModWeapon*> getRandomWeaponMods();
-	std::vector<RarityModArmor*> getRandomArmorMods();
+	std::vector<std::shared_ptr<RarityAffixCreature>> creatureAffixesPre;
+	std::vector<std::shared_ptr<RarityAffixArmor>> armorAffixesPre;
+	std::vector<std::shared_ptr<RarityAffixWeapon>> weaponAffixesPre;
+	std::vector<std::shared_ptr<RarityAffixConsumable>> consumableAffixesPre;
 
-	RarityType(
-		std::string id,
-		std::string name,
-		float prevalence,
-		float improvementMultiplier,
-		float modRollChance,
-		int modsPerItem,
-		const TCODColor &color,
-		std::vector<std::string> creatureMods,
-		std::vector<std::string> armorMods,
-		std::vector<std::string> weaponMods) :
+	std::vector<std::shared_ptr<RarityAffixCreature>> creatureAffixesPost;
+	std::vector<std::shared_ptr<RarityAffixArmor>> armorAffixesPost;
+	std::vector<std::shared_ptr<RarityAffixWeapon>> weaponAffixesPost;
+	std::vector<std::shared_ptr<RarityAffixConsumable>> consumableAffixesPost;
+
+	RarityType(std::string id, std::string name, TCODColor color, double prevalence, double improvementMultiplier) :
 		id(id),
 		name(name),
-		prevalence(prevalence),
-		improvementMultiplier(improvementMultiplier),
-		modRollChance(modRollChance),
-		modsPerItem(modsPerItem),
 		color(color),
-		creatureMods(creatureMods),
-		weaponMods(weaponMods),
-		armorMods(armorMods){};
+		prevalence(prevalence),
+		improvementMultiplier(improvementMultiplier){}
+	RarityType(){}
 };

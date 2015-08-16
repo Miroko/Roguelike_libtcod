@@ -16,6 +16,6 @@ public:
 
 	virtual std::shared_ptr<OperatableObject> copy();
 
-	OperatableObject(std::string name, Type type, int health, Glyph glyph, bool transparent) :
-		DynamicObject(name, type, glyph, health, transparent){}
+	OperatableObject(DynamicObject dynamicObject) :
+		DynamicObject(dynamicObject){}
 };

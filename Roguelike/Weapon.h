@@ -1,30 +1,21 @@
 #pragma once
-#include "TemplateWeapon.h"
-#include "Equipment.h"
-#include "Engine.h"
-#include <memory>
+#include "Item.h"
 
-class Weapon : public Equipment
+class Weapon : public Item
 {
-public:
+private:
 	int damage;
-	int range;
 
-	std::vector<RarityModWeapon*> rarityMods;
+public:
+	int range;
 
 	std::string getStatistics();
 	int getValue();
+	int getDamage();
 
-	Weapon(std::string name, Glyph glyph, float weight, Type type, int limbsRequiredToHold, int damage, int range, RarityType &rarity, std::vector<RarityModWeapon*> rarityMods) :
-		Equipment(
-		name,
-		glyph,
-		weight,
-		type,
-		rarity,
-		limbsRequiredToHold),
+	Weapon(Item item, int damage, int range) :
+		Item(item),
 		damage(damage),
-		range(range),
-		rarityMods(rarityMods){};
+		range(range){};
 };
 

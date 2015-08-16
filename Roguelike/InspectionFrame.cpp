@@ -58,13 +58,13 @@ void InspectionFrame::updateSelection(){
 					if (tile != nullptr){
 						guiGameObjectDisplay.setDisplayedObject(tile);
 					}
-					else{
-						//not in fov
-						guiGameObjectDisplay.clear();
-					}
 				}
 			}
 		}
+	}
+	else{
+		//not in fov
+		guiGameObjectDisplay.clear();
 	}
 }
 

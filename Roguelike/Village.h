@@ -15,7 +15,7 @@ public:
 	Tile &stoneHigh;
 	Tile &stoneLow;
 	Tile &path;
-	std::vector<std::pair<AreaHouse*, float>> houseChances;
+	std::vector<std::pair<AreaHouse*, double>> houseChances;
 
 	void Area::generate();
 
@@ -26,5 +26,5 @@ public:
 		std::string stoneLowId,
 		std::string pathId,
 		int size,
-		std::vector<std::pair<AreaHouse* ,float>> houseChances);
+		std::vector<std::pair<AreaHouse* ,double>> houseChances);
 };

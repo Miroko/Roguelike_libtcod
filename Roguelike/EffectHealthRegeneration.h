@@ -4,12 +4,13 @@
 class EffectHealthRegeneration : public CreatureEffect
 {
 public:
-	float percentage;
-	std::string getDescription();
-	void apply(Creature &creature);
-	std::shared_ptr<CreatureEffect> clone();
+	double percentage;
+	std::string CreatureEffect::getDescription();
+	void CreatureEffect::apply(Creature &creature);
+	int CreatureEffect::getValue();
+	std::shared_ptr<CreatureEffect> CreatureEffect::clone();
 
-	EffectHealthRegeneration(int duration, float percentage) :
+	EffectHealthRegeneration(int duration, double percentage) :
 		CreatureEffect(duration),
 		percentage(percentage){}
 };

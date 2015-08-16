@@ -9,14 +9,14 @@ public:
 
 	std::string loremIpsum();
 	std::string outOf(int current, int max);
-	std::string weight(float weight, bool kg = true, int precision = 2);
+	std::string weightKg(double weightKg, bool kg = true, int precision = 2);
 	std::string currency(int currency);
-	std::string multiplier(float multiplier);
+	std::string multiplier(double multiplier);
 	std::string damage(int damage);
 	std::string range(int range);
 	std::string defence(int defence);
 	std::string duration(int duration);
-	std::string percentage(float percentage);
+	std::string percentage(double percentage);
 
 	String(){};
 };

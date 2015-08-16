@@ -16,58 +16,58 @@ private:
 		public:
 			//basic house
 			AreaDrop basicHouseResidents = AreaDrop({
-				std::make_pair("human_man_villager", std::make_pair("rarity_common", 0.6f)),
-				std::make_pair("human_woman_villager", std::make_pair("rarity_common", 0.5f)),
-				std::make_pair("human_child_villager", std::make_pair("rarity_common", 0.3f)),
-				std::make_pair("human_child_villager", std::make_pair("rarity_common", 0.2f))
+				std::make_pair("villager_man", std::make_pair("common", 0.6f)),
+				std::make_pair("villager_woman", std::make_pair("common", 0.5f)),
+				std::make_pair("villager_child", std::make_pair("common", 0.3f)),
+				std::make_pair("villager_child", std::make_pair("common", 0.2f))
 			});
 			AreaHouse houseBasic = AreaHouse(
-				"tile_house_wood_wall",
-				"tile_house_wood_floor",
-				"operatable_door_wooden",
+				"house_wall_wood",
+				"house_floor_wood",
+				"door_wood",
 				basicHouseResidents, {
-					std::make_pair("operatable_bed_wooden", 1.0f),
-					std::make_pair("operatable_bed_wooden", 0.6f),
-					std::make_pair("operatable_bed_wooden", 0.3f) });
+					std::make_pair("bed_wood", 1.0f),
+					std::make_pair("bed_wood", 0.6f),
+					std::make_pair("bed_wood", 0.3f) });
 
 			//blacksmith
 			AreaDrop blacksmithHouseResididents = AreaDrop({
-				std::make_pair("human_blacksmith", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("human_blacksmith", std::make_pair("rarity_common", 0.2f)) 
+				std::make_pair("villager_blacksmith", std::make_pair("common", 1.0f)),
+				std::make_pair("villager_blacksmith", std::make_pair("common", 0.2f)) 
 			});
 			AreaHouse houseBlacksmith = AreaHouse(
-				"tile_house_stone_wall",
-				"tile_house_wood_floor",
-				"operatable_door_wooden",
+				"house_wall_stone",
+				"house_floor_wood",
+				"door_wood",
 				blacksmithHouseResididents, {
-					std::make_pair("operatable_forge", 1.0f),
-					std::make_pair("operatable_forge", 0.6f),
-					std::make_pair("operatable_anvil", 1.0f),
-					std::make_pair("operatable_anvil", 0.6f),
-					std::make_pair("operatable_anvil", 0.3f) });
+					std::make_pair("forge", 1.0f),
+					std::make_pair("forge", 0.6f),
+					std::make_pair("anvil", 1.0f),
+					std::make_pair("anvil", 0.6f),
+					std::make_pair("anvil", 0.3f) });
 
 			//alchemist
 			AreaDrop alchemistHouseResididents = AreaDrop({
-				std::make_pair("human_alchemist", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("human_alchemist", std::make_pair("rarity_common", 0.2f))
+				std::make_pair("villager_alchemist", std::make_pair("common", 1.0f)),
+				std::make_pair("villager_alchemist", std::make_pair("common", 0.2f))
 			});
 			AreaHouse houseAlchemist = AreaHouse(
-				"tile_house_stone_wall",
-				"tile_house_wood_floor",
-				"operatable_door_wooden",
+				"house_wall_stone",
+				"house_floor_wood",
+				"door_wood",
 				alchemistHouseResididents, {
-					std::make_pair("operatable_alchemy_table1", 1.0f),
-					std::make_pair("operatable_alchemy_table2", 1.0f),
-					std::make_pair("operatable_alchemy_table1", 0.6f),
-					std::make_pair("operatable_alchemy_table2", 0.6f),
-					std::make_pair("operatable_alchemy_table1", 0.3f) });
+					std::make_pair("alchemy_table1", 1.0f),
+					std::make_pair("alchemy_table2", 1.0f),
+					std::make_pair("alchemy_table1", 0.6f),
+					std::make_pair("alchemy_table2", 0.6f),
+					std::make_pair("alchemy_table1", 0.3f) });
 
 			VillageMain() : Village(
-				"tile_forest_grass",
-				"tile_forest_tree",
-				"tile_nature_stone_wall",
-				"tile_nature_stone_floor",
-				"tile_path_sand",
+				"forest_floor_grass",
+				"forest_wall_tree",
+				"forest_wall_stone",
+				"forest_floor_stone",
+				"path_sand",
 				150, {
 					std::make_pair(&houseBlacksmith, 0.70f),
 					std::make_pair(&houseAlchemist, 0.70f),
@@ -107,25 +107,25 @@ private:
 		PhaseVillage() : QuestPhase(true),
 			dialogBlacksmith(std::shared_ptr<Dialog>(new DialogBlacksmith())),
 			dialogAlchemist(std::shared_ptr<Dialog>(new DialogAlchemist())),
-			blacksmithTradeContainer(TradeContainer(200, 26, 34, 0)),
-			alchemistTradeContainer(TradeContainer(50, 0, 0, 40)){};
+			blacksmithTradeContainer(TradeContainer(3000, 26, 34, 0)),
+			alchemistTradeContainer(TradeContainer(1000, 0, 0, 40)){};
 	};
 	class PhaseWayThroughForest : public QuestPhase{
 	public:
 		class ForestGoblin : public Forest{
 		public:
 			AreaDrop dropGoblin = AreaDrop({
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 0.8f)),
-				std::make_pair("goblin_bow_medium", std::make_pair("rarity_common", 0.8f))});
+				std::make_pair("goblin_melee", std::make_pair("common", 1.0f)),
+				std::make_pair("goblin_melee", std::make_pair("common", 1.0f)),
+				std::make_pair("goblin_melee", std::make_pair("common", 1.0f)),
+				std::make_pair("goblin_melee", std::make_pair("common", 0.8f)),
+				std::make_pair("goblin_ranged", std::make_pair("common", 0.8f))});
 			ForestGoblin() : Forest(
-				"tile_forest_grass",
-				"tile_forest_tree",
-				"tile_nature_stone_wall",
-				"tile_nature_stone_floor",
-				"tile_forest_portal",
+				"forest_floor_grass",
+				"forest_wall_tree",
+				"forest_wall_stone",
+				"forest_floor_stone",
+				"forest_portal",
 				100, 0.6f, 0.02f, 12){};
 		};
 
@@ -137,20 +137,19 @@ private:
 		class CaveGoblin : public Cave{
 		public:
 			AreaDrop dropGoblin = AreaDrop({
-				std::make_pair("goblin_dagger_low", std::make_pair("rarity_common", 1.0f)),
-				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 0.2f)),
-				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 0.2f)),
-				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 0.8f)),
-				std::make_pair("goblin_bow_medium", std::make_pair("rarity_uncommon", 0.6f)) });
+				std::make_pair("goblin_melee", std::make_pair("common", 1.0f)),
+				std::make_pair("goblin_melee", std::make_pair("uncommon", 0.5f)),
+				std::make_pair("goblin_ranged", std::make_pair("common", 1.0f)),
+				std::make_pair("goblin_ranged", std::make_pair("uncommon", 0.5f)) });
 
 			CaveGoblin() : Cave(
-				"tile_cave_wall1",
-				"tile_cave_wall2",
-				"tile_cave_floor1",
-				"tile_cave_floor2",
-				"tile_cave_water",
-				"tile_cave_portal",
-				"tile_cave_rotten_wall",
+				"cave_wall_stone1",
+				"cave_wall_stone2",
+				"cave_floor_stone1",
+				"cave_floor_stone2",
+				"cave_water",
+				"cave_portal",
+				"cave_wall_wood",
 				dropGoblin,
 				200, 0.6f, 1, 0.02f, 0.02f, 2, 0.3f, 12){};
 		};
@@ -163,25 +162,22 @@ private:
 		class CaveKing : public Cave{
 		public:
 			AreaDrop dropGoblin = AreaDrop({
-				std::make_pair("goblin_bow_medium", std::make_pair("rarity_rare", 1.0f)),
-				std::make_pair("goblin_bow_medium", std::make_pair("rarity_rare", 0.8f)) });
+				std::make_pair("goblin_melee", std::make_pair("uncommon", 1.0f)),
+				std::make_pair("goblin_melee", std::make_pair("uncommon", 1.0f)) });
 
 			AreaDrop dropKing = AreaDrop({
-				std::make_pair("goblin_king", std::make_pair("rarity_epic", 1.0f)),
-				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 1.0f)),
-				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 1.0f)),
-				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 1.0f)),
-				std::make_pair("goblin_dagger_medium", std::make_pair("rarity_uncommon", 1.0f)),
+				std::make_pair("goblin_king", std::make_pair("unique", 1.0f)),
+				std::make_pair("goblin_ranged", std::make_pair("epic", 1.0f)),
 			});
 
 			CaveKing() : Cave(
-				"tile_cave_wall1",
-				"tile_cave_wall2",
-				"tile_cave_floor1",
-				"tile_cave_floor2",
-				"tile_cave_water",
-				"tile_cave_portal",
-				"tile_cave_rotten_wall",
+				"cave_wall_stone1",
+				"cave_wall_stone2",
+				"cave_floor_stone1",
+				"cave_floor_stone1",
+				"cave_water",
+				"cave_portal",
+				"cave_wall_wood",
 				dropGoblin,
 				150, 0.4f, 2, 0.02f, 0.02f, 3, 0.3f, 12){};
 		};

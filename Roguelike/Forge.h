@@ -7,11 +7,11 @@ public:
 	void on();
 	std::shared_ptr<OperatableObject> copy();
 
-	Forge(std::string name, Glyph glyph) : OperatableObject(
-		name,
-		OperatableObject::FORGE,
-		9999,
-		glyph,
-		true){};
+	Forge() :
+		OperatableObject(DynamicObject(GameObject(
+		"Forge", 
+		GameObject::FORGE, 
+		Glyph(TCODColor::darkerGrey, TCODColor::darkRed, 'F')),
+		9999)){}
 };
 

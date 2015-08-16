@@ -274,7 +274,7 @@ void Area::update(){
 void Area::render(){
 	using engine::camera;
 	using engine::playerHandler;
-	//Static objects
+	//Tiles
 	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){
 		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
 			if (bounds.contains(Point2D(x, y))){

@@ -64,13 +64,13 @@ void TradeFrame::render(){
 		Gui::FRAME_FG,
 		TCOD_LEFT,
 		engine::string.currency(engine::playerHandler.getPlayerCreature()->inventory.currency));
-	//weight
+	//weightKg
 	printString(
 		guiPlayerTopBoxBounds.start.x, guiPlayerTopBoxBounds.start.y,
 		guiPlayerTopBoxBounds.getWidth() - 6, 0,
 		Gui::FRAME_FG,
 		TCOD_RIGHT,
-		engine::string.weight(engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight()));
+		engine::string.weightKg(engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight()));
 	guiPlayerDisplayBox.renderTo(*this, guiPlayerDisplayBoxBounds);
 	guiPlayerItemDisplay.renderTo(*this, guiPlayerItemDisplayBounds);
 	guiPlayerSelectableListBox.renderTo(*this, guiPlayerSelectableListBoxBounds);
@@ -161,9 +161,9 @@ void TradeFrame::makeTrade(){
 	if (engine::playerHandler.getPlayerCreature()->inventory.currency + currencyFromTrade < 0 ||
 		currentTraderContainer->currency - currencyFromTrade < 0) errorMessage = ERROR_NOT_ENOUGH_CURRENCY;
 	else{
-		float newWeight = engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight();
-		for (auto &item : selectedPlayerItems.items){ newWeight -= item->weight; }
-		for (auto &item : selectedTraderItems.items){ newWeight += item->weight; }
+		double newWeight = engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight();
+		for (auto &item : selectedPlayerItems.items){ newWeight -= item->getWeight(); }
+		for (auto &item : selectedTraderItems.items){ newWeight += item->getWeight(); }
 		if (newWeight > engine::carryWeightMax) errorMessage = ERROR_TOO_MUCH_WEIGHT;
 		else{
 			for (auto &item : selectedPlayerItems.items){

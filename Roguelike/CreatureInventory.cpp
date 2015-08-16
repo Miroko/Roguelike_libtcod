@@ -58,13 +58,8 @@ void CreatureInventory::unequipArmor(std::shared_ptr<Armor> armor){
 	}
 }
 void CreatureInventory::consume(std::shared_ptr<Consumable> consumable){
+	consumable->onConsume(*owner);
 	items.remove(consumable);
-	if (consumable->type == Consumable::POTION){
-		auto &potion = std::static_pointer_cast<Potion>(consumable);
-		for (auto &effect : potion->effects){
-			owner->addEffect(effect);
-		}
-	}
 }
 void CreatureInventory::drop(std::shared_ptr<Item> item){
 	if (isEquipped(item)){
@@ -142,21 +137,21 @@ std::vector<Armor*> CreatureInventory::getArmors(){
 int CreatureInventory::getTotalDefence(){
 	int totalDefence = 0;
 	for (auto &armor : getArmors()){
-		totalDefence += armor->defence;
+		totalDefence += armor->getDefence();
 	}
 	return totalDefence;
 }
-float CreatureInventory::getTotalEquippedWeight(){
-	float totalWeight = 0;
+double CreatureInventory::getTotalEquippedWeight(){
+	double totalWeight = 0;
 	for (auto &armor : getArmors()){
-		totalWeight += armor->weight;
+		totalWeight += armor->getWeight();
 	}
 	return totalWeight;
 }
-float CreatureInventory::getTotalWeight(){
-	float totalWeight = 0;
+double CreatureInventory::getTotalWeight(){
+	double totalWeight = 0;
 	for (auto &item : items.items){
-		totalWeight += item->weight;
+		totalWeight += item->getWeight();
 	}
 	return totalWeight;
 }

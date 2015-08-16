@@ -8,11 +8,11 @@ public:
 
 	std::shared_ptr<OperatableObject> copy();
 
-	Bed(std::string name, Glyph glyph) : OperatableObject(
-		name,
-		GameObject::BED, 
-		100, 
-		glyph,
-		true){};
+	Bed(std::string name, Glyph glyph, int health) :
+		OperatableObject(OperatableObject(DynamicObject(GameObject(
+			name,
+			GameObject::BED, 
+			glyph),
+			health))){}
 };
 

@@ -1,174 +1,151 @@
 #include "ObjectFactory.h"
-#include "TemplateCreature.h"
-#include "TemplateCreaturePreset.h"
-#include "TemplatePotion.h"
-#include "TemplatePotionRarityMap.h"
-#include "AiMonster.h"
-#include "Engine.h"
 #include "Weapon.h"
 #include "Door.h"
 #include "Armor.h"
+#include "Engine.h"
 
-std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creaturePresetTemplateId, RarityType &rarity){
-	TemplateCreaturePreset &templateCreaturePreset = *engine::objectLibrary.getTemplateCreaturePreset(creaturePresetTemplateId);
-	TemplateCreature &templateCreature = *engine::objectLibrary.getTemplateCreature(templateCreaturePreset.creatureTemplateId);
+std::shared_ptr<Creature> ObjectFactory::createCreature(std::string id, std::string rarity){
+	return createCreature(engine::objectLibrary.creaturePresetTemplates[id], *engine::raritySystem.getRarityType(rarity));
+}
+
+std::shared_ptr<Weapon> ObjectFactory::createWeapon(std::string id, std::string rarity){
+	return createWeapon(engine::objectLibrary.weaponTemplates[id], *engine::raritySystem.getRarityType(rarity));
+}
+
+std::shared_ptr<Armor> ObjectFactory::createArmor(std::string id, std::string rarity){
+	return createArmor(engine::objectLibrary.armorTemplates[id], *engine::raritySystem.getRarityType(rarity));
+}
+
+std::shared_ptr<Consumable> ObjectFactory::createConsumable(std::string id, std::string rarity){
+	return createConsumable(engine::objectLibrary.consumableTemplates[id], *engine::raritySystem.getRarityType(rarity));
+}
+
+std::shared_ptr<OperatableObject> ObjectFactory::createOperatable(std::string id){
+	return engine::objectLibrary.operatables[id]->copy();
+}
+
+std::shared_ptr<Creature> ObjectFactory::createCreature(TemplateCreaturePreset &presetTemplate, RarityType &rarityType){
+	TemplateCreatureBase &templateCreatureBase = engine::objectLibrary.creatureBaseTemplates[presetTemplate.creatureBaseId];
 
 	int health =
 		(int)(engine::healthMax *
-		templateCreaturePreset.health *
-		rarity.improvementMultiplier *
-		engine::random.generator->getFloat(1.0f - engine::valueVariation, 1.0f));
+		presetTemplate.healthFromMax *
+		rarityType.improvementMultiplier *
+		engine::random.generator->getFloat(1.0f - engine::statisticVariation, 1.0f));
 
-	int stamina = (int)(health * 0.8f);
+	int stamina =
+		(int)(engine::staminaMax *
+		presetTemplate.healthFromMax *
+		rarityType.improvementMultiplier *
+		engine::random.generator->getFloat(1.0f - engine::statisticVariation, 1.0f));
 
 	std::shared_ptr<Creature> creature = std::shared_ptr<Creature>(new Creature(
-		templateCreaturePreset.name,
-		creaturePresetTemplateId,
-		templateCreaturePreset.glyph,
+		presetTemplate.id,
+		//engine::raritySystem.getCreatureMod(rarityType),
+		RarityMod(rarityType, { }),
+		DynamicObject(GameObject(
+		presetTemplate.name,
 		Creature::CREATURE,
-		health,
-		stamina,
-		rarity,
-		rarity.getRandomCreatureMods(),
-		engine::objectLibrary.getAi(templateCreaturePreset.AiId)->copy(),
-		templateCreature.limbs));
-	//ai
-	creature->ai->owner = creature.get();
-	//inventory
-	creature->inventory.owner = creature.get();
-	for (auto &mod : creature->rarityMods){
-		mod->apply(*creature);
-	}
-	//equip weapon
-	for (auto &weaponId : templateCreaturePreset.weaponIds){
-		auto &weapon = createWeapon(weaponId, rarity);
+		presetTemplate.glyph),
+		health),
+		stamina, 
+		engine::objectLibrary.ais[presetTemplate.aiId]->copy(),
+		templateCreatureBase.limbs
+		));
+
+	//equip weapons
+	for (auto &weaponId : presetTemplate.weaponIds){
+		auto &weapon = createWeapon(engine::objectLibrary.weaponTemplates[weaponId], rarityType);
 		creature->inventory.items.add(weapon);
 		creature->inventory.holdItem(weapon);
 	}
-	//equip armor
-	for (auto &armorId : templateCreaturePreset.armorIds){
-		auto &armor = createArmor(armorId, rarity);
+	//equip armors
+	for (auto &armorId : presetTemplate.armorIds){
+		auto &armor = createArmor(engine::objectLibrary.armorTemplates[armorId], rarityType);
 		creature->inventory.items.add(armor);
 		creature->inventory.equipArmor(armor);
 	}
-	//store preset id in creature
-	creature->presetId = creaturePresetTemplateId;
 	return creature;
 }
-std::shared_ptr<Weapon> ObjectFactory::createWeapon(std::string weaponTemplateId, RarityType &rarity){
-	TemplateWeapon &templateWeapon = *engine::objectLibrary.getTemplateWeapon(weaponTemplateId);
-	std::shared_ptr<Weapon> weapon = std::shared_ptr<Weapon>(new Weapon(
-		templateWeapon.name,
-		templateWeapon.glyph,
-		templateWeapon.weight * engine::carryWeightMax,
-		templateWeapon.type,
-		templateWeapon.limbsRequiredToHold,
+std::shared_ptr<Weapon> ObjectFactory::createWeapon(TemplateWeapon &weaponTemplate, RarityType &rarityType){
+	int damage =
 		(int)(engine::damageMax *
-			 templateWeapon.damage *
-			 rarity.improvementMultiplier *
-			 engine::random.generator->getFloat(1.0f - engine::valueVariation, 1.0f)),
-		templateWeapon.range,
-		rarity,
-		rarity.getRandomWeaponMods()
+		weaponTemplate.damageFromMax *
+		rarityType.improvementMultiplier *
+		engine::random.generator->getFloat(1.0f - engine::statisticVariation, 1.0f));
+
+	std::shared_ptr<Weapon> weapon = std::shared_ptr<Weapon>(new Weapon(
+		Item(engine::raritySystem.getWeaponMod(rarityType),
+		GameObject(
+		weaponTemplate.name,
+		weaponTemplate.type,
+		weaponTemplate.glyph),
+		weaponTemplate.weightKg,
+		weaponTemplate.limbsRequiredToHold),
+		damage,
+		weaponTemplate.range
 		));
+
 	//rarity color
-	weapon->glyph.fgColor = weapon->glyph.fgColor * rarity.color;
-	//apply mods
-	for (auto &mod : weapon->rarityMods){
-		mod->apply(*weapon);
-	}
+	weapon->glyph.fgColor = weapon->glyph.fgColor * rarityType.color;
 
 	return weapon;
 }
-std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, RarityType &rarity){
-	TemplateArmor &templateArmor = *engine::objectLibrary.getTemplateArmor(armorTemplateId);
-	std::shared_ptr<Armor> armor = std::shared_ptr<Armor>(new Armor(
-		templateArmor.name,
-		templateArmor.glyph,
-		templateArmor.weight * engine::carryWeightMax,
-		templateArmor.type,
-		templateArmor.limbsRequiredToHold,
-		templateArmor.limbsRequiredToEquip,
+std::shared_ptr<Armor> ObjectFactory::createArmor(TemplateArmor &armorTemplate, RarityType &rarityType){
+	int defence =
 		(int)(engine::defenceMax *
-			 templateArmor.defence *
-		     rarity.improvementMultiplier * 
-			 engine::random.generator->getFloat(1.0f - engine::valueVariation, 1.0f)),
-		rarity,
-		rarity.getRandomArmorMods()
+		armorTemplate.defenceFromMax *
+		rarityType.improvementMultiplier *
+		engine::random.generator->getFloat(1.0f - engine::statisticVariation, 1.0f));
+
+	std::shared_ptr<Armor> armor = std::shared_ptr<Armor>(new Armor(
+		Item(engine::raritySystem.getArmorMod(rarityType),
+		GameObject(
+		armorTemplate.name,
+		armorTemplate.type,
+		armorTemplate.glyph),
+		armorTemplate.weightKg,
+		armorTemplate.limbsRequiredToHold),
+		armorTemplate.limbsRequiredToEquip,
+		defence
 		));
+
 	//rarity color
-	armor->glyph.fgColor = armor->glyph.fgColor * rarity.color;
-	//apply mods
-	for (auto &mod : armor->rarityMods){
-		mod->apply(*armor);
-	}
+	armor->glyph.fgColor = armor->glyph.fgColor * rarityType.color;
+	
 	return armor;
 }
 
-std::shared_ptr<Potion> ObjectFactory::createPotion(TemplatePotionRarityMap &rarityMap, RarityType &rarityType){
-	TemplatePotion *templatePotion = rarityMap.getPotionTemplate(rarityType.id);
-	if (templatePotion != nullptr){
-		//clone effects in template
-		std::vector<std::shared_ptr<CreatureEffect>> clonedEffects;
-		for (auto &effect : templatePotion->effects){
-			clonedEffects.push_back(effect->clone());
-		}
+std::shared_ptr<Consumable> ObjectFactory::createConsumable(TemplateConsumable &consumableTemplate, RarityType &rarityType){
+	std::shared_ptr<Consumable> consumable = std::shared_ptr<Consumable>(new Consumable(
+		Item(engine::raritySystem.getConsumableMod(rarityType),
+		GameObject(
+		consumableTemplate.name,
+		consumableTemplate.type,
+		consumableTemplate.glyph),
+		consumableTemplate.weightKg
+		)));
 
-		std::shared_ptr<Potion> newPotion = std::shared_ptr<Potion>(new Potion(
-		templatePotion->name,
-		templatePotion->glyph,
-		templatePotion->weight * engine::carryWeightMax,
-		clonedEffects,
-		templatePotion->value,
-		rarityType));
-		return newPotion;
-	}
-	else return nullptr;
-}
+	//rarity color
+	consumable->glyph.fgColor = consumable->glyph.fgColor * rarityType.color;
 
-std::shared_ptr<OperatableObject> ObjectFactory::createOperatable(std::string operatableId){
-	return engine::objectLibrary.getOperatable(operatableId)->copy();
-}
-
-std::shared_ptr<Creature> ObjectFactory::createCreaturePreset(std::string creaturePresetTemplateId, float rarityRoll){
-	RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
-	if (&rarity == nullptr) return nullptr;
-	else return createCreaturePreset(creaturePresetTemplateId, rarity);
-}
-std::shared_ptr<Weapon> ObjectFactory::createWeapon(std::string weaponTemplateId, float rarityRoll){
-	RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
-	if (&rarity == nullptr) return nullptr;
-	else return createWeapon(weaponTemplateId, rarity);
-}
-std::shared_ptr<Armor> ObjectFactory::createArmor(std::string armorTemplateId, float rarityRoll){
-	RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
-	if (&rarity == nullptr) return nullptr;
-	else return createArmor(armorTemplateId, rarity);
-}
-std::shared_ptr<Potion> ObjectFactory::createPotion(std::string rarityMapId, float rarityRoll){
-	TemplatePotionRarityMap &rarityMap = *engine::objectLibrary.getPotionRarityMap(rarityMapId);
-	RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
-	if (&rarity == nullptr) return nullptr;
-	else return createPotion(rarityMap, rarity);
+	return consumable;
 }
 
 void ObjectFactory::generateLootDrop(Creature &creature){
 	std::vector<std::shared_ptr<Item>> lootItems;
 	for (int dropNumber = engine::lootDropRolls; dropNumber > 0; --dropNumber){
-		if (engine::random.generator->getFloat(0.0, 1.0) > engine::lootRollMissChance){
+		if (engine::random.chance(engine::lootRollDropChance)){
 			int type = engine::random.generator->getInt(0, 2);
-			float rarityRoll = engine::random.generator->getFloat(0.0f, 1.0f - ((1.0f - creature.rarity.prevalence) * engine::lootRarityFromCreatureRarityRatio));
-			RarityType &rarity = *engine::objectLibrary.getRarity(rarityRoll);
+			RarityType &rarityType = *engine::raritySystem.getRarityType(engine::raritySystem.getRarityRoll(&creature));
 			//armor
 			if (type == 0){
 				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.armorTemplates.size() - 1);
 				auto &hashmapIterator = engine::objectLibrary.armorTemplates.begin();
 				std::advance(hashmapIterator, randomIndex);
 				TemplateArmor &randomTemplate = hashmapIterator->second;
-				auto &armor = createArmor(randomTemplate.id, rarityRoll);
-				if (armor != nullptr){
-					lootItems.push_back(armor);
-				}
+				auto &armor = createArmor(randomTemplate, rarityType);
+				lootItems.push_back(armor);
 			}
 			//weapon
 			else if (type == 1){
@@ -176,21 +153,17 @@ void ObjectFactory::generateLootDrop(Creature &creature){
 				auto &hashmapIterator = engine::objectLibrary.weaponTemplates.begin();
 				std::advance(hashmapIterator, randomIndex);
 				TemplateWeapon &randomTemplate = hashmapIterator->second;
-				auto &weapon = createWeapon(randomTemplate.id, rarityRoll);
-				if (weapon != nullptr){
-					lootItems.push_back(weapon);
-				}
+				auto &weapon = createWeapon(randomTemplate, rarityType);
+				lootItems.push_back(weapon);
 			}
-			//potion
+			//consumable
 			else if (type == 2){
-				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.potionRarityMaps.size() - 1);
-				auto &hashmapIterator = engine::objectLibrary.potionRarityMaps.begin();
+				int randomIndex = engine::random.generator->getInt(0, engine::objectLibrary.consumableTemplates.size() - 1);
+				auto &hashmapIterator = engine::objectLibrary.consumableTemplates.begin();
 				std::advance(hashmapIterator, randomIndex);
-				TemplatePotionRarityMap &randomRarityMap = hashmapIterator->second;
-				auto &potion = createPotion(randomRarityMap, rarity);
-				if (potion != nullptr){
-					lootItems.push_back(potion);
-				}
+				TemplateConsumable &randomTemplate = hashmapIterator->second;
+				auto &consumable = createConsumable(randomTemplate, rarityType);
+				lootItems.push_back(consumable);
 			}
 		}
 	}

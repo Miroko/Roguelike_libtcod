@@ -6,13 +6,13 @@
 class AreaDrop
 {
 private:
-	std::vector<std::pair<std::string, std::pair<std::string, float>>> creaturesRarityChance;
+	std::vector<std::pair<std::string, std::pair<std::string, double>>> creaturesRarityChance;
 
 public:
 
 	void drop(Point2D &location, int dropAreaSize, Area &area);
 
-	AreaDrop(std::vector<std::pair<std::string, std::pair<std::string, float>>> creaturesRarityChance) :
+	AreaDrop(std::vector<std::pair<std::string, std::pair<std::string, double>>> creaturesRarityChance) :
 		creaturesRarityChance(creaturesRarityChance){};
 };
 

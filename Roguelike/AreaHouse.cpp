@@ -9,9 +9,9 @@ AreaHouse::AreaHouse(
 	std::string floorId,
 	std::string doorId,
 	AreaDrop &residentDrop,
-	std::vector<std::pair<std::string, float>> furnitureChances) :
-	wall(*engine::objectLibrary.getTile(wallId)),
-	floor(*engine::objectLibrary.getTile(floorId)),
+	std::vector<std::pair<std::string, double>> furnitureChances) :
+	wall(*engine::objectLibrary.tiles[wallId]),
+	floor(*engine::objectLibrary.tiles[floorId]),
 	doorId(doorId),
 	residentDrop(residentDrop),
 	furnitureChances(furnitureChances){

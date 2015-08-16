@@ -4,6 +4,7 @@
 #include "Weapon.h"
 #include "Armor.h"
 #include "GuiFrame.h"
+#include "Gui.h"
 
 void GuiCreature::setCurrentCreature(Creature *creature){
 	currentCreature = creature;
@@ -16,29 +17,29 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 		frame.printString(
 			bounds.start.x, bounds.start.y + offsetY,
 			bounds.getWidth(), 0,
-			currentCreature->rarity.color * Gui::RARITY_COLOR_MULTIPLIER,
+			currentCreature->rarityType->color * Gui::RARITY_COLOR_MULTIPLIER,
 			TCOD_CENTER,
-			currentCreature->rarity.name);
+			currentCreature->rarityType->name);
 		offsetY += 1;
 		frame.printString(
 			bounds.start.x, bounds.start.y + offsetY,
 			bounds.getWidth(), 0,
-			currentCreature->rarity.color * Gui::RARITY_COLOR_MULTIPLIER, 
+			currentCreature->rarityType->color * Gui::RARITY_COLOR_MULTIPLIER, 
 			TCOD_CENTER, 
 			currentCreature->name);
-		//mods
-		for (auto &mod : currentCreature->rarityMods){
+		//affixes
+		for (auto &affix : currentCreature->rarityAffixes){
 			offsetY += 1;
 			frame.printString(
 				bounds.start.x, bounds.start.y + offsetY,
 				bounds.getWidth(), 0,
 				Gui::FRAME_FG,
 				TCOD_CENTER,
-				mod->effect->getDescription());
+				affix->getDescription());
 		}
-		//health
+		//healthCurrent
 		offsetY += 2;
-		float percentage = ((float)currentCreature->health / (float)currentCreature->healthMax);
+		double percentage = ((double)currentCreature->healthCurrent / (double)currentCreature->healthMax);
 		TCODColor healthColor = TCODColor::lerp(HEALTH_MIN_COLOR, HEALTH_MAX_COLOR, percentage);
 		frame.printString(
 			bounds.start.x, bounds.start.y + offsetY,
@@ -51,10 +52,10 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 			bounds.getWidth(), 0,
 			healthColor,
 			TCOD_RIGHT,
-			engine::string.outOf(currentCreature->health, currentCreature->healthMax));
+			engine::string.outOf(currentCreature->healthCurrent, currentCreature->healthMax));
 		//stamina
 		offsetY += 1;
-		percentage = ((float)currentCreature->staminaCurrent / (float)currentCreature->staminaMax);
+		percentage = ((double)currentCreature->staminaCurrent / (double)currentCreature->staminaMax);
 		TCODColor staminaColor = TCODColor::lerp(STAMINA_MIN_COLOR, STAMINA_MAX_COLOR, percentage);
 		frame.printString(
 			bounds.start.x, bounds.start.y + offsetY,
@@ -84,12 +85,12 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 				frame.printString(
 					bounds.start.x, bounds.start.y + offsetY,
 					bounds.getWidth(), 0,
-					item->rarity.color * Gui::RARITY_COLOR_MULTIPLIER,
+					item->rarityType->color * Gui::RARITY_COLOR_MULTIPLIER,
 					TCOD_LEFT,
-					item->name);
+					item->getDescription());
 				if (item->isWeapon()){
 					Weapon *weapon = static_cast<Weapon*>(item);
-					std::string statistics = engine::string.damage(weapon->damage);
+					std::string statistics = engine::string.damage(weapon->getDamage());
 					if (weapon->type == GameObject::WEAPON_RANGED) statistics += " " + engine::string.range(weapon->range);
 					frame.printString(
 						bounds.start.x, bounds.start.y + offsetY,
@@ -97,15 +98,15 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 						Gui::FRAME_FG,
 						TCOD_RIGHT,
 						statistics);
-					//mods
-					for (auto &mod : weapon->rarityMods){
+					//affixes
+					for (auto &affix : weapon->rarityAffixes){
 						offsetY += 1;
 						frame.printString(
 							bounds.start.x + 1, bounds.start.y + offsetY,
 							bounds.getWidth(), 0,
 							Gui::FRAME_FG,
 							TCOD_LEFT,
-							mod->effect->getDescription());
+							affix->getDescription());
 					}
 				}
 			}
@@ -125,23 +126,23 @@ void GuiCreature::renderTo(GuiFrame &frame, Rectangle &bounds){
 				frame.printString(
 					bounds.start.x, bounds.start.y + offsetY,
 					bounds.getWidth(), 0,
-					armor->rarity.color * Gui::RARITY_COLOR_MULTIPLIER,
+					armor->rarityType->color * Gui::RARITY_COLOR_MULTIPLIER,
 					TCOD_LEFT,
-					armor->name);
+					armor->getDescription());
 				frame.printString(
 					bounds.start.x, bounds.start.y + offsetY,
 					bounds.getWidth(), 0,
 					Gui::FRAME_FG,
 					TCOD_RIGHT,
-					engine::string.defence(armor->defence));
-				//mods
-				for (auto &mod : armor->rarityMods){
+					engine::string.defence(armor->getDefence()));
+				//affixes
+				for (auto &affix : armor->rarityAffixes){
 					offsetY += 1;
 					frame.printString(
 						bounds.start.x + 1, bounds.start.y + offsetY,
 						bounds.getWidth(), 0,
 						Gui::FRAME_FG, TCOD_LEFT,
-						mod->effect->getDescription());
+						affix->getDescription());
 				}
 			}
 		}

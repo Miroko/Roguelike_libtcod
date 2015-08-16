@@ -1,22 +1,27 @@
 #include "String.h"
+#include <sstream>
+#include <iomanip>
 
 std::string String::outOf(int current, int max){
 	return "(" + std::to_string(current) + "/" + std::to_string(max) + ")";
 }
 
-std::string String::weight(float weight, bool kg, int precision){
-	std::string value = std::to_string(weight);
-	value = value.substr(0, precision + value.size() - 6);
-	if (kg) value += "kg";
-	return value;
+std::string String::weightKg(double weightKg, bool kg, int precision){
+	std::stringstream stream;
+	stream.precision(precision);
+	stream << std::fixed << weightKg;
+	if (kg){
+		return stream.str() + "kg";
+	}
+	else return stream.str();
 }
 
 std::string String::currency(int amount){
 	return std::to_string(amount) + "c";
 }
 
-std::string String::multiplier(float multiplier){
-	return "x" + weight(multiplier, false);
+std::string String::multiplier(double multiplier){
+	return "x" + weightKg(multiplier, false);
 }
 
 std::string String::damage(int damage){
@@ -35,8 +40,12 @@ std::string String::duration(int duration){
 	return std::to_string(duration) + "t";
 }
 
-std::string String::percentage(float percentage){
-	return weight(percentage, false) + "%%";
+std::string String::percentage(double percentage){
+	double realPercentage = percentage * 100;
+	std::stringstream stream;
+	stream.precision(0);
+	stream << std::fixed << realPercentage;
+	return stream.str() + "%%";
 }
 
 std::string String::loremIpsum(){

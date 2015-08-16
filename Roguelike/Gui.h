@@ -21,8 +21,8 @@ public:
 	static TCODColor SELECTABLE_OPERATION;
 	static TCODColor TRADE_SELECTED;
 	static TCODColor INSPECTION_CURSOR;
-	static float INSPECTION_CURSOR_ALPHA;
-	static float RARITY_COLOR_MULTIPLIER;
+	static double INSPECTION_CURSOR_ALPHA;
+	static double RARITY_COLOR_MULTIPLIER;
 
 	LogFrame log = LogFrame(KEY_LOG, true, 1.0f, 1.0f);
 	InventoryFrame inventory = InventoryFrame(KEY_INVENTORY, false, 1.0f, 1.0f);

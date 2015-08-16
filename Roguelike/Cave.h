@@ -6,12 +6,12 @@ class Cave : public Area
 {
 private:
 	int size;
-	float corridorsPerTile;
+	double corridorsPerTile;
 	int corridorSize;
-	float roomChance; 
-	float roomDropChance;
+	double roomChance; 
+	double roomDropChance;
 	int roomSize;
-	float riverPercentage;
+	double riverPercentage;
 	int portals;
 	AreaDrop &roomDrop;
 	Tile &wall1;
@@ -26,5 +26,5 @@ public:
 	void Area::generate();
 
 	Cave(std::string wall1Id, std::string wall2Id, std::string floor1Id, std::string floor2Id, std::string waterId, std::string portalId, std::string roomWallId, AreaDrop &roomDrop,
-		int size, float corridorsPerTile, int corridorLength, float roomChance, float roomRropChance, int roomSize, float riverPercentage, int portals);
+		int size, double corridorsPerTile, int corridorLength, double roomChance, double roomRropChance, int roomSize, double riverPercentage, int portals);
 };

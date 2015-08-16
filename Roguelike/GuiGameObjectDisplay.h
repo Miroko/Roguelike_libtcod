@@ -3,7 +3,7 @@
 #include "GuiCreature.h"
 #include "GuiArmor.h"
 #include "GuiWeapon.h"
-#include "GuiPotion.h"
+#include "GuiConsumable.h"
 #include "GuiOperable.h"
 #include "GuiTile.h"
 
@@ -14,7 +14,7 @@ private:
 	GuiCreature guiCreature;
 	GuiWeapon guiWeapon;
 	GuiArmor guiArmor;
-	GuiPotion guiPotion;
+	GuiConsumable guiConsumable;
 	GuiOperable guiOperatable;
 	GuiTile guiTile;
 
