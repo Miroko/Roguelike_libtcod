@@ -167,7 +167,7 @@ void TradeFrame::makeTrade(){
 		if (newWeight > engine::carryWeightMax) errorMessage = ERROR_TOO_MUCH_WEIGHT;
 		else{
 			for (auto &item : selectedPlayerItems.items){
-				if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
+				if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(*item)){
 					engine::playerHandler.getPlayerCreature()->inventory.unequip(item);
 				}
 				guiPlayerSelectableItemList.itemContainer->remove(item);
@@ -220,7 +220,7 @@ void TradeFrame::init(Rectangle bounds){
 		else if (selectedPlayerItems.contains(item)){
 			return{ "In trade" };
 		}
-		else if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
+		else if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(*item)){
 			return{ "Equipped" };
 		}
 		else return{ "" };

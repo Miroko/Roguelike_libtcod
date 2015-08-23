@@ -77,7 +77,10 @@ bool Gui::handleKey(TCOD_key_t &key){
 	if (statistics.handleKey(key)) handled = true;
 	if (trade.handleKey(key)) handled = true;
 	if (dialog.handleKey(key)) handled = true;
-	if (attack.handleKey(key)) handled = true;
+
+	if (!handled){
+		if (attack.handleKey(key)) handled = true;
+	}
 	return handled;
 }
 

@@ -16,6 +16,7 @@ public:
 	std::string range(int range);
 	std::string defence(int defence);
 	std::string duration(int duration);
+	std::string durability(int current, int max);
 	std::string percentage(double percentage);
 
 	String(){};

@@ -2,6 +2,7 @@
 #include "Creature.h"
 #include "Armor.h"
 #include "Weapon.h"
+#include "Consumable.h"
 #include "Engine.h"
 
 bool CreatureInventory::equip(std::shared_ptr<Item> item){
@@ -62,19 +63,19 @@ void CreatureInventory::consume(std::shared_ptr<Consumable> consumable){
 	items.remove(consumable);
 }
 void CreatureInventory::drop(std::shared_ptr<Item> item){
-	if (isEquipped(item)){
+	if (isEquipped(*item.get())){
 		if (item->isArmor()) unequipArmor(std::static_pointer_cast<Armor>(item));
 		else if (item->isWeapon()) unholdItem(item);
 	}
 	items.remove(item);
 	engine::areaHandler.getCurrentArea()->placeItem(item, owner->location);
 }
-bool CreatureInventory::isEquipped(std::shared_ptr<Item> item){
+bool CreatureInventory::isEquipped(Item &item){
 	for (auto &limb : owner->limbs){
-		if (limb.currentArmor == item){
+		if (limb.currentArmor.get() == &item){
 			return true;
 		}
-		else if (limb.currentItemInHold == item){
+		else if (limb.currentItemInHold.get() == &item){
 			return true;
 		}
 	}

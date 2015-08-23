@@ -5,47 +5,29 @@
 #include "Weapon.h"
 #include "Armor.h"
 
-void Creature::attack(DynamicObject &target){
-	if (!target.isDead){
-		auto &weapons = inventory.getWeapons();
-
-		double weaponsWeight = 0;
-		for (auto &weapon : weapons){
-			weaponsWeight += weapon->getWeight();
+void Creature::attack(std::vector<std::pair<Weapon*, WeaponAction*>> &weaponActions, DynamicObject &target){
+	double totalStaminaCost = 0;
+	for (auto &weaponAction : weaponActions){
+		double staminaCost =
+			engine::staminaCostPerKgFromAttack *
+			weaponAction.first->getWeight();
+		staminaCost += staminaCost * weaponAction.second->staminaCostModifier;
+		totalStaminaCost += staminaCost;
+	}
+	if (totalStaminaCost <= staminaCurrent){
+		staminaCurrent -= totalStaminaCost;
+		for (auto &weaponAction : weaponActions){
+			weaponAction.second->execute(*this, *weaponAction.first, target);
 		}
-
-		int staminaCost = 
-			(int)(engine::staminaCostPerKgFromAttack * weaponsWeight);
-
-		if (staminaCurrent - staminaCost >= 0){
-			staminaCurrent -= staminaCost;
-			for (auto &weapon : weapons){
-				if (weapon->type == GameObject::WEAPON_MELEE){
-					engine::gui.log.addToMessage(name + " attacks " + target.name + " with " + weapon->name + ". ");
-				}
-				else if (weapon->type == GameObject::WEAPON_RANGED){
-					engine::gui.log.addToMessage(name + " shoots " + target.name + " with " + weapon->name + ". ");
-				}
-				double accuracy =
-					1.0f -
-					((inventory.getTotalEquippedWeight() + weapon->getWeight()) / engine::carryWeightMax) /
-					weapons.size();
-				if (engine::random.chance(accuracy)){
-					target.onTakeDamage(*this, weapon->getDamage());
-				}
-				else{
-					engine::gui.log.finishMessage(name + " missed.");
-				}
-			}
-			waitedLastTurn = false;
-		}
-		else{
-			engine::gui.log.finishMessage(name + " is too exhausted to attack.");
-			waitedLastTurn = true;
-		}
+		waitedLastTurn = false;
+	}
+	else{
+		engine::gui.log.addMessage(name + " is too exhausted to attack.");
+		waitedLastTurn = true;
 	}
 }
-void Creature::onTakeDamage(DynamicObject &attacker, int amount){
+
+void Creature::onTakeDamage(DynamicObject &attacker, double amount){
 	int amountAfterDefence = amount;
 	auto &creatureLimb = limbs.at(engine::random.generator->getInt(0, limbs.size() - 1));
 	if (engine::random.chance(creatureLimb.hitChance)){
@@ -54,6 +36,14 @@ void Creature::onTakeDamage(DynamicObject &attacker, int amount){
 			int armorDefence = creatureLimb.currentArmor->getDefence();
 			amountAfterDefence -= engine::random.generator->getInt(0, armorDefence, armorDefence);
 			if (amountAfterDefence < 0) amountAfterDefence = 0;
+
+			if (!creatureLimb.currentArmor->isBroken()){
+				double durabilityCost = engine::durabilityBaseCost;
+				creatureLimb.currentArmor->durabilityHit(durabilityCost);
+				if (creatureLimb.currentArmor->isBroken()){
+					engine::gui.log.addMessage(creatureLimb.currentArmor->name + " has broken.");
+				}
+			}
 		}
 		engine::gui.log.addToMessage(creatureLimb.name + " is hit. ");
 		//stamina cost from damage
@@ -62,7 +52,7 @@ void Creature::onTakeDamage(DynamicObject &attacker, int amount){
 		DynamicObject::onTakeDamage(attacker, amountAfterDefence);
 	}
 	else{
-		engine::gui.log.finishMessage(attacker.name + " missed.");
+		engine::gui.log.finishMessage(name + " evades.");
 	}
 	ai->onTakeDamage(attacker);
 }
@@ -90,7 +80,7 @@ bool Creature::move(Point2D &location){
 }
 void Creature::onMove(){
 	DynamicObject::onMove();
-	//on successfull move decrease stamina
+	//on successful move decrease stamina
 	int staminaCost = (int)(engine::staminaCostPerKgFromMove * inventory.getTotalWeight());
 	staminaCurrent -= staminaCost;
 	waitedLastTurn = false;

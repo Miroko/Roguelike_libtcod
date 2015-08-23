@@ -1,4 +1,5 @@
 #include "InventoryFrame.h"
+#include "Consumable.h"
 #include "Engine.h"
 #include "String.h"
 
@@ -56,7 +57,7 @@ void InventoryFrame::init(Rectangle bounds){
 			//update item in display
 			guiGameObjectDisplay.setDisplayedObject(item.get());
 		}
-		if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
+		if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(*item)){
 			if (selected){			
 				if (item->isWeapon() || item->isArmor()) return EQUIPMENT_UNEQUIP_OPERATIONS;
 				else if (item->isConsumable()) return CONSUMABLE_OPERATIONS;

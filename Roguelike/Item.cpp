@@ -16,7 +16,7 @@ std::string Item::getDescription(){
 }
 
 std::string Item::getStatistics(){
-	return engine::string.currency(getValue()) + " " + engine::string.weightKg(weightKg);
+	return engine::string.weightKg(weightKg) + " " + engine::string.currency(getValue());
 }
 
 int Item::getValue(){

@@ -37,6 +37,15 @@ namespace engine{
 	//weight
 	extern double carryWeightMax;
 
+	//accuracy
+	extern double accuracyBasePercentage;
+
+	//durability
+	extern double durabilityMax;
+	extern double durabilityBaseCost;
+	extern double durabilityMaxEffectOnDamagePercentage;
+	extern double durabilityMaxEffectOnDefencePercentage;
+
 	//stamina
 	extern double staminaMax;
 	extern double staminaBaseRegen;

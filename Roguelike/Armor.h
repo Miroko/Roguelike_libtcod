@@ -1,7 +1,7 @@
 #pragma once
-#include "Item.h"
+#include "Equipment.h"
 
-class Armor : public Item
+class Armor : public Equipment
 {
 private:
 	int defence;
@@ -13,8 +13,8 @@ public:
 	int getValue();
 	int getDefence();
 
-	Armor(Item item, int limbsRequiredToEquip, int defence) :
-		Item(item),
+	Armor(Equipment equipment, int limbsRequiredToEquip, int defence) :
+		Equipment(equipment),
 		defence(defence),
 		limbsRequiredToEquip(limbsRequiredToEquip){};
 };

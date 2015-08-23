@@ -27,6 +27,15 @@ double engine::defenceMax;
 //weight
 double engine::carryWeightMax;
 
+//accuracy
+double engine::accuracyBasePercentage;
+
+//durability
+double engine::durabilityMax;
+double engine::durabilityBaseCost;
+double engine::durabilityMaxEffectOnDamagePercentage;
+double engine::durabilityMaxEffectOnDefencePercentage;
+
 //stamina
 double engine::staminaMax;
 double engine::staminaBaseRegen;
@@ -64,7 +73,16 @@ void engine::init(){
 	defenceMax = healthMax / 25; // 40
 
 	//weight
-	carryWeightMax = 50.0f; // 50
+	carryWeightMax = 50.0; // 50
+
+	//accuracy
+	accuracyBasePercentage = 1.0;
+
+	//durability
+	durabilityMax = 1000;
+	durabilityBaseCost = 1;
+	durabilityMaxEffectOnDamagePercentage = 0.90;
+	durabilityMaxEffectOnDefencePercentage = 0.90;
 
 	//stamina
 	staminaMax = 1000; // 1000
@@ -72,20 +90,20 @@ void engine::init(){
 	staminaBaseWaitRegen = staminaBaseRegen * 2; // 40
 	staminaCostPerKgFromMove = (staminaBaseRegen * 2) / carryWeightMax; //stamina regen per turn == | -20 when carrying 50kg | +20 when carrying 0kg |
 	staminaCostPerKgFromAttack = staminaMax / carryWeightMax / 2; // 10 per kg == cost 500 when weapon weight == 50kg
-	staminaCostFromDamageRation = 0.7f;
+	staminaCostFromDamageRation = 0.7;
 
 	//value
 	valueBase = 300;
 	valuePerKg = valueBase / carryWeightMax;
-	valuePerStamina = valueBase / staminaMax / 2.5f;
+	valuePerStamina = valueBase / staminaMax / 2.5;
 	valuePerHealth = valueBase / healthMax;
-	valuePerDamage = valueBase / damageMax / 2.0f;
-	valuePerDefence = valueBase / defenceMax / 1.5f;
+	valuePerDamage = valueBase / damageMax / 2.0;
+	valuePerDefence = valueBase / defenceMax / 1.5;
 
 	//loot
-	statisticVariation = 0.20f;
-	lootRarityFromCreatureRarityRatio = 0.80f;
-	lootRollDropChance = 0.30f;
+	statisticVariation = 0.20;
+	lootRarityFromCreatureRarityRatio = 0.80;
+	lootRollDropChance = 0.30;
 	lootDropRolls = 6;
 
 	objectLibrary.init();

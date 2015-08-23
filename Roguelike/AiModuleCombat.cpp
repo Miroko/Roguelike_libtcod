@@ -3,19 +3,22 @@
 #include "Creature.h"
 #include "Weapon.h"
 #include "Engine.h"
+#include <vector>
 
 void AiModuleCombat::pursueAndAttack(DynamicObject &target){
-	if (owner->inFov(target.location)){
-		owner->calculatePath(target.location);	
-		if (target.location.distance(owner->owner->location) <= owner->owner->inventory.getWeapons().at(0)->range){
-			owner->owner->attack(target);
+	if (!target.isDead){
+		if (owner->inFov(target.location)){
+			owner->calculatePath(target.location);
+			if (target.location.distance(owner->owner->location) <= owner->owner->inventory.getWeapons().at(0)->range){
+				owner->owner->attack(owner->getBestWeaponActions(target), target);
+			}
+			else{
+				owner->moveOnPath();
+			}
 		}
 		else{
 			owner->moveOnPath();
 		}
-	}	
-	else{
-		owner->moveOnPath();
 	}
 }
 void AiModuleCombat::flee(){

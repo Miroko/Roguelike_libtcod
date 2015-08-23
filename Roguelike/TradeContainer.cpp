@@ -1,6 +1,7 @@
 #include "TradeContainer.h"
 #include "Armor.h"
 #include "Weapon.h"
+#include "Consumable.h"
 #include "Engine.h"
 
 TradeContainer TradeContainer::EMPTY = TradeContainer(0, 0, 0, 0);

@@ -1,7 +1,8 @@
 #pragma once
-#include "Item.h"
+#include "Equipment.h"
 
-class Weapon : public Item
+class WeaponAction;
+class Weapon : public Equipment
 {
 private:
 	int damage;
@@ -9,13 +10,16 @@ private:
 public:
 	int range;
 
+	std::vector<WeaponAction*> actions;
+
 	std::string getStatistics();
 	int getValue();
 	int getDamage();
 
-	Weapon(Item item, int damage, int range) :
-		Item(item),
+	Weapon(Equipment equipment, int damage, int range, std::vector<WeaponAction*> actions) :
+		Equipment(equipment),
 		damage(damage),
-		range(range){};
+		range(range),
+		actions(actions){};
 };
 

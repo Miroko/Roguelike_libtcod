@@ -5,6 +5,7 @@
 #include "CreatureAi.h"
 #include "CreatureLimb.h"
 #include "RarityMod.h"
+#include "WeaponAction.h"
 
 class Creature : public DynamicObject, public RarityMod
 {
@@ -20,8 +21,8 @@ public:
 	std::vector<CreatureLimb> limbs;
 	std::vector<std::shared_ptr<CreatureEffect>> effects;
 
-	void attack(DynamicObject &target);
-	void onTakeDamage(DynamicObject &attacker, int amount);
+	void attack(std::vector<std::pair<Weapon*, WeaponAction*>> &weaponActions, DynamicObject &target);
+	void onTakeDamage(DynamicObject &attacker, double amount);
 	void onDeath();
 	void addEffect(std::shared_ptr<CreatureEffect> effect);
 	bool move(Point2D &location);

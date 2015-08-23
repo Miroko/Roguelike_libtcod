@@ -25,7 +25,7 @@ std::string String::multiplier(double multiplier){
 }
 
 std::string String::damage(int damage){
-	return std::to_string(damage) + "d";
+	return std::to_string(damage) + "dm";
 }
 
 std::string String::range(int range){
@@ -38,6 +38,10 @@ std::string String::defence(int defence){
 
 std::string String::duration(int duration){
 	return std::to_string(duration) + "t";
+}
+
+std::string String::durability(int current, int max){
+	return outOf(current, max) + "dr";
 }
 
 std::string String::percentage(double percentage){

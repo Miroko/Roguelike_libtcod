@@ -1,5 +1,6 @@
 #include "CreatureAi.h"
 #include "Area.h"
+#include "Weapon.h"
 
 void CreatureAi::createFovMap(){
 	Rectangle fovBounds = area->getBounds();
@@ -85,6 +86,13 @@ int CreatureAi::moveOnPath(){
 		++currentPathIndex;
 	}
 	return distance;
+}
+std::vector<std::pair<Weapon*, WeaponAction*>> CreatureAi::getBestWeaponActions(DynamicObject &against){
+	std::vector<std::pair<Weapon*, WeaponAction*>> bestActions;
+	for (auto &weapon : owner->inventory.getWeapons()){
+		bestActions.push_back(std::make_pair(weapon, weapon->actions.at(0)));
+	}
+	return bestActions;
 }
 void CreatureAi::onTakeDamage(DynamicObject &attacker){
 	

@@ -12,6 +12,14 @@ void ItemContainer::removeAll(){
 	items.clear();
 }
 
+std::shared_ptr<Item> ItemContainer::get(Item &item){
+	for (auto &itemInContainer : items){
+		if (itemInContainer.get() == &item){
+			return itemInContainer;
+		}
+	}
+}
+
 std::shared_ptr<Item> ItemContainer::getAt(int index){
 	auto &iterator = items.begin();
 	std::advance(iterator, index);

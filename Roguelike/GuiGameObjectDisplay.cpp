@@ -5,6 +5,7 @@
 #include "Creature.h"
 #include "Tile.h"
 #include "Consumable.h"
+#include "OperatableObject.h"
 
 void GuiGameObjectDisplay::setDisplayedObject(GameObject *object){
 	clear();

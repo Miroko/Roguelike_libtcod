@@ -23,15 +23,13 @@ bool AttackFrame::handleKey(TCOD_key_t key){
 				handled = true;
 			}
 			else if (direction == CENTER){
-				engine::playerHandler.getPlayerCreature()->attack(*attackableObjects.at(selectedObjectIndex));
+				engine::playerHandler.getPlayerCreature()->attack(
+					engine::playerHandler.getPlayerCreature()->ai->getBestWeaponActions(*attackableObjects.at(selectedObjectIndex)),
+					*attackableObjects.at(selectedObjectIndex));
 				previouslyAttacked = attackableObjects.at(selectedObjectIndex);
 				engine::requestUpdate = true;
 				handled = true;
 			}
-		}
-		if (!handled){
-			handled = true;
-			close();
 		}
 	}
 	return handled;

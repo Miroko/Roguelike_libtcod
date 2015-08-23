@@ -56,7 +56,7 @@ double RaritySystem::getRarityRoll(Creature *fromCreature){
 	double rarityFromCreature = 0;
 	if (fromCreature != nullptr){
 		rarityFromCreature = 
-			engine::random.generator->getFloat(0, (1.0 - fromCreature->rarityType->prevalence)) *
+			engine::random.generator->getDouble(0, (1.0 - fromCreature->rarityType->prevalence)) *
 			engine::lootRarityFromCreatureRarityRatio;
 	}
 	double rarityRoll = engine::random.generator->getFloat(rarityFromCreature, 1.0);

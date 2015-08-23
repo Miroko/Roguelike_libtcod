@@ -13,6 +13,7 @@ public:
 	void removeAll();
 	bool contains(std::shared_ptr<Item> item);
 
+	std::shared_ptr<Item> get(Item &item);
 	std::shared_ptr<Item> getAt(int index);
 
 	void sort();

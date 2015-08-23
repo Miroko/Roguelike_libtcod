@@ -33,7 +33,7 @@ public:
 	StatisticsFrame statistics = StatisticsFrame(KEY_STATISTICS, true, 1.0f, 1.0f);
 	DialogFrame dialog = DialogFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
 	TradeFrame trade = TradeFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
-	AttackFrame attack = AttackFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
+	AttackFrame attack = AttackFrame(KEY_ATTACK, false, 1.0f, 1.0f);
 
 	void init();
 	

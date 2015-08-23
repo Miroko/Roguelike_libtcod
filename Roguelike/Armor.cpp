@@ -1,9 +1,10 @@
 #include "Armor.h"
 #include "RarityAffixArmor.h"
 #include "Engine.h"
+#include <algorithm>
 
 std::string Armor::getStatistics(){
-	return engine::string.defence(getDefence()) + " " + Item::getStatistics();
+	return engine::string.defence(getDefence()) + " " + Equipment::getStatistics();
 }
 
 int Armor::getValue(){
@@ -18,5 +19,8 @@ int Armor::getDefence(){
 		RarityAffixArmor *armorAffix = static_cast<RarityAffixArmor*>(affix);
 		totalDefence += defence * armorAffix->getDefenceMultiplier();
 	}
+	totalDefence = 
+		totalDefence * 
+		(std::max(durabilityCurrent, durabilityMax * (1.0 - engine::durabilityMaxEffectOnDefencePercentage)) / durabilityMax);
 	return (int)defence;
 }

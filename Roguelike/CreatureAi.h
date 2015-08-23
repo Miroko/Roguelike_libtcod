@@ -1,38 +1,49 @@
 #pragma once
 #include "libtcod.hpp"
 #include "Point2D.h"
-#include "OperatableObject.h"
 #include <memory>
+#include <vector>
 
 class Area;
 class Creature;
+class Weapon;
+class WeaponAction;
+class DynamicObject;
+class OperatableObject;
 class CreatureAi
 {
 public:
-	std::shared_ptr<TCODMap> fovMap;
-	void createFovMap();
-	void calculateFov();
+	class PathCostCallback : public ITCODPathCallback{
+		public: float getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const;
+	};
 
+	Creature *owner;
+
+	Area *area;
+	std::shared_ptr<TCODMap> fovMap;
+	std::shared_ptr<TCODPath> pathMap;
+
+	Point2D targetLocation;
 	bool cheapPathCalculation;
 	int currentPathIndex;
-	std::shared_ptr<TCODPath> pathMap;
-	class PathCostCallback : public ITCODPathCallback{ public: float getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const; };
+
+	void createFovMap();
+	void calculateFov();
+	bool inFov(Point2D &location);
+
 	void createPathMap();
 	void calculatePath(Point2D &location, bool cheap = true);
-	Point2D targetLocation;
-
 	virtual void onTakeDamage(DynamicObject &attacker);
 	virtual void onCreatureInFov(Creature &creature, int distance);
 	virtual void onOperatableInFov(OperatableObject &operatable, int distance);
 	virtual void nextToDestination(Point2D &location);
 	virtual void onPathBlocked(Point2D &location);
 	virtual void onPathEnd(Point2D &location);
-
-	Creature *owner;
-	Area *area;
 	//Returns path distance to destination
 	int moveOnPath();
-	bool inFov(Point2D &location);
+
+	std::vector<std::pair<Weapon*, WeaponAction*>> getBestWeaponActions(DynamicObject &against);
+
 	virtual void initAi(Creature &owner, Area &area);
 	virtual void update();
 	

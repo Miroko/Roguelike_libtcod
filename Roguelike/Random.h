@@ -15,6 +15,7 @@ public:
 	Point2D point(Rectangle &inBounds);
 	Point2D direction();
 	bool chance(double min);
+	double variation(double value, double variation);
 
 	void init();
 	void useStatic();

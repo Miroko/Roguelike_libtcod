@@ -18,7 +18,7 @@ public:
 	virtual void onMove();
 	void kill();
 	virtual bool passable(DynamicObject &dynamicObject);
-	virtual void onTakeDamage(DynamicObject &attacker, int amount);
+	virtual void onTakeDamage(DynamicObject &attacker, double amount);
 	virtual void onTakeDamageEffect();
 	virtual void onDeath();
 	virtual void messageDeath();

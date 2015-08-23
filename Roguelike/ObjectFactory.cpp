@@ -2,6 +2,7 @@
 #include "Weapon.h"
 #include "Door.h"
 #include "Armor.h"
+#include "Consumable.h"
 #include "Engine.h"
 
 std::shared_ptr<Creature> ObjectFactory::createCreature(std::string id, std::string rarity){
@@ -72,18 +73,30 @@ std::shared_ptr<Weapon> ObjectFactory::createWeapon(TemplateWeapon &weaponTempla
 		(int)(engine::damageMax *
 		weaponTemplate.damageFromMax *
 		rarityType.improvementMultiplier *
-		engine::random.generator->getFloat(1.0f - engine::statisticVariation, 1.0f));
+		engine::random.variation(1.0, engine::statisticVariation));
+
+	std::vector<WeaponAction*> actions;
+	for (auto &actionId : weaponTemplate.actions){
+		actions.push_back(engine::objectLibrary.weaponActions[actionId].get());
+	}
+
+	double durability = 
+		engine::durabilityMax * 
+		weaponTemplate.durabilityFromMax *
+		engine::random.variation(1.0, engine::statisticVariation);
 
 	std::shared_ptr<Weapon> weapon = std::shared_ptr<Weapon>(new Weapon(
-		Item(engine::raritySystem.getWeaponMod(rarityType),
+		Equipment(Item(engine::raritySystem.getWeaponMod(rarityType),
 		GameObject(
 		weaponTemplate.name,
 		weaponTemplate.type,
 		weaponTemplate.glyph),
 		weaponTemplate.weightKg,
 		weaponTemplate.limbsRequiredToHold),
+		durability),
 		damage,
-		weaponTemplate.range
+		weaponTemplate.range,
+		actions
 		));
 
 	//rarity color
@@ -96,16 +109,22 @@ std::shared_ptr<Armor> ObjectFactory::createArmor(TemplateArmor &armorTemplate, 
 		(int)(engine::defenceMax *
 		armorTemplate.defenceFromMax *
 		rarityType.improvementMultiplier *
-		engine::random.generator->getFloat(1.0f - engine::statisticVariation, 1.0f));
+		engine::random.variation(1.0, engine::statisticVariation));
+
+	double durability =
+		engine::durabilityMax *
+		armorTemplate.durabilityFromMax *
+		engine::random.variation(1.0, engine::statisticVariation);
 
 	std::shared_ptr<Armor> armor = std::shared_ptr<Armor>(new Armor(
-		Item(engine::raritySystem.getArmorMod(rarityType),
+		Equipment(Item(engine::raritySystem.getArmorMod(rarityType),
 		GameObject(
 		armorTemplate.name,
 		armorTemplate.type,
 		armorTemplate.glyph),
 		armorTemplate.weightKg,
 		armorTemplate.limbsRequiredToHold),
+		durability),
 		armorTemplate.limbsRequiredToEquip,
 		defence
 		));

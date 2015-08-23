@@ -23,6 +23,10 @@ bool Random::chance(double min){
 	else return generator->getFloat(0.0f, 1.0f) < min;
 }
 
+double Random::variation(double value, double variation){
+	return generator->getDouble(value - variation, value);
+}
+
 void Random::useStatic(){
 	//Save random state
 	randomState.reset(generator->save());

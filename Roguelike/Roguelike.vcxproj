@@ -27,6 +27,7 @@
     <ClCompile Include="Bed.cpp" />
     <ClCompile Include="ConsumableAffixHealthRegenerate.cpp" />
     <ClCompile Include="ConsumableAffixStaminaRegenerate.cpp" />
+    <ClCompile Include="CreatureAction.cpp" />
     <ClCompile Include="CreatureAi.cpp" />
     <ClCompile Include="CreatureEffect.cpp" />
     <ClCompile Include="CreatureLimb.cpp" />
@@ -49,6 +50,7 @@
     <ClCompile Include="EffectSparkles.cpp" />
     <ClCompile Include="EffectStaminaRegeneration.cpp" />
     <ClCompile Include="EffectWaterSplash.cpp" />
+    <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="Forge.cpp" />
     <ClCompile Include="GuiArmor.cpp" />
     <ClCompile Include="GuiBox.cpp" />
@@ -124,6 +126,7 @@
     <ClCompile Include="VisualEffectHandler.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponAction.cpp" />
     <ClCompile Include="WeaponAffixDamageIncrease.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +146,7 @@
     <ClInclude Include="Bed.h" />
     <ClInclude Include="ConsumableAffixHealthRegenerate.h" />
     <ClInclude Include="ConsumableAffixStaminaRegenerate.h" />
+    <ClInclude Include="CreatureAction.h" />
     <ClInclude Include="CreatureAi.h" />
     <ClInclude Include="CreatureEffect.h" />
     <ClInclude Include="CreatureLimb.h" />
@@ -165,6 +169,7 @@
     <ClInclude Include="EffectSparkles.h" />
     <ClInclude Include="EffectStaminaRegeneration.h" />
     <ClInclude Include="EffectWaterSplash.h" />
+    <ClInclude Include="Equipment.h" />
     <ClInclude Include="Forge.h" />
     <ClInclude Include="GuiArmor.h" />
     <ClInclude Include="GuiBox.h" />
@@ -239,6 +244,7 @@
     <ClInclude Include="VisualEffectHandler.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponAction.h" />
     <ClInclude Include="WeaponAffixDamageIncrease.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

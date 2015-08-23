@@ -1,10 +1,11 @@
 #pragma once
 #include "ItemContainer.h"
-#include "Consumable.h"
 
 class Creature;
 class Weapon;
 class Armor;
+class Consumable;
+class WeaponAction;
 class CreatureInventory
 {
 public:
@@ -20,7 +21,7 @@ public:
 	void unequipArmor(std::shared_ptr<Armor> armor);
 	void consume(std::shared_ptr<Consumable> consumable);
 	void drop(std::shared_ptr<Item> item);
-	bool isEquipped(std::shared_ptr<Item> item);
+	bool isEquipped(Item &item);
 	std::vector<Item*> getHoldingItems();
 	std::vector<Weapon*> getWeapons();
 	std::vector<Armor*> getArmors();

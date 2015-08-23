@@ -174,7 +174,7 @@ private:
 				"cave_wall_stone1",
 				"cave_wall_stone2",
 				"cave_floor_stone1",
-				"cave_floor_stone1",
+				"cave_floor_stone2",
 				"cave_water",
 				"cave_portal",
 				"cave_wall_wood",
