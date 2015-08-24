@@ -1,6 +1,5 @@
 #include "Engine.h"
 #include "QuestTheGoblinKing.h"
-#include "AiNone.h"
 
 String engine::string;
 Random engine::random;
@@ -25,7 +24,8 @@ double engine::damageMax;
 double engine::defenceMax;
 
 //weight
-double engine::carryWeightMax;
+double engine::weightCarryMax;
+double engine::weightDamagePerKg;
 
 //accuracy
 double engine::accuracyBasePercentage;
@@ -67,34 +67,35 @@ void engine::init(){
 	healthMax = 1000; // 1000
 
 	//damage
-	damageMax = healthMax / 25; // 40
+	damageMax = healthMax / 10;
 
 	//defence
-	defenceMax = healthMax / 25; // 40
+	defenceMax = healthMax / 20; // 40
 
 	//weight
-	carryWeightMax = 50.0; // 50
+	weightCarryMax = 50.0; // 50
+	weightDamagePerKg = (damageMax / weightCarryMax) * 0.25;
 
 	//accuracy
 	accuracyBasePercentage = 1.0;
 
 	//durability
-	durabilityMax = 1000;
+	durabilityMax = 300;
 	durabilityBaseCost = 1;
 	durabilityMaxEffectOnDamagePercentage = 0.90;
 	durabilityMaxEffectOnDefencePercentage = 0.90;
 
 	//stamina
 	staminaMax = 1000; // 1000
-	staminaBaseRegen = staminaMax / carryWeightMax; // 20
+	staminaBaseRegen = staminaMax / weightCarryMax; // 20
 	staminaBaseWaitRegen = staminaBaseRegen * 2; // 40
-	staminaCostPerKgFromMove = (staminaBaseRegen * 2) / carryWeightMax; //stamina regen per turn == | -20 when carrying 50kg | +20 when carrying 0kg |
-	staminaCostPerKgFromAttack = staminaMax / carryWeightMax / 2; // 10 per kg == cost 500 when weapon weight == 50kg
+	staminaCostPerKgFromMove = (staminaBaseRegen * 2) / weightCarryMax; //stamina regen per turn == | -20 when carrying 50kg | +20 when carrying 0kg |
+	staminaCostPerKgFromAttack = (staminaMax / weightCarryMax) / 4;
 	staminaCostFromDamageRation = 0.7;
 
 	//value
 	valueBase = 300;
-	valuePerKg = valueBase / carryWeightMax;
+	valuePerKg = valueBase / weightCarryMax;
 	valuePerStamina = valueBase / staminaMax / 2.5;
 	valuePerHealth = valueBase / healthMax;
 	valuePerDamage = valueBase / damageMax / 2.0;
@@ -102,7 +103,7 @@ void engine::init(){
 
 	//loot
 	statisticVariation = 0.20;
-	lootRarityFromCreatureRarityRatio = 0.80;
+	lootRarityFromCreatureRarityRatio = 1.50;
 	lootRollDropChance = 0.30;
 	lootDropRolls = 6;
 

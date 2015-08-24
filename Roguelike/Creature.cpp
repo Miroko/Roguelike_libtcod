@@ -6,25 +6,14 @@
 #include "Armor.h"
 
 void Creature::attack(std::vector<std::pair<Weapon*, WeaponAction*>> &weaponActions, DynamicObject &target){
-	double totalStaminaCost = 0;
+	bool executedAction = false;
 	for (auto &weaponAction : weaponActions){
-		double staminaCost =
-			engine::staminaCostPerKgFromAttack *
-			weaponAction.first->getWeight();
-		staminaCost += staminaCost * weaponAction.second->staminaCostModifier;
-		totalStaminaCost += staminaCost;
-	}
-	if (totalStaminaCost <= staminaCurrent){
-		staminaCurrent -= totalStaminaCost;
-		for (auto &weaponAction : weaponActions){
-			weaponAction.second->execute(*this, *weaponAction.first, target);
+		if (weaponAction.second->execute(*this, *weaponAction.first, target)){
+			executedAction = true;
 		}
-		waitedLastTurn = false;
 	}
-	else{
-		engine::gui.log.addMessage(name + " is too exhausted to attack.");
-		waitedLastTurn = true;
-	}
+	if (executedAction) waitedLastTurn = false;
+	else waitedLastTurn = true;
 }
 
 void Creature::onTakeDamage(DynamicObject &attacker, double amount){

@@ -1,14 +1,14 @@
 #pragma once
 #include "RarityAffixWeapon.h"
 
-class WeaponAffixDamageIncrease : public RarityAffixWeapon
+class WeaponAffixDamage : public RarityAffixWeapon
 {
 public:
 	double percentage;
-	double getDamageMultiplier(){ return 1.0f + percentage; }
+	double getDamageModifier(){ return percentage; }
 	std::string RarityAffixWeapon::getDescription();
 
-	WeaponAffixDamageIncrease(std::string name, double percentage) :
+	WeaponAffixDamage(std::string name, double percentage) :
 		RarityAffixWeapon(name),
 		percentage(percentage){}
 };

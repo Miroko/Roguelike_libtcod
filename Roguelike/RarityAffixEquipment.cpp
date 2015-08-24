@@ -1,0 +1,2 @@
+#include "RarityAffixEquipment.h"
+

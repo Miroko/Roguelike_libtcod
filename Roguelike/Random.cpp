@@ -18,9 +18,9 @@ void Random::useRandom(){
 }
 
 bool Random::chance(double min){
-	if (min == 0.0f) return false;
-	else if (min == 1.0f) return true;
-	else return generator->getFloat(0.0f, 1.0f) < min;
+	if (min <= 0.0) return false;
+	else if (min >= 1.0) return true;
+	else return generator->getDouble(0.0, 1.0) < min;
 }
 
 double Random::variation(double value, double variation){

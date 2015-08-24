@@ -48,7 +48,7 @@ std::string String::percentage(double percentage){
 	double realPercentage = percentage * 100;
 	std::stringstream stream;
 	stream.precision(0);
-	stream << std::fixed << realPercentage;
+	stream << std::fixed << std::showpos << realPercentage;
 	return stream.str() + "%%";
 }
 

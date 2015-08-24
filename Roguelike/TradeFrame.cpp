@@ -164,7 +164,7 @@ void TradeFrame::makeTrade(){
 		double newWeight = engine::playerHandler.getPlayerCreature()->inventory.getTotalWeight();
 		for (auto &item : selectedPlayerItems.items){ newWeight -= item->getWeight(); }
 		for (auto &item : selectedTraderItems.items){ newWeight += item->getWeight(); }
-		if (newWeight > engine::carryWeightMax) errorMessage = ERROR_TOO_MUCH_WEIGHT;
+		if (newWeight > engine::weightCarryMax) errorMessage = ERROR_TOO_MUCH_WEIGHT;
 		else{
 			for (auto &item : selectedPlayerItems.items){
 				if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(*item)){

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Accessory.cpp" />
     <ClCompile Include="AiAlchemist.cpp" />
     <ClCompile Include="AiBlacksmith.cpp" />
     <ClCompile Include="AiModule.cpp" />
@@ -23,7 +24,7 @@
     <ClCompile Include="AreaHouse.cpp" />
     <ClCompile Include="AreaPath.cpp" />
     <ClCompile Include="AreaTreeSpot.cpp" />
-    <ClCompile Include="ArmorAffixDefenceIncrease.cpp" />
+    <ClCompile Include="ArmorAffixDefence.cpp" />
     <ClCompile Include="Bed.cpp" />
     <ClCompile Include="ConsumableAffixHealthRegenerate.cpp" />
     <ClCompile Include="ConsumableAffixStaminaRegenerate.cpp" />
@@ -51,6 +52,7 @@
     <ClCompile Include="EffectStaminaRegeneration.cpp" />
     <ClCompile Include="EffectWaterSplash.cpp" />
     <ClCompile Include="Equipment.cpp" />
+    <ClCompile Include="EquipmentAffixDurability.cpp" />
     <ClCompile Include="Forge.cpp" />
     <ClCompile Include="GuiArmor.cpp" />
     <ClCompile Include="GuiBox.cpp" />
@@ -62,6 +64,7 @@
     <ClCompile Include="GuiSelectableItemList.cpp" />
     <ClCompile Include="GuiTile.cpp" />
     <ClCompile Include="GuiWeapon.cpp" />
+    <ClCompile Include="ItemAffixWeight.cpp" />
     <ClCompile Include="ItemContainer.cpp" />
     <ClCompile Include="AiMonster.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
@@ -76,9 +79,12 @@
     <ClCompile Include="ObjectLibrary.cpp" />
     <ClCompile Include="OperatableObject.cpp" />
     <ClCompile Include="RarityAffix.cpp" />
+    <ClCompile Include="RarityAffixAccessory.cpp" />
     <ClCompile Include="RarityAffixArmor.cpp" />
     <ClCompile Include="RarityAffixConsumable.cpp" />
     <ClCompile Include="RarityAffixCreature.cpp" />
+    <ClCompile Include="RarityAffixEquipment.cpp" />
+    <ClCompile Include="RarityAffixItem.cpp" />
     <ClCompile Include="RarityAffixWeapon.cpp" />
     <ClCompile Include="RarityMod.cpp" />
     <ClCompile Include="RaritySystem.cpp" />
@@ -127,9 +133,12 @@
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponAction.cpp" />
-    <ClCompile Include="WeaponAffixDamageIncrease.cpp" />
+    <ClCompile Include="WeaponAffixAccuracy.cpp" />
+    <ClCompile Include="WeaponAffixDamage.cpp" />
+    <ClCompile Include="WeaponAffixStamina.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Accessory.h" />
     <ClInclude Include="AiAlchemist.h" />
     <ClInclude Include="AiBlacksmith.h" />
     <ClInclude Include="AiModule.h" />
@@ -142,7 +151,7 @@
     <ClInclude Include="AreaHouse.h" />
     <ClInclude Include="AreaPath.h" />
     <ClInclude Include="AreaTreeSpot.h" />
-    <ClInclude Include="ArmorAffixDefenceIncrease.h" />
+    <ClInclude Include="ArmorAffixDefence.h" />
     <ClInclude Include="Bed.h" />
     <ClInclude Include="ConsumableAffixHealthRegenerate.h" />
     <ClInclude Include="ConsumableAffixStaminaRegenerate.h" />
@@ -170,6 +179,7 @@
     <ClInclude Include="EffectStaminaRegeneration.h" />
     <ClInclude Include="EffectWaterSplash.h" />
     <ClInclude Include="Equipment.h" />
+    <ClInclude Include="EquipmentAffixDurability.h" />
     <ClInclude Include="Forge.h" />
     <ClInclude Include="GuiArmor.h" />
     <ClInclude Include="GuiBox.h" />
@@ -181,6 +191,7 @@
     <ClInclude Include="GuiSelectableItemList.h" />
     <ClInclude Include="GuiTile.h" />
     <ClInclude Include="GuiWeapon.h" />
+    <ClInclude Include="ItemAffixWeight.h" />
     <ClInclude Include="ItemContainer.h" />
     <ClInclude Include="AiMonster.h" />
     <ClInclude Include="ObjectFactory.h" />
@@ -195,9 +206,12 @@
     <ClInclude Include="ObjectLibrary.h" />
     <ClInclude Include="OperatableObject.h" />
     <ClInclude Include="RarityAffix.h" />
+    <ClInclude Include="RarityAffixAccessory.h" />
     <ClInclude Include="RarityAffixArmor.h" />
     <ClInclude Include="RarityAffixConsumable.h" />
     <ClInclude Include="RarityAffixCreature.h" />
+    <ClInclude Include="RarityAffixEquipment.h" />
+    <ClInclude Include="RarityAffixItem.h" />
     <ClInclude Include="RarityAffixWeapon.h" />
     <ClInclude Include="RarityMod.h" />
     <ClInclude Include="RaritySystem.h" />
@@ -245,7 +259,9 @@
     <ClInclude Include="Water.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponAction.h" />
-    <ClInclude Include="WeaponAffixDamageIncrease.h" />
+    <ClInclude Include="WeaponAffixAccuracy.h" />
+    <ClInclude Include="WeaponAffixDamage.h" />
+    <ClInclude Include="WeaponAffixStamina.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F2A42B1A-41BF-4E55-B059-5CBB288BA1B3}</ProjectGuid>

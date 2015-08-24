@@ -8,7 +8,7 @@ std::string Armor::getStatistics(){
 }
 
 int Armor::getValue(){
-	int value = Item::getValue();
+	int value = Equipment::getValue();
 	value += getDefence() * engine::valuePerDefence;
 	return value;
 }
@@ -16,11 +16,13 @@ int Armor::getValue(){
 int Armor::getDefence(){
 	double totalDefence = (double)defence;
 	for (auto &affix : rarityAffixes){
-		RarityAffixArmor *armorAffix = static_cast<RarityAffixArmor*>(affix);
-		totalDefence += defence * armorAffix->getDefenceMultiplier();
+		if (affix->isType(affix->ARMOR_AFFIX)){
+			RarityAffixArmor *armorAffix = static_cast<RarityAffixArmor*>(affix);
+			totalDefence += defence * armorAffix->getDefenceModifier();
+		}
 	}
 	totalDefence = 
 		totalDefence * 
-		(std::max(durabilityCurrent, durabilityMax * (1.0 - engine::durabilityMaxEffectOnDefencePercentage)) / durabilityMax);
+		(std::max(getDurabilityCurrent(), getDurabilityMax() * (1.0 - engine::durabilityMaxEffectOnDefencePercentage)) / getDurabilityMax());
 	return (int)defence;
 }

@@ -3,13 +3,17 @@
 
 class Equipment : public Item
 {
-public:
+private:
 	double durabilityMax;
 	double durabilityCurrent;
 
+public:
 	void durabilityHit(double amount);
 	bool isBroken();
+	double getDurabilityCurrent();
+	double getDurabilityMax();
 
+	int getValue();
 	std::string getStatistics();
 
 	Equipment(Item item, double durability) : 

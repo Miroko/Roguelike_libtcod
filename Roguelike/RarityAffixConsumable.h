@@ -9,7 +9,7 @@ public:
 	std::shared_ptr<CreatureEffect> effect;
 
 	RarityAffixConsumable(std::string name, std::shared_ptr<CreatureEffect> effect) :
-		RarityAffix(name),
+		RarityAffix(name, CONSUMABLE_AFFIX),
 		effect(effect){}
 };
 

@@ -147,6 +147,9 @@ double CreatureInventory::getTotalEquippedWeight(){
 	for (auto &armor : getArmors()){
 		totalWeight += armor->getWeight();
 	}
+	for (auto &weapon : getWeapons()){
+		totalWeight += weapon->getWeight();
+	}
 	return totalWeight;
 }
 double CreatureInventory::getTotalWeight(){

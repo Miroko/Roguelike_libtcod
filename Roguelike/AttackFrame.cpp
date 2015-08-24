@@ -31,6 +31,10 @@ bool AttackFrame::handleKey(TCOD_key_t key){
 				handled = true;
 			}
 		}
+		if (!handled){
+			handled = true;
+			close();
+		}
 	}
 	return handled;
 }

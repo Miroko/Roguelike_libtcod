@@ -5,6 +5,6 @@ class RarityAffixCreature : public RarityAffix
 {
 public:
 	RarityAffixCreature(std::string name) :
-		RarityAffix(name){}
+		RarityAffix(name, CREATURE_AFFIX){}
 };
 

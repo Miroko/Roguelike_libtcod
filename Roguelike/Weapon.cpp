@@ -20,7 +20,7 @@ std::string Weapon::getStatistics(){
 }
 
 int Weapon::getValue(){
-	int value = Item::getValue();
+	int value = Equipment::getValue();
 	value += (int)(getDamage() * engine::valuePerDamage);
 	return value;
 }
@@ -28,11 +28,15 @@ int Weapon::getValue(){
 int Weapon::getDamage(){
 	double totalDamage = (double)damage;
 	for (auto &affix : rarityAffixes){
-		RarityAffixWeapon *weaponAffix = static_cast<RarityAffixWeapon*>(affix);
-		totalDamage += damage * weaponAffix->getDamageMultiplier();
+		if (affix->isType(affix->WEAPON_AFFIX)){
+			RarityAffixWeapon *weaponAffix = static_cast<RarityAffixWeapon*>(affix);
+			totalDamage += damage * weaponAffix->getDamageModifier();
+		}
 	}
+	totalDamage += engine::weightDamagePerKg * getWeight();
+
 	totalDamage = 
 		totalDamage * 
-		(std::max(durabilityCurrent, durabilityMax * (1.0 - engine::durabilityMaxEffectOnDamagePercentage)) / durabilityMax);
+		(std::max(getDurabilityCurrent(), getDurabilityMax() * (1.0 - engine::durabilityMaxEffectOnDamagePercentage)) / getDurabilityMax());
 	return (int)totalDamage;
 }

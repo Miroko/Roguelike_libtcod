@@ -127,15 +127,6 @@
     <Filter Include="Engine\Rarity\Mod\Affix">
       <UniqueIdentifier>{92749db5-7c78-4ead-8515-4a55e0ed3e23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Rarity\Mod\Affix\Consumable">
-      <UniqueIdentifier>{6940a571-cd07-42e1-9973-67e698a02181}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Rarity\Mod\Affix\Armor">
-      <UniqueIdentifier>{104d9389-9a5c-45a9-8ae4-e6207cfaa023}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Rarity\Mod\Affix\Weapon">
-      <UniqueIdentifier>{71a29122-9937-4b50-891a-561a13246b0d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Rarity\Mod\Affix\Creature">
       <UniqueIdentifier>{a37de0ee-5f4e-40a7-aec8-8bb5871ab504}</UniqueIdentifier>
     </Filter>
@@ -144,15 +135,6 @@
     </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module\Modules">
       <UniqueIdentifier>{4974e4bf-e603-421b-88cb-af406be832f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Rarity\Mod\Affix\Armor\ArmorAffixes">
-      <UniqueIdentifier>{80980783-6547-440f-adcf-a399853dfc09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes">
-      <UniqueIdentifier>{5c2a52b1-51d5-45ad-ac1a-cdc8ded50016}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes">
-      <UniqueIdentifier>{4e88c42f-713c-4da8-9bdc-21d308019913}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Creature\Action">
       <UniqueIdentifier>{3cbfdd39-1a43-456f-ab6e-e1e2e3a2f23b}</UniqueIdentifier>
@@ -174,6 +156,45 @@
     </Filter>
     <Filter Include="Engine\GameObject\Item\Equipment\Armor">
       <UniqueIdentifier>{386503d9-9dda-43e8-aa82-aed40eb5ac79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment\Accessory">
+      <UniqueIdentifier>{28a11511-d90e-4f57-9239-dcef9fd22305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Item">
+      <UniqueIdentifier>{7ffab2fc-96c6-44ac-b0e8-530814c03fec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Item\ItemAffixes">
+      <UniqueIdentifier>{d6a8c18a-41b2-453d-be52-88e1ce34ff45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Weapon">
+      <UniqueIdentifier>{71a29122-9937-4b50-891a-561a13246b0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes">
+      <UniqueIdentifier>{4e88c42f-713c-4da8-9bdc-21d308019913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Armor">
+      <UniqueIdentifier>{104d9389-9a5c-45a9-8ae4-e6207cfaa023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Armor\ArmorAffixes">
+      <UniqueIdentifier>{80980783-6547-440f-adcf-a399853dfc09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Equipment">
+      <UniqueIdentifier>{cb8a090f-a893-49b1-9af6-e3dc4d4c6e81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Equipment\EquipmentAffixes">
+      <UniqueIdentifier>{b4ab9a7b-ff22-424a-b568-aeac6535be60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Consumable">
+      <UniqueIdentifier>{6940a571-cd07-42e1-9973-67e698a02181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes">
+      <UniqueIdentifier>{5c2a52b1-51d5-45ad-ac1a-cdc8ded50016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Accessory">
+      <UniqueIdentifier>{8e4492f1-d2f6-421b-ac24-ca5db762991d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rarity\Mod\Affix\Accessory\AccessoryAffixes">
+      <UniqueIdentifier>{39e47337-3c8d-4798-9ab4-da2a837e90c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -466,9 +487,6 @@
     <ClCompile Include="RarityAffixArmor.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Armor</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponAffixDamageIncrease.cpp">
-      <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="RarityAffixCreature.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Creature</Filter>
     </ClCompile>
@@ -499,17 +517,11 @@
     <ClCompile Include="GuiConsumable.cpp">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClCompile>
-    <ClCompile Include="ArmorAffixDefenceIncrease.cpp">
-      <Filter>Engine\Rarity\Mod\Affix\Armor\ArmorAffixes</Filter>
-    </ClCompile>
     <ClCompile Include="ConsumableAffixHealthRegenerate.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
     </ClCompile>
     <ClCompile Include="ConsumableAffixStaminaRegenerate.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
-    </ClCompile>
-    <ClCompile Include="RarityAffixWeapon.cpp">
-      <Filter>Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes</Filter>
     </ClCompile>
     <ClCompile Include="CreatureLimb.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Limb</Filter>
@@ -525,6 +537,39 @@
     </ClCompile>
     <ClCompile Include="Equipment.cpp">
       <Filter>Engine\GameObject\Item\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="Accessory.cpp">
+      <Filter>Engine\GameObject\Item\Equipment\Accessory</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffixWeapon.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffixAccessory.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Accessory</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffixItem.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="RarityAffixEquipment.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponAffixAccuracy.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponAffixDamage.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponAffixStamina.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmorAffixDefence.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Armor\ArmorAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemAffixWeight.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Item\ItemAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="EquipmentAffixDurability.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Equipment\EquipmentAffixes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -816,9 +861,6 @@
     <ClInclude Include="RarityAffixArmor.h">
       <Filter>Engine\Rarity\Mod\Affix\Armor</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponAffixDamageIncrease.h">
-      <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="RarityAffixCreature.h">
       <Filter>Engine\Rarity\Mod\Affix\Creature</Filter>
     </ClInclude>
@@ -849,17 +891,11 @@
     <ClInclude Include="GuiConsumable.h">
       <Filter>Engine\Gui\Component\Components\Minor</Filter>
     </ClInclude>
-    <ClInclude Include="ArmorAffixDefenceIncrease.h">
-      <Filter>Engine\Rarity\Mod\Affix\Armor\ArmorAffixes</Filter>
-    </ClInclude>
     <ClInclude Include="ConsumableAffixStaminaRegenerate.h">
       <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
     </ClInclude>
     <ClInclude Include="ConsumableAffixHealthRegenerate.h">
       <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
-    </ClInclude>
-    <ClInclude Include="RarityAffixWeapon.h">
-      <Filter>Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes</Filter>
     </ClInclude>
     <ClInclude Include="CreatureLimb.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Limb</Filter>
@@ -875,6 +911,39 @@
     </ClInclude>
     <ClInclude Include="Equipment.h">
       <Filter>Engine\GameObject\Item\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="Accessory.h">
+      <Filter>Engine\GameObject\Item\Equipment\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffixAccessory.h">
+      <Filter>Engine\Rarity\Mod\Affix\Accessory</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffixItem.h">
+      <Filter>Engine\Rarity\Mod\Affix\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffixEquipment.h">
+      <Filter>Engine\Rarity\Mod\Affix\Equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponAffixAccuracy.h">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponAffixDamage.h">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponAffixStamina.h">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon\WeaponAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="RarityAffixWeapon.h">
+      <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmorAffixDefence.h">
+      <Filter>Engine\Rarity\Mod\Affix\Armor\ArmorAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemAffixWeight.h">
+      <Filter>Engine\Rarity\Mod\Affix\Item\ItemAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="EquipmentAffixDurability.h">
+      <Filter>Engine\Rarity\Mod\Affix\Equipment\EquipmentAffixes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

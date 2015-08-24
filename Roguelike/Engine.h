@@ -35,7 +35,8 @@ namespace engine{
 	extern double defenceMax;
 
 	//weight
-	extern double carryWeightMax;
+	extern double weightCarryMax;
+	extern double weightDamagePerKg;
 
 	//accuracy
 	extern double accuracyBasePercentage;

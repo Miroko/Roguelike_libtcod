@@ -1,5 +1,6 @@
 #include "Item.h"
 #include "Engine.h"
+#include "RarityAffixItem.h"
 
 bool Item::operator==(const Item &item){
 	if (this == &item) return true;
@@ -16,7 +17,7 @@ std::string Item::getDescription(){
 }
 
 std::string Item::getStatistics(){
-	return engine::string.weightKg(weightKg) + " " + engine::string.currency(getValue());
+	return engine::string.weightKg(getWeight()) + " " + engine::string.currency(getValue());
 }
 
 int Item::getValue(){
@@ -25,5 +26,12 @@ int Item::getValue(){
 }
 
 double Item::getWeight(){
-	return weightKg;
+	double totalWeight = weightKg;
+	for (auto &affix : rarityAffixes){
+		if (affix->isType(affix->ITEM_AFFIX)){
+			RarityAffixItem &itemAffix = static_cast<RarityAffixItem&>(*affix);
+			totalWeight += weightKg * itemAffix.getWeightModifier();
+		}
+	}
+	return totalWeight;
 }
