@@ -12,6 +12,7 @@ public:
 	RarityMod getCreatureMod(RarityType &rarityType);
 	RarityMod getArmorMod(RarityType &rarityType);
 	RarityMod getWeaponMod(RarityType &rarityType);
+	RarityMod getAccessoryMod(RarityType &rarityType);
 	RarityMod getConsumableMod(RarityType &rarityType);
 
 	double getRarityRoll(Creature *fromCreature = nullptr);

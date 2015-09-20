@@ -3,52 +3,53 @@
 #include "Weapon.h"
 #include "RarityAffixWeapon.h"
 #include "Engine.h"
-#include <iostream>
 
-bool WeaponAction::execute(Creature &executer, Weapon &actionObject, DynamicObject &target){
-	//stamina
-	double staminaCostBase = engine::staminaCostPerKgFromAttack * actionObject.getWeight();
-	double staminaCostTotal = staminaCostBase + staminaCostBase * staminaCostModifier;
+bool WeaponAction::execute(Creature &executer, double skillModifier, GameObject &actionObject, DynamicObject &target){
+	if (actionObject.isWeapon()){
+		Weapon &actionWeapon = static_cast<Weapon&>(actionObject);
 
-	//accuracy
-	double accuracyBase = engine::accuracyBasePercentage - (actionObject.getWeight() + executer.inventory.getTotalEquippedWeight()) / engine::weightCarryMax;
-	double accuracyTotal = accuracyBase + accuracyBase * accuracyModifier;
-
-	//rarity affix effects
-	for (auto &affix : actionObject.rarityAffixes){
-		if (affix->isType(affix->WEAPON_AFFIX)){
-			RarityAffixWeapon &weaponAffix = static_cast<RarityAffixWeapon&>(*affix);
-			accuracyTotal += accuracyBase * weaponAffix.getAccuracyModifier();
-			staminaCostTotal += staminaCostBase * weaponAffix.getStaminaModifier();
+		//stamina
+		double staminaCostBase = engine::staminaCostPerKgFromAttack * actionWeapon.getWeightTotal();
+		double staminaCostTotal = staminaCostBase +
+			(staminaCostBase * staminaCostModifier) *
+			(staminaCostBase * actionWeapon.getStaminaCostModifier());
+		if (staminaCostTotal > executer.getStaminaCurrent()){
+			engine::gui.log.addMessage(executer.name + " is too exhausted to " + logDescription + " with " + actionObject.name + ".");
+			return false;
 		}
-	}
-	
-	//try to execute attack
-	if (staminaCostTotal <= executer.staminaCurrent){
-		executer.staminaCurrent -= staminaCostTotal;
-		engine::gui.log.addToMessage(executer.name + " " + logDescription + " " + target.name + " with " + actionObject.name + ". ");
-		if (engine::random.chance(accuracyTotal)){
-			//damage
-			double damageBase = actionObject.getDamage();
-			double damageTotal = damageBase + damageBase * damageModifier;
-			target.onTakeDamage(executer, damageTotal);
 
-			if (!actionObject.isBroken()){
-				double durabilityCost = engine::durabilityBaseCost;
-				durabilityCost += durabilityCost * durabilityModifier;
-				actionObject.durabilityHit(durabilityCost);
-				if (actionObject.isBroken()){
-					engine::gui.log.addMessage(actionObject.name + " has broken.");
-				}
+		//accuracy
+		double accuracyBase = engine::accuracyBasePercentage - (executer.inventory.getTotalEquippedWeight() / engine::weightCarryMax);
+		double accuracyTotal = accuracyBase +
+			(accuracyBase * accuracyModifier) *
+			(accuracyBase * actionWeapon.getAccuracyModifier());
+		if (!engine::random.chance(accuracyTotal)){
+			engine::gui.log.finishMessage(executer.name + " misses.");
+			return true;
+		}
+
+		//attack
+		engine::gui.log.addToMessage(executer.name + " " + logDescription + " " + target.name + " with " + actionObject.name + ". ");
+		executer.staminaHit((int)staminaCostTotal);
+
+		//damage
+		double damageBase = actionWeapon.getDamageTotal();
+		double damageTotal = damageBase + damageBase * damageModifier;
+		target.onTakeDamage(executer, damageTotal);
+
+		//durability
+		if (!actionWeapon.isBroken()){
+			double durabilityCost = engine::durabilityBaseCost;
+			durabilityCost += durabilityCost * durabilityModifier;
+			actionWeapon.durabilityHit(durabilityCost);
+			if (actionWeapon.isBroken()){
+				engine::gui.log.addMessage(actionObject.name + " has broken.");
 			}
 		}
-		else{
-			engine::gui.log.finishMessage(executer.name + " misses.");
-		}
+
 		return true;
 	}
 	else{
-		engine::gui.log.addMessage(executer.name + " is too exhausted to attack.");
-		return false;
+		throw "actionObject != weapon";
 	}
 }

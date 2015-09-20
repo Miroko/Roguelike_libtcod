@@ -1,4 +1,5 @@
 #include "ItemContainer.h"
+#include "Item.h"
 
 void ItemContainer::add(std::shared_ptr<Item> item){
 	items.push_back(item);
@@ -10,14 +11,6 @@ void ItemContainer::remove(std::shared_ptr<Item> item){
 
 void ItemContainer::removeAll(){
 	items.clear();
-}
-
-std::shared_ptr<Item> ItemContainer::get(Item &item){
-	for (auto &itemInContainer : items){
-		if (itemInContainer.get() == &item){
-			return itemInContainer;
-		}
-	}
 }
 
 std::shared_ptr<Item> ItemContainer::getAt(int index){

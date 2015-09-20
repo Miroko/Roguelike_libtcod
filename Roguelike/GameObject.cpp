@@ -4,12 +4,9 @@ GameObject::Type GameObject::getType(){
 	return type;
 }
 
-void GameObject::render(int x, int y){
-	glyph.render(x, y);
-}
-
-std::string GameObject::getDescription(){
-	return name;
+bool GameObject::isCreature(){
+	return(
+		type == CREATURE);
 }
 
 bool GameObject::isWeapon(){
@@ -24,6 +21,18 @@ bool GameObject::isArmor(){
 		type == ARMOR_HAND ||
 		type == ARMOR_HEAD ||
 		type == ARMOR_LEG);
+}
+
+bool GameObject::isEquipment(){
+	return(
+		isWeapon() ||
+		isArmor() ||
+		isAccessory());
+}
+
+bool GameObject::isAccessory(){
+	return(
+		type == ACCESSORY);
 }
 
 bool GameObject::isConsumable(){
@@ -46,4 +55,24 @@ bool GameObject::isTile(){
 		type == WALL ||
 		type == PORTAL ||
 		type == WATER);
+}
+
+void GameObject::render(int x, int y){
+	glyph.render(x, y);
+}
+
+void GameObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){
+
+}
+
+void GameObject::renderToFrameLine(GuiFrame &frame, Rectangle &renderBounds, int offsetY){
+
+}
+
+std::string GameObject::getStatistics(){
+	return "";
+}
+
+std::string GameObject::getDescription(){
+	return name;
 }

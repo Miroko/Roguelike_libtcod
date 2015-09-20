@@ -3,13 +3,15 @@
 
 class WeaponAffixAccuracy : public RarityAffixWeapon
 {
-public:
-	double percentage;
-	double getAccuracyModifier(){ return percentage; }
-	std::string RarityAffixWeapon::getDescription();
+private:
+	double percentageValue;
 
-	WeaponAffixAccuracy(std::string name, double percentage) :
+public:
+	double getAccuracyModifier(){ return percentageValue; }
+	std::string RarityAffixWeapon::getDescription(GameObject &ownerObject);
+
+	WeaponAffixAccuracy(std::string name, double percentageValue) :
 		RarityAffixWeapon(name),
-		percentage(percentage){}
+		percentageValue(percentageValue){}
 };
 

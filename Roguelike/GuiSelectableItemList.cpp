@@ -96,20 +96,7 @@ void GuiSelectableItemList::renderTo(GuiFrame &frame, Rectangle &bounds){
 		int offsetY = 0;
 		for (int index = startIndex; index <= endIndex; ++index){
 			auto item = *iterator;
-			//description
-			frame.printString(
-				bounds.start.x, bounds.start.y + offsetY,
-				bounds.getWidth(), 0,
-				item->rarityType->color * Gui::RARITY_COLOR_MULTIPLIER, 
-				TCOD_LEFT,
-				item->getDescription());
-			//stats
-			frame.printString(
-				bounds.start.x + bounds.getWidth() / 2, bounds.start.y + offsetY,
-				bounds.getWidth(), 0,
-				Gui::FRAME_FG,
-				TCOD_LEFT, 
-				item->getStatistics());
+			item->renderToFrameLine(frame, bounds, offsetY);
 			//operator
 			if (index == selectedItemIndex){
 				frame.printString(

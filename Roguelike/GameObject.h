@@ -2,9 +2,10 @@
 #include "libtcod.hpp"
 #include "Point2D.h"
 #include "Glyph.h"
+#include "GuiObject.h"
 #include <string>
 
-class GameObject
+class GameObject : public GuiObject
 {
 private:
 
@@ -29,6 +30,7 @@ public:
 		ARMOR_BODY,
 		ARMOR_HAND,
 		ARMOR_LEG,
+		ACCESSORY,
 
 		CONSUMABLE
 	};
@@ -36,15 +38,22 @@ public:
 	std::string name;
 	Glyph glyph;
 
+	bool isCreature();
 	bool isWeapon();
 	bool isArmor();
+	bool isAccessory();
+	bool isEquipment();
 	bool isConsumable();
 	bool isOperatable();
 	bool isTile();
 
 	Type getType();
+		
 	virtual void render(int x, int y);
-	virtual std::string getDescription();
+	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
+	void GuiObject::renderToFrameLine(GuiFrame &frame, Rectangle &renderBounds, int offsetY) override;
+	std::string GuiObject::getStatistics() override;
+	std::string GuiObject::getDescription() override;
 
 	GameObject(std::string name, Type type, Glyph glyph) :
 		name(name),

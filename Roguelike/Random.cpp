@@ -23,8 +23,17 @@ bool Random::chance(double min){
 	else return generator->getDouble(0.0, 1.0) < min;
 }
 
-double Random::variation(double value, double variation){
-	return generator->getDouble(value - variation, value);
+// 300% = 0.003
+// 100% = 0.01
+// 60% = 0.016
+// 25% = 0.04
+// 5% = 0.2
+bool Random::chancePercentage(double percenrage){
+	return chance(0.01 / percenrage);
+}
+
+double Random::variationMultiplier(double variation){
+	return generator->getDouble(1.0 - variation, 1.0);
 }
 
 void Random::useStatic(){

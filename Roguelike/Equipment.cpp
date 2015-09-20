@@ -15,21 +15,25 @@ double Equipment::getDurabilityCurrent(){
 	return durabilityCurrent;
 }
 
-double Equipment::getDurabilityMax(){
-	double totalDurabilityMax = durabilityMax;
+double Equipment::getDurabilityMaxBase(){
+	return durabilityMax;
+}
+
+double Equipment::getDurablilityMaxTotal(){
+	double totalDurabilityMax = getDurabilityMaxBase();
 	for (auto &affix : rarityAffixes){
 		if (affix->isType(affix->EQUIPMENT_AFFIX)){
 			RarityAffixEquipment &equipmentAffix = static_cast<RarityAffixEquipment&>(*affix);
-			totalDurabilityMax += durabilityMax * equipmentAffix.getDurabilityModifier();
+			totalDurabilityMax += getDurabilityMaxBase() * equipmentAffix.getDurabilityModifier();
 		}
 	}
 	return totalDurabilityMax;
 }
 
 int Equipment::getValue(){
-	return Item::getValue() * (getDurabilityCurrent() / getDurabilityMax());
+	return Item::getValue() * (getDurabilityCurrent() / getDurablilityMaxTotal());
 }
 
 std::string Equipment::getStatistics(){
-	return engine::string.durability(getDurabilityCurrent(), getDurabilityMax()) + " " + Item::getStatistics();
+	return engine::string.durability(getDurabilityCurrent(), getDurablilityMaxTotal()) + " " + Item::getStatistics();
 }

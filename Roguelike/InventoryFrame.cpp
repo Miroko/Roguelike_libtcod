@@ -50,16 +50,16 @@ void InventoryFrame::init(Rectangle bounds){
 	guiTopBoxBounds = Rectangle(Point2D(0, 0), Point2D(bounds.getWidth(), 3));
 	guiDisplayBoxBounds = Rectangle(Point2D(0, 3), Point2D(bounds.getWidth(), 14));
 	guiGameObjectDisplayBounds = Rectangle(Point2D(0, 3), Point2D(getWidth(), 14));
-	guiSelectableItemListBounds = Rectangle(Point2D(0, 14), Point2D(getWidth(), getHeight() - 14));
+	guiSelectableItemListBounds = Rectangle(Point2D(0, 14), Point2D(getWidth(), getHeight()));
 	guiSelectableItemList.setGetOperationsFunction(
 		[this](std::shared_ptr<Item> item, bool selected) -> std::vector<std::string>{
 		if (selected){
 			//update item in display
 			guiGameObjectDisplay.setDisplayedObject(item.get());
 		}
-		if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(*item)){
+		if (engine::playerHandler.getPlayerCreature()->inventory.isEquipped(item)){
 			if (selected){			
-				if (item->isWeapon() || item->isArmor()) return EQUIPMENT_UNEQUIP_OPERATIONS;
+				if (item->isEquipment()) return EQUIPMENT_UNEQUIP_OPERATIONS;
 				else if (item->isConsumable()) return CONSUMABLE_OPERATIONS;
 				else return{ "Error" };
 			}
@@ -67,7 +67,7 @@ void InventoryFrame::init(Rectangle bounds){
 		}
 		else{
 			if (selected){
-				if (item->isWeapon() || item->isArmor()) return EQUIPMENT_EQUIP_OPERATIONS;
+				if (item->isEquipment()) return EQUIPMENT_EQUIP_OPERATIONS;
 				else if (item->isConsumable()) return CONSUMABLE_OPERATIONS;
 				else return { "Error" };
 			}
@@ -79,10 +79,13 @@ void InventoryFrame::init(Rectangle bounds){
 		if (operation == EQUIP){
 			if (!engine::playerHandler.getPlayerCreature()->inventory.equip(item)){
 				if (item->isWeapon()){
-					engine::gui.log.addMessage("I am holding too much.");
+					engine::gui.log.addMessage("I'm holding too many items.");
 				}
 				else if (item->isArmor()){
-					engine::gui.log.addMessage("I am wearing too much.");
+					engine::gui.log.addMessage("I'm wearing too many armors.");
+				}
+				else if (item->isAccessory()){
+					engine::gui.log.addMessage("I'm wearing too many accessories");
 				}
 			}
 		}

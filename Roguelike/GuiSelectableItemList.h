@@ -12,6 +12,7 @@ class GuiSelectableItemList : public GuiComponent
 {
 public:
 	ItemContainer *itemContainer = nullptr;
+
 	int selectedItemIndex = 0;
 	int selectedOperation = 0;
 	std::vector<std::string> operationsForSelectedItem;

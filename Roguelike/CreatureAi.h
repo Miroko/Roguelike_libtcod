@@ -42,8 +42,6 @@ public:
 	//Returns path distance to destination
 	int moveOnPath();
 
-	std::vector<std::pair<Weapon*, WeaponAction*>> getBestWeaponActions(DynamicObject &against);
-
 	virtual void initAi(Creature &owner, Area &area);
 	virtual void update();
 	

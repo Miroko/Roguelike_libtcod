@@ -3,10 +3,6 @@
 #include "EffectBloodSplatter.h"
 #include "Engine.h"
 
-void DynamicObject::setHealth(int healthCurrent){
-	this->healthMax = healthCurrent;
-	this->healthCurrent = healthCurrent;
-}
 bool DynamicObject::move(Point2D &location){
 	if (engine::areaHandler.getCurrentArea()->passable(location, *this)){
 		this->location = location;
@@ -32,11 +28,10 @@ bool DynamicObject::passable(DynamicObject &dynamicObject){
 void DynamicObject::onTakeDamage(DynamicObject &attacker, double amount){
 	engine::gui.log.addToMessage(name + " takes " + std::to_string((int)amount) + " damage. ");
 	if (amount > 0){
-		healthCurrent -= amount;
+		healthHit(amount);
 		onTakeDamageEffect();
 	}
-	if (healthCurrent <= 0) kill();
-	else engine::gui.log.finishMessage("");
+	if(!isDead) engine::gui.log.finishMessage();
 }
 void DynamicObject::onTakeDamageEffect(){
 	engine::visualEffectHandler.playEffect(std::shared_ptr<ParticleEffect>(new EffectBloodSplatter(location)));
@@ -46,4 +41,16 @@ void DynamicObject::onDeath(){
 }
 void DynamicObject::messageDeath(){
 	engine::gui.log.finishMessage(name + " dies.");
+}
+
+int DynamicObject::getHealthCurrent(){
+	return healthCurrent;
+}
+int DynamicObject::getHealthMax(){
+	return healthMax;
+}
+void DynamicObject::healthHit(int amount){
+	healthCurrent -= amount;
+	if (healthCurrent <= 0)	kill();
+	else if (healthCurrent > getHealthMax()) healthCurrent = getHealthMax();
 }

@@ -3,12 +3,14 @@
 
 class ItemAffixWeight : public RarityAffixItem
 {
-public:
-	double percentage;
-	double getWeightModifier(){ return percentage; }
-	std::string RarityAffix::getDescription();
+private:
+	double percentageValue;
 
-	ItemAffixWeight(std::string name, double percentage) :
+public:
+	double getWeightModifier(){ return percentageValue; }
+	std::string RarityAffix::getDescription(GameObject &ownerObject);
+
+	ItemAffixWeight(std::string name, double percentageValue) :
 		RarityAffixItem(name),
-		percentage(percentage){}
+		percentageValue(percentageValue){}
 };

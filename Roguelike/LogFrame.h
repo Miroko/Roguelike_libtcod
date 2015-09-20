@@ -9,9 +9,9 @@ private:
 
 public:	
 	std::deque<std::string> messages; //Messages
-	void addMessage(std::string);
+	void addMessage(std::string = "");
 	void addToMessage(std::string);
-	void finishMessage(std::string);
+	void finishMessage(std::string = "");
 	
 	void GuiFrame::render();
 	bool handleKey(TCOD_key_t key);

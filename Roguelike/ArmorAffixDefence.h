@@ -3,13 +3,15 @@
 
 class ArmorAffixDefence : public RarityAffixArmor
 {
-public:
-	double percentage;
-	double getDefenceModifier(){ return percentage; }
-	std::string RarityAffixArmor::getDescription();
+private:
+	double percentageValue;
 
-	ArmorAffixDefence(std::string name, double percentage) :
+public:
+	double getDefenceModifier(){ return percentageValue; }
+	std::string RarityAffixArmor::getDescription(GameObject &ownerObject);
+
+	ArmorAffixDefence(std::string name, double percentageValue) :
 		RarityAffixArmor(name),
-		percentage(percentage){}
+		percentageValue(percentageValue){}
 };
 

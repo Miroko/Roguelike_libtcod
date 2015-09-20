@@ -13,15 +13,6 @@
     <Filter Include="Engine\Graphics">
       <UniqueIdentifier>{aefc922d-6759-4fdf-89b6-ee8c954769ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject">
-      <UniqueIdentifier>{8e3a7028-e956-4d17-855a-f85652fec277}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic">
-      <UniqueIdentifier>{76f6d429-948f-44f4-9a27-2a7cbcbb06dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item">
-      <UniqueIdentifier>{f0a59b72-97b0-43a6-a420-da18a3dc1a4a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Tools">
       <UniqueIdentifier>{23f6e7fe-f36f-4aa7-860a-8ebc1b67e9ac}</UniqueIdentifier>
     </Filter>
@@ -37,26 +28,8 @@
     <Filter Include="Engine\ObjectFactory">
       <UniqueIdentifier>{036e4e42-3716-467a-87cf-d0ae3949ad4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Operatable">
-      <UniqueIdentifier>{fe1be4f4-8f54-42f3-9fac-12e92ae3b33e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Tile">
-      <UniqueIdentifier>{698a8e41-461c-44e2-9e97-efcd79291f4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature">
-      <UniqueIdentifier>{66c1efe9-bfe1-4bec-ad92-d8fcc0f708d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai">
-      <UniqueIdentifier>{2f03f7ea-d683-45dd-af13-2f923e27e617}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\ObjectFactory\Templates">
       <UniqueIdentifier>{b8850659-05eb-4fa8-9af0-a7497152e674}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Effect">
-      <UniqueIdentifier>{f47ef8df-23e7-48e3-bf8c-d2cabe187f32}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module">
-      <UniqueIdentifier>{056e93e4-4e2b-4d0d-830c-27884fa0d64f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Area\Infrastructure">
       <UniqueIdentifier>{d745cc87-98d4-4cd5-907a-6c9676876701}</UniqueIdentifier>
@@ -79,20 +52,11 @@
     <Filter Include="Engine\Graphics\VisualEffect\Effect\Effects">
       <UniqueIdentifier>{c9c09015-516f-4931-a6d5-5d324bc8980e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Operatable\Operatables">
-      <UniqueIdentifier>{81e38b99-306d-468e-8e30-4df6dfd51254}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Ais">
-      <UniqueIdentifier>{c54bc774-b405-4942-8fa4-64408f247adb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Quest\Dialog">
       <UniqueIdentifier>{8a41f4ab-1477-4305-b20f-11cf05425bc5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Quest\TradeContainer">
       <UniqueIdentifier>{11f9379b-ce8d-4798-b6aa-ce22ecb8ba7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Consumable">
-      <UniqueIdentifier>{b84d1e55-86d1-4067-bcad-ad18f4be32c6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Gui\Component">
       <UniqueIdentifier>{64beb286-5040-4a75-8474-3e513dd12b81}</UniqueIdentifier>
@@ -106,18 +70,6 @@
     <Filter Include="Engine\Gui\Component\Components">
       <UniqueIdentifier>{b36f6ad3-9a9d-453c-8a59-e512b1a1d5b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Gui\Component\Components\Minor">
-      <UniqueIdentifier>{70ba195c-b7bf-4850-9e06-7e5ecdcfccea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Gui\Component\Components\Major">
-      <UniqueIdentifier>{9b8fcc8f-5cc9-479d-be12-88c9cded2553}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Effect\Health">
-      <UniqueIdentifier>{4c41eb50-16d9-4aab-b540-86c7851ab8aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Effect\Stamina">
-      <UniqueIdentifier>{3e1c6c3b-47bf-4683-b4e0-02d17de610e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Rarity">
       <UniqueIdentifier>{16a16cf3-5ce6-446a-b2c3-bab03caced29}</UniqueIdentifier>
     </Filter>
@@ -129,36 +81,6 @@
     </Filter>
     <Filter Include="Engine\Rarity\Mod\Affix\Creature">
       <UniqueIdentifier>{a37de0ee-5f4e-40a7-aec8-8bb5871ab504}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Tile\Tiles">
-      <UniqueIdentifier>{1e788331-1496-4e76-88c4-590020d2cab9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module\Modules">
-      <UniqueIdentifier>{4974e4bf-e603-421b-88cb-af406be832f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Action">
-      <UniqueIdentifier>{3cbfdd39-1a43-456f-ab6e-e1e2e3a2f23b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Inventory">
-      <UniqueIdentifier>{3e851935-b49a-4b85-bb10-022d20e79ac9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Limb">
-      <UniqueIdentifier>{a0099ccb-e46f-4605-b0d8-cf9b068f1895}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Dynamic\Creature\Action\Weapon">
-      <UniqueIdentifier>{5b918eeb-3c8a-45fa-83e3-90e8ebd4e5d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment">
-      <UniqueIdentifier>{15dd71de-3933-4a47-ba12-953b4d2bf465}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment\Weapon">
-      <UniqueIdentifier>{c830f1d0-dce0-4f94-b8cb-3c9f3943c3a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment\Armor">
-      <UniqueIdentifier>{386503d9-9dda-43e8-aa82-aed40eb5ac79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\GameObject\Item\Equipment\Accessory">
-      <UniqueIdentifier>{28a11511-d90e-4f57-9239-dcef9fd22305}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Rarity\Mod\Affix\Item">
       <UniqueIdentifier>{7ffab2fc-96c6-44ac-b0e8-530814c03fec}</UniqueIdentifier>
@@ -195,6 +117,90 @@
     </Filter>
     <Filter Include="Engine\Rarity\Mod\Affix\Accessory\AccessoryAffixes">
       <UniqueIdentifier>{39e47337-3c8d-4798-9ab4-da2a837e90c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Tools">
+      <UniqueIdentifier>{c02f19ea-db89-4f99-bb08-f2af10f19b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject">
+      <UniqueIdentifier>{8e3a7028-e956-4d17-855a-f85652fec277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic">
+      <UniqueIdentifier>{76f6d429-948f-44f4-9a27-2a7cbcbb06dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Operatable">
+      <UniqueIdentifier>{fe1be4f4-8f54-42f3-9fac-12e92ae3b33e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Operatable\Operatables">
+      <UniqueIdentifier>{81e38b99-306d-468e-8e30-4df6dfd51254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature">
+      <UniqueIdentifier>{66c1efe9-bfe1-4bec-ad92-d8fcc0f708d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai">
+      <UniqueIdentifier>{2f03f7ea-d683-45dd-af13-2f923e27e617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module">
+      <UniqueIdentifier>{056e93e4-4e2b-4d0d-830c-27884fa0d64f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Module\Modules">
+      <UniqueIdentifier>{4974e4bf-e603-421b-88cb-af406be832f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Ais">
+      <UniqueIdentifier>{c54bc774-b405-4942-8fa4-64408f247adb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Effect">
+      <UniqueIdentifier>{f47ef8df-23e7-48e3-bf8c-d2cabe187f32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Effect\Health">
+      <UniqueIdentifier>{4c41eb50-16d9-4aab-b540-86c7851ab8aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Effect\Stamina">
+      <UniqueIdentifier>{3e1c6c3b-47bf-4683-b4e0-02d17de610e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Effect\Magic">
+      <UniqueIdentifier>{03f21ae0-261d-47de-8bd3-2d7e630de1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Inventory">
+      <UniqueIdentifier>{3e851935-b49a-4b85-bb10-022d20e79ac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Limb">
+      <UniqueIdentifier>{a0099ccb-e46f-4605-b0d8-cf9b068f1895}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item">
+      <UniqueIdentifier>{f0a59b72-97b0-43a6-a420-da18a3dc1a4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Consumable">
+      <UniqueIdentifier>{b84d1e55-86d1-4067-bcad-ad18f4be32c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment">
+      <UniqueIdentifier>{15dd71de-3933-4a47-ba12-953b4d2bf465}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment\Weapon">
+      <UniqueIdentifier>{c830f1d0-dce0-4f94-b8cb-3c9f3943c3a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Equipment\Armor">
+      <UniqueIdentifier>{386503d9-9dda-43e8-aa82-aed40eb5ac79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Item\Accessory">
+      <UniqueIdentifier>{28a11511-d90e-4f57-9239-dcef9fd22305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Tile">
+      <UniqueIdentifier>{698a8e41-461c-44e2-9e97-efcd79291f4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Tile\Tiles">
+      <UniqueIdentifier>{1e788331-1496-4e76-88c4-590020d2cab9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Skill">
+      <UniqueIdentifier>{4ac994c7-3941-4bad-96f7-11ca3929100c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Skill\Action">
+      <UniqueIdentifier>{3cbfdd39-1a43-456f-ab6e-e1e2e3a2f23b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Skill\Action\Weapon">
+      <UniqueIdentifier>{5b918eeb-3c8a-45fa-83e3-90e8ebd4e5d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Skill\Action\Magic">
+      <UniqueIdentifier>{79871a15-73f0-4da9-b690-ad56f2929126}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -295,20 +301,11 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Engine\GameObject\Item\Equipment\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="TemplateCreaturePreset.cpp">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateWeapon.cpp">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClCompile>
     <ClCompile Include="CreatureAi.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai</Filter>
     </ClCompile>
     <ClCompile Include="Armor.cpp">
       <Filter>Engine\GameObject\Item\Equipment\Armor</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateArmor.cpp">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
     </ClCompile>
     <ClCompile Include="AiModule.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
@@ -318,9 +315,6 @@
     </ClCompile>
     <ClCompile Include="AreaTreeSpot.cpp">
       <Filter>Engine\Area\Nature</Filter>
-    </ClCompile>
-    <ClCompile Include="AreaDrop.cpp">
-      <Filter>Engine\Area</Filter>
     </ClCompile>
     <ClCompile Include="Village.cpp">
       <Filter>Engine\Area\Infrastructure</Filter>
@@ -370,9 +364,6 @@
     <ClCompile Include="Forge.cpp">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
     </ClCompile>
-    <ClCompile Include="AreaPath.cpp">
-      <Filter>Engine\Area</Filter>
-    </ClCompile>
     <ClCompile Include="AiBlacksmith.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
     </ClCompile>
@@ -406,9 +397,6 @@
     <ClCompile Include="GuiFrame.cpp">
       <Filter>Engine\Gui\Frame</Filter>
     </ClCompile>
-    <ClCompile Include="AttackFrame.cpp">
-      <Filter>Engine\Gui\Frame\Frames</Filter>
-    </ClCompile>
     <ClCompile Include="DialogFrame.cpp">
       <Filter>Engine\Gui\Frame\Frames</Filter>
     </ClCompile>
@@ -439,38 +427,8 @@
     <ClCompile Include="GuiComponent.cpp">
       <Filter>Engine\Gui\Component</Filter>
     </ClCompile>
-    <ClCompile Include="GuiArmor.cpp">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiCreature.cpp">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiOperable.cpp">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiTile.cpp">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiWeapon.cpp">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiSelectableItemList.cpp">
-      <Filter>Engine\Gui\Component\Components\Major</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiBox.cpp">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClCompile>
-    <ClCompile Include="GuiGameObjectDisplay.cpp">
-      <Filter>Engine\Gui\Component\Components\Major</Filter>
-    </ClCompile>
     <ClCompile Include="CreatureEffect.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectHealthRegeneration.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Health</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectStaminaRegeneration.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Stamina</Filter>
     </ClCompile>
     <ClCompile Include="RarityMod.cpp">
       <Filter>Engine\Rarity\Mod</Filter>
@@ -490,12 +448,6 @@
     <ClCompile Include="RarityAffixCreature.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Creature</Filter>
     </ClCompile>
-    <ClCompile Include="TemplateCreatureBase.cpp">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateConsumable.cpp">
-      <Filter>Engine\ObjectFactory\Templates</Filter>
-    </ClCompile>
     <ClCompile Include="Floor.cpp">
       <Filter>Engine\GameObject\Tile\Tiles</Filter>
     </ClCompile>
@@ -514,15 +466,6 @@
     <ClCompile Include="Water.cpp">
       <Filter>Engine\GameObject\Tile\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="GuiConsumable.cpp">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClCompile>
-    <ClCompile Include="ConsumableAffixHealthRegenerate.cpp">
-      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
-    </ClCompile>
-    <ClCompile Include="ConsumableAffixStaminaRegenerate.cpp">
-      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
-    </ClCompile>
     <ClCompile Include="CreatureLimb.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Limb</Filter>
     </ClCompile>
@@ -530,16 +473,16 @@
       <Filter>Engine\GameObject\Dynamic\Creature\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="CreatureAction.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Action</Filter>
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action</Filter>
     </ClCompile>
     <ClCompile Include="WeaponAction.cpp">
-      <Filter>Engine\GameObject\Dynamic\Creature\Action\Weapon</Filter>
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Equipment.cpp">
       <Filter>Engine\GameObject\Item\Equipment</Filter>
     </ClCompile>
     <ClCompile Include="Accessory.cpp">
-      <Filter>Engine\GameObject\Item\Equipment\Accessory</Filter>
+      <Filter>Engine\GameObject\Item\Accessory</Filter>
     </ClCompile>
     <ClCompile Include="RarityAffixWeapon.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Weapon</Filter>
@@ -570,6 +513,69 @@
     </ClCompile>
     <ClCompile Include="EquipmentAffixDurability.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Equipment\EquipmentAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureEffectStamina.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Stamina</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureEffectHealth.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Health</Filter>
+    </ClCompile>
+    <ClCompile Include="AccessoryAffixMagic.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Accessory\AccessoryAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureEffectMagic.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsumableAffixHealth.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsumableAffixStamina.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaDrop.cpp">
+      <Filter>Engine\Area\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaPath.cpp">
+      <Filter>Engine\Area\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="MagicAction.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action\Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="AccessoryAffixSpellPower.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Accessory\AccessoryAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiObject.cpp">
+      <Filter>Engine\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiBox.cpp">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiGameObjectDisplay.cpp">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiSelectableItemList.cpp">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatureSkill.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="AccessoryAffixSkill.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Accessory\AccessoryAffixes</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiSelectableSkillList.cpp">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiSelectableActionList.cpp">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionExecutionFrame.cpp">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -663,9 +669,6 @@
     <ClInclude Include="QuestTheGoblinKing.h">
       <Filter>Engine\Quest\Quests</Filter>
     </ClInclude>
-    <ClInclude Include="AreaDrop.h">
-      <Filter>Engine\Area</Filter>
-    </ClInclude>
     <ClInclude Include="Creature.h">
       <Filter>Engine\GameObject\Dynamic\Creature</Filter>
     </ClInclude>
@@ -747,9 +750,6 @@
     <ClInclude Include="Door.h">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
     </ClInclude>
-    <ClInclude Include="AreaPath.h">
-      <Filter>Engine\Area</Filter>
-    </ClInclude>
     <ClInclude Include="AiVillager.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
     </ClInclude>
@@ -786,9 +786,6 @@
     <ClInclude Include="TradeFrame.h">
       <Filter>Engine\Gui\Frame\Frames</Filter>
     </ClInclude>
-    <ClInclude Include="AttackFrame.h">
-      <Filter>Engine\Gui\Frame\Frames</Filter>
-    </ClInclude>
     <ClInclude Include="DialogFrame.h">
       <Filter>Engine\Gui\Frame\Frames</Filter>
     </ClInclude>
@@ -815,36 +812,6 @@
     </ClInclude>
     <ClInclude Include="GuiComponent.h">
       <Filter>Engine\Gui\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiWeapon.h">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiArmor.h">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiCreature.h">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiOperable.h">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiTile.h">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiSelectableItemList.h">
-      <Filter>Engine\Gui\Component\Components\Major</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiBox.h">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiGameObjectDisplay.h">
-      <Filter>Engine\Gui\Component\Components\Major</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectHealthRegeneration.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Health</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectStaminaRegeneration.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Stamina</Filter>
     </ClInclude>
     <ClInclude Include="RarityMod.h">
       <Filter>Engine\Rarity\Mod</Filter>
@@ -888,15 +855,6 @@
     <ClInclude Include="Water.h">
       <Filter>Engine\GameObject\Tile\Tiles</Filter>
     </ClInclude>
-    <ClInclude Include="GuiConsumable.h">
-      <Filter>Engine\Gui\Component\Components\Minor</Filter>
-    </ClInclude>
-    <ClInclude Include="ConsumableAffixStaminaRegenerate.h">
-      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
-    </ClInclude>
-    <ClInclude Include="ConsumableAffixHealthRegenerate.h">
-      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
-    </ClInclude>
     <ClInclude Include="CreatureLimb.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Limb</Filter>
     </ClInclude>
@@ -904,16 +862,16 @@
       <Filter>Engine\GameObject\Dynamic\Creature\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="CreatureAction.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Action</Filter>
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action</Filter>
     </ClInclude>
     <ClInclude Include="WeaponAction.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Action\Weapon</Filter>
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Equipment.h">
       <Filter>Engine\GameObject\Item\Equipment</Filter>
     </ClInclude>
     <ClInclude Include="Accessory.h">
-      <Filter>Engine\GameObject\Item\Equipment\Accessory</Filter>
+      <Filter>Engine\GameObject\Item\Accessory</Filter>
     </ClInclude>
     <ClInclude Include="RarityAffixAccessory.h">
       <Filter>Engine\Rarity\Mod\Affix\Accessory</Filter>
@@ -944,6 +902,72 @@
     </ClInclude>
     <ClInclude Include="EquipmentAffixDurability.h">
       <Filter>Engine\Rarity\Mod\Affix\Equipment\EquipmentAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateAccessory.h">
+      <Filter>Engine\ObjectFactory\Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureEffectStamina.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Stamina</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureEffectHealth.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Health</Filter>
+    </ClInclude>
+    <ClInclude Include="AccessoryAffixMagic.h">
+      <Filter>Engine\Rarity\Mod\Affix\Accessory\AccessoryAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureEffectMagic.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Effect\Magic</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumableAffixHealth.h">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumableAffixStamina.h">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaDrop.h">
+      <Filter>Engine\Area\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaPath.h">
+      <Filter>Engine\Area\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="MagicAction.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action\Magic</Filter>
+    </ClInclude>
+    <ClInclude Include="AccessoryAffixSpellPower.h">
+      <Filter>Engine\Rarity\Mod\Affix\Accessory\AccessoryAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiObject.h">
+      <Filter>Engine\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiBox.h">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiSelectableItemList.h">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiGameObjectDisplay.h">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureSkill.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="AccessoryAffixSkill.h">
+      <Filter>Engine\Rarity\Mod\Affix\Accessory\AccessoryAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiSelectableSkillList.h">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiSelectableActionList.h">
+      <Filter>Engine\Gui\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionExecutionFrame.h">
+      <Filter>Engine\Gui\Frame\Frames</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

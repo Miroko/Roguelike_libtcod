@@ -107,8 +107,8 @@ private:
 		PhaseVillage() : QuestPhase(true),
 			dialogBlacksmith(std::shared_ptr<Dialog>(new DialogBlacksmith())),
 			dialogAlchemist(std::shared_ptr<Dialog>(new DialogAlchemist())),
-			blacksmithTradeContainer(TradeContainer(3000, 26, 34, 0)),
-			alchemistTradeContainer(TradeContainer(1000, 0, 0, 40)){};
+			blacksmithTradeContainer(TradeContainer(3000, 25, 25, 0, 0)),
+			alchemistTradeContainer(TradeContainer(2000, 0, 0, 25, 40)){};
 	};
 	class PhaseWayThroughForest : public QuestPhase{
 	public:

@@ -11,14 +11,15 @@ public:
 };
 
 const char KEY_LOG = 'L';
-const char KEY_STATISTICS = 's';
+const char KEY_STATISTICS = 'S';
 const char KEY_QUEST = 'q';
 const char KEY_INVENTORY = 'i';
 const char KEY_HELP = 'h'; 
-const char KEY_INSPECT = 'k'; //Look
+const char KEY_INSPECT = 'k'; //look
+const char KEY_SKILL = 's';
 
 const char KEY_TALK = 't';
-const char KEY_TAKE = 'l'; //Loot
+const char KEY_TAKE = 'l'; //loot
 const char KEY_ATTACK = 'a';
 const char KEY_OPERATE = 'o';
 const char KEY_ENTER_AREA = '>';

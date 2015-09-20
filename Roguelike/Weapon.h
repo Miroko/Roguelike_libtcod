@@ -1,25 +1,25 @@
 #pragma once
 #include "Equipment.h"
 
-class WeaponAction;
+class CreatureSkill;
 class Weapon : public Equipment
 {
 private:
 	int damage;
 
 public:
-	int range;
-
-	std::vector<WeaponAction*> actions;
+	CreatureSkill &skillUsed;
 
 	std::string getStatistics();
 	int getValue();
-	int getDamage();
+	int getDamageBase();
+	int getDamageTotal();
+	double getAccuracyModifier();
+	double getStaminaCostModifier();
 
-	Weapon(Equipment equipment, int damage, int range, std::vector<WeaponAction*> actions) :
+	Weapon(Equipment equipment, int damage, CreatureSkill &skillUsed) :
 		Equipment(equipment),
 		damage(damage),
-		range(range),
-		actions(actions){};
+		skillUsed(skillUsed){};
 };
 

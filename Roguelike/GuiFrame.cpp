@@ -16,16 +16,14 @@ void GuiFrame::render(){
 void GuiFrame::blit(int x, int y, int width, int height, int toX, int toY, double alphaFg, double alphaBg){
 	TCODConsole::blit(
 		console.get(), x, y, width, height,
-		TCODConsole::root, toX, toY, alphaFg, alphaBg
-		);
+		TCODConsole::root, toX, toY, alphaFg, alphaBg);
 }
 
 void GuiFrame::blit(){
 	blit(
 		0, 0, console->getWidth(), console->getHeight(),
 		frameBounds.start.x, frameBounds.start.y,
-		alphaFg, alphaBg
-		);
+		alphaFg, alphaBg);
 }
 
 bool GuiFrame::handleKey(TCOD_key_t &key){

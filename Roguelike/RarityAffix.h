@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+class GameObject;
 class RarityAffix
 {
 public:
@@ -17,7 +18,7 @@ public:
 	Type type;
 	std::string name;
 	bool isType(Type type);
-	virtual std::string getDescription() = 0;
+	virtual std::string getDescription(GameObject &ownerObject) = 0;
 
 	RarityAffix(std::string name, Type type) :
 		name(name),

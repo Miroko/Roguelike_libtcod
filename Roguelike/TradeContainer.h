@@ -9,6 +9,7 @@ public:
 	int currency;
 	int weaponRolls;
 	int armorRolls;
+	int accessoryRolls;
 	int consumableRolls;
 
 	int currentCurrency;
@@ -16,10 +17,11 @@ public:
 
 	void generateItems();
 
-	TradeContainer(int currency, int weaponRolls, int armorRolls, int consumableRolls) :
+	TradeContainer(int currency, int weaponRolls, int armorRolls, int accessoryRolls, int consumableRolls) :
 		currency(currency),
 		currentCurrency(currency),
 		weaponRolls(weaponRolls),
 		armorRolls(armorRolls),
+		accessoryRolls(accessoryRolls),
 		consumableRolls(consumableRolls){};
 };

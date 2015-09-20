@@ -1,17 +1,15 @@
 #pragma once
 #include "CreatureEffect.h"
 
-class EffectStaminaRegeneration : public CreatureEffect
+class CreatureEffectHealth : public CreatureEffect
 {
 public:
-	double percentage;
 	std::string CreatureEffect::getDescription();
 	void CreatureEffect::apply(Creature &creature);
 	int CreatureEffect::getValue();
 	std::shared_ptr<CreatureEffect> CreatureEffect::clone();
 
-	EffectStaminaRegeneration(int duration, double percentage) :
-		CreatureEffect(duration),
-		percentage(percentage){}
+	CreatureEffectHealth(std::string name, double modifier, double durationFromMax) :
+		CreatureEffect(name, modifier, durationFromMax){}
 };
 

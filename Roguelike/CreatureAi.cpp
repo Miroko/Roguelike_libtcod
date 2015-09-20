@@ -1,6 +1,7 @@
 #include "CreatureAi.h"
 #include "Area.h"
 #include "Weapon.h"
+#include "Engine.h"
 
 void CreatureAi::createFovMap(){
 	Rectangle fovBounds = area->getBounds();
@@ -15,7 +16,7 @@ void CreatureAi::createFovMap(){
 float CreatureAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
 	CreatureAi *thisObject = static_cast<CreatureAi*>(userData);
 	float walkCost = 0; // 0 == unwalkable
-	walkCost = thisObject->area->tiles[xTo][yTo]->walkCost;
+	walkCost = (float)thisObject->area->tiles[xTo][yTo]->walkCost;
 	if (walkCost != 0 && !thisObject->cheapPathCalculation){
 		Point2D destination;
 		thisObject->pathMap->getDestination(&destination.x, &destination.y);
@@ -87,13 +88,7 @@ int CreatureAi::moveOnPath(){
 	}
 	return distance;
 }
-std::vector<std::pair<Weapon*, WeaponAction*>> CreatureAi::getBestWeaponActions(DynamicObject &against){
-	std::vector<std::pair<Weapon*, WeaponAction*>> bestActions;
-	for (auto &weapon : owner->inventory.getWeapons()){
-		bestActions.push_back(std::make_pair(weapon, weapon->actions.at(0)));
-	}
-	return bestActions;
-}
+
 void CreatureAi::onTakeDamage(DynamicObject &attacker){
 	
 }

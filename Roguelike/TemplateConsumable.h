@@ -3,19 +3,22 @@
 #include "GameObject.h"
 #include <string>
 
+class CreatureEffect;
 class TemplateConsumable
 {
 public:
-	GameObject::Type type;
 	std::string name;
 	Glyph glyph;
 	double weightKg;
+	double potencyFromMax;
+	double concentrationFromMax;
 
-	TemplateConsumable(GameObject::Type type, std::string name, Glyph glyph, double weightKg) :
-		type(type),
+	TemplateConsumable(std::string name, Glyph glyph, double weightKg, double potencyFromMax, double concentrationFromMax) :
 		name(name),
 		glyph(glyph),
-		weightKg(weightKg){};
+		weightKg(weightKg),
+		potencyFromMax(potencyFromMax),
+		concentrationFromMax(concentrationFromMax){};
 	TemplateConsumable(){}
 };
 

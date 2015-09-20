@@ -6,9 +6,10 @@ std::string String::outOf(int current, int max){
 	return "(" + std::to_string(current) + "/" + std::to_string(max) + ")";
 }
 
-std::string String::weightKg(double weightKg, bool kg, int precision){
+std::string String::weightKg(double weightKg, bool kg, int precision, bool showPos){
 	std::stringstream stream;
 	stream.precision(precision);
+	if (showPos) stream << std::showpos;
 	stream << std::fixed << weightKg;
 	if (kg){
 		return stream.str() + "kg";
@@ -16,8 +17,22 @@ std::string String::weightKg(double weightKg, bool kg, int precision){
 	else return stream.str();
 }
 
+std::string String::percentageValue(double percentageValue){
+	double realPercentage = percentageValue * 100;
+	std::stringstream stream;
+	stream.precision(0);
+	stream << std::fixed << std::showpos << realPercentage;
+	return stream.str() + "%%";
+}
+
+std::string String::value(int value){
+	std::stringstream stream;
+	stream << std::showpos << value;
+	return stream.str();
+}
+
 std::string String::currency(int amount){
-	return std::to_string(amount) + "c";
+	return std::to_string(amount) + "coins";
 }
 
 std::string String::multiplier(double multiplier){
@@ -36,20 +51,28 @@ std::string String::defence(int defence){
 	return std::to_string(defence) + "a";
 }
 
+std::string String::potency(double potency){
+	return percentageValue(potency) + "p";
+}
+
+std::string String::concentration(double concentration){
+	return percentageValue(concentration) + "c";
+}
+
 std::string String::duration(int duration){
 	return std::to_string(duration) + "t";
 }
 
-std::string String::durability(int current, int max){
-	return outOf(current, max) + "dr";
+std::string String::magic(int magic){
+	return std::to_string(magic) + "m";
 }
 
-std::string String::percentage(double percentage){
-	double realPercentage = percentage * 100;
-	std::stringstream stream;
-	stream.precision(0);
-	stream << std::fixed << std::showpos << realPercentage;
-	return stream.str() + "%%";
+std::string String::spellPower(double spellPower){
+	return percentageValue(spellPower) + "sp";
+}
+
+std::string String::durability(int current, int max){
+	return outOf(current, max) + "dr";
 }
 
 std::string String::loremIpsum(){

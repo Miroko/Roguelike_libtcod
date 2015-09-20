@@ -1,23 +1,30 @@
 #pragma once
 #include "GameObject.h"
+#include "ItemContainer.h"
 #include <memory>
+#include <vector>
 
-class Armor;
 class Item;
+class Armor;
+class Accessory;
 class CreatureLimb
 {
 public:
-	std::shared_ptr<Item> currentItemInHold = nullptr;
-	std::shared_ptr<Armor> currentArmor = nullptr;
 	GameObject::Type armorType;
 	std::string name;
 	double hitChance;
 	bool canHold;
+	int accessoriesMaxAmount;
 
-	CreatureLimb(std::string name, double hitChance, GameObject::Type armorType, bool canHold = false) :
+	std::shared_ptr<Item> currentItemInHold = nullptr;
+	std::shared_ptr<Armor> currentArmor = nullptr;
+	ItemContainer currentAccessories;
+
+	CreatureLimb(std::string name, double hitChance, GameObject::Type armorType, int accessoriesMaxAmount = 1, bool canHold = false) :
 		name(name), 
 		hitChance(hitChance),
 		armorType(armorType), 
-		canHold(canHold){};
+		canHold(canHold),
+		accessoriesMaxAmount(accessoriesMaxAmount){};
 };
 

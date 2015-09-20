@@ -10,10 +10,17 @@ TCODColor Gui::SELECTABLE_OPERATION;
 TCODColor Gui::TRADE_SELECTED;
 TCODColor Gui::INSPECTION_CURSOR;
 double Gui::INSPECTION_CURSOR_ALPHA;
+TCODColor Gui::HEALTH_MAX_COLOR;
+TCODColor Gui::HEALTH_MIN_COLOR;
+TCODColor Gui::STAMINA_MAX_COLOR;
+TCODColor Gui::STAMINA_MIN_COLOR;
+TCODColor Gui::MAGIC_MAX_COLOR;
+TCODColor Gui::MAGIC_MIN_COLOR;
 
 void Gui::init(){
 	//Definations
 	//parameters
+	FRAME_MARGIN = 1;
 	FRAME_BG = TCODColor(200, 190, 140);
 	FRAME_FG = TCODColor(35, 30, 25);
 	SELECTABLE_BG = FRAME_BG * 0.8f;
@@ -22,7 +29,12 @@ void Gui::init(){
 	INSPECTION_CURSOR = TCODColor::lightGreen;
 	INSPECTION_CURSOR_ALPHA = 0.5f;
 	RARITY_COLOR_MULTIPLIER = 0.6f;
-	FRAME_MARGIN = 1;
+	HEALTH_MAX_COLOR = TCODColor::darkGreen;
+	HEALTH_MIN_COLOR = TCODColor::darkRed;
+	STAMINA_MAX_COLOR = TCODColor::darkCyan;
+	STAMINA_MIN_COLOR = TCODColor::desaturatedCyan * 0.5;
+	MAGIC_MAX_COLOR = TCODColor::darkHan;
+	MAGIC_MIN_COLOR = TCODColor::desaturatedHan * 0.5;
 
 	//frames
 	log.init(Rectangle(
@@ -64,6 +76,14 @@ void Gui::init(){
 	attack.init(Rectangle(
 		Point2D(0, 0),
 		Point2D(TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 12)));
+
+	skill.init(Rectangle(
+		Point2D(TCODConsole::root->getWidth() / 4, 0),
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 12)));
+
+	action.init(Rectangle(
+		Point2D(TCODConsole::root->getWidth() / 4, 0),
+		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, TCODConsole::root->getHeight() - 12)));
 }
 
 bool Gui::handleKey(TCOD_key_t &key){
@@ -77,6 +97,8 @@ bool Gui::handleKey(TCOD_key_t &key){
 	if (statistics.handleKey(key)) handled = true;
 	if (trade.handleKey(key)) handled = true;
 	if (dialog.handleKey(key)) handled = true;
+	if (action.handleKey(key)) handled = true;
+	if (skill.handleKey(key)) handled = true;
 
 	if (!handled){
 		if (attack.handleKey(key)) handled = true;
@@ -95,6 +117,8 @@ void Gui::render(){
 	if (help.isOpen) help.render();
 	if (dialog.isOpen) dialog.render();
 	if (trade.isOpen) trade.render();
+	if (skill.isOpen) skill.render();
+	if (action.isOpen) action.render();
 }
 
 void Gui::update(){

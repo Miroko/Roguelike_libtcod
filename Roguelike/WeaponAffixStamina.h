@@ -3,13 +3,15 @@
 
 class WeaponAffixStamina : public RarityAffixWeapon
 {
-public:	
-	double percentage;
-	double getStaminaModifier(){ return percentage; }
-	std::string RarityAffixWeapon::getDescription();
+private:
+	double percentageValue;
 
-	WeaponAffixStamina(std::string name, double percentage) :
+public:	
+	double getStaminaModifier(){ return percentageValue; }
+	std::string RarityAffixWeapon::getDescription(GameObject &ownerObject);
+
+	WeaponAffixStamina(std::string name, double percentageValue) :
 		RarityAffixWeapon(name),
-		percentage(percentage){}
+		percentageValue(percentageValue){}
 };
 

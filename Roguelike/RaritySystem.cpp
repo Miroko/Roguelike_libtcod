@@ -5,8 +5,11 @@
 #include "WeaponAffixDamage.h"
 #include "WeaponAffixAccuracy.h"
 #include "WeaponAffixStamina.h"
-#include "ConsumableAffixHealthRegenerate.h"
-#include "ConsumableAffixStaminaRegenerate.h"
+#include "AccessoryAffixMagic.h"
+#include "AccessoryAffixSkill.h"
+#include "AccessoryAffixSpellPower.h"
+#include "ConsumableAffixHealth.h"
+#include "ConsumableAffixStamina.h"
 #include "Engine.h"
 #include <algorithm>
 
@@ -31,6 +34,13 @@ RarityMod RaritySystem::getWeaponMod(RarityType &rarityType){
 	return RarityMod(rarityType, affixes);
 }
 
+RarityMod RaritySystem::getAccessoryMod(RarityType &rarityType){
+	std::vector<RarityAffix*> affixes;
+	affixes.push_back(rarityType.accessoryAffixesPre.at(engine::random.generator->getInt(0, rarityType.accessoryAffixesPre.size() - 1)).get());
+	affixes.push_back(rarityType.accessoryAffixesPost.at(engine::random.generator->getInt(0, rarityType.accessoryAffixesPost.size() - 1)).get());
+	return RarityMod(rarityType, affixes);
+}
+
 RarityMod RaritySystem::getConsumableMod(RarityType &rarityType){
 	std::vector<RarityAffix*> affixes;
 	affixes.push_back(rarityType.consumableAffixesPre.at(engine::random.generator->getInt(0, rarityType.consumableAffixesPre.size() - 1)).get());
@@ -43,7 +53,7 @@ RarityType* RaritySystem::getRarityType(double rarityRoll){
 		if (rarityRoll <= rarityType.prevalence){
 			return &rarityType;
 		}
-	}
+	}	
 	return nullptr;
 }
 
@@ -57,23 +67,32 @@ RarityType* RaritySystem::getRarityType(std::string id){
 }
 
 double RaritySystem::getRarityRoll(Creature *fromCreature){
-	double rarityFromCreature = 0;
 	if (fromCreature != nullptr){
-		rarityFromCreature = 
-			engine::random.generator->getDouble(0, (1.0 - fromCreature->rarityType->prevalence)) *
-			engine::lootRarityFromCreatureRarityRatio;
+		double prevalenceMin =
+			engine::random.generator->getDouble(
+			0.0,
+			1.0);
+		prevalenceMin *= engine::lootMinPrevalenceMultiplier;
+		return
+			engine::random.generator->getDouble(
+			prevalenceMin,
+			std::min(prevalenceMin + fromCreature->rarityType->prevalence, 1.0));
 	}
-	double rarityRoll = engine::random.generator->getDouble(rarityFromCreature, 1.0);
-	return rarityRoll;
+	else{
+		return 
+			engine::random.generator->getDouble(
+			0.0,
+			1.0);
+	}
 }
 
 void RaritySystem::init(){
 	rarityTypes = std::vector<RarityType>{
 		RarityType("common", "Common", TCODColor(TCODColor::grey), 1.0, 1.0),
 		RarityType("uncommon", "Uncommon", TCODColor(TCODColor::azure), 0.20, 1.5),
-		RarityType("rare", "Rare", TCODColor(TCODColor::violet), 0.05, 2.5),
-		RarityType("epic", "Epic", TCODColor(TCODColor::green), 0.005, 3.5),
-		RarityType("unique", "Unique", TCODColor(TCODColor::orange), 0.0005, 5.5)
+		RarityType("rare", "Rare", TCODColor(TCODColor::violet), 0.05, 2.0),
+		RarityType("epic", "Epic", TCODColor(TCODColor::green), 0.01, 2.6),
+		RarityType("unique", "Unique", TCODColor(TCODColor::orange), 0.005, 3.3)
 	};
 	std::sort(rarityTypes.begin(), rarityTypes.end(),
 		[](RarityType &a, RarityType &b){
@@ -81,7 +100,7 @@ void RaritySystem::init(){
 	});
 	for (auto &rarityType : rarityTypes){
 		//Pre
-		//armor affixes
+		//armor
 		rarityType.armorAffixesPre.push_back(
 			std::shared_ptr<RarityAffix>(
 			new ArmorAffixDefence("Defensive", 0.3 * rarityType.improvementMultiplier)
@@ -90,7 +109,7 @@ void RaritySystem::init(){
 			std::shared_ptr<RarityAffix>(
 			new ItemAffixWeight("Light", -0.3 * rarityType.improvementMultiplier)
 			));
-		//weapon affixes
+		//weapon
 		rarityType.weaponAffixesPre.push_back(
 			std::shared_ptr<RarityAffix>(
 			new WeaponAffixDamage("Damaging", 0.3 * rarityType.improvementMultiplier)
@@ -111,23 +130,36 @@ void RaritySystem::init(){
 			std::shared_ptr<RarityAffix>(
 			new ItemAffixWeight("Light", -0.3 * rarityType.improvementMultiplier)
 			));
-		//consumable affixes
+		//accessory
+		rarityType.accessoryAffixesPre.push_back(
+			std::shared_ptr<RarityAffix>(
+			new AccessoryAffixMagic("Mystical", 0.2 * rarityType.improvementMultiplier)
+			));
+		rarityType.accessoryAffixesPre.push_back(
+			std::shared_ptr<RarityAffix>(
+			new AccessoryAffixSpellPower("Empowering", 0.2 * rarityType.improvementMultiplier)
+			));
+		rarityType.accessoryAffixesPre.push_back(
+			std::shared_ptr<RarityAffix>(
+			new AccessoryAffixSkill("Burning", 0.2 * rarityType.improvementMultiplier, *engine::objectLibrary.creatureSkills["skill_fire"])
+			));
+		//consumable
 		rarityType.consumableAffixesPre.push_back(
 			std::shared_ptr<RarityAffix>(
-			new ConsumableAffixHealthRegenerate("Healing",(int)(4 * rarityType.improvementMultiplier), 0.03 * rarityType.improvementMultiplier)
+			new ConsumableAffixHealth("Healing", 0.04 * rarityType.improvementMultiplier, 0.5 * rarityType.improvementMultiplier)
 			));
 		rarityType.consumableAffixesPre.push_back(
 			std::shared_ptr<RarityAffix>(
-			new ConsumableAffixStaminaRegenerate("Refreshing", (int)(4 * rarityType.improvementMultiplier), 0.03 * rarityType.improvementMultiplier)
+			new ConsumableAffixStamina("Refreshing", 0.04 * rarityType.improvementMultiplier, 0.5 * rarityType.improvementMultiplier)
 			));
 
 		//Post
-		//armor affixes
+		//armor
 		rarityType.armorAffixesPost.push_back(
 			std::shared_ptr<RarityAffix>(
 			new ArmorAffixDefence("Protection", 0.6 * rarityType.improvementMultiplier)
 			));
-		//weapon affixes
+		//weapon
 		rarityType.weaponAffixesPost.push_back(
 			std::shared_ptr<RarityAffix>(
 			new WeaponAffixDamage("Destruction", 0.6 * rarityType.improvementMultiplier)
@@ -140,14 +172,23 @@ void RaritySystem::init(){
 			std::shared_ptr<RarityAffix>(
 			new WeaponAffixStamina("Agility", -0.06 * rarityType.improvementMultiplier)
 			));
-		//consumable affixes
+		//accessory
+		rarityType.accessoryAffixesPost.push_back(
+			std::shared_ptr<RarityAffix>(
+			new AccessoryAffixMagic("Conjuring", 0.4 * rarityType.improvementMultiplier)
+			));
+		rarityType.accessoryAffixesPost.push_back(
+			std::shared_ptr<RarityAffix>(
+			new AccessoryAffixSpellPower("Sorcery", 0.4 * rarityType.improvementMultiplier)
+			));
+		//consumable
 		rarityType.consumableAffixesPost.push_back(
 			std::shared_ptr<RarityAffix>(
-			new ConsumableAffixHealthRegenerate("Restoration", (int)(8 * rarityType.improvementMultiplier), 0.04 * rarityType.improvementMultiplier)
+			new ConsumableAffixHealth("Restoration", 0.03 * rarityType.improvementMultiplier, 0.8 * rarityType.improvementMultiplier)
 			));
 		rarityType.consumableAffixesPost.push_back(
 			std::shared_ptr<RarityAffix>(
-			new ConsumableAffixStaminaRegenerate("Enduration", (int)(8 * rarityType.improvementMultiplier), 0.04 * rarityType.improvementMultiplier)
+			new ConsumableAffixStamina("Enduration", 0.03 * rarityType.improvementMultiplier, 0.8 * rarityType.improvementMultiplier)
 			));
 	}
 }

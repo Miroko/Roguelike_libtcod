@@ -1,0 +1,12 @@
+#include "ConsumableAffixStamina.h"
+#include "Consumable.h"
+#include "Engine.h"
+#include <algorithm>
+
+std::string ConsumableAffixStamina::getDescription(GameObject &ownerObject){
+	Consumable &ownerConsumable = static_cast<Consumable&>(ownerObject);
+	return 
+		"Stamina " + 
+		engine::string.value(engine::staminaMax * effect->modifier * ownerConsumable.potency) + 
+		" for " + engine::string.duration(std::max((int)(effect->duration * ownerConsumable.concentration), 1));
+}

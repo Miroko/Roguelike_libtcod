@@ -5,8 +5,7 @@
 
 void StatisticsFrame::render(){
 	GuiFrame::render();
-	guiCreature.setCurrentCreature(engine::playerHandler.getPlayerCreature().get());
-	guiCreature.renderTo(*this, guiCreatureBounds);
+	engine::playerHandler.getPlayerCreature()->renderToFrame(*this, creatureBounds);
 	blit();
 }
 
@@ -17,5 +16,5 @@ bool StatisticsFrame::handleKey(TCOD_key_t key){
 
 void StatisticsFrame::init(Rectangle &bounds){
 	GuiFrame::init(bounds);
-	guiCreatureBounds = Rectangle(getWidth(), getHeight());
+	creatureBounds = Rectangle(getWidth(), getHeight());
 }

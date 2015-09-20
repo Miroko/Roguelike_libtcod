@@ -1,12 +1,10 @@
 #pragma once
 #include "GuiFrame.h"
-#include "GuiCreature.h"
 
 class StatisticsFrame : public GuiFrame
 {
 private:
-	Rectangle guiCreatureBounds;
-	GuiCreature guiCreature;
+	Rectangle creatureBounds;
 
 public:
 	void GuiFrame::render();

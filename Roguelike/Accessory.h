@@ -1,10 +1,20 @@
 #pragma once
 #include "Equipment.h"
 
-class Accessory : public Equipment
+class Accessory : public Item
 {
+private:
+	double spellPower;
+
 public:
+	int getValue();
+	std::string getStatistics();
 
-	Accessory(Equipment equipment);
+	double getSpellPowerBase();
+	double getSpellPowerTotal();
+
+	Accessory(Item item, double spellPower) : 
+		Item(item),
+		spellPower(spellPower){
+	}
 };
-

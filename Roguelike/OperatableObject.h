@@ -14,6 +14,8 @@ public:
 	void onTakeDamageEffect();
 	void messageDeath();
 
+	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
+
 	virtual std::shared_ptr<OperatableObject> copy();
 
 	OperatableObject(DynamicObject dynamicObject) :

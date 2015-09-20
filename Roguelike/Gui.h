@@ -8,7 +8,9 @@
 #include "StatisticsFrame.h"
 #include "DialogFrame.h"
 #include "TradeFrame.h"
-#include "AttackFrame.h"
+#include "ActionExecutionFrame.h"
+#include "SkillFrame.h"
+#include "ActionFrame.h"
 #include "KeyMapping.h"
 
 class Gui
@@ -23,6 +25,12 @@ public:
 	static TCODColor INSPECTION_CURSOR;
 	static double INSPECTION_CURSOR_ALPHA;
 	static double RARITY_COLOR_MULTIPLIER;
+	static TCODColor HEALTH_MAX_COLOR;
+	static TCODColor HEALTH_MIN_COLOR;
+	static TCODColor STAMINA_MAX_COLOR;
+	static TCODColor STAMINA_MIN_COLOR;
+	static TCODColor MAGIC_MAX_COLOR;
+	static TCODColor MAGIC_MIN_COLOR;
 
 	LogFrame log = LogFrame(KEY_LOG, true, 1.0f, 1.0f);
 	InventoryFrame inventory = InventoryFrame(KEY_INVENTORY, false, 1.0f, 1.0f);
@@ -33,7 +41,9 @@ public:
 	StatisticsFrame statistics = StatisticsFrame(KEY_STATISTICS, true, 1.0f, 1.0f);
 	DialogFrame dialog = DialogFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
 	TradeFrame trade = TradeFrame(KEY_UNDEFINED, false, 1.0f, 1.0f);
-	AttackFrame attack = AttackFrame(KEY_ATTACK, false, 1.0f, 1.0f);
+	ActionExecutionFrame attack = ActionExecutionFrame(KEY_ATTACK, false, 1.0f, 1.0f);
+	SkillFrame skill = SkillFrame(KEY_SKILL, false, 1.0, 1.0);
+	ActionFrame action = ActionFrame(KEY_UNDEFINED, false, 1.0, 1.0);
 
 	void init();
 	

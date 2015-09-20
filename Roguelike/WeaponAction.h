@@ -1,9 +1,6 @@
 #pragma once
 #include "CreatureAction.h"
 
-class Weapon;
-class DynamicObject;
-class Creature;
 class WeaponAction : public CreatureAction
 {
 public:
@@ -12,11 +9,11 @@ public:
 	double durabilityModifier;
 	double accuracyModifier;
 
-	//return true if executed successfully
-	bool execute(Creature &executer, Weapon &actionObject, DynamicObject &target);
+	bool CreatureAction::execute(Creature &executer, double skillModifier, GameObject &actionObject, DynamicObject &target) override;
 
-	WeaponAction(std::string name, std::string logDescription, double damageModifier, double accuracyModifier, double staminaCostModifier, double durabilityModifier) :
-		CreatureAction(name, logDescription),
+	WeaponAction(std::string name, std::string logDescription, double profiencyModifier, int range, double damageModifier,
+		double accuracyModifier, double staminaCostModifier, double durabilityModifier) :
+		CreatureAction(name, logDescription, profiencyModifier, range),
 		staminaCostModifier(staminaCostModifier),
 		damageModifier(damageModifier),
 		accuracyModifier(accuracyModifier),

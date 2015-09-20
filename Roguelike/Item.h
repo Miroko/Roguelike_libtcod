@@ -14,10 +14,13 @@ public:
 	int limbsRequiredToHold;
 
 	virtual int getValue();
-	double getWeight();
+	double getWeightBase();
+	double getWeightTotal();
 
-	virtual std::string getStatistics();
-	virtual std::string getDescription();
+	std::string GuiObject::getStatistics() override;
+	std::string GuiObject::getDescription() override;
+	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
+	void GuiObject::renderToFrameLine(GuiFrame &frame, Rectangle &renderBounds, int offsetY) override;
 
 	bool operator==(const Item &item);
 

@@ -9,8 +9,30 @@ void AiModuleCombat::pursueAndAttack(DynamicObject &target){
 	if (!target.isDead){
 		if (owner->inFov(target.location)){
 			owner->calculatePath(target.location);
-			if (target.location.distance(owner->owner->location) <= owner->owner->inventory.getWeapons().at(0)->range){
-				owner->owner->attack(owner->getBestWeaponActions(target), target);
+
+			bool attacked = false;
+			int distanceToTarget = target.location.distance(owner->owner->location);
+			std::pair<CreatureSkill*, double> *bestSkill = nullptr;
+			std::pair<CreatureAction*, double> *bestAction = nullptr;
+			auto &combatSkills = owner->owner->getCombatSkillsAndProficiencies();
+			for (auto &skill : combatSkills){
+				for (auto &action : skill.first->getActionsAndProficiencies(skill.second)){
+					if (distanceToTarget <= action.first->range){
+						if (bestSkill == nullptr){
+							bestSkill = &skill;
+							bestAction = &action;
+						}
+						else if (
+							bestSkill->second < skill.second &&
+							bestAction->second < action.second){
+							bestSkill = &skill;
+							bestAction = &action;
+						}
+					}
+				}
+			}
+			if (bestAction){
+				owner->owner->executeSkillAction(*bestSkill->first, bestSkill->second, *bestAction->first, bestAction->second, target);
 			}
 			else{
 				owner->moveOnPath();

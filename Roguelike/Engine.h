@@ -28,6 +28,12 @@ namespace engine{
 	//health
 	extern double healthMax;
 
+	//magic
+	extern double magicMax; //base magic in creatures
+	extern double magicCostBase;
+	extern double magicStaminaCostPerMagic;
+	extern double magicSpellPowerMax; //spell effectivity in accessories
+
 	//damage
 	extern double damageMax;
 
@@ -55,19 +61,28 @@ namespace engine{
 	extern double staminaCostPerKgFromAttack;
 	extern double staminaCostFromDamageRation;
 
+	//effect
+	extern double effectDurationBase;
+
 	//value
 	extern double valueBase;
 	extern double valuePerKg;
 	extern double valuePerStamina;
 	extern double valuePerHealth;
+	extern double valuePerMagic;
+	extern double valuePerSpellPower;
 	extern double valuePerDamage;
 	extern double valuePerDefence;
 
 	//loot
 	extern double statisticVariation;
-	extern double lootRarityFromCreatureRarityRatio;
+	extern double lootMinPrevalenceMultiplier;
 	extern double lootRollDropChance;
 	extern int lootDropRolls;
+
+	//consumable
+	extern double consumablePotencyMax;
+	extern double consumableConcentrationMax;
 
 	extern void init();
 	extern void newGame();

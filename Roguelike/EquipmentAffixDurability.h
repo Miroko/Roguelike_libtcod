@@ -3,13 +3,15 @@
 
 class EquipmentAffixDurability : public RarityAffixEquipment
 {
-public:
-	double percentage;
-	double getDurabilityModifier(){ return percentage; }
-	std::string RarityAffix::getDescription();
+private:
+	double percentageValue;
 
-	EquipmentAffixDurability(std::string name, double percentage) :
+public:
+	double getDurabilityModifier(){ return percentageValue; }
+	std::string RarityAffix::getDescription(GameObject &ownerObject);
+
+	EquipmentAffixDurability(std::string name, double percentageValue) :
 		RarityAffixEquipment(name),
-		percentage(percentage){}
+		percentageValue(percentageValue){}
 };
 

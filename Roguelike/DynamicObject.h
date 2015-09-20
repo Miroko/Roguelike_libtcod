@@ -6,17 +6,23 @@
 
 class DynamicObject : public GameObject
 {
+private:
+	int healthCurrent;
+	int healthMax;
+
 public:
-	bool isDead = false;
+	bool isDead;
 	Point2D location;
 	bool transparent;
-	int healthMax;
-	int healthCurrent;
 
-	void setHealth(int healthCurrent);
+	virtual int getHealthCurrent();
+	virtual int getHealthMax();
+	virtual void healthHit(int amount);
+
+	void kill();
+
 	virtual bool move(Point2D &location);
 	virtual void onMove();
-	void kill();
 	virtual bool passable(DynamicObject &dynamicObject);
 	virtual void onTakeDamage(DynamicObject &attacker, double amount);
 	virtual void onTakeDamageEffect();
@@ -24,9 +30,11 @@ public:
 	virtual void messageDeath();
 	virtual void update(){};
 
-	DynamicObject(GameObject gameObject, int healthCurrent, bool transparent = true) :
+	DynamicObject(GameObject gameObject, int health, bool transparent = true) :
 		GameObject(gameObject),
-		transparent(transparent){
-		setHealth(healthCurrent);
+		transparent(transparent),
+		healthCurrent(health),
+		healthMax(health){
+		isDead = false;
 	};
 };

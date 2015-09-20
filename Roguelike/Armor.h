@@ -9,9 +9,11 @@ private:
 public:
 	int limbsRequiredToEquip;
 
+	int getDefenceBase();
+	int getDefenceTotal();
+
 	std::string getStatistics();
 	int getValue();
-	int getDefence();
 
 	Armor(Equipment equipment, int limbsRequiredToEquip, int defence) :
 		Equipment(equipment),

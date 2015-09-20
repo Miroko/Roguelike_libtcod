@@ -1,11 +1,43 @@
-#include "AttackFrame.h"
+#include "ActionExecutionFrame.h"
 #include "KeyMapping.h"
 #include "Engine.h"
 #include "Direction.h"
 #include "Weapon.h"
+#include "CreatureSkill.h"
+#include "CreatureAction.h"
 #include "Engine.h"
 
-bool AttackFrame::handleKey(TCOD_key_t key){
+void ActionExecutionFrame::executeSelectedAction(){
+	for (auto &skill : engine::playerHandler.getPlayerCreature()->getCombatSkillsAndProficiencies()){
+		if (skill.first == selectedSkill){
+			for (auto &action : skill.first->getActionsAndProficiencies(skill.second)){
+				if (action.first == selectedAction){
+					engine::playerHandler.getPlayerCreature()->executeSkillAction(*skill.first, skill.second, *action.first, action.second,
+						*attackableObjects.at(selectedObjectIndex));
+					previousTarget = attackableObjects.at(selectedObjectIndex);
+					engine::requestUpdate = true;
+				}
+			}
+		}
+	}
+	//invalid action, skills or actions changed, weapon unequipped etc.
+	open();
+}
+
+bool ActionExecutionFrame::validSelectedSkillAction(){
+	for (auto &skill : engine::playerHandler.getPlayerCreature()->getCombatSkillsAndProficiencies()){
+		if (skill.first == selectedSkill){
+			for (auto &action : skill.first->getActionsAndProficiencies(skill.second)){
+				if (action.first == selectedAction){
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool ActionExecutionFrame::handleKey(TCOD_key_t key){
 	bool handled = GuiFrame::handleKey(key);
 	if (isOpen){
 		Point2D direction = KeyMapping::direction(key.vk);
@@ -13,21 +45,15 @@ bool AttackFrame::handleKey(TCOD_key_t key){
 			if (direction == LEFT){
 				if (selectedObjectIndex == 0) selectedObjectIndex = attackableObjects.size() - 1;
 				else selectedObjectIndex--;
-				updateTarget();
 				handled = true;
 			}
 			else if (direction == RIGHT){
 				if (selectedObjectIndex == attackableObjects.size() - 1) selectedObjectIndex = 0;
 				else selectedObjectIndex++;
-				updateTarget();
 				handled = true;
 			}
 			else if (direction == CENTER){
-				engine::playerHandler.getPlayerCreature()->attack(
-					engine::playerHandler.getPlayerCreature()->ai->getBestWeaponActions(*attackableObjects.at(selectedObjectIndex)),
-					*attackableObjects.at(selectedObjectIndex));
-				previouslyAttacked = attackableObjects.at(selectedObjectIndex);
-				engine::requestUpdate = true;
+				executeSelectedAction();
 				handled = true;
 			}
 		}
@@ -40,7 +66,7 @@ bool AttackFrame::handleKey(TCOD_key_t key){
 }
 
 //Get objects to attack and set target
-void AttackFrame::update(){
+void ActionExecutionFrame::update(){
 	updateAttackableObjects();
 	if (!attackableObjects.empty()){
 		//try to keep same target
@@ -48,23 +74,22 @@ void AttackFrame::update(){
 		bool indexSelected = false;
 		for (auto &o : attackableObjects){
 			++index;
-			if (o == previouslyAttacked){
+			if (o == previousTarget){
 				selectedObjectIndex = index;
 				indexSelected = true;
 				break;
 			}
 		}
 		if (!indexSelected) selectedObjectIndex = 0;
-		updateTarget();
 	}
 	else{
 		close();
 	}
 }
 
-void AttackFrame::render(){
+void ActionExecutionFrame::render(){
 	GuiFrame::render();
-	guiGameObjectDisplay.renderTo(*this, guiGameObjectDisplayBounds);
+	attackableObjects.at(selectedObjectIndex)->renderToFrame(*this, gameObjectDisplayBounds);
 	//cursor
 	TCODConsole::root->setCharBackground(
 		attackableObjects.at(selectedObjectIndex)->location.x - engine::camera.location.x,
@@ -74,20 +99,13 @@ void AttackFrame::render(){
 	blit();
 }
 
-void AttackFrame::updateTarget(){
-	if (!attackableObjects.empty()){
-		guiGameObjectDisplay.setDisplayedObject(attackableObjects.at(selectedObjectIndex).get());
-	}
-}
-
-void AttackFrame::updateAttackableObjects(){
+void ActionExecutionFrame::updateAttackableObjects(){
 	attackableObjects.clear();
-	Weapon *weapon = engine::playerHandler.getPlayerCreature()->inventory.getWeapons().at(0);
 	//attack range
 	Rectangle range = Rectangle(
 		engine::playerHandler.getPlayerCreature()->location,
 		engine::playerHandler.getPlayerCreature()->location)
-		.expand(weapon->range);
+		.expand(selectedAction->range);
 	//get attackable creatures
 	for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(range)){
 		attackableObjects.push_back(*creature);
@@ -107,11 +125,16 @@ void AttackFrame::updateAttackableObjects(){
 	}
 }
 
-void AttackFrame::onOpen(){
-	auto &weapons = engine::playerHandler.getPlayerCreature()->inventory.getWeapons();
-	if (!weapons.empty()){
-		update();
-		if (attackableObjects.empty()){
+void ActionExecutionFrame::onOpen(){
+	if (!validSelectedSkillAction()){
+		engine::gui.skill.open();
+		close();
+		return;
+	}
+	update();
+	if (attackableObjects.empty()){
+		if (selectedSkill->isType(CreatureSkill::WEAPON)){
+			auto &weapons = engine::playerHandler.getPlayerCreature()->inventory.getWeapons();
 			if (weapons.at(0)->type == GameObject::WEAPON_MELEE){
 				engine::gui.log.addMessage("Nothing to attack.");
 			}
@@ -119,14 +142,21 @@ void AttackFrame::onOpen(){
 				engine::gui.log.addMessage("Nothing to shoot at.");
 			}
 		}
-	}
-	else {
-		engine::gui.log.addMessage("I need to equip a weapon first.");
-		close();
+		else if (selectedSkill->isType(CreatureSkill::MAGIC)){
+			if (attackableObjects.empty()){
+				engine::gui.log.addMessage("No targets.");
+			}
+		}
 	}
 }
 
-void AttackFrame::init(Rectangle &bounds){
+void ActionExecutionFrame::init(Rectangle &bounds){
 	GuiFrame::init(bounds);
-	guiGameObjectDisplayBounds = Rectangle(getWidth(), getHeight());
+	gameObjectDisplayBounds = Rectangle(getWidth(), getHeight());
+}
+
+
+void ActionExecutionFrame::setSkillAndAction(CreatureSkill &skill, CreatureAction &action){
+	selectedSkill = &skill;
+	selectedAction = &action;
 }

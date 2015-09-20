@@ -20,11 +20,13 @@ public:
 	std::vector<std::shared_ptr<RarityAffix>> creatureAffixesPre;
 	std::vector<std::shared_ptr<RarityAffix>> armorAffixesPre;
 	std::vector<std::shared_ptr<RarityAffix>> weaponAffixesPre;
+	std::vector<std::shared_ptr<RarityAffix>> accessoryAffixesPre;
 	std::vector<std::shared_ptr<RarityAffix>> consumableAffixesPre;
 
 	std::vector<std::shared_ptr<RarityAffix>> creatureAffixesPost;
 	std::vector<std::shared_ptr<RarityAffix>> armorAffixesPost;
 	std::vector<std::shared_ptr<RarityAffix>> weaponAffixesPost;
+	std::vector<std::shared_ptr<RarityAffix>> accessoryAffixesPost;
 	std::vector<std::shared_ptr<RarityAffix>> consumableAffixesPost;
 
 	RarityType(std::string id, std::string name, TCODColor color, double prevalence, double improvementMultiplier) :

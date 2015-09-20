@@ -11,7 +11,8 @@ public:
 	void durabilityHit(double amount);
 	bool isBroken();
 	double getDurabilityCurrent();
-	double getDurabilityMax();
+	double getDurabilityMaxBase();
+	double getDurablilityMaxTotal();
 
 	int getValue();
 	std::string getStatistics();
@@ -19,6 +20,8 @@ public:
 	Equipment(Item item, double durability) : 
 		Item(item),
 		durabilityMax(durability),
-		durabilityCurrent(durability){}
+		durabilityCurrent(durability){
+		durabilityCurrent = getDurablilityMaxTotal();
+	}
 };
 

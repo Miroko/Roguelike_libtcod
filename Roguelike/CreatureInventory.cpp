@@ -2,17 +2,37 @@
 #include "Creature.h"
 #include "Armor.h"
 #include "Weapon.h"
+#include "Accessory.h"
 #include "Consumable.h"
 #include "Engine.h"
 
 bool CreatureInventory::equip(std::shared_ptr<Item> item){
-	if (item->isArmor()) return engine::playerHandler.getPlayerCreature()->inventory.equipArmor(std::static_pointer_cast<Armor>(item));
-	else if (item->isWeapon()) return engine::playerHandler.getPlayerCreature()->inventory.holdItem(item);
+	if (item->isArmor()) return equipArmor(std::static_pointer_cast<Armor>(item));
+	else if (item->isAccessory()) return equipAccessory(std::static_pointer_cast<Accessory>(item));
+	else if (item->isWeapon()) return holdItem(item);
 	return false;
 }
 void CreatureInventory::unequip(std::shared_ptr<Item> item){
-	if (item->isArmor()) engine::playerHandler.getPlayerCreature()->inventory.unequipArmor(std::static_pointer_cast<Armor>(item));
-	else if (item->isWeapon()) engine::playerHandler.getPlayerCreature()->inventory.unholdItem(item);
+	if (item->isArmor()) unequipArmor(std::static_pointer_cast<Armor>(item));
+	else if (item->isAccessory()) unequipAccessory(std::static_pointer_cast<Accessory>(item));
+	else if (item->isWeapon()) unholdItem(item);
+}
+void CreatureInventory::consume(std::shared_ptr<Consumable> consumable){
+	consumable->onConsume(*owner);
+	items.remove(consumable);
+}
+void CreatureInventory::drop(std::shared_ptr<Item> item){
+	if (isEquipped(item)) unequip(item);
+	items.remove(item);
+	engine::areaHandler.getCurrentArea()->placeItem(item, owner->location);
+}
+bool CreatureInventory::isEquipped(std::shared_ptr<Item> item){
+	for (auto &limb : owner->limbs){
+		if (limb.currentArmor == item) return true;
+		else if (limb.currentItemInHold == item) return true;
+		else if (limb.currentAccessories.contains(item)) return true;
+	}
+	return false;
 }
 bool CreatureInventory::holdItem(std::shared_ptr<Item> item){
 	std::vector<CreatureLimb*> limbsFree;
@@ -58,24 +78,19 @@ void CreatureInventory::unequipArmor(std::shared_ptr<Armor> armor){
 		}
 	}
 }
-void CreatureInventory::consume(std::shared_ptr<Consumable> consumable){
-	consumable->onConsume(*owner);
-	items.remove(consumable);
-}
-void CreatureInventory::drop(std::shared_ptr<Item> item){
-	if (isEquipped(*item.get())){
-		if (item->isArmor()) unequipArmor(std::static_pointer_cast<Armor>(item));
-		else if (item->isWeapon()) unholdItem(item);
-	}
-	items.remove(item);
-	engine::areaHandler.getCurrentArea()->placeItem(item, owner->location);
-}
-bool CreatureInventory::isEquipped(Item &item){
+bool CreatureInventory::equipAccessory(std::shared_ptr<Accessory> accessory){
 	for (auto &limb : owner->limbs){
-		if (limb.currentArmor.get() == &item){
+		if ((int)limb.currentAccessories.items.size() < limb.accessoriesMaxAmount){
+			limb.currentAccessories.add(accessory);
 			return true;
 		}
-		else if (limb.currentItemInHold.get() == &item){
+	}
+	return false;
+}
+bool CreatureInventory::unequipAccessory(std::shared_ptr<Accessory> accessory){
+	for (auto &limb : owner->limbs){
+		if (limb.currentAccessories.contains(accessory)){
+			limb.currentAccessories.remove(accessory);
 			return true;
 		}
 	}
@@ -135,27 +150,39 @@ std::vector<Armor*> CreatureInventory::getArmors(){
 	}
 	return armors;
 }
+std::vector<Accessory*> CreatureInventory::getAccessories(){
+	std::vector<Accessory*> accessories;
+	for (auto &limb : owner->limbs){
+		for (auto &accessory : limb.currentAccessories.items){
+			accessories.push_back(static_cast<Accessory*>(accessory.get()));
+		}
+	}
+	return accessories;
+}
 int CreatureInventory::getTotalDefence(){
 	int totalDefence = 0;
 	for (auto &armor : getArmors()){
-		totalDefence += armor->getDefence();
+		totalDefence += armor->getDefenceTotal();
 	}
 	return totalDefence;
 }
 double CreatureInventory::getTotalEquippedWeight(){
 	double totalWeight = 0;
 	for (auto &armor : getArmors()){
-		totalWeight += armor->getWeight();
+		totalWeight += armor->getWeightTotal();
 	}
 	for (auto &weapon : getWeapons()){
-		totalWeight += weapon->getWeight();
+		totalWeight += weapon->getWeightTotal();
+	}
+	for (auto &accessory : getAccessories()){
+		totalWeight += accessory->getWeightTotal();
 	}
 	return totalWeight;
 }
 double CreatureInventory::getTotalWeight(){
 	double totalWeight = 0;
 	for (auto &item : items.items){
-		totalWeight += item->getWeight();
+		totalWeight += item->getWeightTotal();
 	}
 	return totalWeight;
 }

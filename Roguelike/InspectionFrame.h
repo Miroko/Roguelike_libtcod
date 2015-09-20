@@ -1,8 +1,5 @@
 #pragma once
 #include "GuiFrame.h"
-#include "GuiCreature.h"
-#include "GuiTile.h"
-#include "GuiOperable.h"
 #include "GuiGameObjectDisplay.h"
 
 class InspectionFrame : public GuiFrame

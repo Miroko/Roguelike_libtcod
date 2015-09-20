@@ -17,6 +17,12 @@ bool engine::requestUpdate = false;
 //health
 double engine::healthMax;
 
+//magic
+double engine::magicMax;
+double engine::magicCostBase;
+double engine::magicStaminaCostPerMagic;
+double engine::magicSpellPowerMax;
+
 //damage
 double engine::damageMax;
 
@@ -44,19 +50,28 @@ double engine::staminaCostPerKgFromMove;
 double engine::staminaCostPerKgFromAttack;
 double engine::staminaCostFromDamageRation;
 
+//effect
+double engine::effectDurationBase;
+
 //value
 double engine::valueBase;
 double engine::valuePerKg;
 double engine::valuePerStamina;
 double engine::valuePerHealth;
+double engine::valuePerMagic;
 double engine::valuePerDamage;
 double engine::valuePerDefence;
+double engine::valuePerSpellPower;
 
 //loot
 double engine::statisticVariation;
-double engine::lootRarityFromCreatureRarityRatio;
+double engine::lootMinPrevalenceMultiplier;
 double engine::lootRollDropChance;
 int engine::lootDropRolls;
+
+//consumable
+double engine::consumablePotencyMax;
+double engine::consumableConcentrationMax;
 
 void engine::init(){
 	TCODConsole::initRoot(160, 80, "Roguelike", false, TCOD_RENDERER_OPENGL);
@@ -65,6 +80,12 @@ void engine::init(){
 
 	//health
 	healthMax = 1000; // 1000
+
+	//magic
+	magicMax = 1000;
+	magicCostBase = magicMax / 1.5;
+	magicStaminaCostPerMagic = magicMax / 1000 * 2.5;
+	magicSpellPowerMax = 1.0;
 
 	//damage
 	damageMax = healthMax / 10;
@@ -93,19 +114,28 @@ void engine::init(){
 	staminaCostPerKgFromAttack = (staminaMax / weightCarryMax) / 4;
 	staminaCostFromDamageRation = 0.7;
 
+	//effect
+	effectDurationBase = 10.0;
+
 	//value
 	valueBase = 300;
-	valuePerKg = valueBase / weightCarryMax;
+	valuePerKg = valueBase / weightCarryMax / 2.0;
 	valuePerStamina = valueBase / staminaMax / 2.5;
 	valuePerHealth = valueBase / healthMax;
 	valuePerDamage = valueBase / damageMax / 2.0;
 	valuePerDefence = valueBase / defenceMax / 1.5;
+	valuePerMagic = valueBase * 8 / magicMax;
+	valuePerSpellPower = valuePerMagic * 3;
 
 	//loot
 	statisticVariation = 0.20;
-	lootRarityFromCreatureRarityRatio = 1.50;
-	lootRollDropChance = 0.30;
+	lootMinPrevalenceMultiplier = 0.30;
+	lootRollDropChance = 1.00;
 	lootDropRolls = 6;
+
+	//consumable
+	consumablePotencyMax = 1.0;
+	consumableConcentrationMax = 1.0;
 
 	objectLibrary.init();
 	raritySystem.init();
@@ -146,7 +176,7 @@ void engine::newGame(){
 
 	//Player
 	playerHandler.setPlayerCreature(objectFactory.createCreature("player", "common"));
-	playerHandler.getPlayerCreature()->inventory.currency = valueBase;
+	playerHandler.getPlayerCreature()->inventory.currency = (int)valueBase;
 
 	//Quest
 	std::shared_ptr<Quest> quest = std::shared_ptr<Quest>(new QuestTheGoblinKing());
