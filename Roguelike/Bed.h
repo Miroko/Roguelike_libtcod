@@ -4,7 +4,12 @@
 class Bed : public OperatableObject
 {
 public:
-	bool passable(DynamicObject &dynamicObject);
+	Creature *user;
+
+	bool isInUse();
+
+	void operate(Creature &user) override;
+	bool passable(DynamicObject &dynamicObject) override;
 
 	std::shared_ptr<OperatableObject> copy();
 
@@ -13,6 +18,7 @@ public:
 			name,
 			GameObject::BED, 
 			glyph),
-			health))){}
+			health))),
+			user(nullptr){}
 };
 

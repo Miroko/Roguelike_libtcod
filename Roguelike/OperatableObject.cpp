@@ -1,20 +1,12 @@
 #include "OperatableObject.h"
 #include "Engine.h"
 
-void OperatableObject::on(){
-	isOn = true;
-}
-
-void OperatableObject::off(){
-	isOn = false;
+void OperatableObject::operate(Creature &user){
+	engine::visualEffectPlayer.playEffect(location, visualEffectOnOperate);
 }
 
 void OperatableObject::messageDeath(){
 	engine::gui.log.finishMessage(name + " is destroyed.");
-}
-
-void OperatableObject::onTakeDamageEffect(){
-	
 }
 
 bool OperatableObject::passable(DynamicObject &dynamicObject){

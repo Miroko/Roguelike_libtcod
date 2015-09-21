@@ -10,7 +10,7 @@ Camera engine::camera;
 PlayerHandler engine::playerHandler;
 AreaHandler engine::areaHandler;
 QuestHandler engine::questHandler;
-VisualEffectHandler engine::visualEffectHandler;
+VisualEffectPlayer engine::visualEffectPlayer;
 Gui engine::gui;
 bool engine::requestUpdate = false;
 
@@ -162,14 +162,15 @@ void engine::init(){
 			}
 		}
 		areaHandler.renderArea();
-		visualEffectHandler.render();
+		visualEffectPlayer.update();
+		visualEffectPlayer.render();
 		gui.render();
 		TCODConsole::root->flush();
 	}
 }
 void engine::newGame(){
 	//reset visual effects
-	visualEffectHandler.runningEffects.clear();
+	visualEffectPlayer.runningVisualEffects.clear();
 
 	//reset saved data
 	areaHandler.savedPhaseAreas.clear();

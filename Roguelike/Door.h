@@ -4,12 +4,13 @@
 class Door : public OperatableObject
 {
 public:
+	bool isOpen;
+
 	Glyph onGlyph;
 	Glyph offGlyph;
 
-	void on();
-	void off();
-	bool passable(DynamicObject &dynamicObject);
+	void operate(Creature &user) override;
+	bool passable(DynamicObject &dynamicObject) override;
 
 	void render(int x, int y);
 
@@ -23,6 +24,7 @@ public:
 		health,
 		false)),
 		onGlyph(open),
-		offGlyph(closed){};
+		offGlyph(closed),
+		isOpen(false){};
 };
 

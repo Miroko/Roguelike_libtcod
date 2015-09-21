@@ -7,9 +7,11 @@ class TemplateCreatureBase
 {
 public:
 	std::vector<CreatureLimb> limbs;
+	std::shared_ptr<VisualEffect> visualEffectOnTakeDamage;
 
-	TemplateCreatureBase(std::vector<CreatureLimb> limbs) :
-		limbs(limbs){}
+	TemplateCreatureBase(std::vector<CreatureLimb> limbs, std::shared_ptr<VisualEffect> visualEffectOnTakeDamage) :
+		limbs(limbs),
+		visualEffectOnTakeDamage(visualEffectOnTakeDamage){}
 	TemplateCreatureBase(){}
 };
 

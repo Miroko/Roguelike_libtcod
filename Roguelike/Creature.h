@@ -44,13 +44,14 @@ public:
 	std::vector<std::pair<CreatureSkill*, double>> getMagicSkillsAndProfiencies();
 	bool executeSkillAction(CreatureSkill &skill, double skillProficiency, CreatureAction &action, double actionlProficiency, DynamicObject &target);
 
-	void onTakeDamage(DynamicObject &attacker, double amount);
-	void onDeath();
 	void addEffect(std::shared_ptr<CreatureEffect> effect);
-	bool move(Point2D &location);
-	void onMove();
 	void initAi(Area &area);
-	void update();
+
+	void takeDamage(DynamicObject &attacker, double amount) override;
+	void onDeath() override;
+	bool move(Point2D &location) override;
+	void onMove() override;
+	void update() override;
 
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 

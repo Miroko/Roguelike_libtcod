@@ -41,7 +41,7 @@ bool Creature::executeSkillAction(CreatureSkill &skill, double skillProficiency,
 	return executedAction;
 }
 
-void Creature::onTakeDamage(DynamicObject &attacker, double amount){
+void Creature::takeDamage(DynamicObject &attacker, double amount){
 	int amountAfterDefence = amount;
 	auto &creatureLimb = limbs.at(engine::random.generator->getInt(0, limbs.size() - 1));
 	if (engine::random.chance(creatureLimb.hitChance)){
@@ -65,7 +65,8 @@ void Creature::onTakeDamage(DynamicObject &attacker, double amount){
 
 		//stamina cost from damage
 		staminaHit(amountAfterDefence * engine::staminaCostFromDamageRation);
-		DynamicObject::onTakeDamage(attacker, amountAfterDefence);
+
+		DynamicObject::takeDamage(attacker, amountAfterDefence);
 	}
 	else{
 		engine::gui.log.finishMessage(name + " evades.");

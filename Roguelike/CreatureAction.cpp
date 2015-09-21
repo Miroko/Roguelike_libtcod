@@ -1,6 +1,12 @@
 #include "CreatureAction.h"
 #include "GuiFrame.h"
 #include "Gui.h"
+#include "Engine.h"
+
+bool CreatureAction::execute(Creature &executer, double profiencyModifier, GameObject &actionObject, DynamicObject &target){
+	engine::visualEffectPlayer.playEffect(target.location, visualEffectOnExecution);
+	return true;
+}
 
 void CreatureAction::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){
 	frame.printString(

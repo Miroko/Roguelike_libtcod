@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "QuestHandler.h"
 #include "Gui.h"
-#include "VisualEffectHandler.h"
+#include "VisualEffectPlayer.h"
 #include "AreaHandler.h"
 #include "PlayerHandler.h"
 #include "Random.h"
@@ -21,7 +21,7 @@ namespace engine{
 	extern PlayerHandler playerHandler;
 	extern AreaHandler areaHandler;
 	extern QuestHandler questHandler;
-	extern VisualEffectHandler visualEffectHandler;
+	extern VisualEffectPlayer visualEffectPlayer;
 	extern Gui gui;
 	extern bool requestUpdate;
 

@@ -61,8 +61,7 @@ bool PlayerController::operate(){
 		if (operatables.empty()) return false;
 		else{
 			std::shared_ptr<OperatableObject> operatable = *operatables.front();
-			if (operatable->isOn) operatable->off();
-			else operatable->on();
+			operatable->operate(*engine::playerHandler.getPlayerCreature());
 			return true;
 		}
 	}

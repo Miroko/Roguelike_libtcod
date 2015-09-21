@@ -31,6 +31,7 @@
     <ClCompile Include="ArmorAffixDefence.cpp" />
     <ClCompile Include="Bed.cpp" />
     <ClCompile Include="ConsumableAffixHealth.cpp" />
+    <ClCompile Include="ConsumableAffixMagic.cpp" />
     <ClCompile Include="ConsumableAffixStamina.cpp" />
     <ClCompile Include="CreatureAction.cpp" />
     <ClCompile Include="CreatureAi.cpp" />
@@ -50,13 +51,8 @@
     <ClCompile Include="DialogFrame.cpp" />
     <ClCompile Include="DialogOption.cpp" />
     <ClCompile Include="Door.cpp" />
-    <ClCompile Include="EffectAlchemySmoke.cpp" />
-    <ClCompile Include="EffectBloodSplatter.cpp" />
     <ClCompile Include="CreatureEffectHealth.cpp" />
-    <ClCompile Include="EffectSmoke.cpp" />
-    <ClCompile Include="EffectSparkles.cpp" />
     <ClCompile Include="CreatureEffectStamina.cpp" />
-    <ClCompile Include="EffectWaterSplash.cpp" />
     <ClCompile Include="Equipment.cpp" />
     <ClCompile Include="EquipmentAffixDurability.cpp" />
     <ClCompile Include="Forge.cpp" />
@@ -74,7 +70,6 @@
     <ClCompile Include="SkillFrame.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="ParticleSpark.cpp" />
     <ClCompile Include="ParticleSpiralUp.cpp" />
     <ClCompile Include="ParticleSplash.cpp" />
@@ -125,11 +120,12 @@
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="VisualEffect.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="TradeContainer.cpp" />
     <ClCompile Include="TradeFrame.cpp" />
     <ClCompile Include="Village.cpp" />
-    <ClCompile Include="VisualEffectHandler.cpp" />
+    <ClCompile Include="VisualEffectPlayer.cpp" />
     <ClCompile Include="Water.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponAction.cpp" />
@@ -158,6 +154,7 @@
     <ClInclude Include="ArmorAffixDefence.h" />
     <ClInclude Include="Bed.h" />
     <ClInclude Include="ConsumableAffixHealth.h" />
+    <ClInclude Include="ConsumableAffixMagic.h" />
     <ClInclude Include="ConsumableAffixStamina.h" />
     <ClInclude Include="CreatureAction.h" />
     <ClInclude Include="CreatureAi.h" />
@@ -177,13 +174,8 @@
     <ClInclude Include="DialogFrame.h" />
     <ClInclude Include="DialogOption.h" />
     <ClInclude Include="Door.h" />
-    <ClInclude Include="EffectAlchemySmoke.h" />
-    <ClInclude Include="EffectBloodSplatter.h" />
     <ClInclude Include="CreatureEffectHealth.h" />
-    <ClInclude Include="EffectSmoke.h" />
-    <ClInclude Include="EffectSparkles.h" />
     <ClInclude Include="CreatureEffectStamina.h" />
-    <ClInclude Include="EffectWaterSplash.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="EquipmentAffixDurability.h" />
     <ClInclude Include="Forge.h" />
@@ -201,7 +193,6 @@
     <ClInclude Include="SkillFrame.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Particle.h" />
-    <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="ParticleSpark.h" />
     <ClInclude Include="ParticleSpiralUp.h" />
     <ClInclude Include="ParticleSplash.h" />
@@ -257,11 +248,12 @@
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="VisualEffect.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="TradeContainer.h" />
     <ClInclude Include="TradeFrame.h" />
     <ClInclude Include="Village.h" />
-    <ClInclude Include="VisualEffectHandler.h" />
+    <ClInclude Include="VisualEffectPlayer.h" />
     <ClInclude Include="Water.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponAction.h" />

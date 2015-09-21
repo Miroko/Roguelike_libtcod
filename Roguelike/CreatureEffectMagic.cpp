@@ -8,6 +8,7 @@ std::string CreatureEffectMagic::getDescription(){
 
 void CreatureEffectMagic::apply(Creature &creature){
 	creature.magicHit(-engine::magicMax * modifier);
+	CreatureEffect::apply(creature);
 }
 
 int CreatureEffectMagic::getValue(){

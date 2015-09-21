@@ -29,6 +29,9 @@ bool MagicAction::execute(Creature &executer, double skillModifier, GameObject &
 	executer.magicHit((int)magicCostTotal);
 	executer.staminaHit((int)staminaCostTotal);
 
+	//visual effect
+	CreatureAction::execute(executer, profiencyModifier, actionObject, target);
+
 	//add effects to target
 	if (target.isCreature()){
 		Creature &targetCreature = static_cast<Creature&>(target);

@@ -18,6 +18,7 @@
 #include "CreatureEffectStamina.h"
 #include "WeaponAction.h"
 #include "MagicAction.h"
+#include "ParticleSplash.h"
 
 void ObjectLibrary::init(){
 	tiles = std::unordered_map<std::string, std::shared_ptr<Tile>>{
@@ -75,7 +76,13 @@ void ObjectLibrary::init(){
 		//magic
 		{ "fireball", std::shared_ptr<CreatureAction>(new MagicAction("Fireball", "Fireball", 0.70, 6, 0.20, 0.05,
 		{ std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Burn", -0.02, 0.20)),
-		  std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Heat", -0.03, 0.20)) })) }
+		  std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Heat", -0.03, 0.20)) },
+		  std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::lightRed), 4, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::yellow), 4, 12)) })))) 
+		}
 	};
 	creatureSkills = std::unordered_map<std::string, std::shared_ptr<CreatureSkill>>{
 		//weapon
@@ -93,23 +100,30 @@ void ObjectLibrary::init(){
 		{ "skill_fire", std::shared_ptr<CreatureSkill>(new CreatureSkill(CreatureSkill::MAGIC, "Fire Magic",
 		{ creatureAction["fireball"] } )) }
 	};
-	creatureBaseTemplates = std::unordered_map<std::string, TemplateCreatureBase>{
+	creatureBaseTemplates = std::unordered_map < std::string, TemplateCreatureBase > {
 		{ "humanoid", TemplateCreatureBase({
 			CreatureLimb("Head", 0.4f, GameObject::ARMOR_HEAD, 2),
 			CreatureLimb("Body", 0.8f, GameObject::ARMOR_BODY, 0),
 			CreatureLimb("Left arm", 0.7f, GameObject::ARMOR_HAND, 3, true),
 			CreatureLimb("Right arm", 0.7f, GameObject::ARMOR_HAND, 3, true),
 			CreatureLimb("Left leg", 0.6f, GameObject::ARMOR_LEG, 1),
-			CreatureLimb("Right leg", 0.6f, GameObject::ARMOR_LEG, 1)
-		}) },
+			CreatureLimb("Right leg", 0.6f, GameObject::ARMOR_LEG, 1) },
+			std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkerRed), 3, 9)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkRed), 2, 6)) })))
+		},
 		{ "giant", TemplateCreatureBase({
 			CreatureLimb("Head", 0.9f, GameObject::ARMOR_HEAD, 2),
 			CreatureLimb("Body", 1.0f, GameObject::ARMOR_BODY, 0),
 			CreatureLimb("Left arm", 0.9f, GameObject::ARMOR_HAND, 1, true),
 			CreatureLimb("Right arm", 0.9f, GameObject::ARMOR_HAND, 1, true),
 			CreatureLimb("Left leg", 1.0f, GameObject::ARMOR_LEG, 0),
-			CreatureLimb("Right leg", 1.0f, GameObject::ARMOR_LEG, 0)
-		}) }
+			CreatureLimb("Right leg", 1.0f, GameObject::ARMOR_LEG, 0) },
+			std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkerRed), 3, 9)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkerRed), 2, 7)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkRed), 2, 6)) })))
+		}
 	};
 	creaturePresetTemplates = std::unordered_map<std::string, TemplateCreaturePreset>{
 		{ "player", TemplateCreaturePreset(

@@ -4,9 +4,12 @@
 #include <memory>
 #include <vector>
 
+class VisualEffect;
 class DynamicObject : public GameObject
 {
 private:
+	std::shared_ptr<VisualEffect> visualEffectOnTakeDamage;
+
 	int healthCurrent;
 	int healthMax;
 
@@ -15,26 +18,25 @@ public:
 	Point2D location;
 	bool transparent;
 
+	void kill();
+
 	virtual int getHealthCurrent();
 	virtual int getHealthMax();
 	virtual void healthHit(int amount);
-
-	void kill();
-
 	virtual bool move(Point2D &location);
 	virtual void onMove();
 	virtual bool passable(DynamicObject &dynamicObject);
-	virtual void onTakeDamage(DynamicObject &attacker, double amount);
-	virtual void onTakeDamageEffect();
+	virtual void takeDamage(DynamicObject &attacker, double amount);
 	virtual void onDeath();
 	virtual void messageDeath();
 	virtual void update(){};
 
-	DynamicObject(GameObject gameObject, int health, bool transparent = true) :
+	DynamicObject(GameObject gameObject, int health, bool transparent = true, std::shared_ptr<VisualEffect> visualEffectOnTakeDamage = nullptr) :
 		GameObject(gameObject),
 		transparent(transparent),
 		healthCurrent(health),
-		healthMax(health){
-		isDead = false;
+		healthMax(health),
+		isDead(false),
+		visualEffectOnTakeDamage(visualEffectOnTakeDamage){
 	};
 };

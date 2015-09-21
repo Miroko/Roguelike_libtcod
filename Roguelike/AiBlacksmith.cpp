@@ -81,7 +81,7 @@ void AiBlacksmith::update(){
 		if (forgeUsing != nullptr){
 			if (moveOnPath() == 1){
 				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.10f){
-					forgeUsing->on();
+					forgeUsing->operate(*owner);
 				}
 				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.05f){
 					forgeUsing = nullptr;
@@ -95,7 +95,7 @@ void AiBlacksmith::update(){
 		if (anvilUsing != nullptr){
 			if (moveOnPath() == 1){
 				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.30f){
-					anvilUsing->on();
+					anvilUsing->operate(*owner);
 				}
 				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.05f){
 					anvilUsing = nullptr;

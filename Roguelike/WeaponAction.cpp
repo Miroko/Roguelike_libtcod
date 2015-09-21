@@ -35,7 +35,10 @@ bool WeaponAction::execute(Creature &executer, double skillModifier, GameObject 
 		//damage
 		double damageBase = actionWeapon.getDamageTotal();
 		double damageTotal = damageBase + damageBase * damageModifier;
-		target.onTakeDamage(executer, damageTotal);
+		target.takeDamage(executer, damageTotal);
+
+		//visual effect
+		CreatureAction::execute(executer, profiencyModifier, actionObject, target);
 
 		//durability
 		if (!actionWeapon.isBroken()){

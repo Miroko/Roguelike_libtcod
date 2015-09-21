@@ -18,10 +18,10 @@ void AiModuleResident::wanderInsideResidence(AreaHouse &residence){
 void AiModuleResident::sleep(Bed &bed){
 	if (&bed != nullptr &&
 		residence->bounds.contains(bed.location) &&
-		!bed.isOn){
+		!bed.isInUse()){
 		owner->calculatePath(bed.location, false);
 		if (owner->moveOnPath() == 0){
-			bed.on();
+			bed.operate(*owner->owner);
 			currentState = SLEEPING;
 		}
 	}
@@ -39,7 +39,7 @@ void AiModuleResident::run(){
 	}
 	else if (currentState == SLEEPING){
 		if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.05f){
-			bed->off();
+			bed->operate(*owner->owner);
 			currentState = WANDER;
 		}
 	}

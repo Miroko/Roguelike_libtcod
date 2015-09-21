@@ -2,17 +2,21 @@
 #include "GameObject.h"
 #include "RarityMod.h"
 
+class VisualEffect;
 class Tile : public GameObject
 {
 public:
+	std::shared_ptr<VisualEffect> visualEffectOnCollision;
+
 	bool transparent;
 	double walkCost; // walkcost <= 0 == unwalkable else lower better
 
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 
-	Tile(GameObject gameObject, bool transparent, double walkCost) :
+	Tile(GameObject gameObject, bool transparent, double walkCost, std::shared_ptr<VisualEffect> visualEffectOnCollision = nullptr) :
 		GameObject(gameObject),
 		transparent(transparent),
-		walkCost(walkCost){};
+		walkCost(walkCost),
+		visualEffectOnCollision(visualEffectOnCollision){};
 };
 

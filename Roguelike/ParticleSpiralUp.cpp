@@ -3,8 +3,12 @@
 #include "Direction.h"
 
 void ParticleSpiralUp::onTick(){
-	double directionRoll = engine::random.generator->getFloat(0.0f, 1.0f);
-	if (directionRoll < 0.25f) location += LEFT;
-	else if (directionRoll < 0.75f) location += UP;
-	else if (directionRoll <= 1.00f) location += RIGHT;
+	double directionRoll = engine::random.generator->getDouble(0.0, 1.0);
+	if (directionRoll < 0.20) location += LEFT;
+	else if (directionRoll < 0.40) location += RIGHT;
+	else location += UP;
+}
+
+std::shared_ptr<Particle> ParticleSpiralUp::clone(){
+	return std::shared_ptr<Particle>(new ParticleSpiralUp(*this));
 }

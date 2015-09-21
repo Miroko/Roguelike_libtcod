@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Village.h"
 #include "Bed.h"
+#include "Door.h"
 
 void AiVillager::onTakeDamage(DynamicObject &attacker){
 	if (attacker.type == Creature::CREATURE){
@@ -24,7 +25,7 @@ void AiVillager::onCreatureInFov(Creature &creature, int distance){
 void AiVillager::onOperatableInFov(OperatableObject &operatable, int distance){
 	if (operatable.type == OperatableObject::BED){
 		Bed &bed = static_cast<Bed&>(operatable);
-		if (!bed.isOn){
+		if (!bed.isInUse()){
 			residentModule.bed = &bed;
 		}
 	}
@@ -98,15 +99,11 @@ void AiVillager::update(){
 				pathMap->get(previousPathIndex, &previousPathLocation.x, &previousPathLocation.y);
 				pathMap->get(nextPathIndex, &nextPathLocation.x, &nextPathLocation.y);
 				for (auto &operatable : area->operatableObjects){
-					if (operatable->type == OperatableObject::DOOR){
-						if (operatable->location == nextPathLocation &&
-							!operatable->isOn){
-							operatable->on();
-							operated = true;
-						}
-						else if (operatable->location == previousPathLocation &&
-							operatable->isOn){
-							operatable->off();
+					if (operatable->location == nextPathLocation ||
+						operatable->location == previousPathLocation){
+						if (operatable->type == OperatableObject::DOOR){
+							Door &door = static_cast<Door&>(*operatable.get());
+							door.operate(*owner);
 							operated = true;
 						}
 					}

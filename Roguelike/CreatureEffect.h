@@ -3,8 +3,12 @@
 #include <string>
 
 class Creature;
+class VisualEffect;
 class CreatureEffect
 {
+private:
+	std::shared_ptr<VisualEffect> visualEffectOnApply;
+
 public:
 	std::string name;
 	double modifier;
@@ -15,6 +19,6 @@ public:
 
 	virtual std::shared_ptr<CreatureEffect> clone() = 0;
 
-	CreatureEffect(std::string name, double modifier, double durationFromMax);
+	CreatureEffect(std::string name, double modifier, double durationFromMax, std::shared_ptr<VisualEffect> visualEffectOnApply = nullptr);
 };
 

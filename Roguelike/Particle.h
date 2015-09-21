@@ -1,6 +1,7 @@
 #pragma once
 #include "Glyph.h"
 #include "Point2D.h"
+#include <memory>
 
 class Particle
 {
@@ -13,14 +14,15 @@ public:
 	int currentTick;
 	Point2D location;
 
-	virtual void onTick() = 0;
-	
 	void render();
 	void update();
 
-	Particle(Glyph glyph, Point2D location, int tickRate, int ageMax) : 
+	virtual void onTick() = 0;
+	virtual std::shared_ptr<Particle> clone() = 0;
+
+	Particle(Glyph glyph, int tickRate, int ageMax) : 
 		glyph(glyph),
-		location(location),
+		location(Point2D()),
 		currentAge(0), 
 		currentTick(tickRate),
 		ageMax(ageMax),

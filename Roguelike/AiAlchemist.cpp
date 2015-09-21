@@ -69,7 +69,7 @@ void AiAlchemist::update(){
 		if (alchemyTableUsing != nullptr){
 			if (moveOnPath() == 1){
 				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.10f){
-					alchemyTableUsing->on();
+					alchemyTableUsing->operate(*owner);
 				}
 				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.20f){
 					alchemyTableUsing = nullptr;

@@ -8,6 +8,7 @@ std::string CreatureEffectStamina::getDescription(){
 
 void CreatureEffectStamina::apply(Creature &creature){
 	creature.staminaHit(-engine::staminaMax * modifier);
+	CreatureEffect::apply(creature);
 }
 
 int CreatureEffectStamina::getValue(){

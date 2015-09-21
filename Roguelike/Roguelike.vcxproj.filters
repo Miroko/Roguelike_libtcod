@@ -46,12 +46,6 @@
     <Filter Include="Engine\Graphics\VisualEffect\Particle\Particles">
       <UniqueIdentifier>{4b116c30-4511-4a25-887b-61c444e96317}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\VisualEffect\Effect">
-      <UniqueIdentifier>{980f8b06-6bf3-437b-ac4f-c0570fbc0d1c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\VisualEffect\Effect\Effects">
-      <UniqueIdentifier>{c9c09015-516f-4931-a6d5-5d324bc8980e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Quest\Dialog">
       <UniqueIdentifier>{8a41f4ab-1477-4305-b20f-11cf05425bc5}</UniqueIdentifier>
     </Filter>
@@ -325,17 +319,8 @@
     <ClCompile Include="Forest.cpp">
       <Filter>Engine\Area\Nature</Filter>
     </ClCompile>
-    <ClCompile Include="VisualEffectHandler.cpp">
-      <Filter>Engine\Graphics\VisualEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectBloodSplatter.cpp">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
-    </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Engine\Graphics\VisualEffect\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectSmoke.cpp">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSpiralUp.cpp">
       <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
@@ -343,14 +328,8 @@
     <ClCompile Include="ParticleSplash.cpp">
       <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleEffect.cpp">
-      <Filter>Engine\Graphics\VisualEffect\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="ParticleSpark.cpp">
       <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectSparkles.cpp">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Anvil.cpp">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
@@ -376,9 +355,6 @@
     <ClCompile Include="AiVillager.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
     </ClCompile>
-    <ClCompile Include="EffectWaterSplash.cpp">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
-    </ClCompile>
     <ClCompile Include="TradeContainer.cpp">
       <Filter>Engine\Quest\TradeContainer</Filter>
     </ClCompile>
@@ -390,9 +366,6 @@
     </ClCompile>
     <ClCompile Include="AiAlchemist.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
-    </ClCompile>
-    <ClCompile Include="EffectAlchemySmoke.cpp">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClCompile>
     <ClCompile Include="GuiFrame.cpp">
       <Filter>Engine\Gui\Frame</Filter>
@@ -577,6 +550,15 @@
     <ClCompile Include="ActionExecutionFrame.cpp">
       <Filter>Engine\Gui\Frame\Frames</Filter>
     </ClCompile>
+    <ClCompile Include="VisualEffect.cpp">
+      <Filter>Engine\Graphics\VisualEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffectPlayer.cpp">
+      <Filter>Engine\Graphics\VisualEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsumableAffixMagic.cpp">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -711,17 +693,8 @@
     <ClInclude Include="Forest.h">
       <Filter>Engine\Area\Nature</Filter>
     </ClInclude>
-    <ClInclude Include="VisualEffectHandler.h">
-      <Filter>Engine\Graphics\VisualEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectBloodSplatter.h">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Engine\Graphics\VisualEffect\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectSmoke.h">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSplash.h">
       <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
@@ -729,14 +702,8 @@
     <ClInclude Include="ParticleSpiralUp.h">
       <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleEffect.h">
-      <Filter>Engine\Graphics\VisualEffect\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleSpark.h">
       <Filter>Engine\Graphics\VisualEffect\Particle\Particles</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectSparkles.h">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Forge.h">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
@@ -762,9 +729,6 @@
     <ClInclude Include="AiNone.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
     </ClInclude>
-    <ClInclude Include="EffectWaterSplash.h">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="TradeContainer.h">
       <Filter>Engine\Quest\TradeContainer</Filter>
     </ClInclude>
@@ -776,9 +740,6 @@
     </ClInclude>
     <ClInclude Include="AiAlchemist.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Ais</Filter>
-    </ClInclude>
-    <ClInclude Include="EffectAlchemySmoke.h">
-      <Filter>Engine\Graphics\VisualEffect\Effect\Effects</Filter>
     </ClInclude>
     <ClInclude Include="GuiFrame.h">
       <Filter>Engine\Gui\Frame</Filter>
@@ -860,9 +821,6 @@
     </ClInclude>
     <ClInclude Include="CreatureInventory.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Inventory</Filter>
-    </ClInclude>
-    <ClInclude Include="CreatureAction.h">
-      <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action</Filter>
     </ClInclude>
     <ClInclude Include="WeaponAction.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action\Weapon</Filter>
@@ -968,6 +926,18 @@
     </ClInclude>
     <ClInclude Include="ActionExecutionFrame.h">
       <Filter>Engine\Gui\Frame\Frames</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffect.h">
+      <Filter>Engine\Graphics\VisualEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureAction.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectPlayer.h">
+      <Filter>Engine\Graphics\VisualEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsumableAffixMagic.h">
+      <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

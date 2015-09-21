@@ -8,6 +8,7 @@ std::string CreatureEffectHealth::getDescription(){
 
 void CreatureEffectHealth::apply(Creature &creature){
 	creature.healthHit(-engine::healthMax * modifier);
+	CreatureEffect::apply(creature);
 }
 
 int CreatureEffectHealth::getValue(){

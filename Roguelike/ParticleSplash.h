@@ -4,8 +4,10 @@
 class ParticleSplash : public Particle
 {
 public:
-	void Particle::onTick();
+	void Particle::onTick() override;
+	std::shared_ptr<Particle> Particle::clone() override;
 
-	ParticleSplash(Glyph glyph, Point2D location, int tickRate, int ageMax) : Particle(glyph, location, tickRate, ageMax){}
+	ParticleSplash(Glyph glyph, int tickRate, int ageMax) :
+		Particle(glyph, tickRate, ageMax){}
 };
 

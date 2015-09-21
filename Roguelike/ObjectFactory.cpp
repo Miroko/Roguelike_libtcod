@@ -4,6 +4,8 @@
 #include "Armor.h"
 #include "Accessory.h"
 #include "Consumable.h"
+#include "VisualEffect.h"
+#include "ParticleSplash.h"
 #include "Engine.h"
 
 std::shared_ptr<Creature> ObjectFactory::createCreature(std::string id, std::string rarity){
@@ -53,13 +55,14 @@ std::shared_ptr<Creature> ObjectFactory::createCreature(TemplateCreaturePreset &
 
 	std::shared_ptr<Creature> creature = std::shared_ptr<Creature>(new Creature(
 		presetTemplate.id,
-		//engine::raritySystem.getCreatureMod(rarityType),
-		RarityMod(rarityType, { }),
+		RarityMod(rarityType, { }), //engine::raritySystem.getCreatureMod(rarityType)
 		DynamicObject(GameObject(
 		presetTemplate.name,
 		Creature::CREATURE,
 		presetTemplate.glyph),
-		health),
+		health,
+		true,
+		templateCreatureBase.visualEffectOnTakeDamage),
 		stamina,
 		magic,
 		engine::objectLibrary.ais[presetTemplate.aiId]->copy(),

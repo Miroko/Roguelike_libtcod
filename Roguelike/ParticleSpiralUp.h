@@ -5,7 +5,9 @@ class ParticleSpiralUp : public Particle
 {
 public:
 	void Particle::onTick();
+	std::shared_ptr<Particle> Particle::clone() override;
 
-	ParticleSpiralUp(Glyph glyph, Point2D location, int tickRate, int ageMax) : Particle(glyph, location, tickRate, ageMax){}
+	ParticleSpiralUp(Glyph glyph, int tickRate, int ageMax) :
+		Particle(glyph, tickRate, ageMax){}
 };
 

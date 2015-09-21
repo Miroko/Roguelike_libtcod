@@ -1,5 +1,18 @@
 #include "Bed.h"
 
+bool Bed::isInUse(){
+	return user != nullptr;
+}
+
+void Bed::operate(Creature &user){
+	if (!isInUse()){
+		this->user = &user;
+	}
+	else if (this->user == &user){
+		this->user = nullptr;
+	}
+}
+
 bool Bed::passable(DynamicObject &dynamicObject){
 	return true;
 }

@@ -10,6 +10,7 @@
 #include "AccessoryAffixSpellPower.h"
 #include "ConsumableAffixHealth.h"
 #include "ConsumableAffixStamina.h"
+#include "ConsumableAffixMagic.h"
 #include "Engine.h"
 #include <algorithm>
 
@@ -152,6 +153,10 @@ void RaritySystem::init(){
 			std::shared_ptr<RarityAffix>(
 			new ConsumableAffixStamina("Refreshing", 0.04 * rarityType.improvementMultiplier, 0.5 * rarityType.improvementMultiplier)
 			));
+		rarityType.consumableAffixesPre.push_back(
+			std::shared_ptr<RarityAffix>(
+			new ConsumableAffixMagic("Magical", 0.04 * rarityType.improvementMultiplier, 0.5 * rarityType.improvementMultiplier)
+			));
 
 		//Post
 		//armor
@@ -189,6 +194,10 @@ void RaritySystem::init(){
 		rarityType.consumableAffixesPost.push_back(
 			std::shared_ptr<RarityAffix>(
 			new ConsumableAffixStamina("Enduration", 0.03 * rarityType.improvementMultiplier, 0.8 * rarityType.improvementMultiplier)
+			));
+		rarityType.consumableAffixesPost.push_back(
+			std::shared_ptr<RarityAffix>(
+			new ConsumableAffixMagic("Occultism", 0.03 * rarityType.improvementMultiplier, 0.8 * rarityType.improvementMultiplier)
 			));
 	}
 }

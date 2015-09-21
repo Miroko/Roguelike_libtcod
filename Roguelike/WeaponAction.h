@@ -12,8 +12,8 @@ public:
 	bool CreatureAction::execute(Creature &executer, double skillModifier, GameObject &actionObject, DynamicObject &target) override;
 
 	WeaponAction(std::string name, std::string logDescription, double profiencyModifier, int range, double damageModifier,
-		double accuracyModifier, double staminaCostModifier, double durabilityModifier) :
-		CreatureAction(name, logDescription, profiencyModifier, range),
+		double accuracyModifier, double staminaCostModifier, double durabilityModifier, std::shared_ptr<VisualEffect> visualEffectOnExecution = nullptr) :
+		CreatureAction(name, logDescription, profiencyModifier, range, visualEffectOnExecution),
 		staminaCostModifier(staminaCostModifier),
 		damageModifier(damageModifier),
 		accuracyModifier(accuracyModifier),

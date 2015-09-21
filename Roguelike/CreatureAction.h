@@ -1,12 +1,17 @@
 #pragma once
 #include "GuiObject.h"
+#include <memory>
 #include <string>
 
 class Creature;
 class GameObject;
 class DynamicObject;
+class VisualEffect;
 class CreatureAction : public GuiObject
 {
+private:
+	std::shared_ptr<VisualEffect> visualEffectOnExecution;
+
 public:	
 	std::string name;
 	std::string logDescription;
@@ -21,12 +26,13 @@ public:
 	virtual void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 	virtual void GuiObject::renderToFrameLine(GuiFrame &frame, Rectangle &bounds, int offsetY) override;
 
-	CreatureAction(std::string name, std::string logDescription, double profiencyModifier, int range) :
+	CreatureAction(std::string name, std::string logDescription, double profiencyModifier, int range, std::shared_ptr<VisualEffect> visualEffectOnExecution = nullptr) :
 		GuiObject(),
 		name(name),
 		logDescription(logDescription),
 		profiencyModifier(profiencyModifier),
-		range(range){}
+		range(range),
+		visualEffectOnExecution(visualEffectOnExecution){}
 	CreatureAction(){}
 };
 
