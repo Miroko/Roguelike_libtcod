@@ -101,27 +101,31 @@ void ActionExecutionFrame::render(){
 
 void ActionExecutionFrame::updateAttackableObjects(){
 	attackableObjects.clear();
-	//attack range
-	Rectangle range = Rectangle(
-		engine::playerHandler.getPlayerCreature()->location,
-		engine::playerHandler.getPlayerCreature()->location)
-		.expand(selectedAction->range);
-	//get attackable creatures
-	for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(range)){
-		attackableObjects.push_back(*creature);
+	if (selectedAction->targetType == CreatureAction::SELF){
+		attackableObjects.push_back(engine::playerHandler.getPlayerCreature());
 	}
-	//and operatables
-	for (auto &creature : engine::areaHandler.getCurrentArea()->getOperatables(range)){
-		attackableObjects.push_back(*creature);
-	}
-	//remove player and objects not in fov
-	auto &o = attackableObjects.begin();
-	while (o != attackableObjects.end()){
-		if (o->get() == engine::playerHandler.getPlayerCreature().get() ||
-			!engine::playerHandler.getPlayerCreature()->ai->inFov(o->get()->location)){
-			o = attackableObjects.erase(o);
+	else if (selectedAction->targetType == CreatureAction::IN_RANGE){
+		Rectangle range = Rectangle(
+			engine::playerHandler.getPlayerCreature()->location,
+			engine::playerHandler.getPlayerCreature()->location)
+			.expand(selectedAction->range);
+		for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(range)){
+			attackableObjects.push_back(*creature);
 		}
-		else ++o;
+		if (selectedSkill->isType(CreatureSkill::WEAPON)){
+			for (auto &operatable : engine::areaHandler.getCurrentArea()->getOperatables(range)){
+				attackableObjects.push_back(*operatable);
+			}
+		}
+		//remove player and objects not in fov
+		auto &o = attackableObjects.begin();
+		while (o != attackableObjects.end()){
+			if (o->get() == engine::playerHandler.getPlayerCreature().get() ||
+				!engine::playerHandler.getPlayerCreature()->ai->inFov(o->get()->location)){
+				o = attackableObjects.erase(o);
+			}
+			else ++o;
+		}
 	}
 }
 
@@ -154,7 +158,6 @@ void ActionExecutionFrame::init(Rectangle &bounds){
 	GuiFrame::init(bounds);
 	gameObjectDisplayBounds = Rectangle(getWidth(), getHeight());
 }
-
 
 void ActionExecutionFrame::setSkillAndAction(CreatureSkill &skill, CreatureAction &action){
 	selectedSkill = &skill;

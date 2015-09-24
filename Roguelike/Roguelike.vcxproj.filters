@@ -25,12 +25,6 @@
     <Filter Include="Engine\Quest\Quests">
       <UniqueIdentifier>{955f5c54-59dd-488d-b4c1-f74ec4f10f2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\ObjectFactory">
-      <UniqueIdentifier>{036e4e42-3716-467a-87cf-d0ae3949ad4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\ObjectFactory\Templates">
-      <UniqueIdentifier>{b8850659-05eb-4fa8-9af0-a7497152e674}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Area\Infrastructure">
       <UniqueIdentifier>{d745cc87-98d4-4cd5-907a-6c9676876701}</UniqueIdentifier>
     </Filter>
@@ -195,6 +189,12 @@
     </Filter>
     <Filter Include="Engine\GameObject\Dynamic\Creature\Skill\Action\Magic">
       <UniqueIdentifier>{79871a15-73f0-4da9-b690-ad56f2929126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ObjectFactory">
+      <UniqueIdentifier>{036e4e42-3716-467a-87cf-d0ae3949ad4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\ObjectFactory\Templates">
+      <UniqueIdentifier>{b8850659-05eb-4fa8-9af0-a7497152e674}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

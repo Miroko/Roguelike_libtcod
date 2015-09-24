@@ -3,7 +3,7 @@
 #include "Engine.h"
 
 int Accessory::getValue(){
-	return Item::getValue();
+	return Item::getValue() + getSpellPowerTotal() * engine::valuePerSpellPower;
 }
 
 std::string Accessory::getStatistics(){

@@ -68,7 +68,6 @@ std::shared_ptr<Creature> ObjectFactory::createCreature(TemplateCreaturePreset &
 		engine::objectLibrary.ais[presetTemplate.aiId]->copy(),
 		templateCreatureBase.limbs
 		));
-
 	//equip weapons
 	for (auto &weaponId : presetTemplate.weaponIds){
 		auto &weapon = createWeapon(engine::objectLibrary.weaponTemplates[weaponId], rarityType);
@@ -81,6 +80,16 @@ std::shared_ptr<Creature> ObjectFactory::createCreature(TemplateCreaturePreset &
 		creature->inventory.items.add(armor);
 		creature->inventory.equip(armor);
 	}
+	//equip accessories
+	for (auto &accessoryId : presetTemplate.accessoryIds){
+		auto &accessory = createAccessory(engine::objectLibrary.accessoryTemplates[accessoryId], rarityType);
+		creature->inventory.items.add(accessory);
+		creature->inventory.equip(accessory);
+	}
+	//regen stats
+	creature->healthHit(-9999);
+	creature->staminaHit(-9999);
+	creature->magicHit(-9999);
 	return creature;
 }
 std::shared_ptr<Weapon> ObjectFactory::createWeapon(TemplateWeapon &weaponTemplate, RarityType &rarityType){
@@ -155,7 +164,7 @@ std::shared_ptr<Accessory> ObjectFactory::createAccessory(TemplateAccessory &acc
 		Item(engine::raritySystem.getAccessoryMod(rarityType),
 		GameObject(
 		accessoryTemplate.name,
-		GameObject::ACCESSORY, 
+		accessoryTemplate.type, 
 		accessoryTemplate.glyph),
 		accessoryTemplate.weightKg),
 		spellPower

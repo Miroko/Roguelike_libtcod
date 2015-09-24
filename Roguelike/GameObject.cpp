@@ -32,7 +32,8 @@ bool GameObject::isEquipment(){
 
 bool GameObject::isAccessory(){
 	return(
-		type == ACCESSORY);
+		type == ACCESSORY_AMULET ||
+		type == ACCESSORY_RING);
 }
 
 bool GameObject::isConsumable(){

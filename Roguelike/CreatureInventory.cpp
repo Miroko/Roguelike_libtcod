@@ -16,6 +16,10 @@ void CreatureInventory::unequip(std::shared_ptr<Item> item){
 	if (item->isArmor()) unequipArmor(std::static_pointer_cast<Armor>(item));
 	else if (item->isAccessory()) unequipAccessory(std::static_pointer_cast<Accessory>(item));
 	else if (item->isWeapon()) unholdItem(item);
+	//remove stat stacking
+	owner->healthHit(0);
+	owner->staminaHit(0);
+	owner->magicHit(0);
 }
 void CreatureInventory::consume(std::shared_ptr<Consumable> consumable){
 	consumable->onConsume(*owner);
@@ -80,18 +84,22 @@ void CreatureInventory::unequipArmor(std::shared_ptr<Armor> armor){
 }
 bool CreatureInventory::equipAccessory(std::shared_ptr<Accessory> accessory){
 	for (auto &limb : owner->limbs){
-		if ((int)limb.currentAccessories.items.size() < limb.accessoriesMaxAmount){
-			limb.currentAccessories.add(accessory);
-			return true;
+		if (limb.accessoryType == accessory->type){
+			if ((int)limb.currentAccessories.items.size() < limb.accessoriesMaxAmount){
+				limb.currentAccessories.add(accessory);
+				return true;
+			}
 		}
 	}
 	return false;
 }
 bool CreatureInventory::unequipAccessory(std::shared_ptr<Accessory> accessory){
 	for (auto &limb : owner->limbs){
-		if (limb.currentAccessories.contains(accessory)){
-			limb.currentAccessories.remove(accessory);
-			return true;
+		if (limb.accessoryType == accessory->type){
+			if (limb.currentAccessories.contains(accessory)){
+				limb.currentAccessories.remove(accessory);
+				return true;
+			}
 		}
 	}
 	return false;

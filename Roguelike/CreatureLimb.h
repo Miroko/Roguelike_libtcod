@@ -11,6 +11,7 @@ class CreatureLimb
 {
 public:
 	GameObject::Type armorType;
+	GameObject::Type accessoryType;
 	std::string name;
 	double hitChance;
 	bool canHold;
@@ -20,10 +21,14 @@ public:
 	std::shared_ptr<Armor> currentArmor = nullptr;
 	ItemContainer currentAccessories;
 
-	CreatureLimb(std::string name, double hitChance, GameObject::Type armorType, int accessoriesMaxAmount = 1, bool canHold = false) :
+	CreatureLimb(std::string name, double hitChance,
+		GameObject::Type armorType, bool canHold = false,
+		GameObject::Type accessoryType = GameObject::NONE, int accessoriesMaxAmount = 0) 
+		:
 		name(name), 
 		hitChance(hitChance),
 		armorType(armorType), 
+		accessoryType(accessoryType),
 		canHold(canHold),
 		accessoriesMaxAmount(accessoriesMaxAmount){};
 };

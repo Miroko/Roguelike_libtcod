@@ -13,6 +13,11 @@ private:
 	std::shared_ptr<VisualEffect> visualEffectOnExecution;
 
 public:	
+	enum TargetType{
+		SELF,
+		IN_RANGE,
+	};
+	TargetType targetType;
 	std::string name;
 	std::string logDescription;
 	double profiencyModifier;
@@ -26,8 +31,10 @@ public:
 	virtual void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 	virtual void GuiObject::renderToFrameLine(GuiFrame &frame, Rectangle &bounds, int offsetY) override;
 
-	CreatureAction(std::string name, std::string logDescription, double profiencyModifier, int range, std::shared_ptr<VisualEffect> visualEffectOnExecution = nullptr) :
+	CreatureAction(std::string name, std::string logDescription, double profiencyModifier,
+		int range, std::shared_ptr<VisualEffect> visualEffectOnExecution, TargetType targetType) :
 		GuiObject(),
+		targetType(targetType),
 		name(name),
 		logDescription(logDescription),
 		profiencyModifier(profiencyModifier),

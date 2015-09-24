@@ -79,22 +79,16 @@ void engine::init(){
 	TCODConsole::setKeyboardRepeat(60, 20);
 
 	//health
-	healthMax = 1000; // 1000
-
-	//magic
-	magicMax = 1000;
-	magicCostBase = magicMax / 1.5;
-	magicStaminaCostPerMagic = magicMax / 1000 * 2.5;
-	magicSpellPowerMax = 1.0;
+	healthMax = 1000;
 
 	//damage
 	damageMax = healthMax / 10;
 
 	//defence
-	defenceMax = healthMax / 20; // 40
+	defenceMax = healthMax / 20;
 
 	//weight
-	weightCarryMax = 50.0; // 50
+	weightCarryMax = 50.0;
 	weightDamagePerKg = (damageMax / weightCarryMax) * 0.25;
 
 	//accuracy
@@ -107,12 +101,18 @@ void engine::init(){
 	durabilityMaxEffectOnDefencePercentage = 0.90;
 
 	//stamina
-	staminaMax = 1000; // 1000
-	staminaBaseRegen = staminaMax / weightCarryMax; // 20
-	staminaBaseWaitRegen = staminaBaseRegen * 2; // 40
+	staminaMax = 1000;
+	staminaBaseRegen = staminaMax / weightCarryMax;
+	staminaBaseWaitRegen = staminaBaseRegen * 2;
 	staminaCostPerKgFromMove = (staminaBaseRegen * 2) / weightCarryMax; //stamina regen per turn == | -20 when carrying 50kg | +20 when carrying 0kg |
 	staminaCostPerKgFromAttack = (staminaMax / weightCarryMax) / 4;
 	staminaCostFromDamageRation = 0.7;
+
+	//magic
+	magicMax = 300;
+	magicCostBase = magicMax * 0.7;
+	magicStaminaCostPerMagic = staminaMax / magicMax;
+	magicSpellPowerMax = 1.0;
 
 	//effect
 	effectDurationBase = 10.0;
@@ -124,11 +124,11 @@ void engine::init(){
 	valuePerHealth = valueBase / healthMax;
 	valuePerDamage = valueBase / damageMax / 2.0;
 	valuePerDefence = valueBase / defenceMax / 1.5;
-	valuePerMagic = valueBase * 8 / magicMax;
-	valuePerSpellPower = valuePerMagic * 3;
+	valuePerMagic = valueBase * 2 / magicMax;
+	valuePerSpellPower = valueBase;
 
 	//loot
-	statisticVariation = 0.20;
+	statisticVariation = 0.05;
 	lootMinPrevalenceMultiplier = 0.30;
 	lootRollDropChance = 1.00;
 	lootDropRolls = 6;
@@ -156,8 +156,14 @@ void engine::init(){
 			}
 			if (requestUpdate){
 				areaHandler.updateArea();
-				gui.update();
-				camera.centerOn(playerHandler.getPlayerCreature()->location);
+				if (playerHandler.getPlayerCreature()->isDead){
+					newGame();
+				}
+				else{
+					areaHandler.cleanDeadObjects();
+					gui.update();
+					camera.centerOn(playerHandler.getPlayerCreature()->location);
+				}
 				requestUpdate = false;
 			}
 		}

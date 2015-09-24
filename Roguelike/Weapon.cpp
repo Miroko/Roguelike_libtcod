@@ -38,7 +38,7 @@ int Weapon::getDamageTotal(){
 }
 
 double Weapon::getAccuracyModifier(){
-	double accuracyModifier = 0.0;
+	double accuracyModifier = 1.0;
 	for (auto &affix : rarityAffixes){
 		if (affix->isType(affix->WEAPON_AFFIX)){
 			RarityAffixWeapon &weaponAffix = static_cast<RarityAffixWeapon&>(*affix);
@@ -49,7 +49,7 @@ double Weapon::getAccuracyModifier(){
 }
 
 double Weapon::getStaminaCostModifier(){
-	double staminaCostModifier = 0.0;
+	double staminaCostModifier = 1.0;
 	for (auto &affix : rarityAffixes){
 		if (affix->isType(affix->WEAPON_AFFIX)){
 			RarityAffixWeapon &weaponAffix = static_cast<RarityAffixWeapon&>(*affix);

@@ -13,7 +13,7 @@ bool Creature::executeSkillAction(CreatureSkill &skill, double skillProficiency,
 	if (skill.isType(CreatureSkill::WEAPON)){
 		//random action for both weapons
 		for (auto &weapon : inventory.getWeapons()){
-			auto &actions = skill.getActionsAndProficiencies(skillProficiency);
+			auto &actions = weapon->skillUsed.getActionsAndProficiencies(1.0);
 			auto &randomAction = actions.at(engine::random.generator->getInt(0, actions.size() - 1));
 			if (randomAction.first->execute(*this, randomAction.second, *weapon, target)){
 				executedAction = true;
@@ -21,19 +21,8 @@ bool Creature::executeSkillAction(CreatureSkill &skill, double skillProficiency,
 		}
 	}
 	else if (skill.isType(CreatureSkill::MAGIC)){
-		//check profiency for selected action
-		if (engine::random.chancePercentage(actionProficiency)){
-			if (action.execute(*this, actionProficiency, *this, target)){
-				executedAction = true;
-			}
-		}
-		else{
-			//random fail action
-			auto &actions = skill.getActionsAndProficiencies(skillProficiency);
-			auto &randomAction = actions.at(engine::random.generator->getInt(0, actions.size() - 1));
-			if (randomAction.first->execute(*this, randomAction.second, *this, target)){
-				executedAction = true;
-			}
+		if (action.execute(*this, actionProficiency, *this, target)){
+			executedAction = true;
 		}
 	}
 	if (executedAction) waitedLastTurn = false;
@@ -400,7 +389,7 @@ void Creature::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){
 			"Effects");
 		for (auto &effect : effects){
 			offsetY += 1;
-			std::string effectString = effect->name + ": " + effect->getDescription();
+			std::string effectString = effect->getDescription();
 			int rowsNeededForString = frame.console->getHeightRect(
 				renderBounds.start.x, renderBounds.start.y + offsetY,
 				renderBounds.getWidth(), 2,

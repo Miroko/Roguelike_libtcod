@@ -30,9 +30,11 @@ public:
 		ARMOR_BODY,
 		ARMOR_HAND,
 		ARMOR_LEG,
-		ACCESSORY,
+		ACCESSORY_AMULET,
+		ACCESSORY_RING,
 
-		CONSUMABLE
+		CONSUMABLE,
+		NONE,
 	};
 	Type type;
 	std::string name;

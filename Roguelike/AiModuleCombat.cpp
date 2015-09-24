@@ -2,6 +2,8 @@
 #include "CreatureAi.h"
 #include "Creature.h"
 #include "Weapon.h"
+#include "MagicAction.h"
+#include "WeaponAction.h"
 #include "Engine.h"
 #include <vector>
 
@@ -10,35 +12,55 @@ void AiModuleCombat::pursueAndAttack(DynamicObject &target){
 		if (owner->inFov(target.location)){
 			owner->calculatePath(target.location);
 
-			bool attacked = false;
 			int distanceToTarget = target.location.distance(owner->owner->location);
-			std::pair<CreatureSkill*, double> *bestSkill = nullptr;
-			std::pair<CreatureAction*, double> *bestAction = nullptr;
-			auto &combatSkills = owner->owner->getCombatSkillsAndProficiencies();
+			std::pair<CreatureSkill*, double> bestSkill;
+			std::pair<CreatureAction*, double> bestAction;
+			auto combatSkills = owner->owner->getCombatSkillsAndProficiencies();
 			for (auto &skill : combatSkills){
 				for (auto &action : skill.first->getActionsAndProficiencies(skill.second)){
 					if (distanceToTarget <= action.first->range){
-						if (bestSkill == nullptr){
-							bestSkill = &skill;
-							bestAction = &action;
+						//wait for stamina -> return
+						//not enough magic -> continue to select other action
+						Creature &user = *owner->owner;
+						if (skill.first->isType(CreatureSkill::MAGIC)){
+							MagicAction &magicAction = static_cast<MagicAction&>(*action.first);
+							if (magicAction.getMagicCost(user) > user.getMagicCurrent()) continue;
+							if (magicAction.getStaminaCost(user) > user.getStaminaCurrent()) return;
+						}
+						else if (skill.first->isType(CreatureSkill::WEAPON)){
+							WeaponAction &weaponAction = static_cast<WeaponAction&>(*action.first);
+							bool canUseOneOrMore = false;
+							for (auto &weapon : user.inventory.getWeapons()){
+								if (weaponAction.getStaminaCost(user, *weapon) <= user.getStaminaCurrent()){
+									canUseOneOrMore = true;
+									break;
+								}
+							}
+							if (!canUseOneOrMore) return;
+						}
+						//assign skill and action to use
+						if (bestSkill.first == nullptr){
+							bestSkill = skill;
+							bestAction = action;
 						}
 						else if (
-							bestSkill->second < skill.second &&
-							bestAction->second < action.second){
-							bestSkill = &skill;
-							bestAction = &action;
+							bestSkill.second < skill.second &&
+						    bestAction.second < action.second){
+							bestSkill = skill;
+							bestAction = action;
 						}
 					}
 				}
 			}
-			if (bestAction){
-				owner->owner->executeSkillAction(*bestSkill->first, bestSkill->second, *bestAction->first, bestAction->second, target);
+			if (bestAction.first){
+				owner->owner->executeSkillAction(*bestSkill.first, bestSkill.second, *bestAction.first, bestAction.second, target);
 			}
 			else{
 				owner->moveOnPath();
 			}
 		}
 		else{
+			//target not in fov
 			owner->moveOnPath();
 		}
 	}

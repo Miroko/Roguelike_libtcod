@@ -19,6 +19,7 @@
 #include "WeaponAction.h"
 #include "MagicAction.h"
 #include "ParticleSplash.h"
+#include "ParticleSpiralUp.h"
 
 void ObjectLibrary::init(){
 	tiles = std::unordered_map<std::string, std::shared_ptr<Tile>>{
@@ -67,21 +68,28 @@ void ObjectLibrary::init(){
 	};
 	creatureAction = std::unordered_map<std::string, std::shared_ptr<CreatureAction>>{
 		//weapon
-		{ "strike", std::shared_ptr<CreatureAction>(new WeaponAction("Basic strike", "Strikes", 1.00, 1, 0.10, 0.10, 0.00, 0.00)) },
-		{ "stab", std::shared_ptr<CreatureAction>(new WeaponAction("Basic stab", "Stabs", 0.70, 1, 0.50, -0.50, 0.00, 0.00)) },
-		{ "slash", std::shared_ptr<CreatureAction>(new WeaponAction("Basic slash", "Slashes", 0.80, 1, 0.00, 0.50, 0.30, 0.00)) },
-		{ "swing", std::shared_ptr<CreatureAction>(new WeaponAction("Basic swing", "Swings", 0.90, 1, 0.30, 0.80, 0.30, 0.20)) },
-		{ "smash", std::shared_ptr<CreatureAction>(new WeaponAction("Basic smash", "Smashes", 0.70, 1, 0.70, -0.70, 0.30, 0.80)) },
-		{ "shot", std::shared_ptr<CreatureAction>(new WeaponAction("Basic shot", "Shoots", 0.80, 8, 0.00, -0.10, 0.10, 0.10)) },
+		{ "strike", std::shared_ptr<CreatureAction>(new WeaponAction("Basic strike", "Strikes", 1.00, 1, 1.10, 1.00, 1.30, 1.00)) },
+		{ "stab", std::shared_ptr<CreatureAction>(new WeaponAction("Basic stab", "Stabs", 1.00, 1, 1.50, 1.20, 1.20, 1.00)) },
+		{ "slash", std::shared_ptr<CreatureAction>(new WeaponAction("Basic slash", "Slashes", 1.00, 1, 1.00, 1.20, 1.20, 1.00)) },
+		{ "swing", std::shared_ptr<CreatureAction>(new WeaponAction("Basic swing", "Swings", 1.00, 1, 1.30, 0.90, 1.30, 1.20)) },
+		{ "smash", std::shared_ptr<CreatureAction>(new WeaponAction("Basic smash", "Smashes", 1.00, 1, 1.70, 0.60, 1.70, 1.80)) },
+		{ "shot", std::shared_ptr<CreatureAction>(new WeaponAction("Basic shot", "Shoots", 1.00, 8, 1.00, 1.20, 1.20, 1.10)) },
 		//magic
-		{ "fireball", std::shared_ptr<CreatureAction>(new MagicAction("Fireball", "Fireball", 0.70, 6, 0.20, 0.05,
-		{ std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Burn", -0.02, 0.20)),
-		  std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Heat", -0.03, 0.20)) },
-		  std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
-				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
-				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
-				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::lightRed), 4, 12)),
-				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::yellow), 4, 12)) })))) 
+		{ "fireball", std::shared_ptr<CreatureAction>(new MagicAction("Fireball", "Fireball", 0.70, 6, 0.60, 0.20,
+			{ std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Burn", -0.30, 0.30,
+				std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+					std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::orange), 3, 22)),
+					std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::grey), 3, 22)),
+					std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkOrange), 3, 16))
+				})))),
+			  std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Heat", -0.20, 0.40)) },
+			  std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
+					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
+					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkOrange), 3, 12)),
+					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkOrange), 3, 12)),
+					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::yellow), 4, 12))
+				})), CreatureAction::IN_RANGE))
 		}
 	};
 	creatureSkills = std::unordered_map<std::string, std::shared_ptr<CreatureSkill>>{
@@ -98,25 +106,25 @@ void ObjectLibrary::init(){
 		{ creatureAction["shot"] })) },
 		//magic
 		{ "skill_fire", std::shared_ptr<CreatureSkill>(new CreatureSkill(CreatureSkill::MAGIC, "Fire Magic",
-		{ creatureAction["fireball"] } )) }
+		{ creatureAction["fireball"] })) }
 	};
 	creatureBaseTemplates = std::unordered_map < std::string, TemplateCreatureBase > {
 		{ "humanoid", TemplateCreatureBase({
-			CreatureLimb("Head", 0.4f, GameObject::ARMOR_HEAD, 2),
+			CreatureLimb("Head", 0.4f, GameObject::ARMOR_HEAD, false, GameObject::ACCESSORY_AMULET, 1),
 			CreatureLimb("Body", 0.8f, GameObject::ARMOR_BODY, 0),
-			CreatureLimb("Left arm", 0.7f, GameObject::ARMOR_HAND, 3, true),
-			CreatureLimb("Right arm", 0.7f, GameObject::ARMOR_HAND, 3, true),
-			CreatureLimb("Left leg", 0.6f, GameObject::ARMOR_LEG, 1),
-			CreatureLimb("Right leg", 0.6f, GameObject::ARMOR_LEG, 1) },
+			CreatureLimb("Left arm", 0.7f, GameObject::ARMOR_HAND, true, GameObject::ACCESSORY_RING, 2),
+			CreatureLimb("Right arm", 0.7f, GameObject::ARMOR_HAND, true, GameObject::ACCESSORY_RING, 2),
+			CreatureLimb("Left leg", 0.6f, GameObject::ARMOR_LEG),
+			CreatureLimb("Right leg", 0.6f, GameObject::ARMOR_LEG) },
 			std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
 				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkerRed), 3, 9)),
 				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkRed), 2, 6)) })))
 		},
 		{ "giant", TemplateCreatureBase({
-			CreatureLimb("Head", 0.9f, GameObject::ARMOR_HEAD, 2),
-			CreatureLimb("Body", 1.0f, GameObject::ARMOR_BODY, 0),
-			CreatureLimb("Left arm", 0.9f, GameObject::ARMOR_HAND, 1, true),
-			CreatureLimb("Right arm", 0.9f, GameObject::ARMOR_HAND, 1, true),
+			CreatureLimb("Head", 0.9f, GameObject::ARMOR_HEAD, false, GameObject::ACCESSORY_AMULET, 1),
+			CreatureLimb("Body", 1.0f, GameObject::ARMOR_BODY),
+			CreatureLimb("Left arm", 0.9f, GameObject::ARMOR_HAND, true),
+			CreatureLimb("Right arm", 0.9f, GameObject::ARMOR_HAND, true),
 			CreatureLimb("Left leg", 1.0f, GameObject::ARMOR_LEG, 0),
 			CreatureLimb("Right leg", 1.0f, GameObject::ARMOR_LEG, 0) },
 			std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
@@ -130,20 +138,21 @@ void ObjectLibrary::init(){
 			"player",
 			"Player",
 			Glyph('@', TCODColor::lightAmber),
-			0.8,
-			0.6,
+			0.80,
+			0.60,
 			"humanoid",
 			"ai_none",
 			{ "sword", "bow" },
 			{ "body_leather" },
-			0.1
+			{ "amulet", "ring", "ring", "ring", "ring" },
+			0.30
 			) },
 		{ "villager_man", TemplateCreaturePreset(
 			"villager_man",
 			"Man",
 			Glyph('h', TCODColor::lightAmber),
-			0.8,
-			0.6,
+			0.80,
+			0.60,
 			"humanoid",
 			"ai_villager",
 			{ "dagger" } 
@@ -152,8 +161,8 @@ void ObjectLibrary::init(){
 			"villager_woman",
 			"Woman",
 			Glyph('h', TCODColor::lightAmber),
-			0.7,
-			0.6,
+			0.70,
+			0.60,
 			"humanoid",
 			"ai_villager",
 			{ "dagger" }
@@ -162,8 +171,8 @@ void ObjectLibrary::init(){
 			"villager_child",
 			"Child",
 			Glyph('c', TCODColor::lightAmber),
-			0.2,
-			0.2,
+			0.20,
+			0.20,
 			"humanoid",
 			"ai_villager"
 			) },
@@ -171,43 +180,61 @@ void ObjectLibrary::init(){
 			"villager_blacksmith",
 			"Blacksmith",
 			Glyph('b', TCODColor::lightGrey),
-			0.8,
-			0.8,
+			0.80,
+			0.80,
 			"humanoid",
 			"ai_blacksmith",
 			{ "sword" },
-			{ "body_leather" }) },
+			{ "body_leather" }
+			) },
 		{ "villager_alchemist", TemplateCreaturePreset(
 			"villager_alchemist",
 			"Alchemist",
 			Glyph('a', TCODColor::lightBlue),
-			0.6,
-			0.3,
+			0.60,
+			0.30,
 			"humanoid",
 			"ai_alchemist",
 			{ "staff" },
 			{},
-			0.3) },
+			{ "amulet", "ring", "ring" },
+			0.50
+			) },
 		{ "goblin_melee", TemplateCreaturePreset(
 			"goblin_melee",
 			"Goblin",
 			Glyph('g', TCODColor::chartreuse),
-			0.2,
-			0.3,
+			0.20,
+			0.30,
 			"humanoid",
 			"ai_monster",
 			{ "dagger" },
-			{ "body_leather", "head_leather" }) },
+			{ "body_leather", "head_leather" }
+			) },
 		{ "goblin_ranged", TemplateCreaturePreset(
 			"goblin_ranged",
-			"Goblin",
-			Glyph('g', TCODColor::darkChartreuse),
-			0.2,
-			0.1,
+			"Goblin Hunter",
+			Glyph('g', TCODColor::darkerChartreuse),
+			0.15,
+			0.30,
 			"humanoid",
 			"ai_monster",
 			{ "bow" },
-			{ "body_leather", "head_leather" }) },
+			{ "body_leather", "head_leather" }
+			) },
+		{ "goblin_magic", TemplateCreaturePreset(
+			"goblin_magic",
+			"Goblin Shaman",
+			Glyph('g', TCODColor(64, 96, 64)),
+			0.10,
+			0.30,
+			"humanoid",
+			"ai_monster",
+			{ "dagger" },
+			{ },
+			{ "amulet", "ring", "ring" },
+			0.20 
+			) },
 		{ "goblin_king", TemplateCreaturePreset(
 			"goblin_king",
 			"The Goblin King",
@@ -218,6 +245,7 @@ void ObjectLibrary::init(){
 			"ai_monster",
 			{ "mace" },
 			{ "head_leather" },
+			{ "amulet" },
 			0.2
 			) }
 	};
@@ -299,16 +327,18 @@ void ObjectLibrary::init(){
 	};
 	accessoryTemplates = std::unordered_map<std::string, TemplateAccessory>{
 		{ "ring", TemplateAccessory(
+			GameObject::ACCESSORY_RING,
 			"Ring",
 			Glyph('r', TCODColor::lighterOrange),
 			0.300,
-			0.10
+			0.40
 			) },
 		{ "amulet", TemplateAccessory(
+			GameObject::ACCESSORY_AMULET,
 			"Amulet",
 			Glyph('a', TCODColor::lighterOrange),
-			0.600,
-			0.30
+			0.800,
+			0.90
 			) }
 	};
 	consumableTemplates = std::unordered_map<std::string, TemplateConsumable>{

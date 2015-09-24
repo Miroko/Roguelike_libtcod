@@ -5,29 +5,37 @@
 #include "Engine.h"
 #include <algorithm>
 
-bool MagicAction::execute(Creature &executer, double skillModifier, GameObject &actionObject, DynamicObject &target){
+int MagicAction::getMagicCost(Creature &user){
+	return (int)(engine::magicCostBase * magicCostModifier);
+}
 
+int MagicAction::getStaminaCost(Creature &user){
+	return (int)((getMagicCost(user) * engine::magicStaminaCostPerMagic * staminaCostModifier));
+}
+
+bool MagicAction::execute(Creature &executer, double actionProficiency, GameObject &actionObject, DynamicObject &target){
 	//magic
-	double magicCostBase = engine::magicCostBase;
-	double magicCostTotal = magicCostBase * magicCostModifier;
-	if (magicCostTotal > executer.getMagicCurrent()){
+	if (getMagicCost(executer) > executer.getMagicCurrent()){
 		engine::gui.log.addMessage(executer.name + " is too drained of magic to cast " + logDescription + ".");
 		return false;
 	}
 
 	//stamina
-	double staminaCostBase = engine::magicStaminaCostPerMagic * magicCostTotal;
-	double staminaCostTotal = staminaCostBase +
-		(staminaCostBase * staminaCostModifier);
-	if (staminaCostTotal > executer.getStaminaCurrent()){
+	if (getStaminaCost(executer) > executer.getStaminaCurrent()){
 		engine::gui.log.addMessage(executer.name + " is too exhausted to cast " + logDescription + ".");
 		return false;
 	}
+	executer.magicHit(getMagicCost(executer));
+	executer.staminaHit(getStaminaCost(executer));
 
 	//cast
-	engine::gui.log.addMessage(executer.name + " casts " + logDescription + " to " + target.name + ". ");
-	executer.magicHit((int)magicCostTotal);
-	executer.staminaHit((int)staminaCostTotal);
+	if (engine::random.chancePercentage(actionProficiency)) {
+		engine::gui.log.addMessage(executer.name + " casts " + logDescription + " to " + target.name + ". ");
+	}
+	else{
+		engine::gui.log.addMessage(executer.name + " fails to cast " + logDescription + ". ");
+		return true;
+	}
 
 	//visual effect
 	CreatureAction::execute(executer, profiencyModifier, actionObject, target);
@@ -36,13 +44,57 @@ bool MagicAction::execute(Creature &executer, double skillModifier, GameObject &
 	if (target.isCreature()){
 		Creature &targetCreature = static_cast<Creature&>(target);
 		for (auto &effect : effects){
-			auto& newEffect = effect->clone();
-			newEffect->modifier = newEffect->modifier * executer.getSpellPowerModifier();
-			newEffect->duration = std::max((int)(newEffect->duration * executer.getSpellPowerModifier()), 1);
-			targetCreature.addEffect(newEffect);
+			auto& clonedEffect = effect->clone();
+			clonedEffect->modifier = clonedEffect->modifier * executer.getSpellPowerModifier() * actionProficiency;
+			clonedEffect->duration = std::max((int)(clonedEffect->duration * executer.getSpellPowerModifier() * actionProficiency), 1);
+			targetCreature.addEffect(clonedEffect);
 		}
 		targetCreature.ai->onTakeDamage(executer);
 	}
-
 	return true;
 }
+
+void MagicAction::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){
+	//description
+	int offsetY = 0;
+	frame.printString(
+		renderBounds.start.x, renderBounds.start.y + offsetY,
+		renderBounds.getWidth(), 0,
+		Gui::FRAME_FG,
+		TCOD_CENTER,
+		getDescription());
+	//modifiers
+	offsetY += 2;
+	frame.printString(
+		renderBounds.start.x, renderBounds.start.y + offsetY,
+		renderBounds.getWidth(), 0,
+		Gui::FRAME_FG,
+		TCOD_CENTER,
+		"Skill requirement: " + engine::string.percentageValue(profiencyModifier));
+	offsetY += 1;
+	frame.printString(
+		renderBounds.start.x, renderBounds.start.y + offsetY,
+		renderBounds.getWidth(), 0,
+		Gui::FRAME_FG,
+		TCOD_CENTER,
+		"Magic cost: " + std::to_string(getMagicCost(*engine::playerHandler.getPlayerCreature())));
+	offsetY += 1;
+	frame.printString(
+		renderBounds.start.x, renderBounds.start.y + offsetY,
+		renderBounds.getWidth(), 0,
+		Gui::FRAME_FG,
+		TCOD_CENTER,
+		"Stamina cost: " + std::to_string(getStaminaCost(*engine::playerHandler.getPlayerCreature())));
+	//effects
+	offsetY += 1;
+	for (auto &effect : effects){
+		offsetY += 1;
+		frame.printString(
+			renderBounds.start.x, renderBounds.start.y + offsetY,
+			renderBounds.getWidth(), 0,
+			Gui::FRAME_FG,
+			TCOD_CENTER,
+			effect->name + ": " + effect->getDescription());
+	}
+}
+

@@ -23,13 +23,12 @@ bool AreaHandler::loadSavedArea(std::shared_ptr<QuestPhase> persistentPhase){
 
 void AreaHandler::updateArea(){
 	currentArea->update();
-	if (engine::playerHandler.getPlayerCreature()->isDead){
-		engine::newGame();
-	}
-	else{
-		currentArea->cleanDeadDynamicObjects();
-	}
 }
+
+void AreaHandler::cleanDeadObjects(){
+	currentArea->cleanDeadDynamicObjects();
+}
+
 void AreaHandler::renderArea(){
 	currentArea->render();
 }

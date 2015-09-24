@@ -15,6 +15,6 @@ public:
 		modifier, 
 		durationFromMax, 
 		std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
-			std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkestCyan), 2, 10)) }))
+			std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkestSky), 2, 10)) }))
 		))){}
 };
