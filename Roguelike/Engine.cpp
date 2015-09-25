@@ -175,6 +175,9 @@ void engine::init(){
 	}
 }
 void engine::newGame(){
+	//reset gui
+	gui.attack.close();
+
 	//reset visual effects
 	visualEffectPlayer.runningVisualEffects.clear();
 

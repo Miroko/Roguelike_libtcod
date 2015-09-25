@@ -138,7 +138,7 @@ void ActionExecutionFrame::onOpen(){
 	update();
 	if (attackableObjects.empty()){
 		if (selectedSkill->isType(CreatureSkill::WEAPON)){
-			auto &weapons = engine::playerHandler.getPlayerCreature()->inventory.getWeapons();
+			auto &weapons = engine::playerHandler.getPlayerCreature()->inventory.getEquippedWeapons();
 			if (weapons.at(0)->type == GameObject::WEAPON_MELEE){
 				engine::gui.log.addMessage("Nothing to attack.");
 			}

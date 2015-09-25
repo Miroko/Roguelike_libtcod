@@ -8,71 +8,114 @@
 #include <vector>
 
 void AiModuleCombat::pursueAndAttack(DynamicObject &target){
-	if (!target.isDead){
-		if (owner->inFov(target.location)){
-			owner->calculatePath(target.location);
-
-			int distanceToTarget = target.location.distance(owner->owner->location);
-			std::pair<CreatureSkill*, double> bestSkill;
-			std::pair<CreatureAction*, double> bestAction;
-			auto combatSkills = owner->owner->getCombatSkillsAndProficiencies();
-			for (auto &skill : combatSkills){
-				for (auto &action : skill.first->getActionsAndProficiencies(skill.second)){
-					if (distanceToTarget <= action.first->range){
-						//wait for stamina -> return
-						//not enough magic -> continue to select other action
-						Creature &user = *owner->owner;
-						if (skill.first->isType(CreatureSkill::MAGIC)){
-							MagicAction &magicAction = static_cast<MagicAction&>(*action.first);
-							if (magicAction.getMagicCost(user) > user.getMagicCurrent()) continue;
-							if (magicAction.getStaminaCost(user) > user.getStaminaCurrent()) return;
+	if (target.isDead) return;
+	if (!owner->inFov(target.location)){
+		owner->calculatePath(target.location);
+		owner->moveOnPath();
+	}
+	Creature &user = *owner->owner;
+	std::vector<
+		std::pair<
+		std::pair<CreatureSkill*, double>,
+		std::pair<CreatureAction*, double>
+		>
+	> validSkillActions;
+	int distanceToTarget = target.location.distance(user.location);
+	bool getCloserToTarget = false;
+	//find valid magic actions
+	for (auto &skill : user.getMagicSkillsAndProfiencies()){
+		for (auto &action : skill.first->getActionsAndProficiencies(skill.second)){
+			MagicAction &magicAction = static_cast<MagicAction&>(*action.first);
+			if (magicAction.getMagicCost(user) > user.getMagicCurrent()) continue;
+			if (magicAction.getStaminaCost(user) > user.getStaminaCurrent()) continue;
+			if (magicAction.targetType == MagicAction::IN_RANGE){
+				if (distanceToTarget > action.first->range){
+					getCloserToTarget = true;
+					continue;
+				}
+			}
+			else if (magicAction.targetType == MagicAction::SELF){
+				bool hasNeedToUse = false;
+				for (auto &effect : magicAction.effects){
+					switch (effect->statType)
+					{
+					case CreatureEffect::HEALTH:
+						if (user.getHealthCurrent() + effect->getEffectAmountLeft() < user.getHealthMax()) hasNeedToUse = true;
+						break;
+					case CreatureEffect::STAMINA:
+						if (user.getStaminaCurrent() + effect->getEffectAmountLeft() < user.getStaminaMax()) hasNeedToUse = true;
+						break;
+					case CreatureEffect::MAGIC:
+						if (user.getMagicCurrent() + effect->getEffectAmountLeft() < user.getMagicMax()) hasNeedToUse = true;
+						break;
+					}
+				}
+				if (!hasNeedToUse) continue;
+			}
+			//valid action
+			validSkillActions.push_back(std::make_pair(skill, action));
+		}
+	}
+	//find valid weapon action
+	for (auto &skill : user.getWeaponSkillsAndProfiencies()){
+		for (auto &action : skill.first->getActionsAndProficiencies(skill.second)){
+			WeaponAction &weaponAction = static_cast<WeaponAction&>(*action.first);
+			for (auto &weapon : user.inventory.getEquippedWeapons()){
+				if (&weapon->skillUsed == skill.first){
+					if (weaponAction.getStaminaCost(user, *weapon) <= user.getStaminaCurrent()){
+						if (distanceToTarget > action.first->range){
+							getCloserToTarget = true;
+							break;
 						}
-						else if (skill.first->isType(CreatureSkill::WEAPON)){
-							WeaponAction &weaponAction = static_cast<WeaponAction&>(*action.first);
-							bool canUseOneOrMore = false;
-							for (auto &weapon : user.inventory.getWeapons()){
-								if (weaponAction.getStaminaCost(user, *weapon) <= user.getStaminaCurrent()){
-									canUseOneOrMore = true;
-									break;
-								}
-							}
-							if (!canUseOneOrMore) return;
-						}
-						//assign skill and action to use
-						if (bestSkill.first == nullptr){
-							bestSkill = skill;
-							bestAction = action;
-						}
-						else if (
-							bestSkill.second < skill.second &&
-						    bestAction.second < action.second){
-							bestSkill = skill;
-							bestAction = action;
+						else{
+							//valid action
+							validSkillActions.push_back(std::make_pair(skill, action));
+							goto SELECT_ACTION;
 						}
 					}
 				}
 			}
-			if (bestAction.first){
-				owner->owner->executeSkillAction(*bestSkill.first, bestSkill.second, *bestAction.first, bestAction.second, target);
-			}
-			else{
-				owner->moveOnPath();
-			}
-		}
-		else{
-			//target not in fov
-			owner->moveOnPath();
 		}
 	}
+	//select action to execute
+	SELECT_ACTION:
+	if (validSkillActions.empty()){
+		if (getCloserToTarget){
+			owner->calculatePath(target.location);
+			owner->moveOnPath();
+		}
+		else state = FLEE;
+	}
+	else{
+		std::pair <
+			std::pair<CreatureSkill*, double>,
+			std::pair<CreatureAction*, double>
+		> randomAction = validSkillActions.at(engine::random.generator->getInt(0, validSkillActions.size() - 1));
+		if (randomAction.second.first->targetType == CreatureAction::SELF){
+			user.executeSkillAction(
+				*randomAction.first.first,
+				randomAction.first.second,
+				*randomAction.second.first,
+				randomAction.second.second,
+				user);
+		}
+		else{
+			user.executeSkillAction(
+				*randomAction.first.first,
+				randomAction.first.second,
+				*randomAction.second.first,
+				randomAction.second.second,
+				target);
+		}
+	}	
 }
 void AiModuleCombat::flee(){
 	if (fleeLocation.undefined()){
-		Rectangle fleeArea = Rectangle(owner->owner->location, 15);
+		Rectangle fleeArea = Rectangle(owner->owner->location, 4);
 		fleeLocation = owner->area->getNearestTile(engine::random.point(fleeArea), Tile::FLOOR);
 		owner->calculatePath(fleeLocation);
 	}
 	if (owner->owner->location == fleeLocation){
-		target = nullptr;
 		fleeLocation = POINT_UNDEFINED;
 		state = WAIT;
 	}
@@ -88,12 +131,7 @@ void AiModuleCombat::run(){
 	}
 	else if (state == PURSUE_TARGET){
 		if (target != nullptr){
-			if (!owner->owner->inventory.getWeapons().empty()){
-				pursueAndAttack(*target);
-			}
-			else{
-				state = FLEE;
-			}
+			pursueAndAttack(*target);
 		}
 	}
 	else if (state == FLEE){

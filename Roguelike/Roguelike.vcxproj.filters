@@ -196,6 +196,9 @@
     <Filter Include="Engine\ObjectFactory\Templates">
       <UniqueIdentifier>{b8850659-05eb-4fa8-9af0-a7497152e674}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\DamageType">
+      <UniqueIdentifier>{acab3de2-7e84-41a7-ba6f-16166f3f7081}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creature.cpp">

@@ -12,7 +12,7 @@ bool Creature::executeSkillAction(CreatureSkill &skill, double skillProficiency,
 	bool executedAction = false;
 	if (skill.isType(CreatureSkill::WEAPON)){
 		//random action for both weapons
-		for (auto &weapon : inventory.getWeapons()){
+		for (auto &weapon : inventory.getEquippedWeapons()){
 			auto &actions = weapon->skillUsed.getActionsAndProficiencies(1.0);
 			auto &randomAction = actions.at(engine::random.generator->getInt(0, actions.size() - 1));
 			if (randomAction.first->execute(*this, randomAction.second, *weapon, target)){
@@ -97,15 +97,13 @@ void Creature::update(){
 	//ai
 	ai->update();
 	//regenerate stamina
-	if (waitedLastTurn) staminaCurrent += (int)engine::staminaBaseWaitRegen;
-	else staminaCurrent += (int)engine::staminaBaseRegen;
-	if (staminaCurrent > staminaMax) staminaCurrent = staminaMax;
-	//apply effects and decrease duration
+	if (waitedLastTurn) staminaHit(-engine::staminaBaseWaitRegen);
+	else staminaHit(-engine::staminaBaseRegen);
+	//apply effects
 	auto &effectIterator = effects.begin();
 	while (effectIterator != effects.end()){
 		CreatureEffect *effect = effectIterator->get();
 		effect->apply(*this);
-		effect->duration--;
 		if (effect->duration <= 0){
 			effectIterator = effects.erase(effectIterator);
 		}
@@ -170,7 +168,7 @@ double Creature::getSpellPowerModifier(){
 
 std::vector<std::pair<CreatureSkill*, double>> Creature::getWeaponSkillsAndProfiencies(){
 	std::vector<std::pair<CreatureSkill*, double>> skillsAndProfiencies;
-	for (auto &weapon : inventory.getWeapons()){
+	for (auto &weapon : inventory.getEquippedWeapons()){
 		bool newSkill = true;
 		double profiency = 1.0;
 		for (auto &skillAndProfiency : skillsAndProfiencies){
@@ -327,7 +325,7 @@ void Creature::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){
 		}
 	}
 	//armors
-	auto &armors = inventory.getArmors();
+	auto &armors = inventory.getEquippedArmors();
 	if (!armors.empty()){
 		offsetY += 2;
 		frame.printString(

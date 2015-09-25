@@ -1,4 +1,6 @@
 #include "String.h"
+#include "DynamicObject.h"
+#include "Creature.h"
 #include <sstream>
 #include <iomanip>
 
@@ -73,6 +75,11 @@ std::string String::spellPower(double spellPower){
 
 std::string String::durability(int current, int max){
 	return outOf(current, max) + "dr";
+}
+
+std::string String::targetName(Creature &creature, DynamicObject &target){
+	if (&creature == &target) return "Self";
+	else return target.name;
 }
 
 std::string String::loremIpsum(){

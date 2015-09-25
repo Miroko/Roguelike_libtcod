@@ -2,17 +2,21 @@
 #include "Creature.h"
 #include "Engine.h"
 
+int CreatureEffectHealth::getEffectAmountLeft(){
+	return engine::healthMax * modifier * duration;
+}
+
 std::string CreatureEffectHealth::getDescription(){
-	return "Health " + engine::string.value(engine::healthMax * modifier) + " for " + std::to_string(duration) + " turns";
+	return "Health " + engine::string.value(getEffectAmountLeft()) + " in " + std::to_string(duration) + " turns";
 }
 
 void CreatureEffectHealth::apply(Creature &creature){
-	creature.healthHit(-engine::healthMax * modifier);
+	creature.healthHit(-getEffectAmountLeft() / duration);
 	CreatureEffect::apply(creature);
 }
 
 int CreatureEffectHealth::getValue(){
-	return (int)((engine::healthMax * modifier) * engine::valuePerHealth * duration);
+	return (int)(getEffectAmountLeft() * engine::valuePerHealth);
 }
 
 std::shared_ptr<CreatureEffect> CreatureEffectHealth::clone(){

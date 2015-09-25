@@ -45,7 +45,7 @@ bool WeaponAction::execute(Creature &executer, double actionProficiency, GameObj
 		executer.staminaHit(getStaminaCost(executer, actionWeapon));
 
 		//attack
-		engine::gui.log.addToMessage(executer.name + " " + logDescription + " " + target.name + " with " + actionObject.name + ". ");
+		engine::gui.log.addToMessage(executer.name + " " + logDescription + " " + engine::string.targetName(executer, target) + " with " + actionObject.name + ". ");
 
 		//accuracy
 		if (!engine::random.chance(getAccuracy(executer, actionWeapon))){

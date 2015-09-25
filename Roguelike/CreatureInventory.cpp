@@ -122,7 +122,7 @@ std::vector<Item*> CreatureInventory::getHoldingItems(){
 	}
 	return items;
 }
-std::vector<Weapon*> CreatureInventory::getWeapons(){
+std::vector<Weapon*> CreatureInventory::getEquippedWeapons(){
 	std::vector<Weapon*> weapons;
 	for (auto &limb : owner->limbs){
 		if (limb.currentItemInHold != nullptr){
@@ -141,7 +141,7 @@ std::vector<Weapon*> CreatureInventory::getWeapons(){
 	}
 	return weapons;
 }
-std::vector<Armor*> CreatureInventory::getArmors(){
+std::vector<Armor*> CreatureInventory::getEquippedArmors(){
 	std::vector<Armor*> armors;
 	for (auto &limb : owner->limbs){
 		if (limb.currentArmor != nullptr){
@@ -169,17 +169,17 @@ std::vector<Accessory*> CreatureInventory::getAccessories(){
 }
 int CreatureInventory::getTotalDefence(){
 	int totalDefence = 0;
-	for (auto &armor : getArmors()){
+	for (auto &armor : getEquippedArmors()){
 		totalDefence += armor->getDefenceTotal();
 	}
 	return totalDefence;
 }
 double CreatureInventory::getTotalEquippedWeight(){
 	double totalWeight = 0;
-	for (auto &armor : getArmors()){
+	for (auto &armor : getEquippedArmors()){
 		totalWeight += armor->getWeightTotal();
 	}
-	for (auto &weapon : getWeapons()){
+	for (auto &weapon : getEquippedWeapons()){
 		totalWeight += weapon->getWeightTotal();
 	}
 	for (auto &accessory : getAccessories()){

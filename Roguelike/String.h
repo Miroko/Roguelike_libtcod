@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+class Creature;
+class DynamicObject;
 class String
 {
 public:
@@ -24,6 +26,8 @@ public:
 	std::string magic(int magic);
 	std::string spellPower(double spellPower);
 	std::string durability(int current, int max);
+
+	std::string targetName(Creature &creature, DynamicObject &target);
 
 	String(){};
 };

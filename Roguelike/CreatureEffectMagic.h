@@ -4,13 +4,14 @@
 class CreatureEffectMagic : public CreatureEffect
 {
 public:
-	std::string CreatureEffect::getDescription();
-	void CreatureEffect::apply(Creature &creature);
-	int CreatureEffect::getValue();
-	std::shared_ptr<CreatureEffect> CreatureEffect::clone();
+	int CreatureEffect::getEffectAmountLeft() override;
+	std::string CreatureEffect::getDescription() override;
+	void CreatureEffect::apply(Creature &creature) override;
+	int CreatureEffect::getValue() override;
+	std::shared_ptr<CreatureEffect> CreatureEffect::clone() override;
 
 	CreatureEffectMagic(std::string name, double modifier, double durationFromMax,
 		std::shared_ptr<VisualEffect> visualEffectOnApply = nullptr) :
-		CreatureEffect(name, modifier, durationFromMax, visualEffectOnApply){}
+		CreatureEffect(name, modifier, durationFromMax, CreatureEffect::MAGIC, visualEffectOnApply){}
 };
 

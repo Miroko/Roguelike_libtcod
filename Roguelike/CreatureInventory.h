@@ -29,8 +29,8 @@ public:
 	void drop(std::shared_ptr<Item> item);
 	bool isEquipped(std::shared_ptr<Item> item);
 	std::vector<Item*> getHoldingItems();
-	std::vector<Weapon*> getWeapons();
-	std::vector<Armor*> getArmors();
+	std::vector<Weapon*> getEquippedWeapons();
+	std::vector<Armor*> getEquippedArmors();
 	std::vector<Accessory*> getAccessories();
 	int getTotalDefence();
 	double getTotalEquippedWeight();

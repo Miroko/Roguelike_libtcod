@@ -74,22 +74,59 @@ void ObjectLibrary::init(){
 		{ "swing", std::shared_ptr<CreatureAction>(new WeaponAction("Basic swing", "Swings", 1.00, 1, 1.30, 0.90, 1.30, 1.20)) },
 		{ "smash", std::shared_ptr<CreatureAction>(new WeaponAction("Basic smash", "Smashes", 1.00, 1, 1.70, 0.60, 1.70, 1.80)) },
 		{ "shot", std::shared_ptr<CreatureAction>(new WeaponAction("Basic shot", "Shoots", 1.00, 8, 1.00, 1.20, 1.20, 1.10)) },
-		//magic
-		{ "fireball", std::shared_ptr<CreatureAction>(new MagicAction("Fireball", "Fireball", 0.70, 6, 0.60, 0.20,
-			{ std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Burn", -0.30, 0.30,
+		//fire
+		{ "fireball", std::shared_ptr<CreatureAction>(new MagicAction("Fireball", "Fireball", 0.70, 5, 0.60, 0.20,
+			{ 
+			std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Burning", -0.30, 0.30,
 				std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
-					std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::orange), 3, 22)),
-					std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::grey), 3, 22)),
-					std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkOrange), 3, 16))
-				})))),
-			  std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Heat", -0.20, 0.40)) },
-			  std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
-					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
-					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
-					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkOrange), 3, 12)),
-					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkOrange), 3, 12)),
-					std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::yellow), 4, 12))
-				})), CreatureAction::IN_RANGE))
+				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::orange), 3, 21)),
+				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::grey), 3, 21)),
+				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkOrange), 3, 16))
+			})))),
+			std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Heat", -0.20, 0.40)) 
+			},
+			std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::orange), 4, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkOrange), 3, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkOrange), 3, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::yellow), 4, 12))
+			})), CreatureAction::IN_RANGE))
+		},
+		//frost
+		{ "frostball", std::shared_ptr<CreatureAction>(new MagicAction("Frostball", "Frostball", 0.70, 7, 0.40, 0.30,
+			{ 
+			std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Freezing", -0.20, 0.20,
+				std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::lightestBlue), 3, 21)),
+				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::lightestBlue), 3, 21)),
+				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::lighterBlue), 3, 16))
+			})))),
+			std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Cold", -0.30, 0.60))
+			},
+			std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::lightestBlue), 2, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::lightestBlue), 2, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::lighterBlue), 2, 12)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::lightBlue), 2, 10))
+			})), CreatureAction::IN_RANGE))
+		},
+		//restoration
+		{ "restoration", std::shared_ptr<CreatureAction>(new MagicAction("Restoration", "Restoration", 0.70, 1, 0.10, 0.20,
+			{ 
+			std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Restore", +0.10, 0.30,
+				std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkestGreen), 3, 21)),
+			})))),
+			std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Restore", +0.15, 0.30,
+				std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
+				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkestSky), 3, 21)),
+			}))))
+			},
+			std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{	
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkestGreen), 2, 6)),
+				std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::darkestSky), 2, 6))
+			})), CreatureAction::SELF))
 		}
 	};
 	creatureSkills = std::unordered_map<std::string, std::shared_ptr<CreatureSkill>>{
@@ -106,7 +143,11 @@ void ObjectLibrary::init(){
 		{ creatureAction["shot"] })) },
 		//magic
 		{ "skill_fire", std::shared_ptr<CreatureSkill>(new CreatureSkill(CreatureSkill::MAGIC, "Fire Magic",
-		{ creatureAction["fireball"] })) }
+		{ creatureAction["fireball"] })) },
+		{ "skill_frost", std::shared_ptr<CreatureSkill>(new CreatureSkill(CreatureSkill::MAGIC, "Frost Magic",
+		{ creatureAction["frostball"] })) },
+		{ "skill_restoration", std::shared_ptr<CreatureSkill>(new CreatureSkill(CreatureSkill::MAGIC, "Restoration Magic",
+		{ creatureAction["restoration"] })) }
 	};
 	creatureBaseTemplates = std::unordered_map < std::string, TemplateCreatureBase > {
 		{ "humanoid", TemplateCreatureBase({

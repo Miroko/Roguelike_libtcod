@@ -144,6 +144,14 @@ void RaritySystem::init(){
 			std::shared_ptr<RarityAffix>(
 			new AccessoryAffixSkill("Burning", 0.2 * rarityType.improvementMultiplier, *engine::objectLibrary.creatureSkills["skill_fire"])
 			));
+		rarityType.accessoryAffixesPre.push_back(
+			std::shared_ptr<RarityAffix>(
+			new AccessoryAffixSkill("Freezing", 0.2 * rarityType.improvementMultiplier, *engine::objectLibrary.creatureSkills["skill_frost"])
+			));
+		rarityType.accessoryAffixesPre.push_back(
+			std::shared_ptr<RarityAffix>(
+			new AccessoryAffixSkill("Restoring", 0.2 * rarityType.improvementMultiplier, *engine::objectLibrary.creatureSkills["skill_restoration"])
+			));
 		//consumable
 		rarityType.consumableAffixesPre.push_back(
 			std::shared_ptr<RarityAffix>(

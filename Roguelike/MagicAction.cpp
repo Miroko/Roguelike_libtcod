@@ -30,7 +30,7 @@ bool MagicAction::execute(Creature &executer, double actionProficiency, GameObje
 
 	//cast
 	if (engine::random.chancePercentage(actionProficiency)) {
-		engine::gui.log.addMessage(executer.name + " casts " + logDescription + " to " + target.name + ". ");
+		engine::gui.log.addMessage(executer.name + " casts " + logDescription + " to " + engine::string.targetName(executer, target) + ". ");
 	}
 	else{
 		engine::gui.log.addMessage(executer.name + " fails to cast " + logDescription + ". ");
@@ -44,12 +44,15 @@ bool MagicAction::execute(Creature &executer, double actionProficiency, GameObje
 	if (target.isCreature()){
 		Creature &targetCreature = static_cast<Creature&>(target);
 		for (auto &effect : effects){
-			auto& clonedEffect = effect->clone();
+			auto clonedEffect = effect->clone();
 			clonedEffect->modifier = clonedEffect->modifier * executer.getSpellPowerModifier() * actionProficiency;
 			clonedEffect->duration = std::max((int)(clonedEffect->duration * executer.getSpellPowerModifier() * actionProficiency), 1);
 			targetCreature.addEffect(clonedEffect);
+			if (effect->modifier < 0){
+				//negative effect
+				targetCreature.ai->onTakeDamage(executer);
+			}
 		}
-		targetCreature.ai->onTakeDamage(executer);
 	}
 	return true;
 }
