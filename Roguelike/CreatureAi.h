@@ -23,8 +23,6 @@ public:
 	std::shared_ptr<TCODMap> fovMap;
 	std::shared_ptr<TCODPath> pathMap;
 
-	Point2D targetLocation;
-	bool cheapPathCalculation;
 	int currentPathIndex;
 
 	void createFovMap();
@@ -32,7 +30,7 @@ public:
 	bool inFov(Point2D &location);
 
 	void createPathMap();
-	void calculatePath(Point2D &location, bool cheap = true);
+	void calculatePath(Point2D &location);
 	virtual void onTakeDamage(DynamicObject &attacker);
 	virtual void onCreatureInFov(Creature &creature, int distance);
 	virtual void onOperatableInFov(OperatableObject &operatable, int distance);

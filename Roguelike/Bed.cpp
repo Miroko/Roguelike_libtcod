@@ -13,7 +13,7 @@ void Bed::operate(Creature &user){
 	}
 }
 
-bool Bed::passable(DynamicObject &dynamicObject){
+bool Bed::isPassable(DynamicObject &dynamicObject){
 	return true;
 }
 

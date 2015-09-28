@@ -25,6 +25,10 @@ namespace engine{
 	extern Gui gui;
 	extern bool requestUpdate;
 
+	//render
+	extern int renderItemsRate;
+	extern bool renderWithoutFov;
+
 	//health
 	extern double healthMax;
 

@@ -11,7 +11,7 @@ public:
 	virtual void operate(Creature &user);
 
 	virtual void messageDeath() override;
-	virtual bool passable(DynamicObject &dynamicObject) override;
+	virtual bool isPassable(DynamicObject &dynamicObject) override;
 
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 

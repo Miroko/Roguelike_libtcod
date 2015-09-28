@@ -7,8 +7,6 @@
 
 class GameObject : public GuiObject
 {
-private:
-
 public:	
 	enum Type{
 		FLOOR,
@@ -48,10 +46,10 @@ public:
 	bool isConsumable();
 	bool isOperatable();
 	bool isTile();
-
-	Type getType();
+	bool isType(Type type);
 		
 	virtual void render(int x, int y);
+
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 	void GuiObject::renderToFrameLine(GuiFrame &frame, Rectangle &renderBounds, int offsetY) override;
 	std::string GuiObject::getStatistics() override;

@@ -25,10 +25,6 @@ void AreaHandler::updateArea(){
 	currentArea->update();
 }
 
-void AreaHandler::cleanDeadObjects(){
-	currentArea->cleanDeadDynamicObjects();
-}
-
 void AreaHandler::renderArea(){
 	currentArea->render();
 }

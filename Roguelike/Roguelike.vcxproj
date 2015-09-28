@@ -25,6 +25,7 @@
     <ClCompile Include="AiVillager.cpp" />
     <ClCompile Include="AlchemyTable.cpp" />
     <ClCompile Include="Anvil.cpp" />
+    <ClCompile Include="AreaContainer.cpp" />
     <ClCompile Include="AreaHouse.cpp" />
     <ClCompile Include="AreaPath.cpp" />
     <ClCompile Include="AreaTreeSpot.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="AiVillager.h" />
     <ClInclude Include="AlchemyTable.h" />
     <ClInclude Include="Anvil.h" />
+    <ClInclude Include="AreaContainer.h" />
     <ClInclude Include="AreaHouse.h" />
     <ClInclude Include="AreaPath.h" />
     <ClInclude Include="AreaTreeSpot.h" />

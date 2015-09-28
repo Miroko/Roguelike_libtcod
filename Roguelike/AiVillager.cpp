@@ -98,14 +98,18 @@ void AiVillager::update(){
 				if (nextPathIndex > pathMap->size() - 1) nextPathIndex = pathMap->size() - 1;
 				pathMap->get(previousPathIndex, &previousPathLocation.x, &previousPathLocation.y);
 				pathMap->get(nextPathIndex, &nextPathLocation.x, &nextPathLocation.y);
-				for (auto &operatable : area->operatableObjects){
-					if (operatable->location == nextPathLocation ||
-						operatable->location == previousPathLocation){
-						if (operatable->type == OperatableObject::DOOR){
-							Door &door = static_cast<Door&>(*operatable.get());
-							door.operate(*owner);
-							operated = true;
-						}
+				if (area->areaContainers[nextPathLocation.x][nextPathLocation.y].operatableObject){
+					if (area->areaContainers[nextPathLocation.x][nextPathLocation.y].operatableObject->isType(GameObject::DOOR)){
+						Door &door = static_cast<Door&>(*area->areaContainers[nextPathLocation.x][nextPathLocation.y].operatableObject);
+						door.operate(*owner);
+						operated = true;
+					}
+				}
+				else if (area->areaContainers[previousPathLocation.x][previousPathLocation.y].operatableObject){
+					if (area->areaContainers[previousPathLocation.x][previousPathLocation.y].operatableObject->isType(GameObject::DOOR)){
+						Door &door = static_cast<Door&>(*area->areaContainers[previousPathLocation.x][previousPathLocation.y].operatableObject);
+						door.operate(*owner);
+						operated = true;
 					}
 				}
 			}
@@ -113,6 +117,7 @@ void AiVillager::update(){
 		if (!operated){
 			moveOnPath();
 		}
+		//to not open/close door infinitely
 		operatedLastTurn = operated;
 
 		//arrived to house

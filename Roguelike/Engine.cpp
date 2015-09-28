@@ -14,6 +14,10 @@ VisualEffectPlayer engine::visualEffectPlayer;
 Gui engine::gui;
 bool engine::requestUpdate = false;
 
+//render
+int engine::renderItemsRate = 10; 
+bool engine::renderWithoutFov = false;
+
 //health
 double engine::healthMax;
 
@@ -156,11 +160,10 @@ void engine::init(){
 			}
 			if (requestUpdate){
 				areaHandler.updateArea();
-				if (playerHandler.getPlayerCreature()->isDead){
+				if (playerHandler.getPlayerCreature()->getHealthCurrent() <= 0){
 					newGame();
 				}
 				else{
-					areaHandler.cleanDeadObjects();
 					gui.update();
 					camera.centerOn(playerHandler.getPlayerCreature()->location);
 				}

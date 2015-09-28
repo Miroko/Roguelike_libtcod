@@ -13,7 +13,6 @@ bool InspectionFrame::handleKey(TCOD_key_t key){
 			if (newLocation.x >= 0 && newLocation.x < engine::camera.getWidth() &&
 				newLocation.y >= 0 && newLocation.y < engine::camera.getHeight()){
 				inspectorLocation = newLocation;
-				updateSelection();
 			}
 			handled = true;
 		}
@@ -27,6 +26,7 @@ bool InspectionFrame::handleKey(TCOD_key_t key){
 
 void InspectionFrame::render(){
 	GuiFrame::render();
+	updateSelection();
 	guiGameObjectDisplay.renderTo(*this, guiGameObjectDisplayBounds);
 	//Inspector cursor
 	TCODConsole::root->setCharBackground(inspectorLocation.x, inspectorLocation.y,
@@ -39,27 +39,18 @@ void InspectionFrame::updateSelection(){
 	//set new selection
 	Point2D cursorLocationInArea = inspectorLocation + engine::camera.location;
 	if (engine::playerHandler.getPlayerCreature()->ai->inFov(cursorLocationInArea)){
-		std::vector<std::shared_ptr<Creature>*> creatures = engine::areaHandler.getCurrentArea()->getCreatures(cursorLocationInArea);
-		if (!creatures.empty()){
-			guiGameObjectDisplay.setDisplayedObject(creatures.front()->get());
+		auto &areaContainer = engine::areaHandler.getCurrentArea()->areaContainers[cursorLocationInArea.x][cursorLocationInArea.y];
+		if (areaContainer.creature){
+			guiGameObjectDisplay.setDisplayedObject(areaContainer.creature);
+		}
+		else if (!areaContainer.items.empty()){
+			guiGameObjectDisplay.setDisplayedObject(&areaContainer.getItemToRender(engine::areaHandler.getCurrentArea()->getItemRenderNumberCurrent()));
+		}
+		else if (areaContainer.operatableObject){
+			guiGameObjectDisplay.setDisplayedObject(areaContainer.operatableObject);
 		}
 		else{
-			std::vector<std::shared_ptr<Item>*> items = engine::areaHandler.getCurrentArea()->getItemsAt(cursorLocationInArea);
-			if (!items.empty()){
-				guiGameObjectDisplay.setDisplayedObject(items.front()->get());
-			}
-			else{
-				std::vector<std::shared_ptr<OperatableObject>*> operatables = engine::areaHandler.getCurrentArea()->getOperatables(cursorLocationInArea);
-				if (!operatables.empty()){
-					guiGameObjectDisplay.setDisplayedObject(operatables.front()->get());
-				}
-				else{
-					Tile *tile = engine::areaHandler.getCurrentArea()->getTile(cursorLocationInArea);
-					if (tile != nullptr){
-						guiGameObjectDisplay.setDisplayedObject(tile);
-					}
-				}
-			}
+			guiGameObjectDisplay.setDisplayedObject(areaContainer.tile);
 		}
 	}
 	else{

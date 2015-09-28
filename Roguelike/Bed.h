@@ -9,7 +9,7 @@ public:
 	bool isInUse();
 
 	void operate(Creature &user) override;
-	bool passable(DynamicObject &dynamicObject) override;
+	bool isPassable(DynamicObject &dynamicObject) override;
 
 	std::shared_ptr<OperatableObject> copy();
 

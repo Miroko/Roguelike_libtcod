@@ -562,6 +562,9 @@
     <ClCompile Include="ConsumableAffixMagic.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
     </ClCompile>
+    <ClCompile Include="AreaContainer.cpp">
+      <Filter>Engine\Area</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -941,6 +944,9 @@
     </ClInclude>
     <ClInclude Include="ConsumableAffixMagic.h">
       <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaContainer.h">
+      <Filter>Engine\Area</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

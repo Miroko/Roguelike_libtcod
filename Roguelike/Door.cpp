@@ -3,20 +3,22 @@
 
 void Door::operate(Creature &user){
 	if (isOpen){
-		if (engine::areaHandler.getCurrentArea()->getCreatures(location).empty()){
+		//close
+		if (!&engine::areaHandler.getCurrentArea()->getCreature(location)){
 			transparent = false;
 			isOpen = false;
 			OperatableObject::operate(user);
 		}
 	}
 	else{
+		//open
 		transparent = true;
 		isOpen = true;
 		OperatableObject::operate(user);
 	}
 }
 
-bool Door::passable(DynamicObject &dynamicObject){
+bool Door::isPassable(DynamicObject &dynamicObject){
 	if (isOpen) return true;
 	else return false;
 }

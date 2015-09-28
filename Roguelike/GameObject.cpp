@@ -1,9 +1,5 @@
 #include "GameObject.h"
 
-GameObject::Type GameObject::getType(){
-	return type;
-}
-
 bool GameObject::isCreature(){
 	return(
 		type == CREATURE);
@@ -56,6 +52,10 @@ bool GameObject::isTile(){
 		type == WALL ||
 		type == PORTAL ||
 		type == WATER);
+}
+
+bool GameObject::isType(Type type){
+	return this->type == type;
 }
 
 void GameObject::render(int x, int y){

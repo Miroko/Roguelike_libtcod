@@ -114,11 +114,11 @@ void ObjectLibrary::init(){
 		//restoration
 		{ "restoration", std::shared_ptr<CreatureAction>(new MagicAction("Restoration", "Restoration", 0.70, 1, 0.10, 0.20,
 			{ 
-			std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Restore", +0.10, 0.30,
+			std::shared_ptr<CreatureEffect>(new CreatureEffectHealth("Restore", +0.01, 2.50,
 				std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
 				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkestGreen), 3, 21)),
 			})))),
-			std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Restore", +0.15, 0.30,
+			std::shared_ptr<CreatureEffect>(new CreatureEffectStamina("Restore", +0.02, 3.00,
 				std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
 				std::shared_ptr<Particle>(new ParticleSpiralUp(Glyph(TCODColor::darkestSky), 3, 21)),
 			}))))
@@ -149,7 +149,7 @@ void ObjectLibrary::init(){
 		{ "skill_restoration", std::shared_ptr<CreatureSkill>(new CreatureSkill(CreatureSkill::MAGIC, "Restoration Magic",
 		{ creatureAction["restoration"] })) }
 	};
-	creatureBaseTemplates = std::unordered_map < std::string, TemplateCreatureBase > {
+	creatureBaseTemplates = std::unordered_map<std::string, TemplateCreatureBase>{
 		{ "humanoid", TemplateCreatureBase({
 			CreatureLimb("Head", 0.4f, GameObject::ARMOR_HEAD, false, GameObject::ACCESSORY_AMULET, 1),
 			CreatureLimb("Body", 0.8f, GameObject::ARMOR_BODY, 0),
@@ -245,36 +245,36 @@ void ObjectLibrary::init(){
 			"goblin_melee",
 			"Goblin",
 			Glyph('g', TCODColor::chartreuse),
-			0.20,
+			0.25,
 			0.30,
 			"humanoid",
 			"ai_monster",
 			{ "dagger" },
-			{ "body_leather", "head_leather" }
+			{ "body_leather" }
 			) },
 		{ "goblin_ranged", TemplateCreaturePreset(
 			"goblin_ranged",
 			"Goblin Hunter",
 			Glyph('g', TCODColor::darkerChartreuse),
-			0.15,
+			0.20,
 			0.30,
 			"humanoid",
 			"ai_monster",
 			{ "bow" },
-			{ "body_leather", "head_leather" }
+			{ "head_leather" }
 			) },
 		{ "goblin_magic", TemplateCreaturePreset(
 			"goblin_magic",
 			"Goblin Shaman",
 			Glyph('g', TCODColor(64, 96, 64)),
-			0.10,
-			0.30,
+			0.15,
+			0.20,
 			"humanoid",
 			"ai_monster",
 			{ "dagger" },
 			{ },
 			{ "amulet", "ring", "ring" },
-			0.20 
+			0.15 
 			) },
 		{ "goblin_king", TemplateCreaturePreset(
 			"goblin_king",

@@ -38,8 +38,8 @@ void Forest::generate(){
 				locationB = locationA + engine::random.direction();
 				Rectangle b = getBounds();
 				if (getBounds().contains(locationA) && getBounds().contains(locationB)){
-					if (getTile(locationA)->type == GameObject::WALL ||
-						getTile(locationB)->type == GameObject::WALL){
+					if (getTile(locationA)->isType(GameObject::WALL) ||
+						getTile(locationB)->isType(GameObject::WALL)){
 						//wall touched, stop
 						onGatePlace(locationA);
 						break;

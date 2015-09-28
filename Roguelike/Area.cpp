@@ -1,19 +1,16 @@
 #include "Area.h"
 #include "Engine.h"
 
-bool Area::SEE_THROUGH = false;
-
 void Area::placeTile(Tile &tile, Point2D &location){
-	if (bounds.contains(location)){
-		tiles[location.x][location.y] = &tile;
-	}
+	if (!bounds.contains(location)) return;
+	areaContainers[location.x][location.y].tile = &tile;
 }
-Tile *Area::getTile(Point2D &location){
-	if (bounds.contains(location)){
-		return tiles[location.x][location.y];
-	}
-	else return nullptr;
+
+Tile* Area::getTile(Point2D &location){
+	if (!bounds.contains(location)) return nullptr;
+	return areaContainers[location.x][location.y].tile;
 }
+
 Point2D Area::getNearestTile(Point2D &location, Tile &tile){
 	Point2D scanLocation = location;
 	int offset = 0;
@@ -25,7 +22,7 @@ Point2D Area::getNearestTile(Point2D &location, Tile &tile){
 		for (scanLocation.x = location.x - offset; scanLocation.x <= location.x + offset; scanLocation.x++){
 			for (scanLocation.y = location.y - offset; scanLocation.y <= location.y + offset; scanLocation.y++){
 				if (bounds.contains(scanLocation)){
-					if (tiles[scanLocation.x][scanLocation.y] == &tile){
+					if (areaContainers[scanLocation.x][scanLocation.y].tile == &tile){
 						return scanLocation;
 					}
 				}
@@ -33,8 +30,9 @@ Point2D Area::getNearestTile(Point2D &location, Tile &tile){
 		}
 		++offset;
 	}
-	return Point2D();
+	throw "No tile found";
 }
+
 Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
 	Point2D scanLocation = location;
 	int offset = 0;
@@ -46,7 +44,7 @@ Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
 		for (scanLocation.x = location.x - offset; scanLocation.x <= location.x + offset; scanLocation.x++){
 			for (scanLocation.y = location.y - offset; scanLocation.y <= location.y + offset; scanLocation.y++){
 				if (bounds.contains(scanLocation)){
-					if (tiles[scanLocation.x][scanLocation.y]->type == type){
+					if (areaContainers[scanLocation.x][scanLocation.y].tile->type == type){
 						return scanLocation;
 					}
 				}
@@ -54,8 +52,9 @@ Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
 		}
 		++offset;
 	}
-	return Point2D();
+	throw "No tile found";
 }
+
 void Area::placeTile(Tile &portal, Point2D &location, Tile &placeOnNearest){
 	Point2D placementLocation = location;
 	int offset = 0;
@@ -67,7 +66,7 @@ void Area::placeTile(Tile &portal, Point2D &location, Tile &placeOnNearest){
 		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
 			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
 				if (bounds.contains(placementLocation)){
-					if (tiles[placementLocation.x][placementLocation.y] == &placeOnNearest){
+					if (areaContainers[placementLocation.x][placementLocation.y].tile == &placeOnNearest){
 						placeTile(portal, placementLocation);
 						return;
 					}
@@ -88,9 +87,10 @@ void Area::placeCreature(std::shared_ptr<Creature> creature, Point2D &location){
 		placementLocation.y - offset >= bounds.start.y){
 		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
 			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
-				if (passable(placementLocation, *creature)){
+				if (isPassable(placementLocation, *creature)){
 					creature->location = placementLocation;
-					creatures.push_back(creature);
+					dynamicObjectsAlive.push_front(creature);
+					areaContainers[placementLocation.x][placementLocation.y].creature = creature.get();
 					return;
 				}
 			}
@@ -98,20 +98,18 @@ void Area::placeCreature(std::shared_ptr<Creature> creature, Point2D &location){
 		++offset;
 	}
 }
-std::vector<std::shared_ptr<Creature>*> Area::getCreatures(Point2D &location){
-	std::vector<std::shared_ptr<Creature>*> creaturesAtLocation;
-	for (auto &creature : creatures){
-		if (creature->location == location){
-			creaturesAtLocation.push_back(&creature);
-		}
-	}
-	return creaturesAtLocation;
+
+Creature& Area::getCreature(Point2D &location){
+	return *areaContainers[location.x][location.y].creature;
 }
-std::vector<std::shared_ptr<Creature>*> Area::getCreatures(Rectangle &bounds){
-	std::vector<std::shared_ptr<Creature>*> creaturesInBounds;
-	for (auto &creature : creatures){
-		if (bounds.contains(creature->location)){
-			creaturesInBounds.push_back(&creature);
+
+std::vector<Creature*> Area::getCreatures(Rectangle &bounds){
+	std::vector<Creature*> creaturesInBounds;
+	for (int x = bounds.start.x; x <= bounds.end.x; ++x){
+		for (int y = bounds.start.y; y <= bounds.end.y; ++y){
+			if (areaContainers[x][y].creature){
+				creaturesInBounds.push_back(areaContainers[x][y].creature);
+			}
 		}
 	}
 	return creaturesInBounds;
@@ -127,9 +125,10 @@ void Area::placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D
 		placementLocation.y - offset >= bounds.start.y){
 		for (placementLocation.x = location.x - offset; placementLocation.x <= location.x + offset; placementLocation.x++){
 			for (placementLocation.y = location.y - offset; placementLocation.y <= location.y + offset; placementLocation.y++){
-				if (passable(placementLocation, *operatable)){
+				if (isPassable(placementLocation, *operatable)){
 					operatable->location = placementLocation;
-					operatableObjects.push_back(operatable);
+					dynamicObjectsAlive.push_front(operatable);
+					areaContainers[placementLocation.x][placementLocation.y].operatableObject = operatable.get();
 					return;
 				}
 			}
@@ -137,105 +136,137 @@ void Area::placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D
 		++offset;
 	}
 }
-std::vector<std::shared_ptr<OperatableObject>*> Area::getOperatables(Point2D &location){
-	std::vector<std::shared_ptr<OperatableObject>*> operatablesInLocation;
-	for (auto &operatable : operatableObjects){
-		if (operatable->location == location){
-			operatablesInLocation.push_back(&operatable);
-		}
-	}
-	return operatablesInLocation;
+
+OperatableObject& Area::getOperatable(Point2D &location){
+	return *areaContainers[location.x][location.y].operatableObject;
 }
-std::vector<std::shared_ptr<OperatableObject>*> Area::getOperatables(Rectangle &bounds){
-	std::vector<std::shared_ptr<OperatableObject>*> operatablesInBounds;
-	for (auto &operatable : operatableObjects){
-		if (bounds.contains(operatable->location)){
-			operatablesInBounds.push_back(&operatable);
+
+std::vector<OperatableObject*> Area::getOperatables(Rectangle &bounds){
+	std::vector<OperatableObject*> operatablesInBounds;
+	for (int x = bounds.start.x; x <= bounds.end.x; ++x){
+		for (int y = bounds.start.y; y <= bounds.end.y; ++y){
+			if (areaContainers[x][y].operatableObject){
+				operatablesInBounds.push_back(areaContainers[x][y].operatableObject);
+			}
 		}
 	}
 	return operatablesInBounds;
 }
 
-void Area::placeItem(std::shared_ptr<Item> item, Point2D &toLocation){
-	item->location = toLocation;
-	items.push_back(item);
+void Area::placeItem(std::shared_ptr<Item> item, Point2D &location){
+	item->location = location;
+	areaContainers[location.x][location.y].items.push_back(item);
 }
+
 void Area::removeItem(std::shared_ptr<Item> &item){
-	auto currentItem = items.begin();
-	while (currentItem != items.end()){
-		if (*currentItem == item){
-			items.erase(currentItem);
+	auto itemsIterator = areaContainers[item->location.x][item->location.y].items.begin();
+	while (itemsIterator != areaContainers[item->location.x][item->location.y].items.end()){
+		if (*itemsIterator == item){
+			areaContainers[item->location.x][item->location.y].items.erase(itemsIterator);
 			break;
 		}
-		else ++currentItem;
+		else ++itemsIterator;
 	}
 }
-std::vector<std::shared_ptr<Item>*> Area::getItemsAt(Point2D &location){
-	std::vector<std::shared_ptr<Item>*> itemsAtLocation;
-	for (auto &item : items){
-		if (item->location == location){
-			itemsAtLocation.push_back(&item);
-		}
-	}
-	return itemsAtLocation;
+std::vector<std::shared_ptr<Item>>& Area::getItems(Point2D &location){
+	return areaContainers[location.x][location.y].items;
 }
 
-bool Area::passable(Point2D &location, DynamicObject &dynamicObjectMoving){
-	if (bounds.contains(location)){
-		if (tiles[location.x][location.y]->type == GameObject::WALL) return false;
-		for (auto &o : creatures){
-			if (o->location == location){
-				if (!o->passable(dynamicObjectMoving)){
-					return false;
+bool Area::isPassable(Point2D &location, DynamicObject &dynamicObjectMoving){
+	if (!bounds.contains(location)) return false;
+	return areaContainers[location.x][location.y].isPassable(dynamicObjectMoving);
+}
+
+bool Area::moveDynamicObject(DynamicObject &dynamicObject, Point2D &location){
+	if (!isPassable(location, dynamicObject)) return false;
+	if (dynamicObject.isCreature()){
+		areaContainers[location.x][location.y].creature = areaContainers[dynamicObject.location.x][dynamicObject.location.y].creature;
+		areaContainers[dynamicObject.location.x][dynamicObject.location.y].creature = nullptr;
+	}
+	else if (dynamicObject.isOperatable()){
+		areaContainers[location.x][location.y].operatableObject = areaContainers[dynamicObject.location.x][dynamicObject.location.y].operatableObject;
+		areaContainers[dynamicObject.location.x][dynamicObject.location.y].operatableObject = nullptr;
+	}
+	dynamicObject.location = location;
+	return true;
+}
+
+void Area::destroyDynamicObject(DynamicObject &dynamicObject){
+	auto &dynamicObjectsAliveIterator = dynamicObjectsAlive.begin();
+	while (dynamicObjectsAliveIterator != dynamicObjectsAlive.end()){
+		if (dynamicObjectsAliveIterator->get() == &dynamicObject){
+			dynamicObjectsDead.push_back(*dynamicObjectsAliveIterator); //add to dead
+			break;
+		}
+		else ++dynamicObjectsAliveIterator;
+	}
+	if (dynamicObject.isCreature()){
+		areaContainers[dynamicObject.location.x][dynamicObject.location.y].creature = nullptr;
+	}
+	else if (dynamicObject.isOperatable()){
+		areaContainers[dynamicObject.location.x][dynamicObject.location.y].operatableObject = nullptr;
+	}
+}
+
+void Area::cleanDeadObjects(){
+	auto &dynamicObjectsDeadIterator = dynamicObjectsDead.begin();
+	while (dynamicObjectsDeadIterator != dynamicObjectsDead.end()){
+		dynamicObjectsAlive.remove(*dynamicObjectsDeadIterator); //remove dead from alive
+		++dynamicObjectsDeadIterator;
+	}
+	dynamicObjectsDead.clear();
+}
+
+void Area::initAi(){
+	for (auto &dynamicObject : dynamicObjectsAlive){
+		if (dynamicObject->isCreature()){
+			static_cast<Creature&>(*dynamicObject).initAi(*this);
+		}
+	}
+}
+
+void Area::update(){
+	for (auto &dynamicObject : dynamicObjectsAlive){
+		dynamicObject->update();
+	}
+	cleanDeadObjects();
+}
+
+void Area::render(){
+	using engine::camera;
+	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){
+		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
+			if (bounds.contains(Point2D(x, y))){
+				if (engine::playerHandler.getPlayerCreature()->ai->inFov(Point2D(x, y)) || engine::renderWithoutFov){
+					AreaContainer &areaContainer = areaContainers[x][y];
+					areaContainer.tile->render(x - camera.location.x, y - camera.location.y);
+					if (areaContainer.operatableObject){
+						areaContainer.operatableObject->render(x - camera.location.x, y - camera.location.y);
+					}
+					if (areaContainer.creature){
+						areaContainer.creature->render(x - camera.location.x, y - camera.location.y);
+					}
+					else if (!areaContainer.items.empty()){
+						areaContainer.getItemToRender(itemRenderNumberCurrent).render(x - camera.location.x, y - camera.location.y);
+					}
 				}
 			}
 		}
-		for (auto &o : operatableObjects){
-			if (o->location == location){
-				if (!o->passable(dynamicObjectMoving)){
-					return false;
-				}
-			}
-		}
-		return true;
 	}
-	else return false;
-}
-
-void Area::cleanDeadDynamicObjects(){
-	if (cleaningRequired){
-		auto &creature = creatures.begin();
-		while (creature != creatures.end()){
-			if (creature->get()->isDead){
-				creature = creatures.erase(creature);
-			}
-			else ++creature;
-		}
-		auto &operatable = operatableObjects.begin();
-		while (operatable != operatableObjects.end()){
-			if (operatable->get()->isDead){
-				operatable = operatableObjects.erase(operatable);
-			}
-			else ++operatable;
-		}
-		cleaningRequired = false;
+	++itemRenderRateCounter;
+	if (itemRenderRateCounter == engine::renderItemsRate){
+		++itemRenderNumberCurrent;
+		if (itemRenderNumberCurrent == itemRenderNumberMax) itemRenderNumberCurrent = 0;
+		itemRenderRateCounter = 0;
 	}
-}
-
-Rectangle &Area::getBounds(){
-	return bounds;
-}
-
-void Area::requireClean(){
-	cleaningRequired = true;
 }
 
 void Area::generateBase(Rectangle bounds, Tile &tile){
 	this->bounds = bounds;
 
-	tiles.resize(bounds.getWidth() + 1);
+	areaContainers.resize(bounds.getWidth() + 1);
 	for (int x = 0; x < bounds.getWidth() + 1; x++){
-		tiles[x].resize(bounds.getHeight() + 1, &tile);
+		areaContainers[x].resize(bounds.getHeight() + 1, AreaContainer(tile));
 	}
 }
 
@@ -251,61 +282,3 @@ void Area::generateEdge(Tile &tile, int size, int randomTilesPerEdgeTile){
 	}
 }
 
-
-void Area::initAi(){
-	for (auto &creature : creatures){
-		creature->initAi(*this);
-	}
-}
-
-void Area::update(){
-	for (auto &creature : creatures){
-		if (!creature->isDead){
-			creature->update();
-		}
-	}
-	for (auto &operatable : operatableObjects){
-		if (!operatable->isDead){
-			operatable->update();
-		}
-	}
-}
-
-void Area::render(){
-	using engine::camera;
-	using engine::playerHandler;
-	//Tiles
-	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){
-		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
-			if (bounds.contains(Point2D(x, y))){
-				if (playerHandler.getPlayerCreature()->ai->inFov(Point2D(x, y)) || SEE_THROUGH){
-					tiles[x][y]->render(x - camera.location.x, y - camera.location.y);
-				}
-			}
-		}
-	}
-	//Operatables
-	for (auto &operatable : operatableObjects){
-		int renderX = operatable->location.x - camera.location.x;
-		int renderY = operatable->location.y - camera.location.y;
-		if (playerHandler.getPlayerCreature()->ai->inFov(operatable->location) || SEE_THROUGH){
-			operatable->render(renderX, renderY);
-		}
-	}
-	//Item
-	for (auto &item : items){
-		int renderX = item->location.x - camera.location.x;
-		int renderY = item->location.y - camera.location.y;
-		if (playerHandler.getPlayerCreature()->ai->inFov(item->location) || SEE_THROUGH){
-			item->render(renderX, renderY);
-		}
-	}
-	//Creatures
-	for (auto &creature : creatures){
-		int renderX = creature->location.x - camera.location.x;
-		int renderY = creature->location.y - camera.location.y;
-		if (playerHandler.getPlayerCreature()->ai->inFov(creature->location) || SEE_THROUGH){
-			creature->render(renderX, renderY);
-		}
-	}
-}

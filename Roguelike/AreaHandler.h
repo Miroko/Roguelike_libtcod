@@ -14,7 +14,6 @@ public:
 	bool loadSavedArea(std::shared_ptr<QuestPhase> persistentPhase);
 
 	void updateArea();
-	void cleanDeadObjects();
 	void renderArea();
 
 	AreaHandler(){};

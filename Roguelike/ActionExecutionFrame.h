@@ -9,10 +9,10 @@ class CreatureAction;
 class ActionExecutionFrame : public GuiFrame
 {
 private:
-	CreatureSkill *selectedSkill;
-	CreatureAction *selectedAction;
-	std::vector<std::shared_ptr<DynamicObject>> attackableObjects;
-	std::shared_ptr<DynamicObject> previousTarget;
+	CreatureSkill* selectedSkill;
+	CreatureAction* selectedAction;
+	std::vector<DynamicObject*> attackableObjects;
+	DynamicObject* previousTarget;
 	int selectedObjectIndex;
 
 	Rectangle gameObjectDisplayBounds;

@@ -89,9 +89,9 @@ void Cave::generate(){
 	int rivers = (int)((floorTiles / (50 * 50)) * riverPercentage);
 	for (int river = rivers; river > 0; --river){
 		Point2D start = getNearestTile(engine::random.point(innerBounds), floor2);
-		Tile* atpos = getTile(start);
+		Tile& atpos = *getTile(start);
 		Point2D end = getNearestTile(engine::random.point(innerBounds), floor2);
-		atpos = getTile(end);
+		atpos = *getTile(end);
 		riverPather.build(start, end);
 	}
 

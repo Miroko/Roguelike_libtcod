@@ -5,6 +5,7 @@
 #include "Weapon.h"
 #include "CreatureSkill.h"
 #include "CreatureAction.h"
+#include "DynamicObject.h"
 #include "Engine.h"
 
 void ActionExecutionFrame::executeSelectedAction(){
@@ -102,7 +103,7 @@ void ActionExecutionFrame::render(){
 void ActionExecutionFrame::updateAttackableObjects(){
 	attackableObjects.clear();
 	if (selectedAction->targetType == CreatureAction::SELF){
-		attackableObjects.push_back(engine::playerHandler.getPlayerCreature());
+		attackableObjects.push_back(engine::playerHandler.getPlayerCreature().get());
 	}
 	else if (selectedAction->targetType == CreatureAction::IN_RANGE){
 		Rectangle range = Rectangle(
@@ -110,21 +111,21 @@ void ActionExecutionFrame::updateAttackableObjects(){
 			engine::playerHandler.getPlayerCreature()->location)
 			.expand(selectedAction->range);
 		for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(range)){
-			attackableObjects.push_back(*creature);
+			attackableObjects.push_back(creature);
 		}
 		if (selectedSkill->isType(CreatureSkill::WEAPON)){
 			for (auto &operatable : engine::areaHandler.getCurrentArea()->getOperatables(range)){
-				attackableObjects.push_back(*operatable);
+				attackableObjects.push_back(operatable);
 			}
 		}
 		//remove player and objects not in fov
-		auto &o = attackableObjects.begin();
-		while (o != attackableObjects.end()){
-			if (o->get() == engine::playerHandler.getPlayerCreature().get() ||
-				!engine::playerHandler.getPlayerCreature()->ai->inFov(o->get()->location)){
-				o = attackableObjects.erase(o);
+		auto &attackableObjectsIterator = attackableObjects.begin();
+		while (attackableObjectsIterator != attackableObjects.end()){
+			if (*attackableObjectsIterator == engine::playerHandler.getPlayerCreature().get() ||
+				!engine::playerHandler.getPlayerCreature()->ai->inFov((*attackableObjectsIterator)->location)){
+				attackableObjectsIterator = attackableObjects.erase(attackableObjectsIterator);
 			}
-			else ++o;
+			else ++attackableObjectsIterator;
 		}
 	}
 }

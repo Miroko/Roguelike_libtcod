@@ -19,7 +19,7 @@ void AiModuleResident::sleep(Bed &bed){
 	if (&bed != nullptr &&
 		residence->bounds.contains(bed.location) &&
 		!bed.isInUse()){
-		owner->calculatePath(bed.location, false);
+		owner->calculatePath(bed.location);
 		if (owner->moveOnPath() == 0){
 			bed.operate(*owner->owner);
 			currentState = SLEEPING;

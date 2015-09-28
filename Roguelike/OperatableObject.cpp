@@ -9,8 +9,8 @@ void OperatableObject::messageDeath(){
 	engine::gui.log.finishMessage(name + " is destroyed.");
 }
 
-bool OperatableObject::passable(DynamicObject &dynamicObject){
-	return DynamicObject::passable(dynamicObject);
+bool OperatableObject::isPassable(DynamicObject &dynamicObject){
+	return DynamicObject::isPassable(dynamicObject);
 }
 
 void OperatableObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){

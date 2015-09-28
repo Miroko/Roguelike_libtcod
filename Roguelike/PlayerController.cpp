@@ -16,7 +16,7 @@ bool PlayerController::handleKey(TCOD_key_t key){
 	case KEY_TALK: return talk();
 	case KEY_ENTER_AREA: return enterArea();
 	case KEY_LEAVE_AREA: return leaveArea();
-	case KEY_DEBUG: engine::areaHandler.getCurrentArea()->SEE_THROUGH = !engine::areaHandler.getCurrentArea()->SEE_THROUGH; return false;
+	case KEY_DEBUG: engine::renderWithoutFov = !engine::renderWithoutFov; return false;
 	default:
 		if (!engine::gui.log.isOpen) engine::gui.log.open();
 		engine::gui.log.addMessage("Invalid input, press 'h' for help.");
@@ -39,11 +39,11 @@ bool PlayerController::attack(){
 	return false;
 }
 bool PlayerController::take(){
-	std::vector<std::shared_ptr<Item>*> itemsToTake = engine::areaHandler.getCurrentArea()->getItemsAt(engine::playerHandler.getPlayerCreature()->location);
+	std::vector<std::shared_ptr<Item>> &itemsToTake = engine::areaHandler.getCurrentArea()->getItems(engine::playerHandler.getPlayerCreature()->location);
 	if(!itemsToTake.empty()){
 		while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 		for (auto &item : itemsToTake){
-			engine::gui.pickFrame.pickableItems.add(*item);
+			engine::gui.pickFrame.pickableItems.add(item);
 		}
 		engine::gui.pickFrame.open();
 	}
@@ -56,12 +56,9 @@ bool PlayerController::operate(){
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
-		std::vector<std::shared_ptr<OperatableObject>*> operatables;
-		operatables = engine::areaHandler.getCurrentArea()->getOperatables(engine::playerHandler.getPlayerCreature()->location + direction);
-		if (operatables.empty()) return false;
-		else{
-			std::shared_ptr<OperatableObject> operatable = *operatables.front();
-			operatable->operate(*engine::playerHandler.getPlayerCreature());
+		auto &operatable = engine::areaHandler.getCurrentArea()->getOperatable(engine::playerHandler.getPlayerCreature()->location + direction);
+		if (&operatable){
+			operatable.operate(*engine::playerHandler.getPlayerCreature());
 			return true;
 		}
 	}
@@ -74,14 +71,10 @@ bool PlayerController::talk(){
 	if (direction.undefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
-		std::vector<Creature*> creatures;
 		Point2D talkDirection = engine::playerHandler.getPlayerCreature()->location + direction;
-		for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(talkDirection)){
-			creatures.push_back(creature->get());
-		}
-		if (creatures.empty()) return false;
-		else{
-			engine::gui.dialog.setDialog(engine::questHandler.getCurrentQuest()->getCurrentPhase()->getDialog(*creatures.front()));
+		auto &creature = engine::areaHandler.getCurrentArea()->getCreature(talkDirection);
+		if (&creature){
+			engine::gui.dialog.setDialog(engine::questHandler.getCurrentQuest()->getCurrentPhase()->getDialog(creature));
 			engine::gui.dialog.open();
 		}
 	}

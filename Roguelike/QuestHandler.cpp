@@ -10,9 +10,12 @@ std::shared_ptr<Quest> const &QuestHandler::getCurrentQuest(){
 	return currentQuest;
 }
 void QuestHandler::travelToPhase(std::shared_ptr<QuestPhase> const &phase){
+	auto &playerCreature = engine::playerHandler.getPlayerCreature();
 	//save area if persistent
-	if (currentQuest->currentPhase != nullptr){
+	if (currentQuest->currentPhase){
 		if (currentQuest->currentPhase->persistent){
+			//destroy player from area before saving
+			engine::areaHandler.getCurrentArea()->destroyDynamicObject(*playerCreature);
 			engine::areaHandler.saveCurrentArea();
 		}
 	}
@@ -23,36 +26,19 @@ void QuestHandler::travelToPhase(std::shared_ptr<QuestPhase> const &phase){
 		loaded = engine::areaHandler.loadSavedArea(phase);
 	}
 	if (!loaded){
-		//if not persistent or saved generate new area
+		//generate new area
 		engine::areaHandler.setCurrentArea(phase->generateArea());
 	}
-	//remove player from current area
-	auto &areaCreatures = engine::areaHandler.getCurrentArea()->creatures;
-	auto &creatureIterator = areaCreatures.begin();
-	while (creatureIterator != areaCreatures.end()){
-		if (creatureIterator->get() == engine::playerHandler.getPlayerCreature().get()){
-			areaCreatures.erase(creatureIterator);
-			break;
-		}
-		++creatureIterator;
-	}
 	//place player to new area
-	engine::areaHandler.getCurrentArea()->placeCreature(
-		engine::playerHandler.getPlayerCreature(),
-		engine::areaHandler.getCurrentArea()->getBounds().getCenterPoint());
-
-	if (!loaded){
-		engine::areaHandler.getCurrentArea()->initAi();
+	engine::areaHandler.getCurrentArea()->placeCreature(playerCreature, engine::areaHandler.getCurrentArea()->getBounds().getCenterPoint());
+	engine::camera.centerOn(playerCreature->location);
+	if (loaded){
+		//ai already initialized in loaded area, only update player fov
+		playerCreature->ai->initAi(*engine::playerHandler.getPlayerCreature(), *engine::areaHandler.getCurrentArea());
 	}
 	else{
-		//ai already initialized
-		//only update player fov
-		engine::playerHandler.getPlayerCreature()->ai->initAi(
-			*engine::playerHandler.getPlayerCreature(),
-			*engine::areaHandler.getCurrentArea());
+		engine::areaHandler.getCurrentArea()->initAi();
 	}
-
-	engine::camera.centerOn(engine::playerHandler.getPlayerCreature()->location);
 }
 void QuestHandler::travelToNextPhase(){
 	travelToPhase(currentQuest->getNextPhase());

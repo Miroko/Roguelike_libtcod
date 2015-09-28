@@ -14,18 +14,17 @@ private:
 	int healthMax;
 
 public:
-	bool isDead;
 	Point2D location;
 	bool transparent;
 
-	void kill();
+	void destroy();
 
 	virtual int getHealthCurrent();
 	virtual int getHealthMax();
 	virtual void healthHit(int amount);
 	virtual bool move(Point2D &location);
 	virtual void onMove();
-	virtual bool passable(DynamicObject &dynamicObject);
+	virtual bool isPassable(DynamicObject &dynamicObject);
 	virtual void takeDamage(DynamicObject &attacker, double amount);
 	virtual void onDeath();
 	virtual void messageDeath();
@@ -36,7 +35,6 @@ public:
 		transparent(transparent),
 		healthCurrent(health),
 		healthMax(health),
-		isDead(false),
 		visualEffectOnTakeDamage(visualEffectOnTakeDamage){
 	};
 };

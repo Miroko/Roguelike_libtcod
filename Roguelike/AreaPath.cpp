@@ -20,7 +20,7 @@ void AreaPath::build(Point2D &from, Point2D &to){
 					for (innerLocation.y = placeArea.start.y; innerLocation.y <= placeArea.end.y; ++innerLocation.y){
 						bool place = true;
 						for (Tile *blockingTile : blockingTiles){
-							if (area.tiles[innerLocation.x][innerLocation.y] == blockingTile) place = false;
+							if (area.areaContainers[innerLocation.x][innerLocation.y].tile == blockingTile) place = false;
 						}
 						if (place){
 							area.placeTile(pathTile, innerLocation);
@@ -34,10 +34,10 @@ void AreaPath::build(Point2D &from, Point2D &to){
 
 float AreaPath::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
 	AreaPath *thisObject = static_cast<AreaPath*>(userData);
+	if (thisObject->area.areaContainers[xTo][yTo].tile == &thisObject->pathTile) return thisObject->weightToUseExistingPath; //prefer to use existing paths
 	for (Tile *blockingTile : thisObject->blockingTiles){
-		if (thisObject->area.tiles[xTo][yTo] == blockingTile) return 0;
+		if (thisObject->area.areaContainers[xTo][yTo].tile == blockingTile) return 0;
 	}
-	if (thisObject->area.tiles[xTo][yTo] == &thisObject->pathTile) return thisObject->weightToUseExistingPath; //prefer to use existing paths
 	return 1;
 }
 void AreaPath::createPathMap(Area &area){

@@ -3,6 +3,7 @@
 #include "RarityMod.h"
 
 class VisualEffect;
+class DynamicObject;
 class Tile : public GameObject
 {
 public:
@@ -10,6 +11,8 @@ public:
 
 	bool transparent;
 	double walkCost; // walkcost <= 0 == unwalkable else lower better
+
+	bool isPassable(DynamicObject &dynamicObjectMoving);
 
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 

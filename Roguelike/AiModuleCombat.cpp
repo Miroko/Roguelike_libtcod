@@ -8,7 +8,7 @@
 #include <vector>
 
 void AiModuleCombat::pursueAndAttack(DynamicObject &target){
-	if (target.isDead) return;
+	if (!&target) return;
 	if (!owner->inFov(target.location)){
 		owner->calculatePath(target.location);
 		owner->moveOnPath();
@@ -130,9 +130,7 @@ void AiModuleCombat::run(){
 		state = PURSUE_TARGET;
 	}
 	else if (state == PURSUE_TARGET){
-		if (target != nullptr){
-			pursueAndAttack(*target);
-		}
+		pursueAndAttack(*target);
 	}
 	else if (state == FLEE){
 		flee();

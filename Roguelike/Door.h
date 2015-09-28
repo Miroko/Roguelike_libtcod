@@ -10,7 +10,7 @@ public:
 	Glyph offGlyph;
 
 	void operate(Creature &user) override;
-	bool passable(DynamicObject &dynamicObject) override;
+	bool isPassable(DynamicObject &dynamicObject) override;
 
 	void render(int x, int y);
 

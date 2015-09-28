@@ -25,7 +25,7 @@ void AiBlacksmith::onOperatableInFov(OperatableObject &operatable, int distance)
 		if (operatable.type == OperatableObject::FORGE){
 			if (forgeUsing == nullptr){
 				forgeUsing = static_cast<Forge*>(&operatable);
-				calculatePath(operatable.location, false);
+				calculatePath(operatable.location);
 			}
 		}
 	}
@@ -33,7 +33,7 @@ void AiBlacksmith::onOperatableInFov(OperatableObject &operatable, int distance)
 		if (operatable.type == OperatableObject::ANVIL){
 			if (anvilUsing == nullptr){
 				anvilUsing = static_cast<Anvil*>(&operatable);
-				calculatePath(operatable.location, false);
+				calculatePath(operatable.location);
 			}
 		}
 	}

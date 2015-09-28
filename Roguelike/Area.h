@@ -5,58 +5,67 @@
 #include "Rectangle.h"
 #include "Camera.h"
 #include "Tile.h"
-#include "PlayerController.h"
+#include "AreaContainer.h"
 #include <vector>
 #include <memory>
+#include <forward_list>
 
 class Area
 {
 private:
 	Rectangle bounds;
-	bool cleaningRequired = false;
+	int itemRenderRateCounter = 0;
+	static const int itemRenderNumberMax = 10;
+	int itemRenderNumberCurrent = 0;
+	std::vector<std::shared_ptr<DynamicObject>> dynamicObjectsDead;
 
 public:
-	static bool SEE_THROUGH;
+	std::vector<std::vector<AreaContainer>> areaContainers;
+	std::forward_list<std::shared_ptr<DynamicObject>> dynamicObjectsAlive;
 
-	std::vector<std::vector<Tile*>> tiles;
+	Rectangle& getBounds(){ return bounds; }
+	int getItemRenderNumberCurrent(){ return itemRenderNumberCurrent; };
+
+	//placement
 	void placeTile(Tile &tile, Point2D &location);
 	void placeTile(Tile &tile, Point2D &location, Tile &placeOnNearest);
-	Tile *getTile(Point2D &location);
+	Tile* getTile(Point2D &location);
 	Point2D getNearestTile(Point2D &location, Tile &tile);
 	Point2D getNearestTile(Point2D &location, Tile::Type type);
 
-	std::vector<std::shared_ptr<Creature>> creatures;
 	void placeCreature(std::shared_ptr<Creature> creature, Point2D &location);
-	std::vector<std::shared_ptr<Creature>*> getCreatures(Point2D &location);
-	std::vector<std::shared_ptr<Creature>*> getCreatures(Rectangle &bounds);
+	Creature& getCreature(Point2D &location);
+	std::vector<Creature*> getCreatures(Rectangle &bounds);
 
-	std::vector<std::shared_ptr<OperatableObject>> operatableObjects;
 	void placeOperatable(std::shared_ptr<OperatableObject> operatable, Point2D &location);
-	std::vector<std::shared_ptr<OperatableObject>*> getOperatables(Point2D &location);
-	std::vector<std::shared_ptr<OperatableObject>*> getOperatables(Rectangle &bounds);
+	OperatableObject& getOperatable(Point2D &location);
+	std::vector<OperatableObject*> getOperatables(Rectangle &bounds);
 	
-	std::vector<std::shared_ptr<Item>> items;
-	void placeItem(std::shared_ptr<Item> item, Point2D &toLocation);
-	std::vector<std::shared_ptr<Item>*> getItemsAt(Point2D &location);
+	void placeItem(std::shared_ptr<Item> item, Point2D &location);
+	std::vector<std::shared_ptr<Item>>& getItems(Point2D &location);
 	void removeItem(std::shared_ptr<Item> &item);
+	//------
 
-	Rectangle &getBounds();
+	//movement
+	bool isPassable(Point2D &location, DynamicObject &dynamicObjectMoving);
+	bool moveDynamicObject(DynamicObject &dynamicObject, Point2D &location);
+	//------
 
-	bool passable(Point2D &location, DynamicObject &dynamicObjectMoving);
-
-	void requireClean();	
-	void cleanDeadDynamicObjects();
-
-	//generate area
-	virtual void generate() = 0;
-	//rezise area and fill with tile
-	void generateBase(Rectangle bounds, Tile &tile);
-	void generateEdge(Tile &tile, int size, int randomTilesPerEdgeTile);
+	//destruction
+	void destroyDynamicObject(DynamicObject &dynamicObject);
+	void cleanDeadObjects();
+	//------
 
 	void initAi();
 
 	void update();
 	void render();
+
+	//resize area and fill with tile
+	void generateBase(Rectangle bounds, Tile &tile);
+	void generateEdge(Tile &tile, int size, int randomTilesPerEdgeTile);
+
+	virtual void generate() = 0;
 
 	Area(){}
 };
