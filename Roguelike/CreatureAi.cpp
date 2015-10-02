@@ -5,7 +5,7 @@
 float CreatureAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
 	CreatureAi *thisObject = static_cast<CreatureAi*>(userData);
 	auto &areaContainer = thisObject->area->areaContainers[xTo][yTo];
-	float walkCost = (float)areaContainer.tile->walkCost;
+	float walkCost = (float)areaContainer.tile->getWalkCost();
 	if (walkCost > 0){ // walkcost <= 0 == unwalkable
 		//able to find path to unpassable object eg. creature, operatable
 		Point2D destination;
@@ -89,7 +89,6 @@ void CreatureAi::onPathEnd(Point2D &location){
 
 bool CreatureAi::inFov(Point2D &location){
 	return fov.getLuminosity(owner->location, location) > 0;
-	//return fovMap->isInFov(location.x, location.y);
 }
 
 void CreatureAi::initAi(Creature &owner, Area &area){

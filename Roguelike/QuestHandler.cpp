@@ -16,6 +16,7 @@ void QuestHandler::travelToPhase(std::shared_ptr<QuestPhase> const &phase){
 		if (currentQuest->currentPhase->persistent){
 			//destroy player from area before saving
 			engine::areaHandler.getCurrentArea()->destroyDynamicObject(*playerCreature);
+			engine::areaHandler.getCurrentArea()->cleanDeadObjects();
 			engine::areaHandler.saveCurrentArea();
 		}
 	}
@@ -33,8 +34,7 @@ void QuestHandler::travelToPhase(std::shared_ptr<QuestPhase> const &phase){
 	engine::areaHandler.getCurrentArea()->placeCreature(playerCreature, engine::areaHandler.getCurrentArea()->getBounds().getCenterPoint());
 	engine::camera.centerOn(playerCreature->location);
 	if (loaded){
-		//ai already initialized in loaded area, only update player fov
-		playerCreature->ai->initAi(*engine::playerHandler.getPlayerCreature(), *engine::areaHandler.getCurrentArea());
+		playerCreature->initAi(*engine::areaHandler.getCurrentArea());
 	}
 	else{
 		engine::areaHandler.getCurrentArea()->initAi();

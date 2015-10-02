@@ -172,9 +172,9 @@ std::vector<std::shared_ptr<Item>>& Area::getItems(Point2D &location){
 	return areaContainers[location.x][location.y].items;
 }
 
-bool Area::isTransparent(Point2D &location){
-	if (!bounds.contains(location)) return false;
-	return areaContainers[location.x][location.y].isTransparent();
+double Area::getTransparency(Point2D &location){
+	if (!bounds.contains(location)) return 0.0;
+	return areaContainers[location.x][location.y].getTransparency();
 }
 
 bool Area::isPassable(Point2D &location, DynamicObject &dynamicObjectMoving){

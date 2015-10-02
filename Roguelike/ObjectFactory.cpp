@@ -61,7 +61,6 @@ std::shared_ptr<Creature> ObjectFactory::createCreature(TemplateCreaturePreset &
 		Creature::CREATURE,
 		presetTemplate.glyph),
 		health,
-		true,
 		templateCreatureBase.visualEffectOnTakeDamage),
 		stamina,
 		magic,

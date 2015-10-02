@@ -23,18 +23,18 @@
 
 void ObjectLibrary::init(){
 	tiles = std::unordered_map<std::string, std::shared_ptr<Tile>>{
-		{ "house_wall_wood", std::shared_ptr<Tile>(new Wall("Wooden house wall", Glyph(TCODColor::darkerSepia))) },
-		{ "house_wall_stone", std::shared_ptr<Tile>(new Wall("Stone house wall", Glyph(TCODColor(50, 50, 50)))) },
+		{ "house_wall_wood", std::shared_ptr<Tile>(new Wall("Wooden house wall", Glyph(TCODColor::darkerSepia, 1.0))) },
+		{ "house_wall_stone", std::shared_ptr<Tile>(new Wall("Stone house wall", Glyph(TCODColor(50, 50, 50), 1.0))) },
 		{ "house_floor_wood", std::shared_ptr<Tile>(new Floor("Wooden house floor", Glyph(TCODColor::darkestSepia))) },
 		{ "path_sand", std::shared_ptr<Tile>(new Floor("Sand path", Glyph(TCODColor(14, 11, 6)), 5.0f)) },
-		{ "forest_wall_tree", std::shared_ptr<Tile>(new Wall("Tree", Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, TCOD_CHAR_SPADE))) },
+		{ "forest_wall_tree", std::shared_ptr<Tile>(new Wall("Tree", Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, TCOD_CHAR_SPADE, 0.8))) },
 		{ "forest_floor_grass", std::shared_ptr<Tile>(new Floor("Land", Glyph(TCODColor(5, 20, 5)))) },
 		{ "forest_floor_stone", std::shared_ptr<Tile>(new Floor("Stone floor", Glyph(TCODColor(30, 30, 30)))) },
-		{ "forest_wall_stone", std::shared_ptr<Tile>(new Wall("Stone", Glyph(TCODColor(45, 45, 45)))) },
+		{ "forest_wall_stone", std::shared_ptr<Tile>(new Wall("Stone", Glyph(TCODColor(45, 45, 45), 1.0))) },
 		{ "forest_portal", std::shared_ptr<Tile>(new Portal("Exit", Glyph(TCODColor(0, 10, 0), TCODColor::darkerChartreuse, '>'))) },
-		{ "cave_wall_wood", std::shared_ptr<Tile>(new Wall("Wooden column", Glyph(TCODColor::darkerSepia))) },
-		{ "cave_wall_stone1", std::shared_ptr<Tile>(new Wall("Cave wall", Glyph(TCODColor::grey))) },
-		{ "cave_wall_stone2", std::shared_ptr<Tile>(new Wall("Cave wall", Glyph(TCODColor::darkGrey))) },
+		{ "cave_wall_wood", std::shared_ptr<Tile>(new Wall("Wooden column", Glyph(TCODColor::darkerSepia, 1.0))) },
+		{ "cave_wall_stone1", std::shared_ptr<Tile>(new Wall("Cave wall", Glyph(TCODColor::grey, 1.0))) },
+		{ "cave_wall_stone2", std::shared_ptr<Tile>(new Wall("Cave wall", Glyph(TCODColor::darkGrey, 1.0))) },
 		{ "cave_floor_stone1", std::shared_ptr<Tile>(new Floor("Cave floor", Glyph(TCODColor(45, 45, 45)))) },
 		{ "cave_floor_stone2", std::shared_ptr<Tile>(new Floor("Cave floor", Glyph(TCODColor::darkestGrey))) },
 		{ "cave_portal", std::shared_ptr<Tile>(new Portal("Tunnel", Glyph(TCODColor::darkestGrey, TCODColor(55, 55, 55), '>'))) },
@@ -43,8 +43,8 @@ void ObjectLibrary::init(){
 	operatables = std::unordered_map<std::string, std::shared_ptr<OperatableObject>>{
 		{ "door_wood", std::shared_ptr<OperatableObject>(new Door(
 			"Wooden door",
-			Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D'),
-			Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D'),
+			Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D', 0.0),
+			Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D', 1.0),
 			100)) },
 		{ "bed_wood", std::shared_ptr<OperatableObject>(new Bed(
 			"Wooden bed",
@@ -178,7 +178,7 @@ void ObjectLibrary::init(){
 		{ "player", TemplateCreaturePreset(
 			"player",
 			"Player",
-			Glyph('@', TCODColor::lightAmber),
+			Glyph('@', TCODColor::lightAmber, 0.3),
 			0.80,
 			0.60,
 			"humanoid",
@@ -191,7 +191,7 @@ void ObjectLibrary::init(){
 		{ "villager_man", TemplateCreaturePreset(
 			"villager_man",
 			"Man",
-			Glyph('h', TCODColor::lightAmber),
+			Glyph('h', TCODColor::lightAmber, 0.3),
 			0.80,
 			0.60,
 			"humanoid",
@@ -201,7 +201,7 @@ void ObjectLibrary::init(){
 		{ "villager_woman", TemplateCreaturePreset(
 			"villager_woman",
 			"Woman",
-			Glyph('h', TCODColor::lightAmber),
+			Glyph('h', TCODColor::lightAmber, 0.3),
 			0.70,
 			0.60,
 			"humanoid",
@@ -211,7 +211,7 @@ void ObjectLibrary::init(){
 		{ "villager_child", TemplateCreaturePreset(
 			"villager_child",
 			"Child",
-			Glyph('c', TCODColor::lightAmber),
+			Glyph('c', TCODColor::lightAmber, 0.1),
 			0.20,
 			0.20,
 			"humanoid",
@@ -220,7 +220,7 @@ void ObjectLibrary::init(){
 		{ "villager_blacksmith", TemplateCreaturePreset(
 			"villager_blacksmith",
 			"Blacksmith",
-			Glyph('b', TCODColor::lightGrey),
+			Glyph('b', TCODColor::lightGrey, 0.3),
 			0.80,
 			0.80,
 			"humanoid",
@@ -231,7 +231,7 @@ void ObjectLibrary::init(){
 		{ "villager_alchemist", TemplateCreaturePreset(
 			"villager_alchemist",
 			"Alchemist",
-			Glyph('a', TCODColor::lightBlue),
+			Glyph('a', TCODColor::lightBlue, 0.3),
 			0.60,
 			0.30,
 			"humanoid",
@@ -244,7 +244,7 @@ void ObjectLibrary::init(){
 		{ "goblin_melee", TemplateCreaturePreset(
 			"goblin_melee",
 			"Goblin",
-			Glyph('g', TCODColor::chartreuse),
+			Glyph('g', TCODColor::chartreuse, 0.2),
 			0.25,
 			0.30,
 			"humanoid",
@@ -255,7 +255,7 @@ void ObjectLibrary::init(){
 		{ "goblin_ranged", TemplateCreaturePreset(
 			"goblin_ranged",
 			"Goblin Hunter",
-			Glyph('g', TCODColor::darkerChartreuse),
+			Glyph('g', TCODColor::darkerChartreuse, 0.2),
 			0.20,
 			0.30,
 			"humanoid",
@@ -266,7 +266,7 @@ void ObjectLibrary::init(){
 		{ "goblin_magic", TemplateCreaturePreset(
 			"goblin_magic",
 			"Goblin Shaman",
-			Glyph('g', TCODColor(64, 96, 64)),
+			Glyph('g', TCODColor(64, 96, 64), 0.2),
 			0.15,
 			0.20,
 			"humanoid",
@@ -279,7 +279,7 @@ void ObjectLibrary::init(){
 		{ "goblin_king", TemplateCreaturePreset(
 			"goblin_king",
 			"The Goblin King",
-			Glyph('G', TCODColor::darkLime),
+			Glyph('G', TCODColor::darkLime, 0.6),
 			0.6,
 			0.2,
 			"giant",

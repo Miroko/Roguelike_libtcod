@@ -166,6 +166,8 @@ void engine::init(){
 				else{
 					gui.update();
 					camera.centerOn(playerHandler.getPlayerCreature()->location);
+					//sync player fov to updated area
+					playerHandler.getPlayerCreature()->ai->calculateFov();
 				}
 				requestUpdate = false;
 			}

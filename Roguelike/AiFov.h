@@ -12,10 +12,11 @@ private:
 	double luminosityDropPerDistance;
 	std::vector<std::vector<double>> luminosities;
 
+	void setLuminosity(double value, Point2D &location);
 	void castRay(Point2D &fromAreaLocation, Point2D &toLuminositiesArrayLocation);
 
 public:
-	// 0.0 <-> 1.0 // 0.0 == invisible
+	// 0.0 <-> 1.0 // 0.0 <= invisible
 	double getLuminosity(Point2D &fromLocation, Point2D &toLocation);
 	void compute(Point2D &fromLocation);
 

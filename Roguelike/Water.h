@@ -11,7 +11,6 @@ public:
 		name, 
 		GameObject::WATER, 
 		glyph),
-		true, 
 		20.0f,
 		std::shared_ptr<VisualEffect>(new VisualEffect(std::vector<std::shared_ptr<Particle>>{
 			std::shared_ptr<Particle>(new ParticleSplash(Glyph(TCODColor::lightBlue), 2, 6)),

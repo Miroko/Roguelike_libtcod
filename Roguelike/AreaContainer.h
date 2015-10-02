@@ -16,7 +16,7 @@ public:
 	std::vector<std::shared_ptr<Item>> items;
 
 	bool isPassable(DynamicObject &dynamicObjectMoving);
-	bool isTransparent();
+	double getTransparency();
 
 	Item& getItemToRender(int itemRenderNumberCurrent);
 

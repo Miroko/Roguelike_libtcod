@@ -12,15 +12,13 @@ public:
 	void operate(Creature &user) override;
 	bool isPassable(DynamicObject &dynamicObject) override;
 
-	void render(int x, int y, double intensity);
-
 	std::shared_ptr<OperatableObject> copy();
 	
 	Door(std::string name, Glyph open, Glyph closed, int health) :
 		OperatableObject(DynamicObject(GameObject(
 		name,
 		GameObject::DOOR,
-		open),
+		closed),
 		health,
 		false)),
 		onGlyph(open),

@@ -5,15 +5,15 @@ void Door::operate(Creature &user){
 	if (isOpen){
 		//close
 		if (!&engine::areaHandler.getCurrentArea()->getCreature(location)){
-			transparent = false;
 			isOpen = false;
+			glyph = offGlyph;
 			OperatableObject::operate(user);
 		}
 	}
 	else{
 		//open
-		transparent = true;
 		isOpen = true;
+		glyph = onGlyph;
 		OperatableObject::operate(user);
 	}
 }
@@ -21,12 +21,6 @@ void Door::operate(Creature &user){
 bool Door::isPassable(DynamicObject &dynamicObject){
 	if (isOpen) return true;
 	else return false;
-}
-
-
-void Door::render(int x, int y,double intensity){
-	if (isOpen) onGlyph.render(x, y, intensity);
-	else offGlyph.render(x, y, intensity);
 }
 
 std::shared_ptr<OperatableObject> Door::copy(){

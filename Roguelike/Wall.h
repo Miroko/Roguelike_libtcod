@@ -8,8 +8,7 @@ public:
 		Tile(GameObject(
 		name, 
 		GameObject::WALL, 
-		glyph), 
-		false, 
+		glyph),
 		0.0f){}
 };
 

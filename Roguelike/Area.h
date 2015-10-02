@@ -47,7 +47,7 @@ public:
 	//------
 
 	//visibility
-	bool isTransparent(Point2D &location);
+	double getTransparency(Point2D &location);
 	//------
 
 	//movement

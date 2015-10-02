@@ -15,7 +15,6 @@ private:
 
 public:
 	Point2D location;
-	bool transparent;
 
 	void destroy();
 
@@ -30,9 +29,8 @@ public:
 	virtual void messageDeath();
 	virtual void update(){};
 
-	DynamicObject(GameObject gameObject, int health, bool transparent = true, std::shared_ptr<VisualEffect> visualEffectOnTakeDamage = nullptr) :
+	DynamicObject(GameObject gameObject, int health, std::shared_ptr<VisualEffect> visualEffectOnTakeDamage = nullptr) :
 		GameObject(gameObject),
-		transparent(transparent),
 		healthCurrent(health),
 		healthMax(health),
 		visualEffectOnTakeDamage(visualEffectOnTakeDamage){

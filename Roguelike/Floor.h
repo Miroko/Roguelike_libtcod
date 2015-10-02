@@ -9,7 +9,6 @@ public:
 		name, 
 		GameObject::FLOOR, 
 		glyph),
-		true, 
 		walkCost){}
 };
 

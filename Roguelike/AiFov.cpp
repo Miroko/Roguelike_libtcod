@@ -23,9 +23,10 @@ void AiFov::castRay(Point2D &fromAreaLocation, Point2D &toLuminositiesArrayLocat
 		luminosities[rayLocation.x][rayLocation.y] = rayLuminosity;
 		rayLocationInArea.x = fromAreaLocation.x + (rayLocation.x - centerLocation.x);
 		rayLocationInArea.y = fromAreaLocation.y + (rayLocation.y - centerLocation.y);
-		if (!engine::areaHandler.getCurrentArea()->isTransparent(rayLocationInArea)) break;
+		rayLuminosity -= engine::areaHandler.getCurrentArea()->getTransparency(rayLocationInArea);
 		if (distance >= luminosityDropDistance) rayLuminosity += luminosityDropPerDistance;
-		++distance;
+		if (rayLuminosity <= 0.0) break;
+		else ++distance;
 	}
 }
 

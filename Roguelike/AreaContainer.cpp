@@ -26,13 +26,12 @@ bool AreaContainer::isPassable(DynamicObject &dynamicObjectMoving){
 	return true;
 }
 
-bool AreaContainer::isTransparent(){
-	if (!tile->transparent) return false;
+double AreaContainer::getTransparency(){
 	if (creature){
-		if (!creature->transparent) return false;
+		return creature->glyph.getTransparency();
 	}
 	if (operatableObject){
-		if (!operatableObject->transparent) return false;
+		return operatableObject->glyph.getTransparency();
 	}
-	return true;
+	else return tile->glyph.getTransparency();
 }
