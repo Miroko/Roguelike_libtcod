@@ -12,7 +12,7 @@ public:
 	void operate(Creature &user) override;
 	bool isPassable(DynamicObject &dynamicObject) override;
 
-	void render(int x, int y);
+	void render(int x, int y, double intensity);
 
 	std::shared_ptr<OperatableObject> copy();
 	

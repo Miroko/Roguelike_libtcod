@@ -10,8 +10,8 @@
 void AiModuleCombat::pursueAndAttack(DynamicObject &target){
 	if (!&target) return;
 	if (!owner->inFov(target.location)){
-		owner->calculatePath(target.location);
-		owner->moveOnPath();
+		if (owner->moveOnPath() == 0) state = JAMMED;
+		return;
 	}
 	Creature &user = *owner->owner;
 	std::vector<
@@ -127,7 +127,6 @@ void AiModuleCombat::run(){
 	}
 	else if (state == JAMMED){
 		owner->owner->move(owner->owner->location + engine::random.direction());
-		state = PURSUE_TARGET;
 	}
 	else if (state == PURSUE_TARGET){
 		pursueAndAttack(*target);

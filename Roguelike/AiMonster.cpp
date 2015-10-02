@@ -6,8 +6,7 @@ void AiMonster::onTakeDamage(DynamicObject &attacker){
 
 }
 void AiMonster::onCreatureInFov(Creature &creature, int distance){
-	if (combatModule.state != combatModule.JAMMED && 
-		combatModule.state != combatModule.FLEE){
+	if (combatModule.state != combatModule.FLEE){
 		if (&creature == engine::playerHandler.getPlayerCreature().get()){
 			combatModule.target = &creature;
 			combatModule.state = combatModule.PURSUE_TARGET;

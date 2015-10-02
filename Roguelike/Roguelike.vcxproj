@@ -18,6 +18,7 @@
     <ClCompile Include="ActionFrame.cpp" />
     <ClCompile Include="AiAlchemist.cpp" />
     <ClCompile Include="AiBlacksmith.cpp" />
+    <ClCompile Include="AiFov.cpp" />
     <ClCompile Include="AiModule.cpp" />
     <ClCompile Include="AiModuleCombat.cpp" />
     <ClCompile Include="AiModuleResident.cpp" />
@@ -76,7 +77,6 @@
     <ClCompile Include="ParticleSplash.cpp" />
     <ClCompile Include="PlayerHandler.cpp" />
     <ClCompile Include="InspectionFrame.cpp" />
-    <ClCompile Include="Line.cpp" />
     <ClCompile Include="ObjectLibrary.cpp" />
     <ClCompile Include="OperatableObject.cpp" />
     <ClCompile Include="RarityAffix.cpp" />
@@ -142,6 +142,7 @@
     <ClInclude Include="ActionFrame.h" />
     <ClInclude Include="AiAlchemist.h" />
     <ClInclude Include="AiBlacksmith.h" />
+    <ClInclude Include="AiFov.h" />
     <ClInclude Include="AiModule.h" />
     <ClInclude Include="AiModuleCombat.h" />
     <ClInclude Include="AiModuleResident.h" />
@@ -200,7 +201,6 @@
     <ClInclude Include="ParticleSplash.h" />
     <ClInclude Include="PlayerHandler.h" />
     <ClInclude Include="InspectionFrame.h" />
-    <ClInclude Include="Line.h" />
     <ClInclude Include="ObjectLibrary.h" />
     <ClInclude Include="OperatableObject.h" />
     <ClInclude Include="RarityAffix.h" />

@@ -11,7 +11,7 @@ public:
 
 	char character;
 
-	void render(int x, int y);
+	void render(int x, int y, double lightIntensity);
 
 	Glyph(TCODColor bg, TCODColor fg, char character) : fgColor(fg), bgColor(bg), character(character){
 		bgFlag = TCOD_BKGND_SET;

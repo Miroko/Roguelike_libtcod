@@ -58,8 +58,8 @@ bool GameObject::isType(Type type){
 	return this->type == type;
 }
 
-void GameObject::render(int x, int y){
-	glyph.render(x, y);
+void GameObject::render(int x, int y, double lightIntensity){
+	glyph.render(x, y, lightIntensity);
 }
 
 void GameObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){

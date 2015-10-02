@@ -46,6 +46,10 @@ public:
 	void removeItem(std::shared_ptr<Item> &item);
 	//------
 
+	//visibility
+	bool isTransparent(Point2D &location);
+	//------
+
 	//movement
 	bool isPassable(Point2D &location, DynamicObject &dynamicObjectMoving);
 	bool moveDynamicObject(DynamicObject &dynamicObject, Point2D &location);

@@ -199,6 +199,9 @@
     <Filter Include="Engine\DamageType">
       <UniqueIdentifier>{acab3de2-7e84-41a7-ba6f-16166f3f7081}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Fov">
+      <UniqueIdentifier>{e6e1b998-3b9f-4b36-a6ad-3cdad9fd5314}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creature.cpp">
@@ -220,9 +223,6 @@
       <Filter>Engine\Gui</Filter>
     </ClCompile>
     <ClCompile Include="Direction.cpp">
-      <Filter>Engine\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Line.cpp">
       <Filter>Engine\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Point2D.cpp">
@@ -565,6 +565,9 @@
     <ClCompile Include="AreaContainer.cpp">
       <Filter>Engine\Area</Filter>
     </ClCompile>
+    <ClCompile Include="AiFov.cpp">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Fov</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -574,9 +577,6 @@
       <Filter>Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="String.h">
-      <Filter>Engine\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Line.h">
       <Filter>Engine\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Rectangle.h">
@@ -947,6 +947,9 @@
     </ClInclude>
     <ClInclude Include="AreaContainer.h">
       <Filter>Engine\Area</Filter>
+    </ClInclude>
+    <ClInclude Include="AiFov.h">
+      <Filter>Engine\GameObject\Dynamic\Creature\Ai\Fov</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

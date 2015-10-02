@@ -24,9 +24,9 @@ bool Door::isPassable(DynamicObject &dynamicObject){
 }
 
 
-void Door::render(int x, int y){
-	if (isOpen) onGlyph.render(x, y);
-	else offGlyph.render(x, y);
+void Door::render(int x, int y,double intensity){
+	if (isOpen) onGlyph.render(x, y, intensity);
+	else offGlyph.render(x, y, intensity);
 }
 
 std::shared_ptr<OperatableObject> Door::copy(){

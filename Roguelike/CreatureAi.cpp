@@ -2,16 +2,6 @@
 #include "Area.h"
 #include "Engine.h"
 
-void CreatureAi::createFovMap(){
-	Rectangle fovBounds = area->getBounds();
-	fovMap = std::shared_ptr<TCODMap>(new TCODMap(fovBounds.getWidth(), fovBounds.getHeight()));
-	for (int x = fovBounds.start.x; x < fovBounds.end.x; x++){
-		for (int y = fovBounds.start.y; y < fovBounds.end.y; y++){
-			fovMap->setProperties(x, y, area->areaContainers[x][y].isTransparent(), false); // walkability from callback function
-		}
-	}
-}
-
 float CreatureAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
 	CreatureAi *thisObject = static_cast<CreatureAi*>(userData);
 	auto &areaContainer = thisObject->area->areaContainers[xTo][yTo];
@@ -49,16 +39,7 @@ void CreatureAi::createPathMap(){
 }
 
 void CreatureAi::calculateFov(){
-	for (auto &dynamicObject : area->dynamicObjectsAlive){
-		if (dynamicObject->isType(GameObject::DOOR)){
-			fovMap->setProperties(
-				dynamicObject->location.x,
-				dynamicObject->location.y,
-				dynamicObject->transparent,
-				dynamicObject->isPassable(*owner));
-		}
-	}
-	fovMap->computeFov(owner->location.x, owner->location.y, 0, true, FOV_RESTRICTIVE);
+	fov.compute(owner->location);
 }
 
 void CreatureAi::calculatePath(Point2D &location){
@@ -107,13 +88,13 @@ void CreatureAi::onPathEnd(Point2D &location){
 }
 
 bool CreatureAi::inFov(Point2D &location){
-	return fovMap->isInFov(location.x, location.y);
+	return fov.getLuminosity(owner->location, location) > 0;
+	//return fovMap->isInFov(location.x, location.y);
 }
 
 void CreatureAi::initAi(Creature &owner, Area &area){
 	this->owner = &owner;
 	this->area = &area;
-	createFovMap();
 	createPathMap();
 	calculateFov();
 }

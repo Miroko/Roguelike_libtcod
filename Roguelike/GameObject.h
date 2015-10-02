@@ -48,7 +48,7 @@ public:
 	bool isTile();
 	bool isType(Type type);
 		
-	virtual void render(int x, int y);
+	virtual void render(int x, int y, double lightIntensity);
 
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 	void GuiObject::renderToFrameLine(GuiFrame &frame, Rectangle &renderBounds, int offsetY) override;

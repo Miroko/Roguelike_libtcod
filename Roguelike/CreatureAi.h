@@ -1,6 +1,7 @@
 #pragma once
 #include "libtcod.hpp"
 #include "Point2D.h"
+#include "AiFov.h"
 #include <memory>
 #include <vector>
 
@@ -20,12 +21,11 @@ public:
 	Creature *owner;
 
 	Area *area;
-	std::shared_ptr<TCODMap> fovMap;
 	std::shared_ptr<TCODPath> pathMap;
+	AiFov fov;
 
 	int currentPathIndex;
 
-	void createFovMap();
 	void calculateFov();
 	bool inFov(Point2D &location);
 
@@ -45,6 +45,7 @@ public:
 	
 	virtual std::shared_ptr<CreatureAi> copy() = 0;
 
-	CreatureAi(){};
+	CreatureAi() :
+		fov(AiFov(20, 5)){};
 };
 

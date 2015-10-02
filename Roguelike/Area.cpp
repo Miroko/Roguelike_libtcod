@@ -172,6 +172,11 @@ std::vector<std::shared_ptr<Item>>& Area::getItems(Point2D &location){
 	return areaContainers[location.x][location.y].items;
 }
 
+bool Area::isTransparent(Point2D &location){
+	if (!bounds.contains(location)) return false;
+	return areaContainers[location.x][location.y].isTransparent();
+}
+
 bool Area::isPassable(Point2D &location, DynamicObject &dynamicObjectMoving){
 	if (!bounds.contains(location)) return false;
 	return areaContainers[location.x][location.y].isPassable(dynamicObjectMoving);
@@ -234,20 +239,28 @@ void Area::update(){
 
 void Area::render(){
 	using engine::camera;
+	double lightIntensity;
 	for (int x = camera.location.x; x < camera.location.x + camera.getWidth(); x++){
 		for (int y = camera.location.y; y < camera.location.y + camera.getHeight(); y++){
 			if (bounds.contains(Point2D(x, y))){
-				if (engine::playerHandler.getPlayerCreature()->ai->inFov(Point2D(x, y)) || engine::renderWithoutFov){
+				if (engine::renderWithoutFov) lightIntensity = 1.0;
+				else{
+					lightIntensity = 
+						engine::playerHandler.getPlayerCreature()->ai->fov.getLuminosity(
+						engine::playerHandler.getPlayerCreature()->location,
+						Point2D(x, y));
+				}
+				if (lightIntensity > 0.0){
 					AreaContainer &areaContainer = areaContainers[x][y];
-					areaContainer.tile->render(x - camera.location.x, y - camera.location.y);
+					areaContainer.tile->render(x - camera.location.x, y - camera.location.y, lightIntensity);
 					if (areaContainer.operatableObject){
-						areaContainer.operatableObject->render(x - camera.location.x, y - camera.location.y);
+						areaContainer.operatableObject->render(x - camera.location.x, y - camera.location.y, lightIntensity);
 					}
 					if (areaContainer.creature){
-						areaContainer.creature->render(x - camera.location.x, y - camera.location.y);
+						areaContainer.creature->render(x - camera.location.x, y - camera.location.y, lightIntensity);
 					}
 					else if (!areaContainer.items.empty()){
-						areaContainer.getItemToRender(itemRenderNumberCurrent).render(x - camera.location.x, y - camera.location.y);
+						areaContainer.getItemToRender(itemRenderNumberCurrent).render(x - camera.location.x, y - camera.location.y, lightIntensity);
 					}
 				}
 			}
