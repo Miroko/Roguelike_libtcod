@@ -4,9 +4,11 @@
 #include "Armor.h"
 #include "Accessory.h"
 #include "Consumable.h"
+#include "OperatableObject.h"
 #include "VisualEffect.h"
 #include "ParticleSplash.h"
 #include "Engine.h"
+#include <algorithm>
 
 std::shared_ptr<Creature> ObjectFactory::createCreature(std::string id, std::string rarity){
 	return createCreature(engine::objectLibrary.creaturePresetTemplates[id], *engine::raritySystem.getRarityType(rarity));
@@ -28,8 +30,10 @@ std::shared_ptr<Consumable> ObjectFactory::createConsumable(std::string id, std:
 	return createConsumable(engine::objectLibrary.consumableTemplates[id], *engine::raritySystem.getRarityType(rarity));
 }
 
-std::shared_ptr<OperatableObject> ObjectFactory::createOperatable(std::string id){
-	return engine::objectLibrary.operatables[id]->copy();
+std::shared_ptr<OperatableObject> ObjectFactory::createOperatable(std::string id, std::string rarity){
+	auto& operatable = engine::objectLibrary.operatables[id]->copy();
+	if (rarity != "") operatable->rarityType = engine::raritySystem.getRarityType(rarity);
+	return operatable;
 }
 
 std::shared_ptr<Creature> ObjectFactory::createCreature(TemplateCreaturePreset &presetTemplate, RarityType &rarityType){
@@ -52,10 +56,13 @@ std::shared_ptr<Creature> ObjectFactory::createCreature(TemplateCreaturePreset &
 		presetTemplate.magicFromMax *
 		rarityType.improvementMultiplier *
 		engine::random.variationMultiplier(engine::statisticVariation));
+	
+	double lootDropsFromMax = 
+		0.30;
 
 	std::shared_ptr<Creature> creature = std::shared_ptr<Creature>(new Creature(
 		presetTemplate.id,
-		RarityMod(rarityType, { }), //engine::raritySystem.getCreatureMod(rarityType)
+		RarityMod(rarityType), //engine::raritySystem.getCreatureMod(rarityType)
 		DynamicObject(GameObject(
 		presetTemplate.name,
 		Creature::CREATURE,
@@ -65,7 +72,8 @@ std::shared_ptr<Creature> ObjectFactory::createCreature(TemplateCreaturePreset &
 		stamina,
 		magic,
 		engine::objectLibrary.ais[presetTemplate.aiId]->copy(),
-		templateCreatureBase.limbs
+		templateCreatureBase.limbs,
+		lootDropsFromMax
 		));
 	//equip weapons
 	for (auto &weaponId : presetTemplate.weaponIds){
@@ -237,12 +245,13 @@ std::shared_ptr<Consumable> ObjectFactory::createRandomConsumable(RarityType &ra
 	return createConsumable(randomTemplate, rarityType);
 }
 
-void ObjectFactory::generateLootDrop(Creature &creature){
+std::vector<std::shared_ptr<Item>> ObjectFactory::generateLootDrop(double lootDropsFromMax, RarityType &lootRarity){
 	std::vector<std::shared_ptr<Item>> lootItems;
-	for (int dropNumber = engine::lootDropRolls; dropNumber > 0; --dropNumber){
+	int lootDrops = std::max((int)(engine::lootDropRollsBase * lootDropsFromMax), 1);
+	for (int dropNumber = lootDrops; dropNumber > 0; --dropNumber){
 		if (engine::random.chance(engine::lootRollDropChance)){
 			int type = engine::random.generator->getInt(0, 3);
-			RarityType &rarityType = *engine::raritySystem.getRarityType(engine::raritySystem.getRarityRoll(&creature));
+			RarityType &rarityType = *engine::raritySystem.getRarityType(engine::raritySystem.getRarityRoll(lootRarity));
 			//armor
 			if (type == 0){
 				lootItems.push_back(createRandomArmor(rarityType));
@@ -261,7 +270,5 @@ void ObjectFactory::generateLootDrop(Creature &creature){
 			}
 		}
 	}
-	for (auto &lootItem : lootItems){
-		engine::areaHandler.getCurrentArea()->placeItem(lootItem, creature.location);
-	}
+	return lootItems;
 }

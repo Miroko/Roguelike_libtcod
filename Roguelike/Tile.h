@@ -15,6 +15,7 @@ public:
 	double getWalkCost(){ return walkCost; }
 
 	bool isPassable(DynamicObject &dynamicObjectMoving);
+	bool isOpen();
 
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 

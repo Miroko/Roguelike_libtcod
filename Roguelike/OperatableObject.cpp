@@ -15,12 +15,29 @@ bool OperatableObject::isPassable(DynamicObject &dynamicObject){
 
 void OperatableObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){
 	int offsetY = 0;
-	frame.printString(
-		renderBounds.start.x, renderBounds.start.y,
-		renderBounds.getWidth(), 0,
-		Gui::FRAME_FG,
-		TCOD_CENTER,
-		getDescription());
+	if (rarityType){
+		frame.printString(
+			renderBounds.start.x, renderBounds.start.y,
+			renderBounds.getWidth(), 0,
+			rarityType->color * Gui::RARITY_COLOR_MULTIPLIER,
+			TCOD_CENTER,
+			rarityType->name);
+		offsetY += 1;
+		frame.printString(
+			renderBounds.start.x, renderBounds.start.y + offsetY,
+			renderBounds.getWidth(), 0,
+			rarityType->color * Gui::RARITY_COLOR_MULTIPLIER,
+			TCOD_CENTER,
+			getDescription());
+	}
+	else{
+		frame.printString(
+			renderBounds.start.x, renderBounds.start.y,
+			renderBounds.getWidth(), 0,
+			Gui::FRAME_FG,
+			TCOD_CENTER,
+			getDescription());
+	}
 	offsetY += 2;
 	frame.printString(
 		renderBounds.start.x, renderBounds.start.y + offsetY,

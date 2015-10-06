@@ -15,7 +15,8 @@ public:
 	RarityMod getAccessoryMod(RarityType &rarityType);
 	RarityMod getConsumableMod(RarityType &rarityType);
 
-	double getRarityRoll(Creature *fromCreature = nullptr);
+	double getRarityRoll(RarityType &rarity);
+	double getRarityRoll();
 	RarityType* getRarityType(double rarityRoll);
 	RarityType* getRarityType(std::string id);
 

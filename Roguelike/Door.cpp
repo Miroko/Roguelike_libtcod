@@ -6,14 +6,14 @@ void Door::operate(Creature &user){
 		//close
 		if (!&engine::areaHandler.getCurrentArea()->getCreature(location)){
 			isOpen = false;
-			glyph = offGlyph;
+			glyph = closedGlyph;
 			OperatableObject::operate(user);
 		}
 	}
 	else{
 		//open
 		isOpen = true;
-		glyph = onGlyph;
+		glyph = openGlyph;
 		OperatableObject::operate(user);
 	}
 }

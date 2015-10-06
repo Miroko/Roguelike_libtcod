@@ -66,8 +66,11 @@ void Creature::addEffect(std::shared_ptr<CreatureEffect> effect){
 	effects.push_back(effect);
 }
 void Creature::onDeath(){
+	auto& lootDrop = engine::objectFactory.generateLootDrop(lootDropsFromMax, *rarityType);
+	for (auto &loot : lootDrop){
+		engine::areaHandler.getCurrentArea()->placeItem(loot, location);
+	}
 	DynamicObject::onDeath();
-	engine::objectFactory.generateLootDrop(*this);
 }
 bool Creature::move(Point2D &location){
 	int staminaCost = (int)(engine::staminaCostPerKgFromMove * inventory.getTotalWeight());
@@ -233,17 +236,7 @@ void Creature::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){
 		renderBounds.getWidth(), 0,
 		rarityType->color * Gui::RARITY_COLOR_MULTIPLIER,
 		TCOD_CENTER,
-		name);
-	//affixes
-	for (auto &affix : rarityAffixes){
-		offsetY += 1;
-		frame.printString(
-			renderBounds.start.x, renderBounds.start.y + offsetY,
-			renderBounds.getWidth(), 0,
-			Gui::FRAME_FG,
-			TCOD_CENTER,
-			affix->getDescription(*this));
-	}
+		getDescription());
 	//health
 	offsetY += 2;
 	double percentageValue = ((double)getHealthCurrent() / (double)getHealthMax());

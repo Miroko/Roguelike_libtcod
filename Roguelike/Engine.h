@@ -82,7 +82,7 @@ namespace engine{
 	extern double statisticVariation;
 	extern double lootMinPrevalenceMultiplier;
 	extern double lootRollDropChance;
-	extern int lootDropRolls;
+	extern int lootDropRollsBase;
 
 	//consumable
 	extern double consumablePotencyMax;

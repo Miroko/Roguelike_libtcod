@@ -568,6 +568,9 @@
     <ClCompile Include="AiFov.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Fov</Filter>
     </ClCompile>
+    <ClCompile Include="Container.cpp">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gui.h">
@@ -950,6 +953,9 @@
     </ClInclude>
     <ClInclude Include="AiFov.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Fov</Filter>
+    </ClInclude>
+    <ClInclude Include="Container.h">
+      <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

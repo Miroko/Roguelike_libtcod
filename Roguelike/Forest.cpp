@@ -1,13 +1,15 @@
 #include "Forest.h"
+#include "AreaDrop.h"
 #include "Engine.h"
 
-Forest::Forest(std::string landId, std::string treeId, std::string stoneHighId, std::string stoneLowId, std::string portalId,
+Forest::Forest(std::string landId, std::string treeId, std::string stoneHighId, std::string stoneLowId, std::string portalId, AreaDrop &areaDrop,
 	int size, double treePercentage, double stonePercentage, int portals, double treeDistribution, int treeThickness) :
 	land(*engine::objectLibrary.tiles[landId]),
 	tree(*engine::objectLibrary.tiles[treeId]),
 	stoneLow(*engine::objectLibrary.tiles[stoneLowId]),
 	stoneHigh(*engine::objectLibrary.tiles[stoneHighId]),
 	portal(*engine::objectLibrary.tiles[portalId]),
+	areaDrop(areaDrop),
 	size(size),
 	treePercentage(treePercentage),
 	stonePercentage(stonePercentage),
@@ -20,6 +22,7 @@ Forest::Forest(std::string landId, std::string treeId, std::string stoneHighId, 
 void Forest::generate(){
 	generateBase(Rectangle(size, size), land);
 
+	//trees
 	int trees = (int)(getBounds().getSize() * treePercentage);
 	int treeAreas = (int)(getBounds().getSize() * treeDistribution);
 	int branches = treeThickness;
@@ -55,6 +58,7 @@ void Forest::generate(){
 		}			
 	}
 
+	//stones
 	int stones = (int)(getBounds().getSize() * stonePercentage);
 	for (int stoneNumber = stones; stoneNumber > 0; --stoneNumber){
 		Point2D location = engine::random.point(getBounds());
@@ -69,11 +73,20 @@ void Forest::generate(){
 		}
 	}
 
+	//edge
 	generateEdge(tree, 1, 4);
 
+	//portals
 	for (int portalNumber = portals; portalNumber > 0; --portalNumber){
 		Point2D location = engine::random.point(getBounds());
 		placeTile(portal, location, land);
+	}
+
+	//drops
+	int drops = getBounds().getSize() / 500;
+	for (int drop = drops; drop > 0; --drop){
+		Point2D location = engine::random.point(getBounds());
+		areaDrop.drop(location, 4, *this);
 	}
 }
 

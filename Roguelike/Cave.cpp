@@ -4,7 +4,8 @@
 #include "Engine.h"
 
 Cave::Cave(std::string wall1Id, std::string wall2Id, std::string floor1Id, std::string floor2Id, std::string waterId, std::string portalId, std::string roomWallId, AreaDrop &roomDrop,
-	int size, double corridorsPerTile, int corridorSize, double roomChance, double roomDropChance, int roomSize, double riverPercentage, int portals) :
+	int size, double corridorsPerTile, int corridorSize, double roomChance, double roomDropChance, int roomSize, double riverPercentage, int portals)
+	:
 	wall1(*engine::objectLibrary.tiles[wall1Id]),
 	wall2(*engine::objectLibrary.tiles[wall2Id]),
 	floor1(*engine::objectLibrary.tiles[floor1Id]),
@@ -65,7 +66,7 @@ void Cave::generate(){
 					}
 				}
 				if (engine::random.chance(roomDropChance)){
-					roomDrop.drop(roomBounds.getCenterPoint(), 3, *this);
+					roomDrop.drop(roomBounds.getCenterPoint(), roomSize, *this);
 				}
 			}
 			//Next location

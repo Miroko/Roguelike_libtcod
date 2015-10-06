@@ -16,51 +16,51 @@ private:
 		public:
 			//basic house
 			AreaDrop basicHouseResidents = AreaDrop({
-				std::make_pair("villager_man", std::make_pair("common", 0.6f)),
-				std::make_pair("villager_woman", std::make_pair("common", 0.5f)),
-				std::make_pair("villager_child", std::make_pair("common", 0.3f)),
-				std::make_pair("villager_child", std::make_pair("common", 0.2f))
+				std::make_pair("villager_man", std::make_pair("common", 0.6)),
+				std::make_pair("villager_woman", std::make_pair("common", 0.5)),
+				std::make_pair("villager_child", std::make_pair("common", 0.3)),
+				std::make_pair("villager_child", std::make_pair("common", 0.2))
 			});
 			AreaHouse houseBasic = AreaHouse(
 				"house_wall_wood",
 				"house_floor_wood",
 				"door_wood",
 				basicHouseResidents,
-				{ std::make_pair("bed_wood", 1.0f),
-				  std::make_pair("bed_wood", 0.6f),
-				  std::make_pair("bed_wood", 0.3f) });
+				{ std::make_pair("bed_wood", 1.0),
+				  std::make_pair("bed_wood", 0.6),
+				  std::make_pair("bed_wood", 0.3) });
 
 			//blacksmith
 			AreaDrop blacksmithHouseResididents = AreaDrop({
-				std::make_pair("villager_blacksmith", std::make_pair("common", 1.0f)),
-				std::make_pair("villager_blacksmith", std::make_pair("common", 0.2f)) 
+				std::make_pair("villager_blacksmith", std::make_pair("common", 1.0)),
+				std::make_pair("villager_blacksmith", std::make_pair("common", 0.2)) 
 			});
 			AreaHouse houseBlacksmith = AreaHouse(
 				"house_wall_stone",
 				"house_floor_wood",
 				"door_wood",
 				blacksmithHouseResididents,
-				{ std::make_pair("forge", 1.0f),
-				  std::make_pair("forge", 0.6f),
-				  std::make_pair("anvil", 1.0f),
-				  std::make_pair("anvil", 0.6f),
-				  std::make_pair("anvil", 0.3f) });
+				{ std::make_pair("forge", 1.0),
+				  std::make_pair("forge", 0.6),
+				  std::make_pair("anvil", 1.0),
+				  std::make_pair("anvil", 0.6),
+				  std::make_pair("anvil", 0.3) });
 
 			//alchemist
 			AreaDrop alchemistHouseResididents = AreaDrop({
-				std::make_pair("villager_alchemist", std::make_pair("common", 1.0f)),
-				std::make_pair("villager_alchemist", std::make_pair("common", 0.2f))
+				std::make_pair("villager_alchemist", std::make_pair("common", 1.0)),
+				std::make_pair("villager_alchemist", std::make_pair("common", 0.2))
 			});
 			AreaHouse houseAlchemist = AreaHouse(
 				"house_wall_stone",
 				"house_floor_wood",
 				"door_wood",
 				alchemistHouseResididents,
-				{ std::make_pair("alchemy_table1", 1.0f),
-				  std::make_pair("alchemy_table2", 1.0f),
-				  std::make_pair("alchemy_table1", 0.6f),
-				  std::make_pair("alchemy_table2", 0.6f),
-				  std::make_pair("alchemy_table1", 0.3f) });
+				{ std::make_pair("alchemy_table1", 1.0),
+				  std::make_pair("alchemy_table2", 1.0),
+				  std::make_pair("alchemy_table1", 0.6),
+				  std::make_pair("alchemy_table2", 0.6),
+				  std::make_pair("alchemy_table1", 0.3) });
 
 			VillageMain() : Village(
 				"forest_floor_grass",
@@ -69,9 +69,9 @@ private:
 				"forest_floor_stone",
 				"path_sand",
 				150,
-				{ std::make_pair(&houseBlacksmith, 0.70f),
-				  std::make_pair(&houseAlchemist, 0.70f),
-				  std::make_pair(&houseBasic, 1.00f) }){};
+				{ std::make_pair(&houseBlacksmith, 0.70),
+				  std::make_pair(&houseAlchemist, 0.70),
+				  std::make_pair(&houseBasic, 1.00) }){};
 
 		};
 		//dialogs
@@ -114,12 +114,16 @@ private:
 	public:
 		class ForestGoblin : public Forest{
 		public:
-			AreaDrop dropGoblin = AreaDrop({
-				std::make_pair("goblin_melee", std::make_pair("common", 1.0f)),
-				std::make_pair("goblin_melee", std::make_pair("common", 0.8f)),
-				std::make_pair("goblin_melee", std::make_pair("common", 0.8f)),
-				std::make_pair("goblin_ranged", std::make_pair("common", 0.8f)),
-				std::make_pair("goblin_magic", std::make_pair("common", 0.8f))
+			AreaDrop dropGoblin = AreaDrop(
+			{
+				std::make_pair("goblin_melee", std::make_pair("common", 0.8)),
+				std::make_pair("goblin_melee", std::make_pair("common", 0.6)),
+				std::make_pair("goblin_melee", std::make_pair("common", 0.4)),
+				std::make_pair("goblin_ranged", std::make_pair("common", 0.4)),
+				std::make_pair("goblin_magic", std::make_pair("common", 0.3)) 
+			},
+			{	
+				std::make_pair("chest_wood_small", std::make_pair("uncommon", 0.8)) 
 			});
 
 			ForestGoblin() : Forest(
@@ -128,7 +132,8 @@ private:
 				"forest_wall_stone",
 				"forest_floor_stone",
 				"forest_portal",
-				100, 0.6f, 0.02f, 12 
+				dropGoblin,
+				100, 0.6, 0.02, 22
 				){};
 		};
 
@@ -139,12 +144,22 @@ private:
 	public:
 		class CaveGoblin : public Cave{
 		public:
-			AreaDrop dropGoblin = AreaDrop({
-				std::make_pair("goblin_melee", std::make_pair("common", 1.0f)),
-				std::make_pair("goblin_ranged", std::make_pair("common", 1.0f)),
-				std::make_pair("goblin_melee", std::make_pair("uncommon", 0.5f)),
-				std::make_pair("goblin_ranged", std::make_pair("uncommon", 0.5f)),
-				std::make_pair("goblin_magic", std::make_pair("rare", 0.2f))
+			AreaDrop dropGoblin = AreaDrop(
+			{
+				std::make_pair("goblin_melee", std::make_pair("common", 0.8)),
+				std::make_pair("goblin_ranged", std::make_pair("common", 0.6)),
+				std::make_pair("goblin_melee", std::make_pair("uncommon", 0.3)),
+				std::make_pair("goblin_ranged", std::make_pair("uncommon", 0.2)),
+				std::make_pair("goblin_magic", std::make_pair("rare", 0.1))
+			},
+			{
+				std::make_pair("barrel_wood", std::make_pair("common", 1.0)),
+				std::make_pair("barrel_wood", std::make_pair("common", 1.0)),
+				std::make_pair("barrel_wood", std::make_pair("common", 1.0)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("chest_wood_large", std::make_pair("rare", 0.2)),
 			});
 
 			CaveGoblin() : Cave(
@@ -156,7 +171,7 @@ private:
 				"cave_portal",
 				"cave_wall_wood",
 				dropGoblin,
-				200, 0.6f, 1, 0.02f, 0.02f, 2, 0.3f, 12
+				200, 0.6, 1, 0.02, 0.02, 3, 0.3, 12
 				){};
 		};
 
@@ -168,13 +183,31 @@ private:
 		class CaveKing : public Cave{
 		public:
 			AreaDrop dropGoblin = AreaDrop({
-				std::make_pair("goblin_melee", std::make_pair("uncommon", 1.0f)),
-				std::make_pair("goblin_melee", std::make_pair("uncommon", 1.0f)) 
+				std::make_pair("goblin_melee", std::make_pair("uncommon", 1.0)),
+				std::make_pair("goblin_melee", std::make_pair("uncommon", 1.0)), 
+				std::make_pair("goblin_ranged", std::make_pair("uncommon", 0.5)),
+			},
+			{
+				std::make_pair("barrel_wood", std::make_pair("common", 1.0)),
+				std::make_pair("barrel_wood", std::make_pair("common", 1.0)),
+				std::make_pair("barrel_wood", std::make_pair("common", 1.0)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("chest_wood_large", std::make_pair("rare", 0.2)),
 			});
 
-			AreaDrop dropKing = AreaDrop({
-				std::make_pair("goblin_king", std::make_pair("unique", 1.0f)),
-				std::make_pair("goblin_ranged", std::make_pair("epic", 1.0f))
+			AreaDrop dropKing = AreaDrop(
+			{
+				std::make_pair("goblin_king", std::make_pair("unique", 1.0)),
+				std::make_pair("goblin_ranged", std::make_pair("epic", 1.0))
+			},
+			{
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("chest_wood_large", std::make_pair("epic", 0.5)),
+				std::make_pair("chest_wood_large", std::make_pair("epic", 0.5)),
 			});
 
 			CaveKing() : Cave(
@@ -186,7 +219,7 @@ private:
 				"cave_portal",
 				"cave_wall_wood",
 				dropGoblin,
-				150, 0.4f, 2, 0.02f, 0.02f, 3, 0.3f, 12
+				150, 0.4, 2, 0.02, 0.02, 3, 0.3, 12
 				){};
 		};
 

@@ -1,8 +1,9 @@
 #pragma once
 #include "DynamicObject.h"
+#include "RarityMod.h"
 
 class Creature;
-class OperatableObject : public DynamicObject
+class OperatableObject : public DynamicObject, public RarityMod
 {
 private:	
 	std::shared_ptr<VisualEffect> visualEffectOnOperate;

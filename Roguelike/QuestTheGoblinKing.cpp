@@ -44,13 +44,6 @@ TradeContainer &QuestTheGoblinKing::PhaseVillage::getTradeContainer(Creature &tr
 std::shared_ptr<Area> QuestTheGoblinKing::PhaseWayThroughForest::generateArea(){
 	std::shared_ptr<ForestGoblin> area = std::shared_ptr<ForestGoblin>(new ForestGoblin());
 	area->generate();
-
-	int drops = area->getBounds().getSize() / 500;
-	for (int drop = drops; drop > 0; --drop){
-		Point2D location = engine::random.point(area->getBounds());
-		area->dropGoblin.drop(location, 2, *area);
-	}
-
 	return area;
 }
 

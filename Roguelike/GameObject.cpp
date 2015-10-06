@@ -43,7 +43,8 @@ bool GameObject::isOperatable(){
 		type == BED ||
 		type == FORGE ||
 		type == ANVIL ||
-		type == ALCHEMY_TABLE);
+		type == ALCHEMY_TABLE ||
+		type == CHEST);
 }
 
 bool GameObject::isTile(){

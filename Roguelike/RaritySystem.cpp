@@ -67,24 +67,20 @@ RarityType* RaritySystem::getRarityType(std::string id){
 	return nullptr;
 }
 
-double RaritySystem::getRarityRoll(Creature *fromCreature){
-	if (fromCreature != nullptr){
-		double prevalenceMin =
-			engine::random.generator->getDouble(
-			0.0,
-			1.0);
-		prevalenceMin *= engine::lootMinPrevalenceMultiplier;
-		return
-			engine::random.generator->getDouble(
-			prevalenceMin,
-			std::min(prevalenceMin + fromCreature->rarityType->prevalence, 1.0));
-	}
-	else{
-		return 
-			engine::random.generator->getDouble(
-			0.0,
-			1.0);
-	}
+double RaritySystem::getRarityRoll(RarityType &rarity){
+	double prevalenceMin =
+		engine::random.generator->getDouble(
+		0.0,
+		1.0);
+	prevalenceMin *= engine::lootMinPrevalenceMultiplier;
+	return
+		engine::random.generator->getDouble(
+		prevalenceMin,
+		std::min(prevalenceMin + rarity.prevalence, 1.0));
+}
+
+double RaritySystem::getRarityRoll(){
+	return engine::random.generator->getDouble(0.0, 1.0);
 }
 
 void RaritySystem::init(){

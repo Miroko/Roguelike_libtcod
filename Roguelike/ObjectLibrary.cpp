@@ -9,6 +9,7 @@
 #include "Forge.h"
 #include "Anvil.h"
 #include "AlchemyTable.h"
+#include "Container.h"
 #include "Wall.h"
 #include "Floor.h"
 #include "Water.h"
@@ -35,9 +36,9 @@ void ObjectLibrary::init(){
 		{ "cave_wall_wood", std::shared_ptr<Tile>(new Wall("Wooden column", Glyph(TCODColor::darkerSepia, 1.0))) },
 		{ "cave_wall_stone1", std::shared_ptr<Tile>(new Wall("Cave wall", Glyph(TCODColor::grey, 1.0))) },
 		{ "cave_wall_stone2", std::shared_ptr<Tile>(new Wall("Cave wall", Glyph(TCODColor::darkGrey, 1.0))) },
-		{ "cave_floor_stone1", std::shared_ptr<Tile>(new Floor("Cave floor", Glyph(TCODColor(45, 45, 45)))) },
-		{ "cave_floor_stone2", std::shared_ptr<Tile>(new Floor("Cave floor", Glyph(TCODColor::darkestGrey))) },
-		{ "cave_portal", std::shared_ptr<Tile>(new Portal("Tunnel", Glyph(TCODColor::darkestGrey, TCODColor(55, 55, 55), '>'))) },
+		{ "cave_floor_stone1", std::shared_ptr<Tile>(new Floor("Cave floor", Glyph(TCODColor(35, 35, 35)))) },
+		{ "cave_floor_stone2", std::shared_ptr<Tile>(new Floor("Cave floor", Glyph(TCODColor(25, 25, 25)))) },
+		{ "cave_portal", std::shared_ptr<Tile>(new Portal("Tunnel", Glyph(TCODColor(15, 15, 15), TCODColor(45, 45, 45), '>'))) },
 		{ "cave_water", std::shared_ptr<Tile>(new Water("Water", Glyph(TCODColor::darkestBlue))) }
 	};
 	operatables = std::unordered_map<std::string, std::shared_ptr<OperatableObject>>{
@@ -45,11 +46,11 @@ void ObjectLibrary::init(){
 			"Wooden door",
 			Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'D', 0.0),
 			Glyph(TCODColor::darkerSepia, TCODColor::darkestSepia, 'D', 1.0),
-			100)) },
+			500)) },
 		{ "bed_wood", std::shared_ptr<OperatableObject>(new Bed(
 			"Wooden bed",
 			Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'B'),
-			100)) },
+			500)) },
 		{ "forge", std::shared_ptr<OperatableObject>(new Forge()) },
 		{ "anvil", std::shared_ptr<OperatableObject>(new Anvil()) },
 		{ "alchemy_table1", std::shared_ptr<OperatableObject>(new AlchemyTable(
@@ -57,7 +58,22 @@ void ObjectLibrary::init(){
 			Glyph(TCODColor::darkSepia, TCODColor::lightViolet, '%'))) },
 		{ "alchemy_table2", std::shared_ptr<OperatableObject>(new AlchemyTable(
 			"Alchemy table",
-			Glyph(TCODColor::darkSepia, TCODColor::lightSea, '%'))) }
+			Glyph(TCODColor::darkSepia, TCODColor::lightSea, '%'))) },
+		{ "barrel_wood", std::shared_ptr<OperatableObject>(new Container(
+			"Wooden barrel",
+			Glyph('B', TCODColor::darkerSepia, 0.7),
+			Glyph('B', TCODColor::darkSepia, 0.7),
+			100, 0.10, true)) },
+		{ "chest_wood_small", std::shared_ptr<OperatableObject>(new Container(
+			"Small wooden chest",
+			Glyph(TCODColor::darkestSepia, TCODColor::darkerSepia, 'c', 0.2),
+			Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'c', 0.2),
+			300, 0.50)) },
+		{ "chest_wood_large", std::shared_ptr<OperatableObject>(new Container(
+			"Large wooden chest",
+			Glyph(TCODColor::darkerSepia, TCODColor::darkSepia, 'C', 0.6),
+			Glyph(TCODColor::darkSepia, TCODColor::sepia, 'C', 0.6),
+			1200, 1.50, true)) },
 	};
 	ais = std::unordered_map<std::string, std::shared_ptr<CreatureAi>>{
 		{ "ai_villager", std::shared_ptr<CreatureAi>(new AiVillager()) },

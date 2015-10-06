@@ -32,6 +32,7 @@
     <ClCompile Include="AreaTreeSpot.cpp" />
     <ClCompile Include="ArmorAffixDefence.cpp" />
     <ClCompile Include="Bed.cpp" />
+    <ClCompile Include="Container.cpp" />
     <ClCompile Include="ConsumableAffixHealth.cpp" />
     <ClCompile Include="ConsumableAffixMagic.cpp" />
     <ClCompile Include="ConsumableAffixStamina.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="AreaTreeSpot.h" />
     <ClInclude Include="ArmorAffixDefence.h" />
     <ClInclude Include="Bed.h" />
+    <ClInclude Include="Container.h" />
     <ClInclude Include="ConsumableAffixHealth.h" />
     <ClInclude Include="ConsumableAffixMagic.h" />
     <ClInclude Include="ConsumableAffixStamina.h" />

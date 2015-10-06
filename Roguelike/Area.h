@@ -32,6 +32,7 @@ public:
 	Tile* getTile(Point2D &location);
 	Point2D getNearestTile(Point2D &location, Tile &tile);
 	Point2D getNearestTile(Point2D &location, Tile::Type type);
+	std::vector<Point2D> getOpenTiles(Rectangle &inRectangle);
 
 	void placeCreature(std::shared_ptr<Creature> creature, Point2D &location);
 	Creature& getCreature(Point2D &location);

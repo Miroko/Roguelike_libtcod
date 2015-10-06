@@ -71,7 +71,7 @@ double engine::valuePerSpellPower;
 double engine::statisticVariation;
 double engine::lootMinPrevalenceMultiplier;
 double engine::lootRollDropChance;
-int engine::lootDropRolls;
+int engine::lootDropRollsBase;
 
 //consumable
 double engine::consumablePotencyMax;
@@ -134,8 +134,8 @@ void engine::init(){
 	//loot
 	statisticVariation = 0.05;
 	lootMinPrevalenceMultiplier = 0.30;
-	lootRollDropChance = 1.00;
-	lootDropRolls = 6;
+	lootRollDropChance = 0.50;
+	lootDropRollsBase = 10;
 
 	//consumable
 	consumablePotencyMax = 1.0;
@@ -182,6 +182,7 @@ void engine::init(){
 void engine::newGame(){
 	//reset gui
 	gui.attack.close();
+	gui.pickFrame.close();
 
 	//reset visual effects
 	visualEffectPlayer.runningVisualEffects.clear();
@@ -190,7 +191,7 @@ void engine::newGame(){
 	areaHandler.savedPhaseAreas.clear();
 
 	//Player
-	playerHandler.setPlayerCreature(objectFactory.createCreature("player", "common"));
+	playerHandler.setPlayerCreature(objectFactory.createCreature("player", "unique"));
 	playerHandler.getPlayerCreature()->inventory.currency = (int)valueBase;
 
 	//Quest

@@ -14,6 +14,7 @@ class Armor;
 class Accessory;
 class Consumable;
 class OperatableObject;
+class Item;
 class ObjectFactory
 {
 public:
@@ -22,7 +23,7 @@ public:
 	std::shared_ptr<Armor> createArmor(std::string id, std::string rarity);
 	std::shared_ptr<Accessory> createAccessory(std::string id, std::string rarity);
 	std::shared_ptr<Consumable> createConsumable(std::string id, std::string rarity);
-	std::shared_ptr<OperatableObject> createOperatable(std::string id);
+	std::shared_ptr<OperatableObject> createOperatable(std::string id, std::string rarity = "");
 
 	std::shared_ptr<Creature> createCreature(TemplateCreaturePreset &presetTemplate, RarityType &rarityType);
 	std::shared_ptr<Weapon> createWeapon(TemplateWeapon &weaponTemplate, RarityType &rarityType);
@@ -35,7 +36,7 @@ public:
 	std::shared_ptr<Accessory> createRandomAccessory(RarityType &rarityType);
 	std::shared_ptr<Consumable> createRandomConsumable(RarityType &rarityType);
 
-	void generateLootDrop(Creature &creature);
+	std::vector<std::shared_ptr<Item>> generateLootDrop(double lootDropsFromMax, RarityType &lootRarity);
 
 	ObjectFactory(){};
 };

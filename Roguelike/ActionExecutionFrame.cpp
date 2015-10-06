@@ -17,6 +17,7 @@ void ActionExecutionFrame::executeSelectedAction(){
 						*attackableObjects.at(selectedObjectIndex));
 					previousTarget = attackableObjects.at(selectedObjectIndex);
 					engine::requestUpdate = true;
+					return;
 				}
 			}
 		}
@@ -102,30 +103,27 @@ void ActionExecutionFrame::render(){
 
 void ActionExecutionFrame::updateAttackableObjects(){
 	attackableObjects.clear();
+	auto &player = engine::playerHandler.getPlayerCreature();
 	if (selectedAction->targetType == CreatureAction::SELF){
-		attackableObjects.push_back(engine::playerHandler.getPlayerCreature().get());
+		attackableObjects.push_back(player.get());
 	}
 	else if (selectedAction->targetType == CreatureAction::IN_RANGE){
-		Rectangle range = Rectangle(
-			engine::playerHandler.getPlayerCreature()->location,
-			engine::playerHandler.getPlayerCreature()->location)
-			.expand(selectedAction->range);
+		Rectangle range = Rectangle(player->location, selectedAction->range);
 		for (auto &creature : engine::areaHandler.getCurrentArea()->getCreatures(range)){
-			attackableObjects.push_back(creature);
+			if (
+				creature->location != player->location &&
+				player->ai->inFov(creature->location)){
+				attackableObjects.push_back(creature);
+			}
 		}
 		if (selectedSkill->isType(CreatureSkill::WEAPON)){
 			for (auto &operatable : engine::areaHandler.getCurrentArea()->getOperatables(range)){
-				attackableObjects.push_back(operatable);
+				if (
+					operatable->location != player->location &&
+					player->ai->inFov(operatable->location)){
+					attackableObjects.push_back(operatable);
+				}
 			}
-		}
-		//remove player and objects not in fov
-		auto &attackableObjectsIterator = attackableObjects.begin();
-		while (attackableObjectsIterator != attackableObjects.end()){
-			if (*attackableObjectsIterator == engine::playerHandler.getPlayerCreature().get() ||
-				!engine::playerHandler.getPlayerCreature()->ai->inFov((*attackableObjectsIterator)->location)){
-				attackableObjectsIterator = attackableObjects.erase(attackableObjectsIterator);
-			}
-			else ++attackableObjectsIterator;
 		}
 	}
 }

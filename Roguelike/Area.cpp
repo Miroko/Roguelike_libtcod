@@ -55,6 +55,23 @@ Point2D Area::getNearestTile(Point2D &location, Tile::Type type){
 	throw "No tile found";
 }
 
+std::vector<Point2D> Area::getOpenTiles(Rectangle &inRectangle){
+	std::vector<Point2D> tileLocations;
+	for (int x = inRectangle.start.x; x <= inRectangle.end.x; ++x){
+		for (int y = inRectangle.start.y; y <= inRectangle.end.y; ++y){
+			Point2D location = Point2D(x, y);
+			if (bounds.contains(location)){
+				auto &areaContainer = areaContainers[location.x][location.y];
+				if (!areaContainer.tile->isOpen()) continue;
+				if (areaContainer.operatableObject) continue;
+				if (areaContainer.creature) continue;
+				tileLocations.push_back(location);
+			}
+		}
+	}
+	return tileLocations;
+}
+
 void Area::placeTile(Tile &portal, Point2D &location, Tile &placeOnNearest){
 	Point2D placementLocation = location;
 	int offset = 0;

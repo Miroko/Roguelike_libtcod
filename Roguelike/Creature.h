@@ -13,6 +13,8 @@ class Creature : public DynamicObject, public RarityMod
 private:
 	bool waitedLastTurn = true;
 
+	double lootDropsFromMax;
+
 	int staminaCurrent;
 	int staminaMax;
 
@@ -56,7 +58,7 @@ public:
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 
 	Creature(std::string presetId, RarityMod rarityMod, DynamicObject dynamicObject, int stamina, int magic,
-		std::shared_ptr<CreatureAi> ai, std::vector<CreatureLimb> limbs) :
+		std::shared_ptr<CreatureAi> ai, std::vector<CreatureLimb> limbs, double lootDropsFromMax) :
 		presetId(presetId),
 		RarityMod(rarityMod),
 		DynamicObject(dynamicObject),
@@ -65,7 +67,8 @@ public:
 		staminaCurrent(stamina),
 		staminaMax(stamina),
 		magicCurrent(magic),
-		magicMax(magic){
+		magicMax(magic),
+		lootDropsFromMax(lootDropsFromMax){
 		inventory.owner = this;
 		ai->owner = this;
 	};

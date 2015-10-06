@@ -11,8 +11,10 @@ public:
 	RarityAffix* getAffixPre();
 	RarityAffix* getAffixPost();
 
-	RarityMod(RarityType &rarityType, std::vector<RarityAffix*> rarityAffixes) :
+	RarityMod(RarityType &rarityType, std::vector<RarityAffix*> rarityAffixes = {}) :
 		rarityType(&rarityType),
 		rarityAffixes(rarityAffixes){}
+
+	RarityMod(){}
 };
 

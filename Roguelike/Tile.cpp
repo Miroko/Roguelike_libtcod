@@ -6,6 +6,13 @@ bool Tile::isPassable(DynamicObject &dynamicObjectMoving){
 	else return true;
 }
 
+bool Tile::isOpen(){
+	return (
+		type == FLOOR ||
+		type == WATER ||
+		type == PORTAL);
+}
+
 void Tile::renderToFrame(GuiFrame &frame, Rectangle &renderBounds){
 	frame.printString(
 		renderBounds.start.x, renderBounds.start.y,

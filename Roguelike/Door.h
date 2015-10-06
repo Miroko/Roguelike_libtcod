@@ -6,8 +6,8 @@ class Door : public OperatableObject
 public:
 	bool isOpen;
 
-	Glyph onGlyph;
-	Glyph offGlyph;
+	Glyph openGlyph;
+	Glyph closedGlyph;
 
 	void operate(Creature &user) override;
 	bool isPassable(DynamicObject &dynamicObject) override;
@@ -19,10 +19,9 @@ public:
 		name,
 		GameObject::DOOR,
 		closed),
-		health,
-		false)),
-		onGlyph(open),
-		offGlyph(closed),
+		health)),
+		openGlyph(open),
+		closedGlyph(closed),
 		isOpen(false){};
 };
 
