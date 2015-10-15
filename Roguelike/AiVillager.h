@@ -1,7 +1,7 @@
 #pragma once
 #include "CreatureAi.h"
 #include "AiModuleCombat.h"
-#include "AreaHouse.h"
+#include "AreaDen.h"
 #include "AiModuleResident.h"
 
 class AiVillager : public CreatureAi
@@ -16,7 +16,7 @@ public:
 	State currentState;
 
 	bool operatedLastTurn;
-	AreaHouse *houseToVisit;
+	AreaDen *houseToVisit;
 
 	AiModuleCombat combatModule;
 	AiModuleResident residentModule;

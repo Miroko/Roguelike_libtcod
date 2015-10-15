@@ -1,7 +1,7 @@
-#include "AreaTreeSpot.h"
+#include "TreeSpot.h"
 #include "Engine.h"
 
-void AreaTreeSpot::grow(Area &area){
+void TreeSpot::grow(Area &area){
 	int treesPerBranch = trees / branches;
 	for (int branch = branches; branch > 0; --branch){
 		int halfTreesPerBranch = treesPerBranch / 2;
@@ -33,6 +33,6 @@ void AreaTreeSpot::grow(Area &area){
 	}
 }
 
-void AreaTreeSpot::onGatePlaced(Point2D &location){
+void TreeSpot::onGatePlaced(Point2D &location){
 
 }

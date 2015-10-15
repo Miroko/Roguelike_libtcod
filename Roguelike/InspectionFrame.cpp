@@ -8,7 +8,7 @@ bool InspectionFrame::handleKey(TCOD_key_t key){
 	bool handled = GuiFrame::handleKey(key);
 	if (isOpen){
 		Point2D direction = KeyMapping::direction(key.vk);
-		if (!direction.undefined()){
+		if (!direction.isUndefined()){
 			Point2D newLocation = inspectorLocation + direction;
 			if (newLocation.x >= 0 && newLocation.x < engine::camera.getWidth() &&
 				newLocation.y >= 0 && newLocation.y < engine::camera.getHeight()){

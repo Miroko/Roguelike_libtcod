@@ -28,10 +28,19 @@ Point2D& Point2D::operator-=(const Point2D &point){
 	return *this;
 }
 
-int Point2D::distance(Point2D &point){
-	return (int)sqrt((point.x - x) * (point.x - x) + (point.y - y) * (point.y - y));
+int Point2D::distance(Point2D &target){
+	return 
+		(int)sqrt(
+		(target.x - x) * (target.x - x) +
+		(target.y - y) * (target.y - y));
 }
 
-bool Point2D::undefined(){
+int Point2D::distanceChebyshev(Point2D &target){
+	return
+		std::abs(x - target.x) +
+		std::abs(y - target.y);
+}
+
+bool Point2D::isUndefined(){
 	return x == INT_MAX && y == INT_MAX;
 }

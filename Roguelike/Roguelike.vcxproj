@@ -27,9 +27,10 @@
     <ClCompile Include="AlchemyTable.cpp" />
     <ClCompile Include="Anvil.cpp" />
     <ClCompile Include="AreaContainer.cpp" />
-    <ClCompile Include="AreaHouse.cpp" />
+    <ClCompile Include="AreaDen.cpp" />
     <ClCompile Include="AreaPath.cpp" />
-    <ClCompile Include="AreaTreeSpot.cpp" />
+    <ClCompile Include="Pathfinder.cpp" />
+    <ClCompile Include="TreeSpot.cpp" />
     <ClCompile Include="ArmorAffixDefence.cpp" />
     <ClCompile Include="Bed.cpp" />
     <ClCompile Include="Container.cpp" />
@@ -152,9 +153,10 @@
     <ClInclude Include="AlchemyTable.h" />
     <ClInclude Include="Anvil.h" />
     <ClInclude Include="AreaContainer.h" />
-    <ClInclude Include="AreaHouse.h" />
+    <ClInclude Include="AreaDen.h" />
     <ClInclude Include="AreaPath.h" />
-    <ClInclude Include="AreaTreeSpot.h" />
+    <ClInclude Include="Pathfinder.h" />
+    <ClInclude Include="TreeSpot.h" />
     <ClInclude Include="ArmorAffixDefence.h" />
     <ClInclude Include="Bed.h" />
     <ClInclude Include="Container.h" />

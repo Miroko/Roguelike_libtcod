@@ -61,17 +61,19 @@ void AiAlchemist::update(){
 	}
 	else if (currentState == IN_HOUSE){
 		residentModule.run();
-		if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.50f){
-			currentState = USE_ALCHEMY_TABLE;
+		if (residentModule.currentState == residentModule.WANDER){
+			if (engine::random.chance(0.50)){
+				currentState = USE_ALCHEMY_TABLE;
+			}
 		}
 	}
 	else if (currentState == USE_ALCHEMY_TABLE){
 		if (alchemyTableUsing != nullptr){
 			if (moveOnPath() == 1){
-				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.10f){
+				if (engine::random.chance(0.10)){
 					alchemyTableUsing->operate(*owner);
 				}
-				if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.20f){
+				if (engine::random.chance(0.20)){
 					alchemyTableUsing = nullptr;
 					currentState = IN_HOUSE;
 				}

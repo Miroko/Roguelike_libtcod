@@ -25,7 +25,7 @@ bool PlayerController::handleKey(TCOD_key_t key){
 }
 
 bool PlayerController::move(Point2D &direction){
-	if (direction.undefined()) return false;
+	if (direction.isUndefined()) return false;
 	else if (direction == CENTER) return wait();
 	else return engine::playerHandler.getPlayerCreature()->move(engine::playerHandler.getPlayerCreature()->location + direction);
 }
@@ -53,7 +53,7 @@ bool PlayerController::operate(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	TCOD_key_t key = TCODConsole::waitForKeypress(false);
 	Point2D direction = KeyMapping::direction(key.vk);
-	if (direction.undefined()) return false;
+	if (direction.isUndefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
 		auto &operatable = engine::areaHandler.getCurrentArea()->getOperatable(engine::playerHandler.getPlayerCreature()->location + direction);
@@ -68,7 +68,7 @@ bool PlayerController::talk(){
 	while (TCODConsole::checkForKeypress(TCOD_KEY_RELEASED).vk == TCODK_NONE){};
 	TCOD_key_t key = TCODConsole::waitForKeypress(false);
 	Point2D direction = KeyMapping::direction(key.vk);
-	if (direction.undefined()) return false;
+	if (direction.isUndefined()) return false;
 	else if (direction == CENTER) return false;
 	else{
 		Point2D talkDirection = engine::playerHandler.getPlayerCreature()->location + direction;

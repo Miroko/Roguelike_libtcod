@@ -1,50 +1,35 @@
 #include "AreaPath.h"
 
 void AreaPath::build(Point2D &from, Point2D &to){
-	destination = to;
-	createPathMap(area);
-	pathMap->compute(from.x, from.y, to.x, to.y);
+	Pathfinder::Path path = area.pathFinder.computePath(from, to, [&](Point2D& toLocation){
+		auto &areaContainer = area.areaContainers[toLocation.x][toLocation.y];
+		if (areaContainer.tile == &pathTile) return movementCostOnExisting;
+		for (Tile* blockingTile : blockingTiles){
+			if (areaContainer.tile == blockingTile) return INT_MAX;
+		}
+		return movementCost;
+	});
 
-	Point2D pathLocation;
-	while (!pathMap->isEmpty()){
-		if (pathMap->walk(&pathLocation.x, &pathLocation.y, false)){
-			bool place = true;
-			for (auto &tile : overlayTiles){
-				if (area.getTile(pathLocation) == tile) place = false;
-			}
-			if (place){
-				Rectangle placeArea = Rectangle(pathLocation, pathLocation);
-				placeArea.expand(width / 2);
-				Point2D innerLocation;
-				for (innerLocation.x = placeArea.start.x; innerLocation.x <= placeArea.end.x; ++innerLocation.x){
-					for (innerLocation.y = placeArea.start.y; innerLocation.y <= placeArea.end.y; ++innerLocation.y){
-						bool place = true;
-						for (Tile *blockingTile : blockingTiles){
-							if (area.areaContainers[innerLocation.x][innerLocation.y].tile == blockingTile) place = false;
-						}
-						if (place){
-							area.placeTile(pathTile, innerLocation);
-						}
+	while (path.remainingDistance() > 0){
+		Point2D currentLocation = path.getCurrentLocation();
+		bool placeTile = true;
+		for (auto &tile : overlayTiles){
+			if (area.getTile(currentLocation) == tile) placeTile = false;
+		}
+		if (placeTile){
+			Rectangle placeArea = Rectangle(currentLocation, width / 2);
+			Point2D innerLocation;
+			for (innerLocation.x = placeArea.start.x; innerLocation.x <= placeArea.end.x; ++innerLocation.x){
+				for (innerLocation.y = placeArea.start.y; innerLocation.y <= placeArea.end.y; ++innerLocation.y){
+					for (Tile *blockingTile : blockingTiles){
+						if (area.areaContainers[innerLocation.x][innerLocation.y].tile == blockingTile) placeTile = false;
 					}
-				}				
+					if (placeTile){
+						area.placeTile(pathTile, innerLocation);
+					}
+				}
 			}
 		}
+		path.next();
 	}
-}
-
-float AreaPath::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
-	AreaPath *thisObject = static_cast<AreaPath*>(userData);
-	if (thisObject->area.areaContainers[xTo][yTo].tile == &thisObject->pathTile) return thisObject->weightToUseExistingPath; //prefer to use existing paths
-	for (Tile *blockingTile : thisObject->blockingTiles){
-		if (thisObject->area.areaContainers[xTo][yTo].tile == blockingTile) return 0;
-	}
-	return 1;
-}
-void AreaPath::createPathMap(Area &area){
-	pathMap = std::shared_ptr<TCODPath>(new TCODPath(
-		area.getBounds().getWidth(),
-		area.getBounds().getHeight(),
-		new PathCostCallback(),
-		this,	
-		diagonalCost));
 }

@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Tile.h"
 #include "AreaContainer.h"
+#include "Pathfinder.h"
 #include <vector>
 #include <memory>
 #include <forward_list>
@@ -13,13 +14,15 @@
 class Area
 {
 private:
+	static const int ITEM_RENDER_NUMBER_MAX = 10;
+
 	Rectangle bounds;
 	int itemRenderRateCounter = 0;
-	static const int itemRenderNumberMax = 10;
 	int itemRenderNumberCurrent = 0;
 	std::vector<std::shared_ptr<DynamicObject>> dynamicObjectsDead;
 
 public:
+	Pathfinder pathFinder;
 	std::vector<std::vector<AreaContainer>> areaContainers;
 	std::forward_list<std::shared_ptr<DynamicObject>> dynamicObjectsAlive;
 
@@ -66,12 +69,13 @@ public:
 	void update();
 	void render();
 
-	//resize area and fill with tile
-	void generateBase(Rectangle bounds, Tile &tile);
+	//Fill area with tile
+	void generateBase(Tile &tile);
+	//Generate edge wall
 	void generateEdge(Tile &tile, int size, int randomTilesPerEdgeTile);
 
 	virtual void generate() = 0;
 
-	Area(){}
+	Area(int width, int height);
 };
 

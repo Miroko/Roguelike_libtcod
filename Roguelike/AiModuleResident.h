@@ -1,12 +1,12 @@
 #pragma once
 #include "AiModule.h"
 
-class AreaHouse;
+class AreaDen;
 class Bed;
 class AiModuleResident : public AiModule
 {
 private:
-	void wanderInsideResidence(AreaHouse &residence);
+	void wanderInsideResidence(AreaDen &residence);
 	void sleep(Bed &bed);
 
 public:
@@ -17,7 +17,7 @@ public:
 	};
 	State currentState = WANDER;
 
-	AreaHouse *residence;
+	AreaDen *residence;
 	Bed *bed;
 
 	void AiModule::run();

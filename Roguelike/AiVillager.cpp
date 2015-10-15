@@ -14,37 +14,49 @@ void AiVillager::onTakeDamage(DynamicObject &attacker){
 		}
 	}
 }
+
 void AiVillager::onCreatureInFov(Creature &creature, int distance){
-	if (combatModule.state != combatModule.JAMMED &&
-		combatModule.state != combatModule.FLEE){
-		if (&creature == combatModule.target){
-			combatModule.state = combatModule.PURSUE_TARGET;
-		}
+	if (combatModule.state == combatModule.FLEE) return;
+	
+	if (&creature == combatModule.target){
+		combatModule.state = combatModule.PURSUE_TARGET;
 	}
 }
+
 void AiVillager::onOperatableInFov(OperatableObject &operatable, int distance){
-	if (operatable.type == OperatableObject::BED){
-		Bed &bed = static_cast<Bed&>(operatable);
-		if (!bed.isInUse()){
-			residentModule.bed = &bed;
+	if (currentState == IN_HOUSE && residentModule.residence->bounds.contains(operatable.location)){
+		if (operatable.type == OperatableObject::BED){
+			Bed &bed = static_cast<Bed&>(operatable);
+			if (!bed.isInUse()){
+				residentModule.bed = &bed;
+			}
 		}
 	}
 }
+
 void AiVillager::nextToDestination(Point2D &location){
 
 }
+
 void AiVillager::onPathBlocked(Point2D &location){
+	if (currentState == IN_HOUSE){
+		return;
+	}
+
 	if (currentState == COMBAT){
 		combatModule.state = combatModule.JAMMED;
+		return;
 	}
-	else if (currentState == VISIT_HOUSE){
-		currentState = WANDER;
+	
+	if (currentState == VISIT_HOUSE){
+		if (engine::random.chance(0.25)) calculatePath(houseToVisit->bounds.getCenterPoint());
+		if (engine::random.chance(0.10)) currentState = WANDER;
+		return;
 	}
 }
+
 void AiVillager::onPathEnd(Point2D &location){
-	if (currentState == VISIT_HOUSE){
-		currentState = WANDER;
-	}
+
 }
 
 void AiVillager::initAi(Creature &owner, Area &area){
@@ -70,8 +82,7 @@ void AiVillager::update(){
 	}
 	else if (currentState == IN_HOUSE){
 		residentModule.run();
-		if (residentModule.currentState == AiModuleResident::WANDER &&
-			engine::random.generator->getFloat(0.0f, 1.0f) < 0.01f){
+		if (residentModule.currentState == residentModule.WANDER && engine::random.chance(0.003)){
 			Village *village = static_cast<Village*>(area);
 			houseToVisit = &village->houses.at(engine::random.generator->getInt(0, village->houses.size() - 1));
 			calculatePath(houseToVisit->bounds.getCenterPoint());
@@ -80,24 +91,35 @@ void AiVillager::update(){
 	}
 	else if (currentState == WANDER){
 		owner->move(owner->location + engine::random.direction());
-		if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.60f){
+		if (engine::random.chance(0.30)){
+			Village *village = static_cast<Village*>(area);
+			houseToVisit = &village->houses.at(engine::random.generator->getInt(0, village->houses.size() - 1));
 			calculatePath(houseToVisit->bounds.getCenterPoint());
 			currentState = VISIT_HOUSE;
 		}
 	}
 	else if (currentState == VISIT_HOUSE){
-		//open/close door	
-		bool operated = false;
-		if (!operatedLastTurn){
-			if (pathMap->size() > 0){
-				int previousPathIndex = currentPathIndex - 2;
-				int nextPathIndex = currentPathIndex;
-				Point2D previousPathLocation;
-				Point2D nextPathLocation;
+		Rectangle houseInside = houseToVisit->bounds;
+		houseInside.shrink(2);
+		if (houseInside.contains(owner->location)){
+			//arrived to house
+			residentModule.residence = houseToVisit;
+			residentModule.currentState = residentModule.WANDER;
+			currentState = IN_HOUSE;
+		}
+		if (path.size() == 0){
+			calculatePath(houseToVisit->bounds.getCenterPoint());
+		}
+		else{
+			//open/close door
+			bool operated = false;
+			if (!operatedLastTurn){
+				int previousPathIndex = path.getCurrentIndex() - 1;
+				int nextPathIndex = path.getCurrentIndex() + 1;
 				if (previousPathIndex < 0) previousPathIndex = 0;
-				if (nextPathIndex > pathMap->size() - 1) nextPathIndex = pathMap->size() - 1;
-				pathMap->get(previousPathIndex, &previousPathLocation.x, &previousPathLocation.y);
-				pathMap->get(nextPathIndex, &nextPathLocation.x, &nextPathLocation.y);
+				if (nextPathIndex > path.size() - 1) nextPathIndex = path.size() - 1;
+				Point2D previousPathLocation = path.getAt(previousPathIndex);
+				Point2D nextPathLocation = path.getAt(nextPathIndex);
 				if (area->areaContainers[nextPathLocation.x][nextPathLocation.y].operatableObject){
 					if (area->areaContainers[nextPathLocation.x][nextPathLocation.y].operatableObject->isType(GameObject::DOOR)){
 						Door &door = static_cast<Door&>(*area->areaContainers[nextPathLocation.x][nextPathLocation.y].operatableObject);
@@ -113,19 +135,11 @@ void AiVillager::update(){
 					}
 				}
 			}
-		}
-		if (!operated){
-			moveOnPath();
-		}
-		//to not open/close door infinitely
-		operatedLastTurn = operated;
-
-		//arrived to house
-		Rectangle houseInside = houseToVisit->bounds;
-		houseInside.shrink(2);
-		if (houseInside.contains(owner->location)){
-			residentModule.residence = houseToVisit;
-			currentState = IN_HOUSE;
+			if (!operated){
+				moveOnPath();
+			}
+			//to not open/close door infinitely
+			operatedLastTurn = operated;
 		}
 	}
 }

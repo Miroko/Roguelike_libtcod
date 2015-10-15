@@ -25,12 +25,6 @@
     <Filter Include="Engine\Quest\Quests">
       <UniqueIdentifier>{955f5c54-59dd-488d-b4c1-f74ec4f10f2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Area\Infrastructure">
-      <UniqueIdentifier>{d745cc87-98d4-4cd5-907a-6c9676876701}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Area\Nature">
-      <UniqueIdentifier>{be772b72-aa79-4bc4-ba07-6debcb8ee874}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Graphics\VisualEffect">
       <UniqueIdentifier>{bc35c2ac-151b-4a0a-8cfd-092bc4417cdb}</UniqueIdentifier>
     </Filter>
@@ -202,6 +196,27 @@
     <Filter Include="Engine\GameObject\Dynamic\Creature\Ai\Fov">
       <UniqueIdentifier>{e6e1b998-3b9f-4b36-a6ad-3cdad9fd5314}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Area\Tools\Infrastructure">
+      <UniqueIdentifier>{d745cc87-98d4-4cd5-907a-6c9676876701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Tools\Infrastructure\Village">
+      <UniqueIdentifier>{50b5cb70-6d41-49a0-bc0b-61940c05bebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Tools\Nature">
+      <UniqueIdentifier>{be772b72-aa79-4bc4-ba07-6debcb8ee874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Tools\Nature\Cave">
+      <UniqueIdentifier>{fdd090ad-e0ad-45c4-b62c-44e38266cc32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Tools\Nature\Forest">
+      <UniqueIdentifier>{4fb6c4c4-31f5-4801-a220-5461fdea532a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Tools\Common">
+      <UniqueIdentifier>{499fdd94-8106-4f93-a49e-cf69a086c5a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Area\Pathfinder">
+      <UniqueIdentifier>{07b9268f-3e0a-4625-a942-9fb1324e5a18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creature.cpp">
@@ -306,21 +321,6 @@
     </ClCompile>
     <ClCompile Include="AiModule.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
-    </ClCompile>
-    <ClCompile Include="AreaHouse.cpp">
-      <Filter>Engine\Area\Infrastructure</Filter>
-    </ClCompile>
-    <ClCompile Include="AreaTreeSpot.cpp">
-      <Filter>Engine\Area\Nature</Filter>
-    </ClCompile>
-    <ClCompile Include="Village.cpp">
-      <Filter>Engine\Area\Infrastructure</Filter>
-    </ClCompile>
-    <ClCompile Include="Cave.cpp">
-      <Filter>Engine\Area\Nature</Filter>
-    </ClCompile>
-    <ClCompile Include="Forest.cpp">
-      <Filter>Engine\Area\Nature</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Engine\Graphics\VisualEffect\Particle</Filter>
@@ -508,12 +508,6 @@
     <ClCompile Include="ConsumableAffixStamina.cpp">
       <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
     </ClCompile>
-    <ClCompile Include="AreaDrop.cpp">
-      <Filter>Engine\Area\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="AreaPath.cpp">
-      <Filter>Engine\Area\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="MagicAction.cpp">
       <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action\Magic</Filter>
     </ClCompile>
@@ -570,6 +564,30 @@
     </ClCompile>
     <ClCompile Include="Container.cpp">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClCompile>
+    <ClCompile Include="Cave.cpp">
+      <Filter>Engine\Area\Tools\Nature\Cave</Filter>
+    </ClCompile>
+    <ClCompile Include="Forest.cpp">
+      <Filter>Engine\Area\Tools\Nature\Forest</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeSpot.cpp">
+      <Filter>Engine\Area\Tools\Nature\Forest</Filter>
+    </ClCompile>
+    <ClCompile Include="Village.cpp">
+      <Filter>Engine\Area\Tools\Infrastructure\Village</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaDrop.cpp">
+      <Filter>Engine\Area\Tools\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaPath.cpp">
+      <Filter>Engine\Area\Tools\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaDen.cpp">
+      <Filter>Engine\Area\Tools\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfinder.cpp">
+      <Filter>Engine\Area\Pathfinder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -686,21 +704,6 @@
     </ClInclude>
     <ClInclude Include="AiModule.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Ai\Module</Filter>
-    </ClInclude>
-    <ClInclude Include="AreaHouse.h">
-      <Filter>Engine\Area\Infrastructure</Filter>
-    </ClInclude>
-    <ClInclude Include="AreaTreeSpot.h">
-      <Filter>Engine\Area\Nature</Filter>
-    </ClInclude>
-    <ClInclude Include="Village.h">
-      <Filter>Engine\Area\Infrastructure</Filter>
-    </ClInclude>
-    <ClInclude Include="Cave.h">
-      <Filter>Engine\Area\Nature</Filter>
-    </ClInclude>
-    <ClInclude Include="Forest.h">
-      <Filter>Engine\Area\Nature</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Engine\Graphics\VisualEffect\Particle</Filter>
@@ -891,12 +894,6 @@
     <ClInclude Include="ConsumableAffixStamina.h">
       <Filter>Engine\Rarity\Mod\Affix\Consumable\ConsumableAffixes</Filter>
     </ClInclude>
-    <ClInclude Include="AreaDrop.h">
-      <Filter>Engine\Area\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="AreaPath.h">
-      <Filter>Engine\Area\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="MagicAction.h">
       <Filter>Engine\GameObject\Dynamic\Creature\Skill\Action\Magic</Filter>
     </ClInclude>
@@ -956,6 +953,30 @@
     </ClInclude>
     <ClInclude Include="Container.h">
       <Filter>Engine\GameObject\Dynamic\Operatable\Operatables</Filter>
+    </ClInclude>
+    <ClInclude Include="Cave.h">
+      <Filter>Engine\Area\Tools\Nature\Cave</Filter>
+    </ClInclude>
+    <ClInclude Include="Forest.h">
+      <Filter>Engine\Area\Tools\Nature\Forest</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeSpot.h">
+      <Filter>Engine\Area\Tools\Nature\Forest</Filter>
+    </ClInclude>
+    <ClInclude Include="Village.h">
+      <Filter>Engine\Area\Tools\Infrastructure\Village</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaDrop.h">
+      <Filter>Engine\Area\Tools\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaPath.h">
+      <Filter>Engine\Area\Tools\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaDen.h">
+      <Filter>Engine\Area\Tools\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinder.h">
+      <Filter>Engine\Area\Pathfinder</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

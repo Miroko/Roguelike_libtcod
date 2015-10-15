@@ -7,21 +7,21 @@ class DynamicObject;
 class Tile : public GameObject
 {
 private:
-	double walkCost; // walkcost <= 0 == unwalkable else lower better
+	int movementCost;
 
 public:
 	std::shared_ptr<VisualEffect> visualEffectOnCollision;
 
-	double getWalkCost(){ return walkCost; }
+	int getMovementCost(){ return movementCost; }
 
 	bool isPassable(DynamicObject &dynamicObjectMoving);
 	bool isOpen();
 
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 
-	Tile(GameObject gameObject, double walkCost, std::shared_ptr<VisualEffect> visualEffectOnCollision = nullptr) :
+	Tile(GameObject gameObject, int movementCost = 10, std::shared_ptr<VisualEffect> visualEffectOnCollision = nullptr) :
 		GameObject(gameObject),
-		walkCost(walkCost),
+		movementCost(movementCost),
 		visualEffectOnCollision(visualEffectOnCollision){};
 };
 

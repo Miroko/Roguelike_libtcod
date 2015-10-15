@@ -9,6 +9,6 @@ public:
 		name, 
 		GameObject::WALL, 
 		glyph),
-		0.0f){}
+		INT_MAX){}
 };
 

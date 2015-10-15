@@ -6,7 +6,7 @@ class AreaDrop;
 class Door;
 class Tile;
 class Area;
-class AreaHouse
+class AreaDen
 {
 public:
 	Point2D doorLocation;
@@ -14,16 +14,14 @@ public:
 	Tile &wall;
 	Tile &floor;
 	std::string doorId;
-	AreaDrop &residentDrop;
-	std::vector<std::pair<std::string, double>> furnitureChances;
+	AreaDrop &areaDrop;
 
 	void build(Rectangle &bounds, Area &area);
 
-	AreaHouse(
+	AreaDen(
 		std::string wallId,
 		std::string floorId,
 		std::string doorId,
-		AreaDrop &residentDrop,
-		std::vector<std::pair<std::string, double>> furnitureChances);
+		AreaDrop &areaDrop);
 };
 

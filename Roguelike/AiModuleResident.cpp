@@ -1,11 +1,11 @@
 #include "AiModuleResident.h"
-#include "AreaHouse.h"
+#include "AreaDen.h"
 #include "Engine.h"
 #include "Bed.h"
 
-void AiModuleResident::wanderInsideResidence(AreaHouse &residence){
+void AiModuleResident::wanderInsideResidence(AreaDen &residence){
 	if (&residence != nullptr){
-		if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.30f){
+		if (engine::random.chance(0.30)){
 			Point2D newLocation = owner->owner->location + engine::random.direction();
 			Rectangle houseInside = residence.bounds;
 			houseInside.shrink(1);
@@ -16,21 +16,23 @@ void AiModuleResident::wanderInsideResidence(AreaHouse &residence){
 	}
 }
 void AiModuleResident::sleep(Bed &bed){
-	if (&bed != nullptr &&
-		residence->bounds.contains(bed.location) &&
-		!bed.isInUse()){
+	if (&bed == nullptr ||
+		!residence->bounds.contains(bed.location) ||
+		bed.isInUse()){
+		currentState = WANDER;
+	}
+	else{
 		owner->calculatePath(bed.location);
 		if (owner->moveOnPath() == 0){
 			bed.operate(*owner->owner);
 			currentState = SLEEPING;
 		}
 	}
-	else currentState = WANDER;
 }
 void AiModuleResident::run(){
 	if (currentState == WANDER){
 		wanderInsideResidence(*residence);
-		if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.10f){
+		if (engine::random.chance(0.01)){
 			currentState = GO_SLEEP;
 		}
 	}
@@ -38,9 +40,10 @@ void AiModuleResident::run(){
 		sleep(*bed);
 	}
 	else if (currentState == SLEEPING){
-		if (engine::random.generator->getFloat(0.0f, 1.0f) < 0.05f){
+		if (engine::random.chance(0.05)){
 			bed->operate(*owner->owner);
 			currentState = WANDER;
 		}
 	}
+	else throw "No state selected";
 }

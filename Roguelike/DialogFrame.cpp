@@ -15,7 +15,7 @@ bool DialogFrame::handleKey(TCOD_key_t key){
 		Point2D direction;
 		if (!currentDialog->dialogOptions.empty()){
 			direction = KeyMapping::direction(key.vk);
-			if (!direction.undefined()){
+			if (!direction.isUndefined()){
 				if (direction == UP){
 					if (selectedOption == currentDialog->dialogOptions.size() - 1) selectedOption = 0;
 					else selectedOption++;

@@ -2,7 +2,7 @@
 #include "Engine.h"
 
 bool Tile::isPassable(DynamicObject &dynamicObjectMoving){
-	if (walkCost <= 0) return false;
+	if (movementCost == INT_MAX) return false;
 	else return true;
 }
 

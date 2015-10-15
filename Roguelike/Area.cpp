@@ -286,14 +286,12 @@ void Area::render(){
 	++itemRenderRateCounter;
 	if (itemRenderRateCounter == engine::renderItemsRate){
 		++itemRenderNumberCurrent;
-		if (itemRenderNumberCurrent == itemRenderNumberMax) itemRenderNumberCurrent = 0;
+		if (itemRenderNumberCurrent == ITEM_RENDER_NUMBER_MAX) itemRenderNumberCurrent = 0;
 		itemRenderRateCounter = 0;
 	}
 }
 
-void Area::generateBase(Rectangle bounds, Tile &tile){
-	this->bounds = bounds;
-
+void Area::generateBase(Tile &tile){
 	areaContainers.resize(bounds.getWidth() + 1);
 	for (int x = 0; x < bounds.getWidth() + 1; x++){
 		areaContainers[x].resize(bounds.getHeight() + 1, AreaContainer(tile));
@@ -310,5 +308,10 @@ void Area::generateEdge(Tile &tile, int size, int randomTilesPerEdgeTile){
 		}
 		placeTile(tile, edgePoint);
 	}
+}
+
+Area::Area(int width, int height) :
+	pathFinder(Pathfinder(width, height)){
+	this->bounds = Rectangle(width, height);
 }
 

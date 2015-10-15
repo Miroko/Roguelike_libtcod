@@ -60,7 +60,7 @@ std::shared_ptr<Area> QuestTheGoblinKing::PhaseKing::generateArea(){
 	area->generate();
 
 	Point2D dropLocation = engine::random.point(area->getBounds());
-	area->dropKing.drop(dropLocation, 1, *area);
+	area->dropKing.drop(Rectangle(dropLocation, 1), *area);
 
 	return area;
 }

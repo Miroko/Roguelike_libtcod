@@ -2,65 +2,41 @@
 #include "Area.h"
 #include "Engine.h"
 
-float CreatureAi::PathCostCallback::getWalkCost(int xFrom, int yFrom, int xTo, int yTo, void *userData) const{
-	CreatureAi *thisObject = static_cast<CreatureAi*>(userData);
-	auto &areaContainer = thisObject->area->areaContainers[xTo][yTo];
-	float walkCost = (float)areaContainer.tile->getWalkCost();
-	if (walkCost > 0){ // walkcost <= 0 == unwalkable
-		//able to find path to unpassable object eg. creature, operatable
-		Point2D destination;
-		thisObject->pathMap->getDestination(&destination.x, &destination.y);
-		if (xTo == destination.x &&	yTo == destination.y) return walkCost;
-		//--------
-		if (areaContainer.creature){
-			return 0;
-		}
-		if (areaContainer.operatableObject){
-			if (!areaContainer.operatableObject->isPassable(*thisObject->owner)){
-				if (areaContainer.operatableObject->isType(GameObject::DOOR)){
-					//able to path through doors
-					return walkCost;
-				}
-				else{
-					return 0;
-				}
-			}
-		}
-	}
-	return walkCost;
-}
-
-void CreatureAi::createPathMap(){
-	pathMap = std::shared_ptr<TCODPath>(new TCODPath(
-		area->getBounds().getWidth(),
-		area->getBounds().getHeight(),
-		new PathCostCallback(),
-		this));
-}
-
 void CreatureAi::calculateFov(){
 	fov.compute(owner->location);
 }
 
 void CreatureAi::calculatePath(Point2D &location){
-	pathMap->compute(owner->location.x, owner->location.y, location.x, location.y);
-	currentPathIndex = 0;
+	path = area->pathFinder.computePath(owner->location, location, [&](Point2D& toLocation){
+		auto &areaContainer = area->areaContainers[toLocation.x][toLocation.y];
+		int movementCost = areaContainer.tile->getMovementCost();
+		if (movementCost == INT_MAX) return INT_MAX;
+		if (toLocation == location) return movementCost; //able to find path to unpassable object
+		if (areaContainer.creature) return 1 + movementCost * 2; //avoid creatures but able to path through them
+		if (areaContainer.operatableObject){
+			if (!areaContainer.operatableObject->isPassable(*owner)){
+				if (areaContainer.operatableObject->isType(GameObject::DOOR)){
+					return movementCost; //able to path through doors
+				}
+				else return INT_MAX;
+			}
+		}
+		return movementCost;
+	});
 }
 
 int CreatureAi::moveOnPath(){
-	if (pathMap->size() == 0) return 0;
-	if (currentPathIndex == pathMap->size()) return 0;
+	if (path.size() > 0){
+		if (owner->location == path.getDestination()) return path.remainingDistance();
 
-	Point2D newLocation;
-	int distance = pathMap->size() - currentPathIndex;
-	pathMap->get(currentPathIndex, &newLocation.x, &newLocation.y);
-	if (!owner->move(newLocation)){
-		onPathBlocked(newLocation);
+		path.next();
+		Point2D &nextLocation = path.getCurrentLocation();
+		if (!owner->move(nextLocation)){
+			onPathBlocked(nextLocation);
+			path.previous();
+		}
 	}
-	else{
-		++currentPathIndex;
-	}
-	return distance;
+	return path.remainingDistance();
 }
 
 void CreatureAi::onTakeDamage(DynamicObject &attacker){
@@ -94,7 +70,6 @@ bool CreatureAi::inFov(Point2D &location){
 void CreatureAi::initAi(Creature &owner, Area &area){
 	this->owner = &owner;
 	this->area = &area;
-	createPathMap();
 	calculateFov();
 }
 

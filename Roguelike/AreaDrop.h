@@ -3,14 +3,15 @@
 #include "Creature.h"
 #include <vector>
 
+class AreaDen;
 class AreaDrop
 {
-private:
+public:
 	std::vector<std::pair<std::string, std::pair<std::string, double>>> creaturesRarityChance;
 	std::vector<std::pair<std::string, std::pair<std::string, double>>> operatablesRarityChance;
 
-public:
-	void drop(Point2D &location, int dropAreaSize, Area &area);
+	void drop(Rectangle &dropBounds, Area &area);
+	void drop(AreaDen &toDen, Area &area);
 
 	AreaDrop(
 		std::vector<std::pair<std::string, std::pair<std::string, double>>> creaturesRarityChance,

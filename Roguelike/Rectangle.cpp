@@ -17,11 +17,11 @@ Rectangle(center, center){
 }
 
 int Rectangle::getWidth(){
-	return (int)(end.x + 1 - start.x);
+	return (int)(end.x - start.x);
 }
 
 int Rectangle::getHeight(){
-	return (int)(end.y + 1 - start.y);
+	return (int)(end.y - start.y);
 }
 
 int Rectangle::getSize(){

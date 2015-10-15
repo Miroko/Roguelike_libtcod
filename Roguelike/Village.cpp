@@ -1,8 +1,8 @@
 #include "Village.h"
 #include "Creature.h"
 #include "Engine.h"
-#include "AreaHouse.h"
-#include "AreaTreeSpot.h"
+#include "AreaDen.h"
+#include "TreeSpot.h"
 #include "AreaPath.h"
 #include "AreaDrop.h"
 
@@ -13,8 +13,9 @@ Village::Village(
 	std::string stoneLowId,
 	std::string pathId,
 	int size,
-	std::vector<std::pair<AreaHouse*, double>> houseChances) :
-	Area(),
+	std::vector<std::pair<AreaDen*, double>> houseChances) 
+	:
+	Area(size, size),
 	size(size),
 	land(*engine::objectLibrary.tiles[landId]),
 	tree(*engine::objectLibrary.tiles[treeId]),
@@ -25,7 +26,7 @@ Village::Village(
 }
 
 void Village::generate(){
-	generateBase(Rectangle(size, size), land);
+	generateBase(land);
 
 	//calculate village area
 	villageBounds = Rectangle(getBounds());
@@ -89,7 +90,7 @@ void Village::generate(){
 		}
 	}
 
-	AreaPath pathBuilder = AreaPath(path, *this, blockTiles, overlayTiles, 0.1f, 1, 0);
+	AreaPath pathBuilder = AreaPath(path, *this, blockTiles, overlayTiles, 1, 0, 1);
 	std::vector<int> randomIndexes;
 	while (randomIndexes.size() < houses.size()){
 		int randomIndex = engine::random.generator->getInt(0, houses.size() - 1);
@@ -148,7 +149,7 @@ void Village::generate(){
 	int spots = trees / treesPerSpot;
 	for (int spot = spots; spot > 0; --spot){
 		Point2D landSpot = getNearestTile(engine::random.point(getBounds()), land);
-		AreaTreeSpot treeSpot = AreaTreeSpot(tree, treesPerSpot, 1, landSpot, blockTiles);
+		TreeSpot treeSpot = TreeSpot(tree, treesPerSpot, 1, landSpot, blockTiles);
 		treeSpot.grow(*this);
 	}	
 	//place trees on edges

@@ -31,7 +31,7 @@ bool GuiSelectableActionList::handleKey(TCOD_key_t &key){
 	Point2D direction;
 	if (!actionsAndProfiencies.empty()){
 		direction = KeyMapping::direction(key.vk);
-		if (!direction.undefined()){
+		if (!direction.isUndefined()){
 			if (direction == UP){
 				if (selectedItemIndex == 0) selectedItemIndex = actionsAndProfiencies.size() - 1;
 				else selectedItemIndex--;

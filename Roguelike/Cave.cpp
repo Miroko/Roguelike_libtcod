@@ -6,6 +6,7 @@
 Cave::Cave(std::string wall1Id, std::string wall2Id, std::string floor1Id, std::string floor2Id, std::string waterId, std::string portalId, std::string roomWallId, AreaDrop &roomDrop,
 	int size, double corridorsPerTile, int corridorSize, double roomChance, double roomDropChance, int roomSize, double riverPercentage, int portals)
 	:
+	Area(size, size),
 	wall1(*engine::objectLibrary.tiles[wall1Id]),
 	wall2(*engine::objectLibrary.tiles[wall2Id]),
 	floor1(*engine::objectLibrary.tiles[floor1Id]),
@@ -24,7 +25,7 @@ Cave::Cave(std::string wall1Id, std::string wall2Id, std::string floor1Id, std::
 	roomDropChance(roomDropChance){
 }
 void Cave::generate(){
-	generateBase(Rectangle(size,size), wall1);
+	generateBase(wall1);
 
 	//common
 	Rectangle innerBounds = Rectangle(getBounds());
@@ -45,9 +46,8 @@ void Cave::generate(){
 			placeTile(floor1, nextLocation);
 			++floorTiles;
 			//Place room
-			if (engine::random.generator->getFloat(0.0, 1.0) <= roomChance){
-				Rectangle roomBounds = Rectangle(nextLocation, nextLocation);
-				roomBounds.expand(roomSize);
+			if (engine::random.chance(roomChance)){
+				Rectangle roomBounds = Rectangle(nextLocation, roomSize);
 				for (Point2D &edgeLocation : roomBounds.getEdgePoints()){
 					if (getTile(edgeLocation) == &wall1){
 						placeTile(roomWall, edgeLocation);
@@ -66,7 +66,7 @@ void Cave::generate(){
 					}
 				}
 				if (engine::random.chance(roomDropChance)){
-					roomDrop.drop(roomBounds.getCenterPoint(), roomSize, *this);
+					roomDrop.drop(roomBounds, *this);
 				}
 			}
 			//Next location
@@ -86,7 +86,7 @@ void Cave::generate(){
 	//rivers
 	std::vector<Tile*> blockingTiles;
 	blockingTiles.push_back(&wall1);
-	AreaPath riverPather = AreaPath(water, *this, blockingTiles, {}, 0.3f, 2);
+	AreaPath riverPather = AreaPath(water, *this, blockingTiles, {}, 1, 0, 2);
 	int rivers = (int)((floorTiles / (50 * 50)) * riverPercentage);
 	for (int river = rivers; river > 0; --river){
 		Point2D start = getNearestTile(engine::random.point(innerBounds), floor2);

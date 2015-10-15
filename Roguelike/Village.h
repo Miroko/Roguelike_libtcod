@@ -1,12 +1,12 @@
 #pragma once
 #include "Area.h"
-#include "AreaHouse.h"
+#include "AreaDen.h"
 #include "AreaDrop.h"
 
 class Village : public Area
 {
 public:
-	std::vector<AreaHouse> houses;
+	std::vector<AreaDen> houses;
 	Rectangle villageBounds;
 
 	int size;
@@ -15,7 +15,7 @@ public:
 	Tile &stoneHigh;
 	Tile &stoneLow;
 	Tile &path;
-	std::vector<std::pair<AreaHouse*, double>> houseChances;
+	std::vector<std::pair<AreaDen*, double>> houseChances;
 
 	void Area::generate();
 
@@ -26,5 +26,5 @@ public:
 		std::string stoneLowId,
 		std::string pathId,
 		int size,
-		std::vector<std::pair<AreaHouse* ,double>> houseChances);
+		std::vector<std::pair<AreaDen*, double>> houseChances);
 };

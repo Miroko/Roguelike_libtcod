@@ -27,7 +27,7 @@ void ObjectLibrary::init(){
 		{ "house_wall_wood", std::shared_ptr<Tile>(new Wall("Wooden house wall", Glyph(TCODColor::darkerSepia, 1.0))) },
 		{ "house_wall_stone", std::shared_ptr<Tile>(new Wall("Stone house wall", Glyph(TCODColor(50, 50, 50), 1.0))) },
 		{ "house_floor_wood", std::shared_ptr<Tile>(new Floor("Wooden house floor", Glyph(TCODColor::darkestSepia))) },
-		{ "path_sand", std::shared_ptr<Tile>(new Floor("Sand path", Glyph(TCODColor(14, 11, 6)), 5.0f)) },
+		{ "path_sand", std::shared_ptr<Tile>(new Floor("Sand path", Glyph(TCODColor(14, 11, 6)), 0)) },
 		{ "forest_wall_tree", std::shared_ptr<Tile>(new Wall("Tree", Glyph(TCODColor(5, 20, 5), TCODColor::darkerChartreuse, TCOD_CHAR_SPADE, 0.8))) },
 		{ "forest_floor_grass", std::shared_ptr<Tile>(new Floor("Land", Glyph(TCODColor(5, 20, 5)))) },
 		{ "forest_floor_stone", std::shared_ptr<Tile>(new Floor("Stone floor", Glyph(TCODColor(30, 30, 30)))) },

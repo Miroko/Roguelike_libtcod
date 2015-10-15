@@ -47,6 +47,7 @@ public:
 	bool executeSkillAction(CreatureSkill &skill, double skillProficiency, CreatureAction &action, double actionlProficiency, DynamicObject &target);
 
 	void addEffect(std::shared_ptr<CreatureEffect> effect);
+
 	void initAi(Area &area);
 
 	void takeDamage(DynamicObject &attacker, double amount) override;

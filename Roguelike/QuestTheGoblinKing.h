@@ -2,7 +2,7 @@
 #include "Quest.h"
 #include "QuestPhase.h"
 #include "AreaDrop.h"
-#include "AreaHouse.h"
+#include "AreaDen.h"
 #include "Village.h"
 #include "Forest.h"
 #include "Cave.h"
@@ -14,53 +14,76 @@ private:
 	public:
 		class VillageMain : public Village{
 		public:
-			//basic house
-			AreaDrop basicHouseResidents = AreaDrop({
+			//villager house
+			AreaDrop villagerHouseDrop = AreaDrop(
+			{
 				std::make_pair("villager_man", std::make_pair("common", 0.6)),
 				std::make_pair("villager_woman", std::make_pair("common", 0.5)),
 				std::make_pair("villager_child", std::make_pair("common", 0.3)),
 				std::make_pair("villager_child", std::make_pair("common", 0.2))
+			},
+			{
+				std::make_pair("bed_wood", std::make_pair("", 1.0)),
+				std::make_pair("bed_wood", std::make_pair("", 0.6)),
+				std::make_pair("bed_wood", std::make_pair("", 0.3)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("chest_wood_small", std::make_pair("common", 0.6)),
+				std::make_pair("chest_wood_small", std::make_pair("common", 0.6)),
+				std::make_pair("chest_wood_small", std::make_pair("common", 0.6)),
+				std::make_pair("chest_wood_large", std::make_pair("common", 0.5)),
 			});
-			AreaHouse houseBasic = AreaHouse(
+			AreaDen villagerHouse = AreaDen(
 				"house_wall_wood",
 				"house_floor_wood",
 				"door_wood",
-				basicHouseResidents,
-				{ std::make_pair("bed_wood", 1.0),
-				  std::make_pair("bed_wood", 0.6),
-				  std::make_pair("bed_wood", 0.3) });
+				villagerHouseDrop);
 
-			//blacksmith
-			AreaDrop blacksmithHouseResididents = AreaDrop({
+			//blacksmith house
+			AreaDrop blacksmithHouseDrop = AreaDrop(
+			{
 				std::make_pair("villager_blacksmith", std::make_pair("common", 1.0)),
 				std::make_pair("villager_blacksmith", std::make_pair("common", 0.2)) 
+			},
+			{
+				std::make_pair("forge", std::make_pair("", 1.0)),
+				std::make_pair("forge", std::make_pair("", 0.6)),
+				std::make_pair("anvil", std::make_pair("", 1.0)),
+				std::make_pair("anvil", std::make_pair("", 0.6)),
+				std::make_pair("anvil", std::make_pair("", 0.3)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("chest_wood_small", std::make_pair("common", 0.8)),
+				std::make_pair("chest_wood_large", std::make_pair("common", 0.5)),
 			});
-			AreaHouse houseBlacksmith = AreaHouse(
+			AreaDen blacksmithHouse = AreaDen(
 				"house_wall_stone",
 				"house_floor_wood",
 				"door_wood",
-				blacksmithHouseResididents,
-				{ std::make_pair("forge", 1.0),
-				  std::make_pair("forge", 0.6),
-				  std::make_pair("anvil", 1.0),
-				  std::make_pair("anvil", 0.6),
-				  std::make_pair("anvil", 0.3) });
+				blacksmithHouseDrop);
 
-			//alchemist
-			AreaDrop alchemistHouseResididents = AreaDrop({
+			//alchemist house
+			AreaDrop alchemistHouseDrop = AreaDrop(
+			{
 				std::make_pair("villager_alchemist", std::make_pair("common", 1.0)),
 				std::make_pair("villager_alchemist", std::make_pair("common", 0.2))
+			},
+			{
+				std::make_pair("alchemy_table1", std::make_pair("", 1.0)),
+				std::make_pair("alchemy_table2", std::make_pair("", 1.0)),
+				std::make_pair("alchemy_table1", std::make_pair("", 0.6)),
+				std::make_pair("alchemy_table2", std::make_pair("", 0.6)),
+				std::make_pair("alchemy_table1", std::make_pair("", 0.3)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("barrel_wood", std::make_pair("common", 0.8)),
+				std::make_pair("chest_wood_large", std::make_pair("common", 0.5)),
+				std::make_pair("chest_wood_small", std::make_pair("common", 0.3)),
+				std::make_pair("chest_wood_small", std::make_pair("common", 0.3))
 			});
-			AreaHouse houseAlchemist = AreaHouse(
+			AreaDen alchemistHouse = AreaDen(
 				"house_wall_stone",
 				"house_floor_wood",
 				"door_wood",
-				alchemistHouseResididents,
-				{ std::make_pair("alchemy_table1", 1.0),
-				  std::make_pair("alchemy_table2", 1.0),
-				  std::make_pair("alchemy_table1", 0.6),
-				  std::make_pair("alchemy_table2", 0.6),
-				  std::make_pair("alchemy_table1", 0.3) });
+				alchemistHouseDrop);
 
 			VillageMain() : Village(
 				"forest_floor_grass",
@@ -69,9 +92,11 @@ private:
 				"forest_floor_stone",
 				"path_sand",
 				150,
-				{ std::make_pair(&houseBlacksmith, 0.70),
-				  std::make_pair(&houseAlchemist, 0.70),
-				  std::make_pair(&houseBasic, 1.00) }){};
+				{ 
+				  std::make_pair(&blacksmithHouse, 0.70),
+				  std::make_pair(&alchemistHouse, 0.70),
+				  std::make_pair(&villagerHouse, 1.00) 
+				}){};
 
 		};
 		//dialogs

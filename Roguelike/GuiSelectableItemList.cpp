@@ -25,7 +25,7 @@ bool GuiSelectableItemList::handleKey(TCOD_key_t &key){
 	Point2D direction;
 	if (!itemContainer->items.empty()){
 		direction = KeyMapping::direction(key.vk);
-		if (!direction.undefined()){
+		if (!direction.isUndefined()){
 			if (direction == UP){
 				if (selectedItemIndex == 0) selectedItemIndex = itemContainer->items.size() - 1;
 				else selectedItemIndex--;

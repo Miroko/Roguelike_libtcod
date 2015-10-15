@@ -43,7 +43,7 @@ bool ActionExecutionFrame::handleKey(TCOD_key_t key){
 	bool handled = GuiFrame::handleKey(key);
 	if (isOpen){
 		Point2D direction = KeyMapping::direction(key.vk);
-		if (!direction.undefined()){
+		if (!direction.isUndefined()){
 			if (direction == LEFT){
 				if (selectedObjectIndex == 0) selectedObjectIndex = attackableObjects.size() - 1;
 				else selectedObjectIndex--;

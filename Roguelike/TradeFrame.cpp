@@ -8,7 +8,7 @@ bool TradeFrame::handleKey(TCOD_key_t key){
 	bool handled = false;
 	if (isOpen){
 		Point2D direction = KeyMapping::direction(key.vk);
-		if (!direction.undefined()){
+		if (!direction.isUndefined()){
 			//clear error message
 			errorMessage = ERROR_NONE;
 			//change item

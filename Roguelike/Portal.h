@@ -8,7 +8,6 @@ public:
 		Tile(GameObject(
 		name, 
 		GameObject::PORTAL, 
-		glyph),
-		10.0f){}
+		glyph)){}
 };
 

@@ -110,7 +110,7 @@ void AiModuleCombat::pursueAndAttack(DynamicObject &target){
 	}	
 }
 void AiModuleCombat::flee(){
-	if (fleeLocation.undefined()){
+	if (fleeLocation.isUndefined()){
 		Rectangle fleeArea = Rectangle(owner->owner->location, 4);
 		fleeLocation = owner->area->getNearestTile(engine::random.point(fleeArea), Tile::FLOOR);
 		owner->calculatePath(fleeLocation);
