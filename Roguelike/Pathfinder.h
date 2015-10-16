@@ -34,7 +34,7 @@ private:
 	std::list<PathLocationHeuristic> locationsWithHeuristic;
 	std::vector<Point2D> coordinatesNeedingReset;
 
-	int getMovementCost(PathLocation& from, Point2D& direction, Point2D& to, std::function<int(Point2D &toLocation)>& getMovementCostCallback);
+	int getMovementCost(PathLocation& from, const Point2D& direction, Point2D& to, std::function<int(Point2D &toLocation)>& getMovementCostCallback);
 	int getHeuristicValue(PathLocation& fromLocation, Point2D& fromCoordinates, Point2D& toCoordinates);
 
 public:

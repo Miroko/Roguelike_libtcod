@@ -1,5 +1,7 @@
 #include "Engine.h"
 #include "QuestTheGoblinKing.h"
+#include "FloodFill.h"
+#include <iostream>
 
 String engine::string;
 Random engine::random;

@@ -1,7 +1,7 @@
 #include "Pathfinder.h"
 #include "Direction.h"
 
-int Pathfinder::getMovementCost(PathLocation &from, Point2D &direction, Point2D &to, std::function<int(Point2D &toLocation)>& getMovementCostCallback){
+int Pathfinder::getMovementCost(PathLocation &from, const Point2D &direction, Point2D &to, std::function<int(Point2D &toLocation)>& getMovementCostCallback){
 	int movementCost = getMovementCostCallback(to);
 	if (movementCost == INT_MAX) return movementCost;
 	else return from.movementCostSoFar + movementCost;
@@ -20,7 +20,7 @@ Pathfinder::Path Pathfinder::computePath(Point2D &start, Point2D &goal, std::fun
 		else locationsWithHeuristic.pop_front();
 
 		PathLocation currentLocation = locations[currentLocationWithHeuristic.location.x][currentLocationWithHeuristic.location.y];
-		for (auto direction : DIRECTIONS){
+		for (auto& direction : DIRECTIONS){
 			Point2D nextCoordinates = currentLocationWithHeuristic.location + direction;
 			if (!bounds.inside(nextCoordinates)) continue;
 
@@ -41,7 +41,7 @@ Pathfinder::Path Pathfinder::computePath(Point2D &start, Point2D &goal, std::fun
 					locationsWithHeuristic.emplace_back(nextCoordinates, heuristicValue);
 					break;
 				}
-				else if (locationIterator->heuristicValue > heuristicValue){
+				else if (locationIterator->heuristicValue >= heuristicValue){
 					locationsWithHeuristic.emplace(locationIterator, nextCoordinates, heuristicValue);
 					break;
 				}

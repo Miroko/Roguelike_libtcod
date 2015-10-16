@@ -1,6 +1,7 @@
 #include "Cave.h"
 #include "Direction.h"
 #include "AreaPath.h"
+#include "FloodFill.h"
 #include "Engine.h"
 
 Cave::Cave(std::string wall1Id, std::string wall2Id, std::string floor1Id, std::string floor2Id, std::string waterId, std::string portalId, std::string roomWallId, AreaDrop &roomDrop,
@@ -84,15 +85,24 @@ void Cave::generate(){
 	generateEdge(wall1, 0, 0);
 
 	//rivers
+	int rivers = (int)((floorTiles / (50 * 50)) * riverPercentage);
 	std::vector<Tile*> blockingTiles;
 	blockingTiles.push_back(&wall1);
 	AreaPath riverPather = AreaPath(water, *this, blockingTiles, {}, 1, 0, 2);
-	int rivers = (int)((floorTiles / (50 * 50)) * riverPercentage);
+	auto& isPassableForPond = [&](Point2D& location){
+		return !getTile(location)->isType(GameObject::WALL);
+	};
+	auto& onLocationFillForPond = [&](Point2D& location, int distance){
+		placeTile(water, location);
+	};
 	for (int river = rivers; river > 0; --river){
+		//pond at start
 		Point2D start = getNearestTile(engine::random.point(innerBounds), floor2);
-		Tile& atpos = *getTile(start);
+		FloodFill().flood(Rectangle(start, 10), 0.3, isPassableForPond, onLocationFillForPond);
+		//pond at end
 		Point2D end = getNearestTile(engine::random.point(innerBounds), floor2);
-		atpos = *getTile(end);
+		FloodFill().flood(Rectangle(end, 10), 0.3, isPassableForPond, onLocationFillForPond);
+		//build river between ponds
 		riverPather.build(start, end);
 	}
 

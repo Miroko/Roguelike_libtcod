@@ -60,36 +60,35 @@ void Village::generate(){
 	}
 
 	//build roads to houses in random order
-	//road build block tiles
+	//path block tiles
 	std::vector<Tile*> blockTiles;
 	for (auto &house : houses){
-		bool add = true;
+		bool wallUnique = true;
 		for (auto &tile : blockTiles){
 			if (&house.wall == tile){
-				add = false;
+				wallUnique = false;
 				break;
 			}
 		}
-		if (add){
+		if (wallUnique){
 			blockTiles.push_back(&house.wall);
 		}
 	}
 	blockTiles.push_back(&stoneHigh);
-	//road build overlay tiles
+	//path overlay tiles
 	std::vector<Tile*> overlayTiles;
 	for (auto &house : houses){
-		bool add = true;
+		bool floorUnique = true;
 		for (auto &tile : overlayTiles){
 			if (&house.floor == tile){
-				add = false;
+				floorUnique = false;
 				break;
 			}
 		}
-		if (add){
+		if (floorUnique){
 			overlayTiles.push_back(&house.floor);
 		}
 	}
-
 	AreaPath pathBuilder = AreaPath(path, *this, blockTiles, overlayTiles, 1, 0, 1);
 	std::vector<int> randomIndexes;
 	while (randomIndexes.size() < houses.size()){

@@ -39,7 +39,7 @@ void Gui::init(){
 	//frames
 	log.init(Rectangle(
 		Point2D(0, TCODConsole::root->getHeight() - 12),
-		Point2D(TCODConsole::root->getWidth() - 1, TCODConsole::root->getHeight())));
+		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight())));
 
 	inventory.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() / 4, 0),
@@ -63,7 +63,7 @@ void Gui::init(){
 
 	statistics.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() - TCODConsole::root->getWidth() / 4, 0),
-		Point2D(TCODConsole::root->getWidth() - 1, TCODConsole::root->getHeight() - 12)));
+		Point2D(TCODConsole::root->getWidth(), TCODConsole::root->getHeight() - 12)));
 
 	dialog.init(Rectangle(
 		Point2D(TCODConsole::root->getWidth() / 2 - 30, 2),

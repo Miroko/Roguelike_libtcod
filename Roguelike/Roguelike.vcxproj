@@ -28,6 +28,7 @@
     <ClCompile Include="Anvil.cpp" />
     <ClCompile Include="AreaContainer.cpp" />
     <ClCompile Include="AreaDen.cpp" />
+    <ClCompile Include="FloodFill.cpp" />
     <ClCompile Include="AreaPath.cpp" />
     <ClCompile Include="Pathfinder.cpp" />
     <ClCompile Include="TreeSpot.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Anvil.h" />
     <ClInclude Include="AreaContainer.h" />
     <ClInclude Include="AreaDen.h" />
+    <ClInclude Include="FloodFill.h" />
     <ClInclude Include="AreaPath.h" />
     <ClInclude Include="Pathfinder.h" />
     <ClInclude Include="TreeSpot.h" />

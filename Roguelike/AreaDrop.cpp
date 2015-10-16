@@ -36,15 +36,14 @@ void AreaDrop::drop(AreaDen &toDen, Area &area){
 		else ++location;
 	}
 	//place operatables randomly on valid locations
-	if (!listOValidfInnerEdgePoints.empty()){
-		for (auto &furnitureChance : operatablesRarityChance){
-			if (engine::random.chance(furnitureChance.second.second)){
-				int randomIndex = engine::random.generator->getInt(0, listOValidfInnerEdgePoints.size() - 1);
-				auto &location = listOValidfInnerEdgePoints.begin();
-				std::advance(location, randomIndex);
-				area.placeOperatable(engine::objectFactory.createOperatable(furnitureChance.first, furnitureChance.second.first), *location);
-				listOValidfInnerEdgePoints.remove(*location);
-			}
+	for (auto &furnitureChance : operatablesRarityChance){
+		if (engine::random.chance(furnitureChance.second.second)){
+			if (listOValidfInnerEdgePoints.empty()) break;
+			int randomIndex = engine::random.generator->getInt(0, listOValidfInnerEdgePoints.size() - 1);
+			auto &location = listOValidfInnerEdgePoints.begin();
+			std::advance(location, randomIndex);
+			area.placeOperatable(engine::objectFactory.createOperatable(furnitureChance.first, furnitureChance.second.first), *location);
+			listOValidfInnerEdgePoints.remove(*location);
 		}
 	}
 	//place creatures

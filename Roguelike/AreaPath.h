@@ -17,8 +17,8 @@ public:
 	AreaPath(Tile &pathTile, Area &area, std::vector<Tile*> blockingTiles, std::vector<Tile*> overlayTiles, int movementCost, int movementCostOnExisting, int width = 1) :
 		pathTile(pathTile), 
 		area(area), 
-		blockingTiles(blockingTiles), 
-		overlayTiles(overlayTiles), 
+		blockingTiles(blockingTiles),
+		overlayTiles(overlayTiles),
 		movementCost(movementCost),
 		movementCostOnExisting(movementCostOnExisting),
 		width(width){};

@@ -19,7 +19,7 @@ public:
 
 	void GuiObject::renderToFrame(GuiFrame &frame, Rectangle &renderBounds) override;
 
-	Tile(GameObject gameObject, int movementCost = 10, std::shared_ptr<VisualEffect> visualEffectOnCollision = nullptr) :
+	Tile(GameObject gameObject, int movementCost = 1, std::shared_ptr<VisualEffect> visualEffectOnCollision = nullptr) :
 		GameObject(gameObject),
 		movementCost(movementCost),
 		visualEffectOnCollision(visualEffectOnCollision){};
